@@ -1,6 +1,6 @@
 import { GridItem, GridList, GridObject } from "@/sanity/lib/interfaces/pages";
 import styles from "./grid.module.css";
-import { PortableText } from "@portabletext/react";
+import { PortableText, PortableTextReactComponents } from "@portabletext/react";
 import { ColorTheme } from "@/sanity/schemaTypes/fields/appearance";
 import Text from "@/components/text/Text";
 import { RichText } from "@/components/richText/RichText";
@@ -76,8 +76,8 @@ export const GridElement = ({ item }: { item: GridItem }) => {
   );
 };
 
-const myPortableTextComponents = {
-  block: ({ children }: any) => <Text type="small">{children}</Text>,
+const myPortableTextComponents: Partial<PortableTextReactComponents> = {
+  block: ({ children }) => <Text type="small">{children}</Text>,
 };
 
 export default Grid;

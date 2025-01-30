@@ -20,7 +20,7 @@ export async function getCustomTranslations(language: string) {
     t: (key: string, params?: Record<string, string | number>) => {
       // Check for Sanity translations first
       const sanityTranslation = sanityTranslations.find(
-        (trans: any) => trans.labelKey === key
+        (trans: { labelKey: string; value: string }) => trans.labelKey === key
       );
 
       if (sanityTranslation?.value) {

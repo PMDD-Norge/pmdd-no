@@ -18,18 +18,31 @@ import AvailablePositionPage from "@/components/pages/availablePosition/Availabl
 import { Information } from "@/components/pages/information/Information";
 import { Highlights } from "@/components/pages/highlights/Highlights";
 import Legal from "@/components/pages/legal/Legal";
-import { Section } from "@/sanity/lib/interfaces/pages";
+import {
+  AvailablePositionDocument,
+  HightlightsDocument,
+  InformationDocument,
+  PageDocument,
+  PostDocument,
+  Section,
+} from "@/sanity/lib/interfaces/pages";
 import SectionRenderer from "@/utils/renderSection";
 import PMDDErrorMessage from "@/components/pages/information/components/customErrorMessage/PMDDErrorMessage";
+import { LegalDocument } from "@/sanity/lib/interfaces/admin";
 
 export const revalidate = 3600;
 
-interface PageProps {
-  params: {
-    slug: string[];
-    language: string;
-  };
-  searchParams: {
+interface ComponentProps {
+  document:
+    | PageDocument
+    | PostDocument
+    | AvailablePositionDocument
+    | InformationDocument
+    | HightlightsDocument
+    | LegalDocument;
+  slug?: string[];
+  language: string;
+  searchParams?: {
     type?: string;
     page?: string;
     category?: string;
@@ -94,14 +107,14 @@ const fetchHighlightsData = async (language: string) => {
 // Component mapping with async handlers
 const pageComponentMap: Record<
   QueryType,
-  (props: any) => Promise<ReactElement> | ReactElement
+  (props: ComponentProps) => Promise<ReactElement> | ReactElement
 > = {
   [QueryType.Post]: ({ document, language }) => (
-    <PostPage post={document} language={language} />
+    <PostPage post={document as PostDocument} language={language} />
   ),
 
   [QueryType.AvailablePosition]: ({ document }) => (
-    <AvailablePositionPage document={document} />
+    <AvailablePositionPage document={document as AvailablePositionDocument} />
   ),
 
   [QueryType.Information]: async ({
@@ -110,24 +123,25 @@ const pageComponentMap: Record<
     language,
     searchParams,
   }) => {
-    const page = Number(searchParams.page) || 1;
+    const page = Number(searchParams?.page) || 1;
+    if (!slug) return notFound();
     const data = await fetchInformationData(
       slug[0],
       language,
       page,
-      searchParams.category
+      searchParams?.category
     );
 
     if (!data) return notFound();
 
     return (
       <Information
-        information={document}
+        information={document as InformationDocument}
         initialPosts={data.posts}
         slug={slug[0]}
         language={language}
         categories={data.categories}
-        selectedCategoryName={searchParams.category}
+        selectedCategoryName={searchParams?.category}
         postCount={data.postsCount}
         currentPage={page}
       />
@@ -135,10 +149,11 @@ const pageComponentMap: Record<
   },
 
   [QueryType.Highlights]: async ({ document, slug, language }) => {
+    if (!slug) return notFound();
     const data = await fetchHighlightsData(language);
     return (
       <Highlights
-        highlights={document}
+        highlights={document as HightlightsDocument}
         slug={slug[0]}
         language={language}
         events={data.events}
@@ -148,12 +163,12 @@ const pageComponentMap: Record<
   },
 
   [QueryType.LegalDocument]: ({ document, language }) => (
-    <Legal document={document} language={language} />
+    <Legal document={document as LegalDocument} language={language} />
   ),
 
   [QueryType.Page]: ({ document }) => (
     <>
-      {document?.sections?.map((section: Section) => (
+      {(document as PageDocument)?.sections?.map((section: Section) => (
         <SectionRenderer
           key={section._key}
           section={section}
@@ -164,8 +179,19 @@ const pageComponentMap: Record<
   ),
 };
 
-async function DynamicPage({ params, searchParams }: PageProps) {
+export default async function DynamicPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ slug: string[]; language: string }>;
+  searchParams: Promise<{
+    type?: string;
+    page?: string;
+    category?: string;
+  }>;
+}) {
   const { slug, language } = await params;
+  const resolvedSearchParams = await searchParams;
 
   if (!slug?.length) {
     return <PMDDErrorMessage />;
@@ -184,7 +210,10 @@ async function DynamicPage({ params, searchParams }: PageProps) {
   }
 
   const Component = pageComponentMap[docType as QueryType];
-  return Component({ document, slug, language, searchParams });
+  return Component({
+    document,
+    slug,
+    language,
+    searchParams: resolvedSearchParams,
+  });
 }
-
-export default DynamicPage;

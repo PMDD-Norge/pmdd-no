@@ -24,6 +24,7 @@ import {
   QuoteObject,
   ResourcesObject,
   Section,
+  SectionObject,
   TestimonialsObject,
 } from "@/sanity/lib/interfaces/pages";
 
@@ -39,26 +40,26 @@ interface RenderProps {
 // Type-safe section renderer map
 const sectionRenderers: Record<
   string,
-  (section: any, props: RenderProps) => ReactElement
+  (section: SectionObject, props: RenderProps) => ReactElement
 > = {
-  hero: (section: HeroObject, { isLandingPage }: RenderProps) => (
-    <Hero hero={section} isLanding={isLandingPage} />
+  hero: (section, { isLandingPage }: RenderProps) => (
+    <Hero hero={section as HeroObject} isLanding={isLandingPage} />
   ),
-  logoSalad: (section: LogoSaladObject) => <LogoSalad logoSalad={section} />,
-  article: (section: ArticleObject) => <Article article={section} />,
-  callout: (section: CalloutObject) => <Callout callout={section} />,
-  quote: (section: QuoteObject) => <Quote quote={section} />,
-  ctaSection: (section: CallToActionObject) => (
-    <CallToAction callToAction={section} />
+  logoSalad: (section) => <LogoSalad logoSalad={section as LogoSaladObject} />,
+  article: (section) => <Article article={section as ArticleObject} />,
+  callout: (section) => <Callout callout={section as CalloutObject} />,
+  quote: (section) => <Quote quote={section as QuoteObject} />,
+  ctaSection: (section) => (
+    <CallToAction callToAction={section as CallToActionObject} />
   ),
-  resources: (section: ResourcesObject) => <Resources resources={section} />,
-  contactSection: (section: ContactObject) => <Contact contact={section} />,
-  testimonials: (section: TestimonialsObject) => (
-    <Testimonials testimonials={section} />
+  resources: (section) => <Resources resources={section as ResourcesObject} />,
+  contactSection: (section) => <Contact contact={section as ContactObject} />,
+  testimonials: (section) => (
+    <Testimonials testimonials={section as TestimonialsObject} />
   ),
-  features: (section: FeaturesObject) => <Features features={section} />,
-  imageSection: (section: ImageObject) => <ImageSection section={section} />,
-  grid: (section: GridObject) => <Grid grid={section} />,
+  features: (section) => <Features features={section as FeaturesObject} />,
+  imageSection: (section) => <ImageSection section={section as ImageObject} />,
+  grid: (section) => <Grid grid={section as GridObject} />,
 };
 
 const SectionRenderer = ({

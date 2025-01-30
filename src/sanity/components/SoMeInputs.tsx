@@ -15,7 +15,12 @@ export const SoMePlatforms: { [key: string]: string } = {
   tikTok: "Tiktok",
 };
 
-const SoMeInputs: React.FC<ObjectInputProps<Record<string, any>>> = ({
+interface SoMeInputValue {
+  url?: string;
+  platform?: string;
+}
+
+const SoMeInputs: React.FC<ObjectInputProps<SoMeInputValue>> = ({
   value = {},
   onChange,
 }) => {
@@ -31,12 +36,13 @@ const SoMeInputs: React.FC<ObjectInputProps<Record<string, any>>> = ({
       }
     }
     setPlatform(detectedPlatform);
+
     if (onChange) {
       onChange(
         PatchEvent.from([set({ ...value, url, platform: detectedPlatform })])
       );
     }
-  }, [url, onChange]);
+  }, [url, onChange, value]);
 
   const handleUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newUrl = event.target.value;

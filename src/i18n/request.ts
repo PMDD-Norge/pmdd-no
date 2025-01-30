@@ -3,10 +3,16 @@ import { routing } from "./routing";
 import { client } from "@/sanity/lib/client";
 import { GLOBAL_TRANSLATIONS_QUERY } from "@/sanity/lib/queries/globalTranslations";
 
-export default getRequestConfig(async () => {
-  const locale = (globalThis as any).locale as string;
-  const validLocale = routing.locales.includes(locale)
-    ? locale
+interface TranslationItem {
+  labelKey: string;
+  value: string;
+  _type?: string;
+  _key?: string;
+}
+
+export default getRequestConfig(async ({ locale: requestLocale }) => {
+  const validLocale = routing.locales.includes(requestLocale)
+    ? requestLocale
     : routing.defaultLocale;
 
   try {
@@ -14,10 +20,8 @@ export default getRequestConfig(async () => {
       language: validLocale,
     });
 
-    // Normalize translation keys by removing special characters
-    // Store translations directly at root level, without the Common namespace
     let messages = translations?.reduce(
-      (acc: Record<string, string>, item: any) => {
+      (acc: Record<string, string>, item: TranslationItem) => {
         const normalizedKey = item.labelKey.replace(
           /[\s\u200B-\u200D\uFEFF\u0000-\u001F]/g,
           ""

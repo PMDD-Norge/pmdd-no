@@ -22,7 +22,7 @@ const Article = ({ article }: { article: ArticleObject }) => {
   return (
     <article className={theme} id={article._key}>
       <div
-        className={`${styles.sectionWrapperRow} ${styles.content} ${imagePosition == ImagePosition.Left ? "" : "imagePositionAlwaysLeftOnMobile"}`}
+        className={`${styles.sectionWrapperRow} ${imagePosition == ImagePosition.Left ? "" : "imagePositionAlwaysLeftOnMobile"}`}
       >
         {appearance?.image && (
           <div className={styles.image}>

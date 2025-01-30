@@ -6,21 +6,25 @@ import { createAppearance } from "../../fields/appearance";
 export const resourcesId = "resources";
 
 // Helper function to safely get text from internationalized array
-const getInternationalizedText = (array: any) => {
-  if (!array || !Array.isArray(array) || array.length === 0) {
+const getInternationalizedText = (
+  array: { value: string }[] | undefined
+): string => {
+  if (!array || array.length === 0) {
     return "Untitled";
   }
   return array[0]?.value || "Untitled";
 };
 
 // Helper function to get text content from blocks
-const getBlocksText = (blocks: any) => {
-  if (!blocks || !Array.isArray(blocks)) {
+const getBlocksText = (
+  blocks: { _type: string; text: string }[] | undefined
+): string => {
+  if (!blocks || blocks.length === 0) {
     return "";
   }
   return blocks
-    .filter((child: { _type: string }) => child._type === "span")
-    .map((span: { text: string }) => span.text)
+    .filter((child) => child._type === "span")
+    .map((span) => span.text)
     .join("");
 };
 
@@ -97,11 +101,21 @@ export const resources = defineField({
     },
     prepare(selection) {
       const { title, groupedLinks, blocks } = selection;
+
+      // Define the structure of group with the links
       const groups = groupedLinks || [];
 
+      // Correct type for links in the group
       const totalLinks = groups.reduce(
-        (sum: number, group: { links: any[] }) =>
-          sum + (Array.isArray(group.links) ? group.links.length : 0),
+        (
+          sum: number,
+          group: {
+            links: {
+              title: string;
+              url: string;
+            }[];
+          }
+        ) => sum + (Array.isArray(group.links) ? group.links.length : 0),
         0
       );
 

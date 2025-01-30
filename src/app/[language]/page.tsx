@@ -6,13 +6,13 @@ import SectionRenderer from "@/utils/renderSection";
 
 export const revalidate = 3600;
 
-type HomePageProps = {
-  params: {
+interface PageProps {
+  params: Promise<{
     language: string;
-  };
-};
+  }>;
+}
 
-const Page = async ({ params }: HomePageProps) => {
+export default async function Page({ params }: PageProps) {
   const { language } = await params;
 
   const {
@@ -37,6 +37,4 @@ const Page = async ({ params }: HomePageProps) => {
       ))}
     </div>
   );
-};
-
-export default Page;
+}

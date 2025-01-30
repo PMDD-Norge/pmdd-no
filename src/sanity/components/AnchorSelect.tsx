@@ -1,15 +1,15 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { PatchEvent, set, unset, useFormValue } from "sanity";
+import { PatchEvent, SchemaType, set, unset, useFormValue } from "sanity";
 import { Select, Button, Stack } from "@sanity/ui";
 import { client } from "../lib/client";
 
 interface AnchorSelectProps {
   value?: string;
-  type: any;
+  type: SchemaType;
   onChange: (event: PatchEvent) => void;
-  path: any[];
-  schemaType: any;
+  path: string[];
+  schemaType: SchemaType;
 }
 
 interface InternationalizedString {

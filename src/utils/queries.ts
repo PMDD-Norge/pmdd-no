@@ -41,7 +41,6 @@ export async function getDocumentBySlug(
 ) {
   // Get the last element of the array if it exists, otherwise use the first element
   const slugToUse = slug.length > 1 ? slug[slug.length - 1] : slug[0];
-  console.log(slugToUse);
   // If we don't have a query for this type, return null
   if (!Queries[type]) {
     return { data: null };

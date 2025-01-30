@@ -2,6 +2,7 @@ import { defineType } from "sanity";
 import { linkID } from "./link";
 import { body } from "../fields/text";
 import { soMeLinksID } from "../documents/siteSettings/socialMediaProfiles";
+import { PortableTextSpan } from "sanity";
 
 export const footerSectionID = {
   main: "footerSection",
@@ -74,7 +75,7 @@ export const footerSection = defineType({
               const blockText =
                 richText?.length > 0
                   ? richText[0]?.children
-                      ?.map((child: any) => child.text)
+                      ?.map((child: PortableTextSpan) => child.text)
                       .join(" ")
                   : "";
 
@@ -98,7 +99,8 @@ export const footerSection = defineType({
       to: [{ type: soMeLinksID }],
       description:
         "This section automatically uses your social media links. Any updates to your social media links will appear here.",
-      hidden: ({ parent }) => parent?.sectionType !== SectionType.SocialMedia,
+      hidden: ({ parent }: { parent: Parent }) =>
+        parent?.sectionType !== SectionType.SocialMedia,
       initialValue: {
         _type: "reference",
         _ref: soMeLinksID,

@@ -1,6 +1,5 @@
 import { PostDocument } from "@/sanity/lib/interfaces/pages";
 import styles from "./post.module.css";
-import { getCustomTranslations } from "@/utils/translations";
 import Text from "@/components/text/Text";
 import QuickNavigation from "@/components/navigation/quickNavigation/QuickNavigation";
 import { RichText } from "@/components/richText/RichText";

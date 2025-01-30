@@ -1,11 +1,11 @@
 import Text from "@/components/text/Text";
 import styles from "./callout.module.css";
-import { PortableText } from "@portabletext/react";
+import { PortableText, PortableTextReactComponents } from "@portabletext/react";
 import { CalloutObject } from "@/sanity/lib/interfaces/pages";
 import { ColorTheme } from "@/sanity/schemaTypes/fields/appearance";
 
-const myPortableTextComponents = {
-  block: ({ children }: any) => <Text type="bodySuperLarge">{children}</Text>,
+const myPortableTextComponents: Partial<PortableTextReactComponents> = {
+  block: ({ children }) => <Text type="bodySuperLarge">{children}</Text>,
 };
 
 const Callout = ({ callout }: { callout: CalloutObject }) => {

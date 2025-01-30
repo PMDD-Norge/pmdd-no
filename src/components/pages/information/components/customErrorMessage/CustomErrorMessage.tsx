@@ -1,8 +1,8 @@
-import Button from "src/components/buttons/Button";
-import LinkButton from "src/components/linkButton/LinkButton";
-import Text from "src/components/text/Text";
-import { SanityLink, LinkType } from "src/studio/lib/interfaces//siteSettings";
+import { LinkType, SanityLink } from "@/sanity/lib/interfaces/siteSettings";
 import styles from "./customErrorMessage.module.css";
+import Text from "@/components/text/Text";
+import Button from "@/components/buttons/Button";
+import LinkButton from "@/components/linkButton/LinkButton";
 
 export const homeLink = {
   _key: "return-home",

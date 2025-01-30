@@ -1,4 +1,4 @@
-import { defineField } from "sanity";
+import { defineField, Rule } from "sanity";
 import AnchorSelect from "../../components/AnchorSelect";
 import LinkTypeSelector from "../../components/LinkTypeSelector";
 import NewTabSelector from "../../components/NewTabSelector";
@@ -87,8 +87,8 @@ const baseLinkSchema = defineField({
       options: {
         disableNew: true,
       },
-      validation: (Rule: any) =>
-        Rule.custom((value: any, context: any) => {
+      validation: (Rule: Rule) =>
+        Rule.custom((value, context) => {
           const parent = context.parent as Parent;
           if (parent?.title && parent?.type === LinkType.Internal && !value) {
             return "Link to page is required";

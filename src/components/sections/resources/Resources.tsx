@@ -2,7 +2,7 @@
 import { useState, useRef } from "react";
 import styles from "./resources.module.css";
 import { useTranslations } from "next-intl";
-import { PortableText } from "next-sanity";
+import { PortableText, PortableTextReactComponents } from "next-sanity";
 import { ResourcesObject } from "@/sanity/lib/interfaces/pages";
 import { SanityLink } from "@/sanity/lib/interfaces/siteSettings";
 import Text from "@/components/text/Text";
@@ -20,8 +20,8 @@ interface ResourceGroup {
   links: SanityLink[];
 }
 
-const myPortableTextComponents = {
-  block: ({ children }: any) => <Text type="bodyLarge">{children}</Text>,
+const myPortableTextComponents: Partial<PortableTextReactComponents> = {
+  block: ({ children }) => <Text type="bodyLarge">{children}</Text>,
 };
 
 const itemsPerLoad = 4;

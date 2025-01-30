@@ -1,6 +1,4 @@
 import { Metadata } from "next";
-import { toPlainText } from "@portabletext/toolkit";
-import { PortableTextBlock } from "sanity";
 import { urlFor } from "@/sanity/lib/image";
 import { CompanyInfo } from "@/sanity/lib/interfaces/admin";
 import { SeoObject } from "@/sanity/lib/interfaces/pages";
@@ -10,42 +8,42 @@ import { COMPANY_INFO_QUERY } from "@/sanity/lib/queries/companyInformation";
 import { SEO_FALLBACK_QUERY } from "@/sanity/lib/queries/seo";
 import { client } from "@/sanity/lib/client";
 
-export async function fetchSeoData(
-  query: string,
-  variables?: any
-): Promise<SeoObject | null> {
-  try {
-    const { data } = await client.fetch(query, variables);
-    return data;
-  } catch (error) {
-    console.error("Error loading SEO data:", error);
-    return null;
-  }
-}
+// export async function fetchSeoData(
+//   query: string,
+//   variables?: any
+// ): Promise<SeoObject | null> {
+//   try {
+//     const { data } = await client.fetch(query, variables);
+//     return data;
+//   } catch (error) {
+//     console.error("Error loading SEO data:", error);
+//     return null;
+//   }
+// }
 
-export async function fetchPostSeoData(
-  query: string,
-  variables?: any
-): Promise<SeoObject | null> {
-  try {
-    const { data } = await client.fetch(query, variables);
-    if (data && data.description) {
-      const plainTextDescription = toPlainText(data.description);
+// export async function fetchPostSeoData(
+//   query: string,
+//   variables?: any
+// ): Promise<SeoObject | null> {
+//   try {
+//     const { data } = await client.fetch(query, variables);
+//     if (data && data.description) {
+//       const plainTextDescription = toPlainText(data.description);
 
-      return {
-        title: data.title,
-        description: plainTextDescription,
-        imageUrl: data.imageUrl,
-        keywords: data.keywords,
-      };
-    }
+//       return {
+//         title: data.title,
+//         description: plainTextDescription,
+//         imageUrl: data.imageUrl,
+//         keywords: data.keywords,
+//       };
+//     }
 
-    return null;
-  } catch (error) {
-    console.error("Error loading SEO data:", error);
-    return null;
-  }
-}
+//     return null;
+//   } catch (error) {
+//     console.error("Error loading SEO data:", error);
+//     return null;
+//   }
+// }
 
 export async function fetchBrandAssets(): Promise<BrandAssets | null> {
   try {

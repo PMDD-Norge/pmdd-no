@@ -20,6 +20,20 @@ export interface Slug {
 
 export type ThemeType = "primary" | "secondary";
 
+export type SectionObject =
+  | HeroObject
+  | LogoSaladObject
+  | ArticleObject
+  | CalloutObject
+  | QuoteObject
+  | CallToActionObject
+  | ResourcesObject
+  | ContactObject
+  | TestimonialsObject
+  | FeaturesObject
+  | ImageObject
+  | GridObject;
+
 export interface HeroObject extends SanityBase {
   image?: SanityImageData;
   title: string;

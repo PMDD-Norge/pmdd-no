@@ -1,4 +1,4 @@
-import { defineField } from "sanity";
+import { defineField, Rule } from "sanity";
 
 enum titleID {
   basic = "title",
@@ -22,7 +22,7 @@ const createField = ({
   isRequired = false,
   maxLength = 60,
 }: CreateFieldProps) => {
-  const validationRules = (Rule: any) => {
+  const validationRules = (Rule: Rule) => {
     let rules = Rule.max(maxLength);
     if (isRequired) {
       rules = rules.required();

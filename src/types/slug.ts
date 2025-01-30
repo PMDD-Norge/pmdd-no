@@ -6,7 +6,6 @@ export type SlugTranslationResult = {
 };
 
 export type NestedSlugTranslationResult = {
-  additionalData: any;
   mainTranslatedSlug?: string;
   postTranslatedSlug?: {
     translatedSlug?: string;

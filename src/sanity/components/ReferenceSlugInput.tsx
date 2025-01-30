@@ -13,7 +13,20 @@ interface ReferenceSlugInputProps {
     description?: string;
   };
   onChange: (event: PatchEvent) => void;
-  renderDefault: (props: any) => React.ReactNode;
+  renderDefault: (props: {
+    value?: string;
+    readOnly?: boolean;
+    schemaType: { title: string; name: string; description?: string };
+    onChange: (event: PatchEvent) => void;
+    elementProps: {
+      id: string;
+      ref: React.Ref<HTMLInputElement>;
+      onBlur: () => void;
+      onFocus: () => void;
+      onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    };
+    document: { internalLink?: { _ref: string } };
+  }) => React.ReactNode;
   elementProps: {
     id: string;
     ref: React.Ref<HTMLInputElement>;
@@ -50,11 +63,9 @@ const ReferenceSlugInput = (props: ReferenceSlugInputProps) => {
 
   return (
     <TextInput
-      readOnly={readOnly}
+      {...elementProps}
       value={slug || ""}
-      ref={elementProps.ref}
-      onBlur={elementProps.onBlur}
-      onFocus={elementProps.onFocus}
+      readOnly={readOnly}
       onChange={(event) => {
         setSlug(event.currentTarget.value);
         onChange(

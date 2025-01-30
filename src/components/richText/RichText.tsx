@@ -125,7 +125,7 @@ export const RichText = ({ value }: RichTextProps) => {
     if (block?._type === "block") {
       interface TextChild {
         text?: string;
-        [key: string]: any;
+        [key: string]: string | string[] | undefined;
       }
 
       const getFirstChildText = (
