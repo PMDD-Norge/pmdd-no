@@ -68,7 +68,9 @@ export default async function RootLayout({
 
   return (
     <html lang={language}>
-      <body className={`${nunito.variable} ${pollerOne.variable}`}>
+      <body
+        className={`${nunito.variable} ${pollerOne.variable} animate-fadein`}
+      >
         <NextIntlClientProvider messages={messages}>
           <SkipToMain language={language} />
           <Header

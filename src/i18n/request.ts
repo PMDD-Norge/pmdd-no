@@ -10,14 +10,17 @@ interface TranslationItem {
   _key?: string;
 }
 
-export default getRequestConfig(async ({ locale: requestLocale }) => {
-  const validLocale = routing.locales.includes(requestLocale)
-    ? requestLocale
-    : routing.defaultLocale;
+export default getRequestConfig(async ({ requestLocale }) => {
+  // Get and validate the locale
+  let locale = await requestLocale;
+
+  if (!locale || !routing.locales.includes(locale)) {
+    locale = routing.defaultLocale;
+  }
 
   try {
     const translations = await client.fetch(GLOBAL_TRANSLATIONS_QUERY, {
-      language: validLocale,
+      language: locale,
     });
 
     let messages = translations?.reduce(
@@ -38,28 +41,25 @@ export default getRequestConfig(async ({ locale: requestLocale }) => {
     if (!messages || Object.keys(messages).length === 0) {
       messages = {
         "skip-to-main": "Skip to main content",
-        // Add other default translations
       };
     }
 
     return {
       messages,
-      locale: validLocale,
+      locale,
       defaultTranslationValues: {
-        locale: validLocale,
+        locale,
       },
     };
   } catch (error) {
     console.error("Translation fetch error:", error);
-    // Return default translations on error
     return {
       messages: {
         Common: {
           "skip-to-main": "Skip to main content",
-          // Add other default translations
         },
       },
-      locale: validLocale,
+      locale,
     };
   }
 });
