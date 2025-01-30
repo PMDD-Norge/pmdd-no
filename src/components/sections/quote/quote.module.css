@@ -1,0 +1,23 @@
+.callout {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  background: var(--midnight);
+}
+
+.maxWrapper {
+  composes: callout;
+  max-width: 1200px;
+  gap: 3rem;
+  padding: 5rem 2rem;
+
+  @media (min-width: 640px) {
+    padding: 5rem 3rem;
+  }
+
+  @media (min-width: 1024px) {
+    padding: 7.5rem;
+  }
+}

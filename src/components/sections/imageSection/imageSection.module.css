@@ -1,0 +1,29 @@
+.article {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1000px;
+  display: flex;
+  text-align: center;
+  margin: auto;
+  padding: 5rem 1rem;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  @media (min-width: 640px) {
+    padding: 5rem 2rem;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    padding: 5rem;
+  }
+}
+
+.image {
+  max-width: 100%;
+  max-height: 25rem;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  margin: auto;
+}

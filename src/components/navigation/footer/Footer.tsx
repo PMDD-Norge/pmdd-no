@@ -1,0 +1,115 @@
+import {
+  Navigation,
+  RichTextObject,
+  SanityLink,
+} from "@/sanity/lib/interfaces/siteSettings";
+import CustomLink from "../../link/CustomLink";
+import styles from "./footer.module.css";
+import {
+  SocialMediaLink,
+  SocialMediaProfiles,
+} from "@/sanity/lib/interfaces/socialMedia";
+import { RichText } from "@/components/richText/RichText";
+import Text from "@/components/text/Text";
+import SoMeLink from "@/components/link/SoMeLink";
+
+interface FooterProps {
+  navigationData: Navigation;
+  soMeData: SocialMediaProfiles;
+}
+
+interface Section {
+  sectionType: "content" | "socialMedia";
+  sectionTitle: string;
+  linksAndContent?: Array<SanityLink | RichTextObject>;
+  _key: string;
+}
+
+const Footer = ({ navigationData, soMeData }: FooterProps) => {
+  return (
+    <footer className={styles.footer}>
+      <nav className={styles.nav}>
+        <SocialMediaSection
+          navigationData={navigationData}
+          soMeData={soMeData}
+        />
+        <ContentSections navigationData={navigationData} />
+      </nav>
+    </footer>
+  );
+};
+
+// Type guard functions
+const isLink = (item: SanityLink | RichTextObject): item is SanityLink => {
+  return item._type === "link";
+};
+
+const isRichText = (
+  item: SanityLink | RichTextObject
+): item is RichTextObject => {
+  return item._type === "richTextObject";
+};
+
+const renderContentItem = (item: SanityLink | RichTextObject) => {
+  if (isLink(item)) {
+    return <CustomLink link={item} type="footerLink" />;
+  }
+  if (isRichText(item)) {
+    return <RichText value={item.richText} />;
+  }
+  return null;
+};
+
+const ContentSections = ({
+  navigationData,
+}: {
+  navigationData: Navigation;
+}) => {
+  const contentSections = filterSectionsByType(navigationData, "content");
+
+  return contentSections?.map(({ linksAndContent, sectionTitle }, index) => {
+    return (
+      <div key={`${sectionTitle}-${index}`} className={styles.column}>
+        <Text type="h4">{sectionTitle}</Text>
+        <ul className={styles.list}>
+          {linksAndContent?.map((item) => (
+            <li key={item._key}>{renderContentItem(item)}</li>
+          ))}
+        </ul>
+      </div>
+    );
+  });
+};
+
+const SocialMediaSection = ({ navigationData, soMeData }: FooterProps) => {
+  const socialMediaSections = filterSectionsByType(
+    navigationData,
+    "socialMedia"
+  );
+  const socialMediaTitle = getSectionTitles(navigationData, "socialMedia")?.[0];
+
+  if (!socialMediaSections) return null;
+
+  return (
+    <div className={styles.column}>
+      <Text type="h4">{socialMediaTitle}</Text>
+      <ul className={styles.list}>
+        {soMeData?.soMeLinkArray.map((link: SocialMediaLink) => (
+          <li key={link._key}>
+            <SoMeLink link={link} />
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+const filterSectionsByType = (
+  data: Navigation,
+  type: "content" | "socialMedia"
+) => data?.footer?.filter((section: Section) => section.sectionType === type);
+
+const getSectionTitles = (data: Navigation, type: "content" | "socialMedia") =>
+  filterSectionsByType(data, type)?.map((section) => section.sectionTitle);
+
+export default Footer;

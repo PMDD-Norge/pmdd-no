@@ -1,0 +1,1 @@
+export const COOKIE_ONE_YR_EXPIRY = 31536000;

@@ -1,7 +1,25 @@
-import type { NextConfig } from "next";
+import withNextBundleAnalyzer from "@next/bundle-analyzer";
+import createNextIntlPlugin from "next-intl/plugin";
 
-const nextConfig: NextConfig = {
-  /* config options here */
+const withNextIntl = createNextIntlPlugin();
+
+const withBundleAnalyzer = withNextBundleAnalyzer({
+  enabled: process.env.ANALYZE === "true",
+});
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https" as const,
+        hostname: "cdn.sanity.io",
+      },
+    ],
+  },
+  experimental: {
+    taint: true,
+  },
 };
 
-export default nextConfig;
+export default withNextIntl(withBundleAnalyzer(nextConfig));
