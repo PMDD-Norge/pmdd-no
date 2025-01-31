@@ -47,8 +47,8 @@ const HighlightsGrid = ({
                     : ""
               }`}
             >
-              {items?.map((item) => (
-                <li key={item._key} className={styles.listItem}>
+              {items?.map((item, index) => (
+                <li key={`${item._key}-${index}`} className={styles.listItem}>
                   <GridElement item={item} slug={slug} language={language} />
                 </li>
               ))}

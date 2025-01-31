@@ -2,10 +2,8 @@ import "./global.css";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Nunito, Poller_One } from "next/font/google";
-import { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
-import { generateMetadataFromSeo } from "@/utils/seo";
 import { sanityFetch, SanityLive } from "@/sanity/lib/live";
 import { NAV_QUERY } from "@/sanity/lib/queries/navigation";
 import { BRAND_ASSETS_QUERY } from "@/sanity/lib/queries/brandAssets";
@@ -30,17 +28,6 @@ const nunito = Nunito({
   variable: "--font-nunito",
   preload: true,
 });
-
-type Props = {
-  params: {
-    language: string;
-  };
-};
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { language } = await params;
-  return generateMetadataFromSeo(null, language);
-}
 
 export default async function RootLayout({
   children,

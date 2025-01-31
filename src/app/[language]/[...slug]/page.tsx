@@ -29,6 +29,9 @@ import {
 import SectionRenderer from "@/utils/renderSection";
 import PMDDErrorMessage from "@/components/pages/information/components/customErrorMessage/PMDDErrorMessage";
 import { LegalDocument } from "@/sanity/lib/interfaces/admin";
+import { Metadata } from "next";
+import { SEO_SLUG_QUERY } from "@/sanity/lib/queries/seo";
+import { urlFor } from "@/sanity/lib/image";
 
 export const revalidate = 3600;
 
@@ -179,17 +182,57 @@ const pageComponentMap: Record<
   ),
 };
 
-export default async function DynamicPage({
-  params,
-  searchParams,
-}: {
+interface PageProps {
   params: Promise<{ slug: string[]; language: string }>;
   searchParams: Promise<{
     type?: string;
     page?: string;
     category?: string;
   }>;
-}) {
+}
+
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { language, slug } = await params;
+
+  const lastSlug = slug[slug.length - 1];
+
+  console.log("Fetching SEO data with params:", { language, lastSlug });
+
+  const [{ data: seo }] = await Promise.all([
+    sanityFetch({
+      query: SEO_SLUG_QUERY,
+      params: {
+        language: language,
+        slug: lastSlug,
+      },
+    }),
+  ]);
+
+  // Generate favicon URL if available
+  const favicon = seo?.favicon;
+  const faviconUrl = favicon ? urlFor(favicon).url() : "";
+
+  // Filter out null icons
+  const icons = [faviconUrl ? { rel: "icon", url: faviconUrl } : null].filter(
+    (icon): icon is NonNullable<typeof icon> => icon !== null
+  );
+
+  const metadata = {
+    title: seo?.title || "",
+    description: seo?.description || "",
+    keywords: seo?.keywords || "",
+    openGraph: {
+      images: [seo?.image || ""],
+    },
+    icons: { icon: icons },
+  };
+
+  return metadata;
+}
+
+export default async function DynamicPage({ params, searchParams }: PageProps) {
   const { slug, language } = await params;
   const resolvedSearchParams = await searchParams;
 

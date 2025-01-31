@@ -1,55 +1,41 @@
 import { groq } from "next-sanity";
 
-export const DOCUMENT_TYPE_QUERY = groq`
-  *[slug[_key == $language][0].value == $slug][0]{
-    _type
+export const SEO_SLUG_QUERY = groq`
+  *[
+    defined(seo) && 
+    (
+      $slug == null || 
+      count(slug[_key == $language && value == $slug]) > 0
+    )
+  ][0] {
+    "title": select(
+      $slug != null => seo.title[_key == $language][0].value,
+      *[_type == "seoFallback"][0].title[_key == $language][0].value
+    ),
+    "description": select(
+      $slug != null => seo.description[_key == $language][0].value,
+      *[_type == "seoFallback"][0].description[_key == $language][0].value
+    ),
+    "keywords": select(
+      $slug != null => seo.keywords[_key == $language][0].value,
+      *[_type == "seoFallback"][0].keywords[_key == $language][0].value
+    ),
+    "image": select(
+      $slug != null => seo.image.asset->url,
+      *[_type == "seoFallback"][0].image.asset->url
+    ),
+    "favicon": *[_type == "brandAssets"][0].favicon.asset->url,
+    "companyName": *[_type == "companyInfo"][0].name
   }
 `;
 
-const SEO_FRAGMENT = groq`
+export const SEO_LANDING_QUERY = groq`
+  *[_type == "page" && defined(seo)][0] {
     "title": seo.title[_key == $language][0].value,
     "description": seo.description[_key == $language][0].value,
     "keywords": seo.keywords[_key == $language][0].value,
-    "imageUrl": seo.image.asset->url
-    
-    `;
-
-export const SEO_PAGE_ID_QUERY = groq`
-  *[_type == "page" && _id == $id][0]{
-      ${SEO_FRAGMENT}
-}`;
-
-export const SEO_SLUG_QUERY = groq`
-  *[_type == "page" && slug[_key == $language][0].value == $slug][0]{
-      ${SEO_FRAGMENT}
-}`;
-
-export const SEO_INFORMATION_QUERY = groq`
-  *[_type == "information"][0]{
-      ${SEO_FRAGMENT}
-}
-`;
-
-export const SEO_HIGHLIGHTS_QUERY = groq`
-  *[_type == "highlights"][0]{
-      ${SEO_FRAGMENT}
-}
-`;
-
-/// POSTS DO NOT HAVE A UNIQUE SEO OBJECT BUT IS GENERATED BASED ON CONTENT
-export const SEO_POST_ID_SLUG_QUERY = groq`
-  *[_type == "post" && slug[_key == $language][0].value == $id][0]{
-    "title": title[_key == $language][0].value,
-    "description": lead[_key == $language][0].value,
-    "imageUrl": image.asset->url
-}
-`;
-
-export const SEO_FALLBACK_QUERY = groq`
-  *[_type == "seoFallback"][0]{
-      "title": title[_key == $language][0].value,
-      "description": description[_key == $language][0].value,
-      "imageUrl": image.asset->url,
-      "keywords": keywords[_key == $language][0].value,
-      }
+    "image": seo.image.asset->url,
+    "favicon": *[_type == "brandAssets"][0].favicon.asset->url,
+    "companyName": *[_type == "companyInfo"][0].name
+  }
 `;
