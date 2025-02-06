@@ -8,12 +8,12 @@ import { sanityFetch, SanityLive } from "@/sanity/lib/live";
 import { NAV_QUERY } from "@/sanity/lib/queries/navigation";
 import { BRAND_ASSETS_QUERY } from "@/sanity/lib/queries/brandAssets";
 import { SOMEPROFILES_QUERY } from "@/sanity/lib/queries/socialMediaProfiles";
-import { SUPPORTED_LANGUAGES_QUERY } from "@/sanity/lib/queries/i18n";
 import SkipToMain from "@/components/skipToMain/SkipToMain";
 import { Header } from "@/components/navigation/header/Header";
 import Footer from "@/components/navigation/footer/Footer";
+import { SUPPORTED_LANGUAGES_QUERY } from "@/sanity/lib/queries/i18n";
 
-export const revalidate = 3600;
+export const dynamic = "force-dynamic";
 
 const pollerOne = Poller_One({
   subsets: ["latin"],
@@ -70,7 +70,7 @@ export default async function RootLayout({
           <Footer navigationData={nav} soMeData={soMe} />
           <SanityLive />
         </NextIntlClientProvider>
-        {isDev && (
+        {!isDev && (
           <>
             <Analytics />
             <SpeedInsights />
