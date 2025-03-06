@@ -33,7 +33,7 @@ import { Metadata } from "next";
 import { SEO_SLUG_QUERY } from "@/sanity/lib/queries/seo";
 import { urlFor } from "@/sanity/lib/image";
 
-export const revalidate = 3600;
+export const dynamic = "force-dynamic";
 
 interface ComponentProps {
   document:
@@ -197,8 +197,6 @@ export async function generateMetadata({
   const { language, slug } = await params;
 
   const lastSlug = slug[slug.length - 1];
-
-  console.log("Fetching SEO data with params:", { language, lastSlug });
 
   const [{ data: seo }] = await Promise.all([
     sanityFetch({

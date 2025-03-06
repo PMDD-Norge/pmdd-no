@@ -67,11 +67,7 @@ export default async function Page({ params }: PageProps) {
   return (
     <div>
       {initialLandingPage.sections?.map((section: Section) => (
-        <SectionRenderer
-          key={section._key}
-          section={section}
-          isLandingPage={true}
-        />
+        <SectionRenderer key={section._key} section={section} isLandingPage />
       ))}
     </div>
   );
