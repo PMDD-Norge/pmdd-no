@@ -6,7 +6,7 @@ import { RichText } from "@/components/richText/RichText";
 import SanityNextImage from "@/components/image/sanityImage";
 import LinkButton from "@/components/linkButton/LinkButton";
 
-export const Features = ({ features }: { features: FeaturesObject }) => {
+const Features = ({ features }: { features: FeaturesObject }) => {
   const { appearance } = features;
   const theme =
     appearance?.theme === ColorTheme.Dark
@@ -44,3 +44,5 @@ export const Features = ({ features }: { features: FeaturesObject }) => {
     </article>
   );
 };
+
+export default Features;

@@ -1,5 +1,17 @@
 import { ReactElement } from "react";
-import dynamic from "next/dynamic";
+
+import Hero from "@/components/sections/hero/Hero";
+import Article from "@/components/sections/article/Article";
+import Callout from "@/components/sections/callout/Callout";
+import CallToAction from "@/components/sections/callToAction/CallToAction";
+import Contact from "@/components/sections/contact/Contact";
+import Features from "@/components/sections/features/Features";
+import Grid from "@/components/sections/grid/Grid";
+import ImageSection from "@/components/sections/imageSection/ImageSection";
+import LogoSalad from "@/components/sections/logoSalad/LogoSalad";
+import Quote from "@/components/sections/quote/Quote";
+import Resources from "@/components/sections/resources/Resources";
+import Testimonials from "@/components/sections/testimonials/Testimonials";
 import {
   ArticleObject,
   CalloutObject,
@@ -13,56 +25,14 @@ import {
   QuoteObject,
   ResourcesObject,
   Section,
-  SectionObject,
   TestimonialsObject,
 } from "@/sanity/lib/interfaces/pages";
 
-interface SectionRendererProps {
-  section: Section;
-  isLandingPage?: boolean;
-}
-
-interface RenderProps {
-  isLandingPage: boolean;
-}
-
-const Hero = dynamic(() =>
-  import("@/components/sections/hero/Hero").then((mod) => mod.Hero)
-);
-const LogoSalad = dynamic(() =>
-  import("@/components/sections/logoSalad/LogoSalad").then(
-    (mod) => mod.LogoSalad
-  )
-);
-const Article = dynamic(() => import("@/components/sections/article/Article"));
-const Callout = dynamic(() => import("@/components/sections/callout/Callout"));
-const Quote = dynamic(() => import("@/components/sections/quote/Quote"));
-const CallToAction = dynamic(
-  () => import("@/components/sections/callToAction/CallToAction")
-);
-const Resources = dynamic(
-  () => import("@/components/sections/resources/Resources")
-);
-const Contact = dynamic(() => import("@/components/sections/contact/Contact"));
-const Testimonials = dynamic(() =>
-  import("@/components/sections/testimonials/Testimonials").then(
-    (mod) => mod.Testimonials
-  )
-);
-const Features = dynamic(() =>
-  import("@/components/sections/features/Features").then((mod) => mod.Features)
-);
-const ImageSection = dynamic(
-  () => import("@/components/sections/imageSection/ImageSection")
-);
-const Grid = dynamic(() => import("@/components/sections/grid/Grid"));
-
-// Type-safe section renderer map
 const sectionRenderers: Record<
   string,
-  (section: SectionObject, props: RenderProps) => ReactElement
+  (section: Section, props: { isLandingPage: boolean }) => ReactElement
 > = {
-  hero: (section, { isLandingPage }: RenderProps) => (
+  hero: (section, { isLandingPage }) => (
     <Hero hero={section as HeroObject} isLanding={isLandingPage} />
   ),
   logoSalad: (section) => <LogoSalad logoSalad={section as LogoSaladObject} />,
@@ -82,12 +52,13 @@ const sectionRenderers: Record<
   grid: (section) => <Grid grid={section as GridObject} />,
 };
 
-const withLoadingState = (component: ReactElement) => <div>{component}</div>; // TODO: add loading
-
 const SectionRenderer = ({
   section,
   isLandingPage = false,
-}: SectionRendererProps): ReactElement | null => {
+}: {
+  section: Section;
+  isLandingPage?: boolean;
+}): ReactElement | null => {
   const renderSection = sectionRenderers[section._type];
 
   if (!renderSection) {
@@ -97,11 +68,7 @@ const SectionRenderer = ({
 
   return (
     <section data-section-type={section._type}>
-      {withLoadingState(
-        renderSection(section, {
-          isLandingPage,
-        })
-      )}
+      {renderSection(section, { isLandingPage })}
     </section>
   );
 };

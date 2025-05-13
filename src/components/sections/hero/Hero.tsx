@@ -10,7 +10,7 @@ interface HeroProps {
   isLanding: boolean;
 }
 
-export const Hero = ({ hero, isLanding = false }: HeroProps) => {
+const Hero = ({ hero, isLanding = false }: HeroProps) => {
   return (
     <div className={styles.sectionWrapperRow}>
       <div className={styles.hero}>
@@ -19,13 +19,20 @@ export const Hero = ({ hero, isLanding = false }: HeroProps) => {
         >
           {hero.image && (
             <div className={styles.image}>
-              <SanityNextImage image={hero.image} priority />
+              <SanityNextImage 
+                image={hero.image} 
+                priority 
+                className={styles.heroImage}
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
             </div>
           )}
           <div className={styles.column}>
             <div className={styles.text}>
-              <Text type={isLanding ? "display" : "h1"}>{hero.title}</Text>
-              <Text type="bodyLarge">{hero.body}</Text>
+              {hero.title && (
+                <Text type={isLanding ? "display" : "h1"}>{hero.title}</Text>
+              )}
+              {hero.body && <Text type="bodyLarge">{hero.body}</Text>}
             </div>
             {isLanding && (
               <ul className={styles.cta}>
@@ -51,3 +58,5 @@ export const Hero = ({ hero, isLanding = false }: HeroProps) => {
     </div>
   );
 };
+
+export default Hero;

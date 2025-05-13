@@ -1,6 +1,7 @@
 html {
   scroll-behavior: smooth;
   background-color: var(--Background-main);
+  font-display: swap; /* Ensures text appears immediately */
 }
 
 *,
@@ -43,17 +44,7 @@ html {
   --Spacing-XL: 32px;
   --Spacing-XXL: 48px;
 
-  @media (max-width: 640px) {
-    --Spacing-XXS: 4px;
-    --Spacing-XS: 8px;
-    --Spacing-S: 14px;
-    --Spacing-M: 20px;
-    --Spacing-L: 28px;
-    --Spacing-XL: 40px;
-    --Spacing-XXL: 52px;
-  }
-
-  @media (max-width: 640px) {
+  @media (max-width: 767px) {
     --Spacing-XXS: 4px;
     --Spacing-XS: 8px;
     --Spacing-S: 16px;
@@ -164,11 +155,46 @@ a {
 
 @keyframes fadein {
   0% {
-    transform: translateY(40px);
     opacity: 0;
   }
   100% {
-    transform: translateY(0);
     opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fadein {
+    animation: none;
+  }
+  
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+.skipLink {
+  position: absolute;
+  top: -140px;
+  left: 0;
+  z-index: 100;
+
+  display: flex;
+  padding: 0.625rem 1.25rem;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  align-self: stretch;
+  background: var(--Background-offshade, #daf2e8);
+
+  text-decoration: none;
+  font-family: var(--font-nunito);
+  font-size: 1.125rem;
+  font-style: normal;
+  font-weight: 900;
+  letter-spacing: 0.045rem;
+  line-height: normal;
+  &:focus:focus {
+    top: 0;
+    position: relative;
   }
 }

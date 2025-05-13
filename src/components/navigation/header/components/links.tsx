@@ -1,21 +1,23 @@
+"use client";
+
 import { SanityLink } from "@/sanity/lib/interfaces/siteSettings";
 import styles from "../header.module.css";
 import { getHref } from "@/utils/getHref";
 import CustomLink from "@/components/link/CustomLink";
 import LinkButton from "@/components/linkButton/LinkButton";
+import { usePathname } from "next/navigation";
 
 export const PageLinks = ({
   links,
   isMobile = false,
-  pathname,
 }: {
   links: SanityLink[];
   isMobile?: boolean;
-  pathname: string;
 }) => {
+  const pathname = usePathname();
   return (
     <ul className={isMobile ? styles.listMobile : styles.desktopLinks}>
-      {links?.map((link: SanityLink) => {
+      {links.map((link: SanityLink) => {
         const linkUrl = getHref(link);
         const isSelected = isPathActive(linkUrl, pathname);
         return (
@@ -36,7 +38,7 @@ export const PageCTAs = ({
   isMobile?: boolean;
 }) => (
   <ul className={isMobile ? styles.listMobile : styles.desktopCtas}>
-    {ctas?.map((link: SanityLink, index) => (
+    {ctas.map((link: SanityLink, index) => (
       <li key={link._key}>
         <LinkButton
           link={link}

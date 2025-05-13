@@ -1,5 +1,5 @@
 import createMiddleware from "next-intl/middleware";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 // Define supported locales
 const locales = ["no"];
@@ -7,11 +7,18 @@ const locales = ["no"];
 const intlMiddleware = createMiddleware({
   locales: locales,
   defaultLocale: "no",
-  localePrefix: "always",
+  localePrefix: "never",
 });
 
 export default function middleware(request: NextRequest) {
-  // Actually use the intlMiddleware
+  const { nextUrl } = request;
+
+  // If the URL starts with /no/, redirect to /
+  if (nextUrl.pathname.startsWith("/no/")) {
+    const newUrl = new URL(nextUrl.pathname.replace(/^\/no/, ""), request.url);
+    return NextResponse.redirect(newUrl);
+  }
+
   return intlMiddleware(request);
 }
 

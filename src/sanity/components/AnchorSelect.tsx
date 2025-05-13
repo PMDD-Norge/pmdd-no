@@ -69,7 +69,7 @@ const AnchorSelect = ({ value, onChange, path }: AnchorSelectProps) => {
         id: internalLinkRef,
       });
 
-      const formattedResponseToListItems = response.sections.map(
+      const formattedResponseToListItems = response.sections?.map(
         (section: AnchorItem): FormattedAnchorItem => ({
           title: getLocalizedTitle(section.title),
           value: `#${section._key}`,

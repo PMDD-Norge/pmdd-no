@@ -2,7 +2,7 @@ import SanityNextImage from "@/components/image/sanityImage";
 import styles from "./logoSalad.module.css";
 import { LogoSaladObject } from "@/sanity/lib/interfaces/pages";
 
-export const LogoSalad = ({ logoSalad }: { logoSalad: LogoSaladObject }) => {
+const LogoSalad = ({ logoSalad }: { logoSalad: LogoSaladObject }) => {
   return (
     <article className={styles.wrapper}>
       <div className={styles.logoList}>
@@ -22,3 +22,5 @@ export const LogoSalad = ({ logoSalad }: { logoSalad: LogoSaladObject }) => {
     </article>
   );
 };
+
+export default LogoSalad;

@@ -1,17 +1,19 @@
 .focusOn {
+  position: fixed;
+  display: contents;
+  z-index: 9999; /* Makes sure the sticky header stays on top */
+}
+
+.sticky {
+  position: sticky;
   top: 0;
-  z-index: 9999;
-  & > header {
-    background: var(--Background-main, #eff8f6);
-    padding: 0.75rem 1.5rem;
-    position: sticky;
-    top: 0;
-  }
+  background: var(--Background-main, #eff8f6);
+  padding: 0.75rem 1.5rem;
+  z-index: 100; /* Ensure header stays above other content */
 }
 
 .isOpen {
   height: 100vh;
-  display: flex;
   flex-direction: column;
   @media (max-width: 1024px) {
     & > header {
@@ -33,18 +35,24 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 3.5rem;
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
+  position: relative;
+  z-index: 10000; /* Make sure it's above the mobile menu */
+  @media (min-width: 647px) {
+    gap: 3.5rem;
+  }
 }
 
 .logo {
-  overflow: hidden;
   width: auto;
   display: flex;
   max-width: 100%;
   height: 1.5rem;
+  z-index: 10000; /* Higher z-index than the mobile menu */
+  position: relative; /* Needed for z-index to work */
+  
   & img {
     width: auto !important;
   }
@@ -124,10 +132,10 @@
   justify-content: center;
   align-items: center;
   gap: var(--borderRadius-borderRadius-s, 0.5rem);
-  border: 4px solid var(--Body-test, #0e3424);
-  border-radius: var(--borderRadius-borderRadius-s, 0.5rem);
 
-  color: var(--Body-test, #0e3424);
+  border-radius: 0.625rem;
+
+  color: var(--Body, #0e3424);
 
   leading-trim: both;
   text-edge: cap;
@@ -136,14 +144,14 @@
   font-family: var(--font-nunito);
   font-size: 1.25rem;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 600;
   line-height: normal;
 
   &::after {
     content: "";
     display: block;
-    width: 1.25rem;
-    height: 1.25rem;
+    width: 1.5rem;
+    height: 1.5rem;
     mask: url("/_assets/globe.svg") no-repeat center;
     -webkit-mask: url("/_assets/globe.svg") no-repeat center;
     mask-size: cover;
@@ -166,23 +174,26 @@
   right: -25%;
 
   border-radius: 0.25rem;
-  background: var(--mist, #e7f4fd);
-
+  background: var(--Background-offshade, #daf2e8);
   box-shadow:
-    0px 8px 18px -6px rgba(12, 153, 253, 0.12),
-    0px 12px 42px -4px rgba(12, 153, 253, 0.12);
+    0px 10px 16px -6px rgba(14, 52, 36, 0.06),
+    0px 4px 20px -4px rgba(14, 52, 36, 0.11);
 }
 
 .languageButtonLink {
   all: unset;
   cursor: pointer;
   text-decoration: none;
-  font-family: var(--font-nunito);
+
+  /* Desktop/Div/NavbarLink */
+  font-family: Nunito;
   font-size: 1.25rem;
+  font-style: normal;
   font-weight: 500;
+  line-height: 140%; /* 1.75rem */
 
   &:hover {
-    color: var(--ocean);
+    color: var(--ButtonHover, #00613a);
   }
 }
 
@@ -202,24 +213,37 @@
   }
 
   &:hover {
-    color: var(--midnight);
     cursor: default;
   }
 }
 
 .mobileMenu {
-  flex: 1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--Background-offshade, #daf2e8);
+  z-index: 900; /* Lower than the header but above content */
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-end;
-  gap: 5rem;
-  padding-top: 7.5rem;
-  padding-bottom: 7.5rem;
+  padding: 1.5rem;
+  padding-top: 5rem; /* Add space for the header */
+  overflow-y: auto; /* Allow scrolling within the menu, not the body */
+  transition: opacity 0.15s ease-out; /* Smooth opacity transitions */
 
   @media (min-width: 1024px) {
     display: none;
   }
+}
+
+.mobileMenuContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
 }
 
 /* MOBILE BUTTON */
@@ -245,3 +269,10 @@
   composes: button;
   background: url("/_assets/menu-close.svg") no-repeat 50% 50%;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .mobileMenu {
+    transition: none !important;
+  }
+}
+

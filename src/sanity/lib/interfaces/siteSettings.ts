@@ -9,8 +9,14 @@ interface Reference {
 
 export interface Navigation {
   _id: string;
-  main: SanityLink[];
-  sidebar?: SanityLink[];
+  main: {
+    links: SanityLink[];
+    ctas: SanityLink[];
+  };
+  sidebar?: {
+    links: SanityLink[];
+    ctas: SanityLink[];
+  };
   footer?: FooterSection[];
 }
 

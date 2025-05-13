@@ -28,7 +28,9 @@ const CustomCallToActions: React.FC<CustomCallToActionsProps> = (props) => {
     const fetchLandingId = async () => {
       try {
         setLoading(true);
-        const landingId = await client.fetch<string>(LANDING_PAGE_QUERY);
+        const landingId = await client.fetch<string>(LANDING_PAGE_QUERY, {
+          language: "no",
+        });
         setLandingPageId(landingId);
       } catch (error) {
         console.error("Failed to fetch navigation manager", error);

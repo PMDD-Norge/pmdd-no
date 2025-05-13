@@ -1,36 +1,19 @@
-import styles from "../header.module.css";
+"use client";
+
+import styles from "./languageSelector.module.css";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Language } from "@/i18n/supportedLanguages";
 import { GlobalTranslationKey } from "@/utils/constants/globalTranslationKeys";
 import { getTranslatedSlug } from "@/utils/getTranslatedSlug";
 import { COOKIE_ONE_YR_EXPIRY } from "@/utils/cookies";
+import { createLanguageRedirectUrl } from "../utils/languageSettingsUtils";
 
 interface LanguageChangeOptions {
   preventMultipleClicks?: boolean;
 }
-
-const createLanguageRedirectUrl = (
-  basePath: string,
-  languageId: string,
-  translatedSlugs: string[] | null,
-  currentSearchParams: URLSearchParams
-): string => {
-  // Construct base path with translated slugs or fallback
-  const path = translatedSlugs
-    ? `/${languageId}/${translatedSlugs.join("/")}`
-    : `/${languageId}`;
-
-  // Create URL with preserved query parameters
-  const url = new URL(path, window.location.origin);
-  currentSearchParams.forEach((value, key) => {
-    url.searchParams.set(key, value);
-  });
-
-  return url.pathname + url.search;
-};
 
 const LanguageMenu = ({
   supportedLanguages,
@@ -139,34 +122,50 @@ const LanguageMenu = ({
 export const LanguageSelector = ({
   currentLanguage,
   supportedLanguages,
-  toggleLanguageMenu,
-  isLanguageMenuOpen,
 }: {
-  currentLanguage?: string;
+  currentLanguage: string;
   supportedLanguages: Language[];
-  toggleLanguageMenu: () => void;
-  isLanguageMenuOpen: boolean;
 }) => {
   const t = useTranslations();
-
-  // Early return if language selection is not applicable
-  if (!currentLanguage || supportedLanguages.length <= 1) {
-    return null;
-  }
-
+  const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
   const languageSelection =
     t(GlobalTranslationKey.languageSelection) || "Language selection";
+
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleEscapeKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && isLanguageMenuOpen) {
+        setIsLanguageMenuOpen(false);
+      }
+    };
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsLanguageMenuOpen(false);
+      }
+    };
+    
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleEscapeKey);
+    
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEscapeKey);
+    };
+  }, [isLanguageMenuOpen]);
 
   return (
     <div
       className={styles.languageSettings}
+      ref={menuRef}
       role="region"
       aria-label={languageSelection}
     >
       <button
         type="button"
         className={styles.languageButton}
-        onClick={toggleLanguageMenu}
+        onClick={() => setIsLanguageMenuOpen(!isLanguageMenuOpen)}
         aria-haspopup="menu"
         aria-expanded={isLanguageMenuOpen}
         aria-controls="language-menu"

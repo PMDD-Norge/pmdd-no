@@ -8,15 +8,11 @@ import SectionRenderer from "@/utils/renderSection";
 import { Metadata } from "next";
 export const revalidate = 3600;
 
-interface PageProps {
-  params: Promise<{
-    language: string;
-  }>;
-}
-
 export async function generateMetadata({
   params,
-}: PageProps): Promise<Metadata> {
+}: {
+  params: Promise<{ language: string }>;
+}): Promise<Metadata> {
   const { language } = await params;
 
   const [{ data: seo }] = await Promise.all([
@@ -50,7 +46,11 @@ export async function generateMetadata({
   return metadata;
 }
 
-export default async function Page({ params }: PageProps) {
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ language: string }>;
+}) {
   const { language } = await params;
 
   const {
@@ -66,7 +66,7 @@ export default async function Page({ params }: PageProps) {
 
   return (
     <div>
-      {initialLandingPage.sections?.map((section: Section) => (
+      {initialLandingPage.sections.map((section: Section) => (
         <SectionRenderer key={section._key} section={section} isLandingPage />
       ))}
     </div>

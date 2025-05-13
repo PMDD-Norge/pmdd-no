@@ -1,0 +1,105 @@
+.languageSettings {
+  position: relative;
+}
+
+.languageButton {
+  all: unset;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--borderRadius-borderRadius-s, 0.5rem);
+
+  border-radius: 0.625rem;
+
+  color: var(--Body, #0e3424);
+
+  /* Desktop/Link */
+  font-family: var(--font-nunito);
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+
+  &::after {
+    content: "";
+    display: block;
+    width: 1.5rem;
+    height: 1.5rem;
+    mask: url("/_assets/globe.svg") no-repeat center;
+    -webkit-mask: url("/_assets/globe.svg") no-repeat center;
+    mask-size: cover;
+    -webkit-mask-size: cover;
+    background-color: currentColor;
+  }
+
+  &:focus {
+    outline: 2px solid var(--focus-color);
+    border-radius: 4px;
+  }
+}
+
+.languageMenu {
+  list-style-type: none;
+  display: flex;
+  margin: 0;
+  padding: 0.75rem 1.375rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 1rem;
+
+  position: absolute;
+  top: calc(100% + 10px);
+  right: -25%;
+
+  border-radius: 0.25rem;
+  background: var(--Background-offshade, #daf2e8);
+  box-shadow:
+    0px 10px 16px -6px rgba(14, 52, 36, 0.06),
+    0px 4px 20px -4px rgba(14, 52, 36, 0.11);
+}
+
+.languageButtonLink {
+  all: unset;
+  cursor: pointer;
+  text-decoration: none;
+
+  /* Desktop/Div/NavbarLink */
+  font-family: Nunito;
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 140%; /* 1.75rem */
+
+  &:hover {
+    color: var(--ButtonHover, #00613a);
+  }
+
+  &:focus {
+    outline: 2px solid var(--focus-color);
+    border-radius: 4px;
+  }
+}
+
+.selectedLanguage {
+  composes: languageButtonLink;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+  &::after {
+    width: 1.25rem;
+    height: 1.25rem;
+    content: "";
+    mask: url("/_assets/check.svg") no-repeat center;
+    mask-size: cover;
+    -webkit-mask: url("/_assets/check.svg") no-repeat center;
+    -webkit-mask-size: cover;
+    background-color: currentColor;
+  }
+
+  &:hover {
+    color: var(--Body, #0e3424);
+    cursor: default;
+  }
+}

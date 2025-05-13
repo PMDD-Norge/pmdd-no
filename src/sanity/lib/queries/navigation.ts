@@ -3,9 +3,25 @@ import { LINK_FRAGMENT } from "./fragments";
 
 export const NAV_QUERY = groq`
   *[_type == "navigationManager"]{
-    "main": main[] {
-      ...,
-      ${LINK_FRAGMENT}
+    "main": {
+      "links": main[_type == "link"] {
+        ...,
+        ${LINK_FRAGMENT}
+      },
+      "ctas": main[_type == "callToActionField"] {
+        ...,
+        ${LINK_FRAGMENT}
+      }
+    },
+    "sidebar": {
+      "links": sidebar[_type == "link"] {
+        ...,
+        ${LINK_FRAGMENT}
+      },
+      "ctas": sidebar[_type == "callToActionField"] {
+        ...,
+        ${LINK_FRAGMENT}
+      }
     },
     "footer": footer[] {
       ...,
@@ -25,10 +41,6 @@ export const NAV_QUERY = groq`
       "socialMediaLinks": socialMediaLinks->{
         "_ref": slug.current
       }
-    },
-    "sidebar": sidebar[] {
-      ...,
-      ${LINK_FRAGMENT}
     }
   }[0]
 `;

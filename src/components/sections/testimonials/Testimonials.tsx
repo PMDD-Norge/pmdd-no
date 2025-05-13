@@ -5,7 +5,7 @@ import { RichText } from "@/components/richText/RichText";
 import LinkButton from "@/components/linkButton/LinkButton";
 import SanityNextImage from "@/components/image/sanityImage";
 
-export const Testimonials = ({
+const Testimonials = ({
   testimonials,
 }: {
   testimonials: TestimonialsObject;
@@ -45,3 +45,5 @@ export const Testimonials = ({
     </article>
   );
 };
+
+export default Testimonials;
