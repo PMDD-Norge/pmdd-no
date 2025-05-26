@@ -1,17 +1,12 @@
-import Script from "next/script";
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { SanityLive } from "@/sanity/lib/live";
 
-export default function Analytics() {
+export default function AnalyticsComponent() {
   return (
     <>
-      <Script
-        strategy="lazyOnload" // Changed to lazyOnload to avoid blocking interactive elements
-        src="https://analytics.vercel.com/analytics.js"
-      />
-      <Script
-        strategy="lazyOnload"
-        src="https://speed-insights.vercel.app/speed-insights.js" 
-      />
+      <Analytics />
+      <SpeedInsights />
       <SanityLive />
     </>
   );
