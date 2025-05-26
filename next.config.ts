@@ -24,6 +24,7 @@ const nextConfig: NextConfig = {
     taint: true,
     optimizePackageImports: ["next-intl"],
   },
+  allowedDevOrigins: ["http://localhost:3000"],
 };
 
 export default withNextIntl(withBundleAnalyzer(nextConfig));
