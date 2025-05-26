@@ -13,7 +13,6 @@ export const client = createClient({
   token,
   perspective: "published",
   useCdn: false,
-  withCredentials: true,
   stega: {
     enabled: process.env.NODE_ENV === "development",
     studioUrl: "/studio",
