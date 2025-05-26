@@ -5,17 +5,6 @@ import styles from "./header.module.css";
 import { PageLinks, PageCTAs } from "./components/links";
 import { SanityLink } from "@/sanity/lib/interfaces/siteSettings";
 
-// Simple function for debugging
-const safelyFocus = (element: HTMLElement | null) => {
-  if (element && typeof element.focus === 'function') {
-    try {
-      element.focus();
-    } catch (err) {
-      console.error('Failed to focus element:', err);
-    }
-  }
-};
-
 interface Props {
   sidebarLinks: SanityLink[];
   sidebarCtas: SanityLink[];
@@ -29,12 +18,12 @@ const MobileMenu = ({ sidebarLinks, sidebarCtas }: Props) => {
   const closeMobileMenu = useCallback(() => {
     // Hide menu first
     setIsMenuOpen(false);
-    
+
     // Notify button component to update its state
     window.dispatchEvent(
       new CustomEvent("toggle-mobile-menu-complete", { detail: false })
     );
-    
+
     // Re-enable scrolling after a short delay
     setTimeout(() => {
       document.body.style.overflow = "";
@@ -45,7 +34,7 @@ const MobileMenu = ({ sidebarLinks, sidebarCtas }: Props) => {
   useEffect(() => {
     const handleToggle = (event: CustomEvent) => {
       setIsMenuOpen(event.detail);
-      
+
       // Lock scrolling when menu is open
       if (event.detail) {
         document.body.style.overflow = "hidden";
@@ -70,35 +59,35 @@ const MobileMenu = ({ sidebarLinks, sidebarCtas }: Props) => {
   // Add keyboard trap within the menu while allowing menu button to be accessible
   useEffect(() => {
     if (!isMenuOpen) return;
-    
+
     // Handle basic keyboard navigation - simplified to avoid errors
     const handleKeyDown = (e: KeyboardEvent) => {
       // Close on escape key
-      if (e.key === 'Escape' && isMenuOpen) {
+      if (e.key === "Escape" && isMenuOpen) {
         closeMobileMenu();
       }
     };
-    
+
     // Let navigation happen without interfering
     const handleLinkClick = (e: MouseEvent) => {
       if (!isMenuOpen) return;
-      
+
       const target = e.target as HTMLElement;
       const linkElement = target.closest("a");
-      
+
       if (linkElement) {
         // Only make the menu visually hidden
         if (menuRef.current) {
           menuRef.current.style.opacity = "0";
         }
-        
+
         // Release scroll lock to prevent body from being frozen
         document.body.style.overflow = "";
-        
+
         // Don't update any other state - let navigation proceed normally
       }
     };
-    
+
     // This will run after navigation is complete
     const handleNavigation = () => {
       if (isMenuOpen) {
@@ -111,33 +100,33 @@ const MobileMenu = ({ sidebarLinks, sidebarCtas }: Props) => {
     };
 
     // Set up all event listeners
-    document.addEventListener('keydown', handleKeyDown);
-    document.addEventListener('click', handleLinkClick);
-    window.addEventListener('popstate', handleNavigation);
-    window.addEventListener('pushState', handleNavigation);
-    window.addEventListener('replaceState', handleNavigation);
-    
+    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("click", handleLinkClick);
+    window.addEventListener("popstate", handleNavigation);
+    window.addEventListener("pushState", handleNavigation);
+    window.addEventListener("replaceState", handleNavigation);
+
     // Override history methods to detect navigation
     const originalPushState = window.history.pushState;
     const originalReplaceState = window.history.replaceState;
-    
-    window.history.pushState = function(...args) {
+
+    window.history.pushState = function (...args) {
       originalPushState.apply(this, args);
-      window.dispatchEvent(new Event('pushState'));
+      window.dispatchEvent(new Event("pushState"));
     };
-    
-    window.history.replaceState = function(...args) {
+
+    window.history.replaceState = function (...args) {
       originalReplaceState.apply(this, args);
-      window.dispatchEvent(new Event('replaceState'));
+      window.dispatchEvent(new Event("replaceState"));
     };
-    
+
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-      document.removeEventListener('click', handleLinkClick);
-      window.removeEventListener('popstate', handleNavigation);
-      window.removeEventListener('pushState', handleNavigation);
-      window.removeEventListener('replaceState', handleNavigation);
-      
+      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("click", handleLinkClick);
+      window.removeEventListener("popstate", handleNavigation);
+      window.removeEventListener("pushState", handleNavigation);
+      window.removeEventListener("replaceState", handleNavigation);
+
       // Restore original history methods
       window.history.pushState = originalPushState;
       window.history.replaceState = originalReplaceState;
