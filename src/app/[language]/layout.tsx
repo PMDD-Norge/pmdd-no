@@ -98,7 +98,7 @@ export default async function RootLayout({
           </main>
           <Footer navigationData={nav} soMeData={soMe} />
         </NextIntlClientProvider>
-        {!isDev && <Analytics />}
+        {/* {!isDev && <Analytics />} */}
       </body>
     </html>
   );
