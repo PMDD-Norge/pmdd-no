@@ -4,7 +4,7 @@ import { RichText } from "@/components/richText/RichText";
 import SanityNextImage from "@/components/image/sanityImage";
 import CustomLink from "@/components/link/CustomLink";
 import { PortableText, PortableTextReactComponents } from "@portabletext/react";
-import { truncateText } from "@/utils/textUtils";
+import { truncateText, getDisplayText } from "@/utils/textUtils";
 import { getCustomTranslations } from "@/utils/translations";
 import { CONTENT_TYPES } from "@/utils/constants/contentTypes";
 import { GlobalTranslationKey } from "@/utils/constants/globalTranslationKeys";
@@ -22,6 +22,7 @@ import { PortableTextBlock } from "sanity";
 const myPortableTextComponents: Partial<PortableTextReactComponents> = {
   block: ({ children }) => <Text type="small">{children}</Text>,
 };
+
 
 const getGridClassForItemCount = (count: number) => {
   if (count === 1) return styles.oneItem;
@@ -53,7 +54,7 @@ export const Grid = async (props: Props) => {
       <article className="darkBackground">
         <div className="sectionWrapperColumn">
           <div className={styles.textWrapper}>
-            <Text type="h2">{props.title}</Text>
+            <Text type="h2">{getDisplayText(props.title)}</Text>
             {props.richText && <RichText value={props.richText} />}
           </div>
           <ul
@@ -84,7 +85,7 @@ export const Grid = async (props: Props) => {
     <article className={theme} id={_key}>
       <div className="sectionWrapperColumn">
         <div className={styles.textWrapper}>
-          <Text type="h2">{title}</Text>
+          <Text type="h2">{getDisplayText(title)}</Text>
           {richText && <RichText value={richText} />}
         </div>
         {lists?.map((list, i) => (
@@ -108,7 +109,7 @@ const GridListSection = ({
 
   return (
     <section className={styles.listSection}>
-      <Text type="h3">{list.title}</Text>
+      <Text type="h3">{getDisplayText(list.title)}</Text>
       <ul className={`${styles.list} ${getGridClassForItemCount(itemCount)}`}>
         {displayItems.map((item) => (
           <GridElement key={item._key || item._id} item={item} t={t} />
@@ -162,7 +163,7 @@ const GridElement = ({
           <SanityNextImage image={item.image} />
         </div>
       )}
-      {item.title && <Text type="h4">{item.title}</Text>}
+      {item.title && <Text type="h4">{getDisplayText(item.title)}</Text>}
       {content &&
         (typeof content === "string" ? (
           <Text type="small">{isPosition ? content : truncateText(content, 250)}</Text>

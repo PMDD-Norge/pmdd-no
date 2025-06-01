@@ -5,6 +5,7 @@ import Text from "@/components/text/Text";
 import { RichText } from "@/components/richText/RichText";
 import SanityNextImage from "@/components/image/sanityImage";
 import LinkButton from "@/components/linkButton/LinkButton";
+import { getDisplayText } from "@/utils/textUtils";
 
 const Features = ({ features }: { features: FeaturesObject }) => {
   const { appearance } = features;
@@ -18,7 +19,7 @@ const Features = ({ features }: { features: FeaturesObject }) => {
       <div className={styles.sectionWrapperRow}>
         <div className={styles.leftColumn}>
           <div className={styles.intro}>
-            <Text type="h2">{features.title}</Text>
+            <Text type="h2">{getDisplayText(features.title)}</Text>
             <RichText value={features.richText} />
           </div>
           {appearance?.image && (
@@ -31,7 +32,7 @@ const Features = ({ features }: { features: FeaturesObject }) => {
           <ul className={styles.list}>
             {features.list?.map((feature) => (
               <li className={styles.item} key={feature._key}>
-                <Text type="h3">{feature.title}</Text>
+                <Text type="h3">{getDisplayText(feature.title)}</Text>
                 {feature.richText && <RichText value={feature.richText} />}
               </li>
             ))}

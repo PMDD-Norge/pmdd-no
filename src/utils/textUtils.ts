@@ -41,3 +41,23 @@ export const truncateText = (text: string, length: number) => {
   if (!text) return "";
   return text.length > length ? `${text.slice(0, length).trimEnd()}...` : text;
 };
+
+// Helper function to safely extract string from potentially internationalized content
+interface InternationalizedItem {
+  _key?: string;
+  language?: string;
+  value?: string;
+}
+
+export const getDisplayText = (text: string | InternationalizedItem[] | unknown): string => {
+  if (typeof text === 'string') return text;
+  if (Array.isArray(text)) {
+    // Try to find English or first available translation
+    const enText = text.find((item: InternationalizedItem) => item._key === 'en' || item.language === 'en');
+    if (enText?.value) return enText.value;
+    // Fallback to first item with value
+    const firstText = text.find((item: InternationalizedItem) => item.value);
+    if (firstText?.value) return firstText.value;
+  }
+  return '';
+};
