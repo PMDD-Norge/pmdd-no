@@ -41,6 +41,7 @@ type Props =
   | {
       mode: "full";
       grid: GridObject;
+      language?: string;
     };
 
 export const Grid = async (props: Props) => {
@@ -76,6 +77,9 @@ export const Grid = async (props: Props) => {
   const theme =
     appearance?.theme === "dark" ? "darkBackground" : "lightBackground";
 
+  // Get translations if language is provided
+  const t = props.language ? (await getCustomTranslations(props.language)).t : undefined;
+
   return (
     <article className={theme} id={_key}>
       <div className="sectionWrapperColumn">
@@ -84,14 +88,20 @@ export const Grid = async (props: Props) => {
           {richText && <RichText value={richText} />}
         </div>
         {lists?.map((list, i) => (
-          <GridListSection key={list._key || i} list={list} />
+          <GridListSection key={list._key || i} list={list} t={t} />
         ))}
       </div>
     </article>
   );
 };
 
-const GridListSection = ({ list }: { list: GridList }) => {
+const GridListSection = ({ 
+  list, 
+  t 
+}: { 
+  list: GridList;
+  t?: Awaited<ReturnType<typeof getCustomTranslations>>["t"];
+}) => {
   const maxItems = list.maxItems || 6;
   const displayItems = list.items?.slice(0, maxItems) || [];
   const itemCount = displayItems.length;
@@ -101,7 +111,7 @@ const GridListSection = ({ list }: { list: GridList }) => {
       <Text type="h3">{list.title}</Text>
       <ul className={`${styles.list} ${getGridClassForItemCount(itemCount)}`}>
         {displayItems.map((item) => (
-          <GridElement key={item._key || item._id} item={item} />
+          <GridElement key={item._key || item._id} item={item} t={t} />
         ))}
       </ul>
     </section>
@@ -121,19 +131,29 @@ const GridElement = ({
   const content = isPosition ? item.lead : item.richText;
 
   const link =
-    isPosition && slug
+    isPosition && t
       ? {
-          _key: `${slug}/${item.slug}`,
+          _key: `${item.slug?.current}`,
           _type: "link",
-          title: t?.(GlobalTranslationKey.readMore),
+          title: t(GlobalTranslationKey.readMore),
           type: LinkType.Internal,
           internalLink: {
-            _ref: `${slug}/${item.slug}?type=${CONTENT_TYPES.POSITION}`,
+            _ref: `${item.slug?.current}?type=${CONTENT_TYPES.POSITION}`,
           },
         }
-      : "link" in item
-        ? item.link
-        : undefined;
+      : isPosition && slug
+        ? {
+            _key: `${slug}/${item.slug}`,
+            _type: "link",
+            title: t?.(GlobalTranslationKey.readMore),
+            type: LinkType.Internal,
+            internalLink: {
+              _ref: `${slug}/${item.slug}?type=${CONTENT_TYPES.POSITION}`,
+            },
+          }
+        : "link" in item
+          ? item.link
+          : undefined;
 
   return (
     <li className={styles.listItem}>
@@ -145,10 +165,10 @@ const GridElement = ({
       {item.title && <Text type="h4">{item.title}</Text>}
       {content &&
         (typeof content === "string" ? (
-          <Text type="small">{truncateText(content, 250)}</Text>
-        ) : (
+          <Text type="small">{isPosition ? content : truncateText(content, 250)}</Text>
+        ) : Array.isArray(content) && content.length > 0 ? (
           <PortableText value={content} components={myPortableTextComponents} />
-        ))}
+        ) : null)}
       {link?.title && (
         <div>
           <CustomLink link={link} />

@@ -67,7 +67,7 @@ export default async function Page({
   return (
     <div>
       {initialLandingPage.sections.map((section: Section) => (
-        <SectionRenderer key={section._key} section={section} isLandingPage />
+        <SectionRenderer key={section._key} section={section} isLandingPage language={language} />
       ))}
     </div>
   );

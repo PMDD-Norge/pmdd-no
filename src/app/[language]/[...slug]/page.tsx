@@ -169,13 +169,14 @@ const pageComponentMap: Record<
     <Legal document={document as LegalDocument} language={language} />
   ),
 
-  [QueryType.Page]: ({ document }) => (
+  [QueryType.Page]: ({ document, language }) => (
     <>
       {(document as PageDocument)?.sections?.map((section: Section) => (
         <SectionRenderer
           key={section._key}
           section={section}
           isLandingPage={false}
+          language={language}
         />
       ))}
     </>

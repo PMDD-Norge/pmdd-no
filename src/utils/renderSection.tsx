@@ -30,7 +30,7 @@ import {
 
 const sectionRenderers: Record<
   string,
-  (section: Section, props: { isLandingPage: boolean }) => ReactElement
+  (section: Section, props: { isLandingPage: boolean; language?: string }) => ReactElement
 > = {
   hero: (section, { isLandingPage }) => (
     <Hero hero={section as HeroObject} isLanding={isLandingPage} />
@@ -49,15 +49,17 @@ const sectionRenderers: Record<
   ),
   features: (section) => <Features features={section as FeaturesObject} />,
   imageSection: (section) => <ImageSection section={section as ImageObject} />,
-  grid: (section) => <Grid mode="full" grid={section as GridObject} />,
+  grid: (section, { language }) => <Grid mode="full" grid={section as GridObject} language={language} />,
 };
 
 const SectionRenderer = ({
   section,
   isLandingPage = false,
+  language,
 }: {
   section: Section;
   isLandingPage?: boolean;
+  language?: string;
 }): ReactElement | null => {
   const renderSection = sectionRenderers[section._type];
 
@@ -68,7 +70,7 @@ const SectionRenderer = ({
 
   return (
     <section data-section-type={section._type}>
-      {renderSection(section, { isLandingPage })}
+      {renderSection(section, { isLandingPage, language })}
     </section>
   );
 };
