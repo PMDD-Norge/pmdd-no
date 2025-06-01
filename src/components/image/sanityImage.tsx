@@ -15,7 +15,7 @@ interface ImageProps {
 const urlFor = (source: SanityImageData) => {
   // Handle Sanity asset
   if (source.asset?._ref) {
-    return imageBuilder.image(source).auto("format").fit("crop").quality(75);
+    return imageBuilder.image(source).auto("format").fit("crop").quality(90);
   }
 
   return null;
@@ -25,7 +25,7 @@ export default function SanityNextImage({
   image,
   className = "",
   priority = false,
-  sizes = "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw",
+  sizes = "(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw",
 }: ImageProps) {
   // Handle Sanity asset case
   const imageUrl = urlFor(image)?.url();
@@ -39,9 +39,9 @@ export default function SanityNextImage({
     : "50% 50%";
 
   // TODO: FIX HOTSPOT
-  // Calculate reasonable dimensions based on expected usage
-  const width = image.hotspot?.width || 1200;
-  const height = image.hotspot?.height || 800;
+  // Calculate reasonable dimensions based on expected usage - higher for better quality
+  const width = image.hotspot?.width || 1920;
+  const height = image.hotspot?.height || 1080;
   
   return (
     <Image
@@ -58,7 +58,7 @@ export default function SanityNextImage({
       }}
       width={width}
       height={height}
-      quality={75}
+      quality={90}
       loading={priority ? "eager" : "lazy"}
       sizes={sizes}
     />

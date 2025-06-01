@@ -80,9 +80,9 @@
 }
 
 .primary {
-  background: var(--GreenElliott, #018852);
+  background: var(--Teal, #018852);
   color: var(--Background-main, #eff8f6);
-  border-color: var(--GreenElliott, #018852);
+  border-color: var(--Teal, #018852);
 
   &:hover {
     background: var(--ButtonHover, #00613a);
@@ -101,11 +101,11 @@
 
 .secondary {
   background: var(--Background-main, #eff8f6);
-  color: var(--GreenElliott, #018852);
-  border-color: var(--GreenElliott, #018852);
+  color: var(--Teal, #018852);
+  border-color: var(--Teal, #018852);
 
   &::after {
-    background-color: var(--GreenElliott, #018852);
+    background-color: var(--Teal, #018852);
   }
 
   &:hover {

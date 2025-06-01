@@ -8,6 +8,7 @@ import { colorTheme } from "../../fields/appearance";
 export const gridID = "grid";
 export const gridItemID = "gridItem";
 export const gridListID = "gridList";
+export const activitiesGridListID = "activitiesGridList";
 
 // Field definitions
 export const gridItem = defineField({
@@ -57,25 +58,73 @@ const gridList = defineField({
       description: "Title for this group of grid items",
     },
     {
+      name: "contentType",
+      title: "Content Type",
+      type: "string",
+      options: {
+        list: [
+          { title: "Manual Items", value: "manual" },
+          { title: "Events (from Highlights)", value: "event" },
+          { title: "Available Positions (from Highlights)", value: "availablePosition" },
+          { title: "Posts (from Information)", value: "post" },
+        ],
+      },
+      initialValue: "manual",
+      validation: (Rule) => Rule.required(),
+    },
+    {
       name: "items",
       title: "Grid Items",
       description: "Add and manage items to be displayed in this grid list",
       type: "array",
       of: [gridItem],
       validation: (Rule) =>
-        Rule.required().min(1).error("At least one grid item is required."),
+        Rule.custom((value, context) => {
+          const parent = context.parent as { contentType?: string };
+          if (parent?.contentType === "manual" && (!value || (Array.isArray(value) && value.length === 0))) {
+            return "At least one grid item is required for manual content.";
+          }
+          return true;
+        }),
+      hidden: ({ parent }) => parent?.contentType !== "manual",
+    },
+    {
+      name: "maxItems",
+      title: "Maximum Items to Display",
+      type: "number",
+      initialValue: 3,
+      validation: (Rule) => Rule.required().min(1).max(6),
+      description: "Number of items to display (max 6)",
+      hidden: ({ parent }) => parent?.contentType === "manual",
+    },
+    {
+      ...link,
+      name: "ctaLink",
+      title: "View More Link",
+      description: "Link to view all items of this type",
+      hidden: ({ parent }) => parent?.contentType === "manual",
     },
   ],
   preview: {
     select: {
       title: "title",
       items: "items",
+      contentType: "contentType",
+      maxItems: "maxItems",
     },
     prepare(selection) {
-      const { title, items = [] } = selection;
+      const { title, items = [], contentType, maxItems } = selection;
+      let subtitle = "";
+      
+      if (contentType === "manual") {
+        subtitle = `Manual Grid List with ${items.length} items`;
+      } else {
+        subtitle = `Auto Grid List: ${contentType} (max ${maxItems})`;
+      }
+      
       return {
         title: title?.[0]?.value || "Untitled",
-        subtitle: `Grid List with ${items.length} items`,
+        subtitle,
       };
     },
   },

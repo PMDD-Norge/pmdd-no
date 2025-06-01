@@ -48,7 +48,7 @@
 
 .selected {
   color: var(--Background-main, #eff8f6);
-  border: 2px solid var(--GreenElliott, #018852);
-  background: var(--GreenElliott, #018852);
+  border: 2px solid var(--Teal, #018852);
+  background: var(--Teal, #018852);
   cursor: default;
 }

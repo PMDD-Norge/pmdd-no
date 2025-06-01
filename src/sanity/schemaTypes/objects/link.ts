@@ -185,7 +185,7 @@ const baseLinkSchema = defineField({
     prepare(selection) {
       const { title, type } = selection;
       return {
-        title: title[0].value || "Missing title",
+        title: title?.[0]?.value || "Missing title",
         subtitle: type ? type.charAt(0).toUpperCase() + type.slice(1) : "",
       };
     },

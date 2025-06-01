@@ -30,15 +30,55 @@ const SECTIONS_FRAGMENT = groq`
       "title": title[_key == $language][0].value,
       "richText": richText[_key == $language][0].value,
       lists[] {
+        ...,
         "title": title[_key == $language][0].value,
-        items[] {
+        contentType,
+        maxItems,
+        ctaLink {
           ...,
-          "title": title[_key == $language][0].value,
-          "richText": richText[_key == $language][0].value,
-          ${IMAGE_FRAGMENT},
-          link {
+          ${LINK_FRAGMENT}
+        },
+        contentType == "manual" => {
+          items[] {
             ...,
-            ${LINK_FRAGMENT}
+            "title": title[_key == $language][0].value,
+            "richText": richText[_key == $language][0].value,
+            ${IMAGE_FRAGMENT},
+            link {
+              ...,
+              ${LINK_FRAGMENT}
+            },
+          },
+        },
+        contentType == "event" => {
+          "items": *[_type == "event"] | order(_createdAt desc)[0..5] {
+            ...,
+            "title": title[_key == $language][0].value,
+            "richText": richText[_key == $language][0].value,
+            ${IMAGE_FRAGMENT},
+            link {
+              ...,
+              ${LINK_FRAGMENT}
+            },
+          },
+        },
+        contentType == "availablePosition" => {
+          "items": *[_type == "availablePosition"] | order(_createdAt desc)[0..5] {
+            ...,
+            "title": title[_key == $language][0].value,
+            "lead": lead[_key == $language][0].value,
+            "richText": richText[_key == $language][0].value,
+            slug,
+          },
+        },
+        contentType == "post" => {
+          "items": *[_type == "post"] | order(_createdAt desc)[0..5] {
+            ...,
+            "title": title[_key == $language][0].value,
+            "lead": lead[_key == $language][0].value,
+            "richText": richText[_key == $language][0].value,
+            ${IMAGE_FRAGMENT},
+            slug,
           },
         },
       },

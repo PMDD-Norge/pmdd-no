@@ -9,7 +9,7 @@
 
 /* Primary link style */
 .link {
-  color: var(--GreenElliott, #018852);
+  color: var(--Teal, #018852);
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -30,7 +30,7 @@
     -webkit-mask-size: cover;
     mask: url("/_assets/arrow.svg") no-repeat center;
     mask-size: cover;
-    background-color: var(--GreenElliott, #018852);
+    background-color: var(--Teal, #018852);
     @media (min-width: 640px) {
       width: 1.5rem;
       height: 1.5rem;
@@ -85,7 +85,7 @@
 
 /* States */
 .selected {
-  color: var(--GreenElliott, #018852);
+  color: var(--Teal, #018852);
 }
 
 .span {

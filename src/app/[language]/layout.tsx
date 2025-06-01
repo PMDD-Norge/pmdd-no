@@ -1,10 +1,11 @@
 import "./global.css";
 import { Nunito, Poller_One } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
-import Analytics from "@/components/Analytics";
 import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { sanityFetch } from "@/sanity/lib/live";
+import { sanityFetch, SanityLive } from "@/sanity/lib/live";
+import { draftMode } from "next/headers";
+import { VisualEditing } from "next-sanity";
 import { BRAND_ASSETS_QUERY } from "@/sanity/lib/queries/brandAssets";
 import { SOMEPROFILES_QUERY } from "@/sanity/lib/queries/socialMediaProfiles";
 import { SUPPORTED_LANGUAGES_QUERY } from "@/sanity/lib/queries/i18n";
@@ -12,6 +13,9 @@ import { NAV_QUERY } from "@/sanity/lib/queries/navigation";
 import { getCustomTranslations } from "@/utils/translations";
 import { GlobalTranslationKey } from "@/utils/constants/globalTranslationKeys";
 import { lazy } from "react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/react";
+import { DisableDraftMode } from "@/components/disableDraftMode/DisableDraftMode";
 
 const Header = lazy(() => import("@/components/navigation/header/Header"));
 const Footer = lazy(() => import("@/components/navigation/footer/Footer"));
@@ -73,6 +77,7 @@ export default async function RootLayout({
   const { language } = await params;
   const { t } = await getCustomTranslations(language);
   const isDev = process.env.NODE_ENV === "development";
+  const { isEnabled: isDraftMode } = await draftMode();
   const [messages, { nav, brandAssets, soMe, supportedLanguages }] =
     await Promise.all([getMessages(), fetchData(language)]);
 
@@ -98,7 +103,19 @@ export default async function RootLayout({
           </main>
           <Footer navigationData={nav} soMeData={soMe} />
         </NextIntlClientProvider>
-        {/* {!isDev && <Analytics />} */}
+        {isDev && <SanityLive />}
+        {isDraftMode && (
+          <>
+            <VisualEditing />
+            <DisableDraftMode />
+          </>
+        )}
+        {!isDev && (
+          <>
+            <Analytics />
+            <SpeedInsights />
+          </>
+        )}
       </body>
     </html>
   );

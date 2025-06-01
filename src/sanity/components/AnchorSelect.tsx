@@ -74,7 +74,7 @@ const AnchorSelect = ({ value, onChange, path }: AnchorSelectProps) => {
           title: getLocalizedTitle(section.title),
           value: `#${section._key}`,
         })
-      );
+      ) || [];
 
       setListItems(formattedResponseToListItems);
     } catch (error) {
@@ -97,19 +97,21 @@ const AnchorSelect = ({ value, onChange, path }: AnchorSelectProps) => {
   };
 
   return (
-    <Stack space={3}>
-      <Select onChange={handleChange} value={value || ""}>
-        <option value="" disabled>
-          Select a section
-        </option>
-        {listItems.map((item) => (
-          <option key={item.value} value={item.value}>
-            {item.title} {/* Now guaranteed to be a string */}
+    <div>
+      <Stack space={3}>
+        <Select onChange={handleChange} value={value || ""}>
+          <option value="" disabled>
+            Select a section
           </option>
-        ))}
-      </Select>
-      {value && <Button text="Reset" tone="critical" onClick={handleReset} />}
-    </Stack>
+          {listItems.map((item) => (
+            <option key={item.value} value={item.value}>
+              {item.title} {/* Now guaranteed to be a string */}
+            </option>
+          ))}
+        </Select>
+        {value && <Button text="Reset" tone="critical" onClick={handleReset} />}
+      </Stack>
+    </div>
   );
 };
 

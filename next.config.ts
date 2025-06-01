@@ -26,11 +26,10 @@ const nextConfig: NextConfig = {
   },
   allowedDevOrigins: ["http://localhost:3000"],
   webpack: (config) => {
-    // Externalize framer-motion to avoid client boundary issues
-    config.externals = config.externals || [];
-    config.externals.push({
-      'framer-motion': 'framer-motion',
-    });
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      'framer-motion': require.resolve('framer-motion'),
+    };
     return config;
   },
 };

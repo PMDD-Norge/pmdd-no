@@ -6,7 +6,7 @@ import Callout from "@/components/sections/callout/Callout";
 import CallToAction from "@/components/sections/callToAction/CallToAction";
 import Contact from "@/components/sections/contact/Contact";
 import Features from "@/components/sections/features/Features";
-import Grid from "@/components/sections/grid/Grid";
+import { Grid } from "@/components/sections/grid/Grid";
 import ImageSection from "@/components/sections/imageSection/ImageSection";
 import LogoSalad from "@/components/sections/logoSalad/LogoSalad";
 import Quote from "@/components/sections/quote/Quote";
@@ -49,7 +49,7 @@ const sectionRenderers: Record<
   ),
   features: (section) => <Features features={section as FeaturesObject} />,
   imageSection: (section) => <ImageSection section={section as ImageObject} />,
-  grid: (section) => <Grid grid={section as GridObject} />,
+  grid: (section) => <Grid mode="full" grid={section as GridObject} />,
 };
 
 const SectionRenderer = ({

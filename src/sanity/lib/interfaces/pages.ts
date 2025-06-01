@@ -121,13 +121,17 @@ export interface ImageObject extends SanityBase {
 export interface GridItem extends SanityBase {
   title: string;
   richText?: PortableTextBlock[] | null;
-  image: SanityImageData;
-  link: SanityLink;
+  lead?: string;
+  image?: SanityImageData;
+  link?: SanityLink;
 }
 
 export interface GridList extends SanityBase {
   title: string;
-  items: GridItem[];
+  contentType?: "manual" | "event" | "availablePosition" | "post";
+  items?: GridItem[];
+  maxItems?: number;
+  ctaLink?: SanityLink;
 }
 
 export interface GridObject extends SanityBase {

@@ -13,17 +13,17 @@ html {
 :root {
   /* new colors */
   --Background-main: #eff8f6;
-  --Background-offshade: #daf2e8;
+  --Background-offshade: #e3f6f0;
 
-  --GreenElliott: #018852;
-  --IndianSaffron: #ff9839;
-  --ButtonHover: #00613a;
-  --ButtonPressed: #004328;
+  --Teal: #1c6580;
+  --IndianSaffron: #fcc743;
+  --ButtonHover: #0a79a1;
+  --ButtonPressed: #5298d0;
 
-  --Body-text: #0e3424;
+  --Body-text: #021922;
   --white: #ffffff;
 
-  --focus-color: var(--IndianSaffron, #ff9839);
+  --focus-color: #8c3d9f;
 
   /* breakpoints */
   --breakpoint-mobile: 767px;
@@ -166,7 +166,7 @@ a {
   .animate-fadein {
     animation: none;
   }
-  
+
   html {
     scroll-behavior: auto;
   }

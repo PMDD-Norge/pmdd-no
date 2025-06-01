@@ -1,7 +1,7 @@
 .display,
 .h1,
 .h2 {
-  color: var(--GreenElliott);
+  color: var(--Teal);
   font-family: var(--font-pollerOne);
   line-height: 110%;
   @media (min-width: 1024px) {
@@ -124,7 +124,7 @@
 }
 
 .caption {
-  color: var(--GreenElliott);
+  color: var(--Teal);
   font-size: 1.25rem;
   font-weight: 600;
   line-height: 130%;

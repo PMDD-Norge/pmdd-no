@@ -13,7 +13,7 @@ export const { sanityFetch, SanityLive } = defineLive({
     // https://www.sanity.io/docs/api-versioning
     // apiVersion: "vX",
   }),
-  browserToken: token,
+  browserToken: process.env.NEXT_PUBLIC_SANITY_API_TOKEN || undefined,
   serverToken: token,
   fetchOptions: {
     revalidate: 3600,

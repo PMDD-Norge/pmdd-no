@@ -6,7 +6,7 @@ import {
 import styles from "./highlights.module.css";
 import Text from "@/components/text/Text";
 import { RichText } from "@/components/richText/RichText";
-import HighlightsGrid from "@/components/sections/grid/HighlightsGrid";
+import Grid from "@/components/sections/grid/Grid";
 
 interface HighlightsProps {
   highlights: HightlightsDocument;
@@ -34,7 +34,8 @@ export async function Highlights({
       </div>
       <div className="darkBackground">
         {events.length > 0 && (
-          <HighlightsGrid
+          <Grid
+            mode="simple"
             title={eventsSection.title}
             richText={eventsSection.richText}
             items={events}
@@ -43,7 +44,8 @@ export async function Highlights({
           />
         )}
         {availablePositions.length > 0 && (
-          <HighlightsGrid
+          <Grid
+            mode="simple"
             title={availablePositionsSection.title}
             richText={availablePositionsSection.richText}
             items={availablePositions}

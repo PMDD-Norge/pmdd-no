@@ -15,12 +15,12 @@
   text-decoration: inherit;
 
   &:hover {
-    border: 2px solid var(--GreenElliot, #018852);
+    border: 2px solid var(--Teal);
   }
 }
 
 .title {
-  color: var(--GreenElliot, #018852) !important;
+  color: var(--Teal) !important;
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -36,6 +36,6 @@
     height: 1.5rem;
     -webkit-mask: url("/_assets/external-link.svg") no-repeat 50% 50%;
     mask: url("/_assets/external-link.svg") no-repeat 50% 50%;
-    background: var(--GreenElliot, #018852);
+    background: var(--Teal);
   }
 }
