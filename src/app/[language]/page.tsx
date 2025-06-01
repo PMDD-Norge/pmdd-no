@@ -51,24 +51,29 @@ export default async function Page({
 }: {
   params: Promise<{ language: string }>;
 }) {
-  const { language } = await params;
+  try {
+    const { language } = await params;
 
-  const {
-    data: { pageData: initialLandingPage },
-  } = await sanityFetch({
-    query: LANDING_PAGE_QUERY,
-    params: { language },
-  });
+    const {
+      data: { pageData: initialLandingPage },
+    } = await sanityFetch({
+      query: LANDING_PAGE_QUERY,
+      params: { language },
+    });
 
-  if (!initialLandingPage?.sections) {
+    if (!initialLandingPage?.sections) {
+      return <PMDDErrorMessage />;
+    }
+
+    return (
+      <div>
+        {initialLandingPage.sections.map((section: Section) => (
+          <SectionRenderer key={section._key} section={section} isLandingPage language={language} />
+        ))}
+      </div>
+    );
+  } catch (error) {
+    console.error('Error loading landing page:', error);
     return <PMDDErrorMessage />;
   }
-
-  return (
-    <div>
-      {initialLandingPage.sections.map((section: Section) => (
-        <SectionRenderer key={section._key} section={section} isLandingPage language={language} />
-      ))}
-    </div>
-  );
 }
