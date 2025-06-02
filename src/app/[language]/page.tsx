@@ -6,8 +6,7 @@ import { LANDING_PAGE_QUERY } from "@/sanity/lib/queries/pages";
 import { SEO_LANDING_QUERY } from "@/sanity/lib/queries/seo";
 import SectionRenderer from "@/utils/renderSection";
 import { Metadata } from "next";
-export const dynamic = 'force-dynamic'; // Force dynamic rendering
-export const revalidate = 0; // Force revalidation on every request
+export const revalidate = 60; // 1 minute cache
 
 export async function generateMetadata({
   params,
@@ -62,13 +61,6 @@ export default async function Page({
       params: { language },
     });
     
-    console.log('Landing page debug:', { 
-      landingId, 
-      hasPageData: !!initialLandingPage, 
-      pageId: initialLandingPage?._id,
-      dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
-      projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
-    });
 
     if (!initialLandingPage?.sections) {
       return <PMDDErrorMessage />;

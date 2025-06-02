@@ -20,7 +20,7 @@ import { DisableDraftMode } from "@/components/disableDraftMode/DisableDraftMode
 const Header = lazy(() => import("@/components/navigation/header/Header"));
 const Footer = lazy(() => import("@/components/navigation/footer/Footer"));
 
-export const revalidate = 60; // 1 minute instead of 1 hour
+export const revalidate = 60; // 1 minute cache
 
 const pollerOne = Poller_One({
   subsets: ["latin"],
