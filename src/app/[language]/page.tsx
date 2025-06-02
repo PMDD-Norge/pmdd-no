@@ -55,12 +55,11 @@ export default async function Page({
     const { language } = await params;
 
     const {
-      data: { landingId, pageData: initialLandingPage },
+      data: { pageData: initialLandingPage },
     } = await sanityFetch({
       query: LANDING_PAGE_QUERY,
       params: { language },
     });
-    
 
     if (!initialLandingPage?.sections) {
       return <PMDDErrorMessage />;
@@ -69,16 +68,16 @@ export default async function Page({
     return (
       <div>
         {initialLandingPage.sections.map((section: Section) => (
-          <SectionRenderer key={section._key} section={section} isLandingPage language={language} />
+          <SectionRenderer
+            key={section._key}
+            section={section}
+            isLandingPage
+            language={language}
+          />
         ))}
       </div>
     );
   } catch (error) {
-    console.error('Error loading landing page:', error);
-    console.error('Environment:', process.env.NODE_ENV);
-    console.error('Has Sanity token:', !!process.env.SANITY_API_TOKEN_PROD);
-    console.error('Has dataset:', !!process.env.NEXT_PUBLIC_SANITY_DATASET);
-    console.error('Has project ID:', !!process.env.NEXT_PUBLIC_SANITY_PROJECT_ID);
     return <PMDDErrorMessage />;
   }
 }

@@ -6,6 +6,11 @@ import { meta } from "../../fields/media";
 
 export const articleID = "article";
 
+type MediaObject = {
+  mediaType?: "image" | "video" | "iframe" | string;
+  // andre felter om nødvendig
+};
+
 export const article = defineField({
   name: articleID,
   title: "Article",
@@ -43,15 +48,17 @@ export const article = defineField({
       name: "iframeUrl",
       title: "Iframe URL",
       type: "url",
-      description: "URL for embedded content (e.g., YouTube videos, external widgets)",
+      description:
+        "URL for embedded content (e.g., YouTube videos, external widgets)",
       hidden: ({ parent }) => parent?.mediaType !== "iframe",
-      validation: (Rule) => Rule.custom((value, context) => {
-        const parent = context.parent as any;
-        if (parent?.mediaType === "iframe" && !value) {
-          return "Iframe URL is required when iframe media type is selected";
-        }
-        return true;
-      }),
+      validation: (Rule) =>
+        Rule.custom((value, context) => {
+          const parent = context.parent as MediaObject;
+          if (parent?.mediaType === "iframe" && !value) {
+            return "Iframe URL is required when iframe media type is selected";
+          }
+          return true;
+        }),
     },
     {
       name: "callToActions",
@@ -77,7 +84,8 @@ export const article = defineField({
       body: "richText",
     },
     prepare(selection) {
-      const { title, tag, linkText, body, media, mediaType, iframeUrl } = selection;
+      const { title, tag, linkText, body, media, mediaType, iframeUrl } =
+        selection;
       // Fallback chain for title
       const displayTitle =
         (title && title[0]?.value) || // First try title
@@ -86,9 +94,10 @@ export const article = defineField({
         (body && body[0]?.value?.[0]?.children?.[0]?.text) || // Then try first text block
         "Untitled Article"; // Final fallback
 
-      const subtitle = mediaType === "iframe" && iframeUrl ? 
-        `Article (Iframe: ${new URL(iframeUrl).hostname})` : 
-        "Article";
+      const subtitle =
+        mediaType === "iframe" && iframeUrl
+          ? `Article (Iframe: ${new URL(iframeUrl).hostname})`
+          : "Article";
 
       return {
         title: displayTitle,

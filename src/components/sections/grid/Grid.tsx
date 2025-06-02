@@ -17,7 +17,6 @@ import {
   GridList,
   GridObject,
 } from "@/sanity/lib/interfaces/pages";
-import { PortableTextBlock } from "sanity";
 
 const myPortableTextComponents: Partial<PortableTextReactComponents> = {
   block: ({ children }) => <Text type="small">{children}</Text>,
