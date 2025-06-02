@@ -52,7 +52,7 @@
   height: 1.5rem;
   z-index: 10000; /* Higher z-index than the mobile menu */
   position: relative; /* Needed for z-index to work */
-  
+
   & img {
     width: auto !important;
   }
@@ -76,7 +76,7 @@
   align-items: center;
   gap: 1.5rem;
 
-  @media (min-width: 1024px) {
+  @media (min-width: 1060px) {
     display: none;
   }
 }
@@ -85,7 +85,7 @@
   composes: list;
   display: none;
 
-  @media (min-width: 1024px) {
+  @media (min-width: 1060px) {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -255,7 +255,7 @@
   background-color: transparent;
   border: none;
 
-  @media (min-width: 1024px) {
+  @media (min-width: 1060px) {
     display: none;
   }
 }
@@ -275,4 +275,3 @@
     transition: none !important;
   }
 }
-
