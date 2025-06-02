@@ -13,23 +13,47 @@ import CustomLink from "@/components/link/CustomLink";
 import { getDisplayText } from "@/utils/textUtils";
 
 const Article = ({ article }: { article: ArticleObject }) => {
-  const { appearance, callToActions } = article;
+  const { appearance, callToActions, mediaType, image, iframeUrl } = article;
   const imagePosition = appearance?.layout?.imagePosition;
+  const mediaIsIframe = mediaType === "iframe" && iframeUrl;
   const theme =
     appearance?.theme === ColorTheme.Dark
       ? "darkBackground"
       : "lightBackground";
 
+  const renderMedia = () => {
+    if (mediaIsIframe) {
+      return (
+        <div className={styles.iframe}>
+          <iframe
+            src={iframeUrl}
+            title="Embedded content"
+            allowFullScreen
+            style={{ overflow: "hidden", height: "100%", width: "100%" }}
+            height="100%"
+            width="100%"
+          />
+        </div>
+      );
+    }
+
+    if (mediaType === "image" && image) {
+      return (
+        <div className={styles.image}>
+          <SanityNextImage image={image} />
+        </div>
+      );
+    }
+
+    return null;
+  };
+
   return (
     <article className={theme} id={article._key}>
       <div
-        className={`${styles.sectionWrapperRow} ${imagePosition == ImagePosition.Left ? "" : "imagePositionAlwaysLeftOnMobile"}`}
+        className={`${styles.sectionWrapperRow} ${imagePosition == ImagePosition.Right || mediaIsIframe ? "imagePositionAlwaysLeftOnMobile" : ""}`}
       >
-        {appearance?.image && (
-          <div className={styles.image}>
-            <SanityNextImage image={appearance.image} />
-          </div>
-        )}
+        {renderMedia()}
         <div className={styles.content}>
           <div>
             <Text type="caption">{article.tag}</Text>

@@ -28,6 +28,24 @@
   max-width: 340px;
 }
 
+.iframe {
+  border-radius: 8px;
+  background-color: white;
+  width: 80vw;
+  max-width: 450px;
+  max-height: 730px;
+  height: 248vw; /* taller on mobile */
+  padding: 1rem;
+
+  @media (min-width: 640px) {
+    width: 90vw;
+  }
+
+  & iframe {
+    border: none;
+  }
+}
+
 .list {
   list-style-type: none;
   margin: 0;

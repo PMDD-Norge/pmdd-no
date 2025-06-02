@@ -50,6 +50,9 @@ export interface ArticleObject extends SanityBase {
   title: string;
   richText?: PortableTextBlock[];
   callToActions?: SanityLink[];
+  mediaType?: "image" | "iframe";
+  image?: SanityImageData;
+  iframeUrl?: string;
   appearance?: Appearance;
 }
 
