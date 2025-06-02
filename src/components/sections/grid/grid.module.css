@@ -2,62 +2,58 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--Spacing-M, 1rem);
+  gap: var(--Spacing-M);
 }
 
 .listSection {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--Spacing-L, 1.5rem);
+  gap: var(--Spacing-L);
   align-self: stretch;
 }
 
 .list {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem var(--Spacing-M, 1.5rem);
+  gap: 1.5rem var(--Spacing-M);
   margin: 0;
-  padding: 0;
+  padding: var(--Spacing-S);
   list-style: none;
   align-self: stretch;
 
   @media (min-width: 640px) {
+    padding: 0;
     flex-direction: row;
     flex-wrap: wrap;
     align-items: flex-start;
     align-content: flex-start;
-    gap: 1.5rem var(--Spacing-M, 1.5rem);
+    gap: 1.5rem var(--Spacing-L);
   }
 }
 
 .listItem {
   display: flex;
   flex-direction: column;
-  gap: 1.125rem;
   text-align: left;
   width: 100%;
 
-  gap: var(--Spacing-XS, 0.5rem);
+  gap: var(--Spacing-XS);
 
   @media (min-width: 640px) {
-    width: calc(50% - 0.75rem); /* Accounts for gap */
+    width: calc(50% - 1rem); /* Accounts for gap */
   }
 
   @media (min-width: 1024px) {
-    width: calc(33.333% - 1rem); /* Accounts for gap */
+    width: calc(33.333% - 2rem); /* Accounts for gap */
   }
 }
 
 .image {
   width: 100%;
-  max-width: 80%;
+  max-width: 100%;
   height: auto;
   overflow: hidden;
   margin: auto;
   object-fit: contain;
-
-  @media (min-width: 640px) {
-    max-width: 100%;
-  }
 }
