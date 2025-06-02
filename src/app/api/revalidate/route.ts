@@ -1,4 +1,4 @@
-import { revalidateTag } from 'next/cache';
+import { revalidatePath } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Revalidate all pages
-    revalidateTag('sanity');
+    revalidatePath('/', 'layout');
     
     console.log('Revalidated from Sanity webhook:', body._type);
     
