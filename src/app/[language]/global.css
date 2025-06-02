@@ -103,6 +103,7 @@ a {
 .imagePositionAlwaysLeftOnMobile {
   @media (min-width: 640px) {
     flex-direction: row-reverse;
+    flex-direction: column-reverse;
   }
 }
 

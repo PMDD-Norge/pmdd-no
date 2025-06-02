@@ -51,7 +51,7 @@ const Article = ({ article }: { article: ArticleObject }) => {
   return (
     <article className={theme} id={article._key}>
       <div
-        className={`${styles.sectionWrapperRow} ${imagePosition == ImagePosition.Right || mediaIsIframe ? "imagePositionAlwaysLeftOnMobile" : ""}`}
+        className={`${styles.sectionWrapperRow} ${imagePosition == ImagePosition.Left ? "" : "imagePositionAlwaysLeftOnMobile"}`}
       >
         {renderMedia()}
         <div className={styles.content}>
