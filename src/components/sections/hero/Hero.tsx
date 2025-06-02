@@ -12,6 +12,7 @@ interface HeroProps {
 }
 
 const Hero = ({ hero, isLanding = false }: HeroProps) => {
+  console.log(hero.image);
   return (
     <div className={styles.sectionWrapperRow}>
       <div className={styles.hero}>
@@ -20,9 +21,9 @@ const Hero = ({ hero, isLanding = false }: HeroProps) => {
         >
           {hero.image && (
             <div className={styles.image}>
-              <SanityNextImage 
-                image={hero.image} 
-                priority 
+              <SanityNextImage
+                image={hero.image}
+                priority
                 className={styles.heroImage}
                 sizes="(max-width: 768px) 100vw, 50vw"
               />
@@ -31,9 +32,13 @@ const Hero = ({ hero, isLanding = false }: HeroProps) => {
           <div className={styles.column}>
             <div className={styles.text}>
               {hero.title && (
-                <Text type={isLanding ? "display" : "h1"}>{getDisplayText(hero.title)}</Text>
+                <Text type={isLanding ? "display" : "h1"}>
+                  {getDisplayText(hero.title)}
+                </Text>
               )}
-              {hero.body && <Text type="bodyLarge">{getDisplayText(hero.body)}</Text>}
+              {hero.body && (
+                <Text type="bodyLarge">{getDisplayText(hero.body)}</Text>
+              )}
             </div>
             {isLanding && (
               <ul className={styles.cta}>

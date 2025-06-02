@@ -10,7 +10,6 @@ import Grid from "@/components/sections/grid/Grid";
 
 interface HighlightsProps {
   highlights: HightlightsDocument;
-  slug: string;
   language: string;
   events: EventDocument[];
   availablePositions: AvailablePositionDocument[];
@@ -18,7 +17,6 @@ interface HighlightsProps {
 
 export async function Highlights({
   highlights,
-  slug,
   language,
   availablePositions,
   events,
@@ -35,21 +33,37 @@ export async function Highlights({
       <div className="darkBackground">
         {events.length > 0 && (
           <Grid
-            mode="simple"
-            title={eventsSection.title}
-            richText={eventsSection.richText}
-            items={events}
-            slug={slug}
+            grid={{
+              _type: "grid",
+              _key: "events-grid",
+              title: eventsSection.title,
+              richText: eventsSection.richText,
+              lists: [{
+                _type: "gridList",
+                _key: "events-list",
+                title: eventsSection.title,
+                contentType: "event",
+                items: events,
+              }]
+            }}
             language={language}
           />
         )}
         {availablePositions.length > 0 && (
           <Grid
-            mode="simple"
-            title={availablePositionsSection.title}
-            richText={availablePositionsSection.richText}
-            items={availablePositions}
-            slug={slug}
+            grid={{
+              _type: "grid",
+              _key: "positions-grid",
+              title: availablePositionsSection.title,
+              richText: availablePositionsSection.richText,
+              lists: [{
+                _type: "gridList",
+                _key: "positions-list",
+                title: availablePositionsSection.title,
+                contentType: "availablePosition",
+                items: availablePositions,
+              }]
+            }}
             language={language}
           />
         )}

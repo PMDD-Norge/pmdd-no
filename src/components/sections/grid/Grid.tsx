@@ -23,52 +23,45 @@ const myPortableTextComponents: Partial<PortableTextReactComponents> = {
   block: ({ children }) => <Text type="small">{children}</Text>,
 };
 
-
 const getGridClassForItemCount = (count: number) => {
   if (count === 1) return styles.oneItem;
   if (count === 2) return styles.twoItems;
   return "";
 };
 
-type Props =
-  | {
-      mode: "simple";
-      title: string;
-      richText?: PortableTextBlock[];
-      items: (EventDocument | AvailablePositionDocument)[];
-      slug: string;
-      language: string;
-    }
-  | {
-      mode: "full";
-      grid: GridObject;
-      language?: string;
-    };
+type Props = {
+  grid: GridObject;
+  language?: string;
+};
+
+const determineGridMode = (grid: GridObject): "reference" | "manual" => {
+  // Check if any list has non-manual content type
+  return grid.lists?.some(
+    (list) => list.contentType && list.contentType !== "manual"
+  )
+    ? "reference"
+    : "manual";
+};
 
 export const Grid = async (props: Props) => {
-  if (props.mode === "simple") {
-    const { t } = await getCustomTranslations(props.language);
-    const itemCount = props.items?.length || 0;
+  const mode = determineGridMode(props.grid);
+
+  if (mode === "reference") {
+    const { appearance, title, richText, lists, _key } = props.grid;
+    const theme =
+      appearance?.theme === "dark" ? "darkBackground" : "lightBackground";
+    const { t } = await getCustomTranslations(props.language || "en");
 
     return (
-      <article className="darkBackground">
+      <article className={theme} id={_key}>
         <div className="sectionWrapperColumn">
           <div className={styles.textWrapper}>
-            <Text type="h2">{getDisplayText(props.title)}</Text>
-            {props.richText && <RichText value={props.richText} />}
+            <Text type="h2">{getDisplayText(title)}</Text>
+            {richText && <RichText value={richText} />}
           </div>
-          <ul
-            className={`${styles.list} ${getGridClassForItemCount(itemCount)}`}
-          >
-            {props.items.map((item, index) => (
-              <GridElement
-                key={`${item._key || item._id}-${index}`}
-                item={item}
-                slug={props.slug}
-                t={t}
-              />
-            ))}
-          </ul>
+          {lists?.map((list, i) => (
+            <GridListSection key={list._key || i} list={list} t={t} />
+          ))}
         </div>
       </article>
     );
@@ -79,7 +72,9 @@ export const Grid = async (props: Props) => {
     appearance?.theme === "dark" ? "darkBackground" : "lightBackground";
 
   // Get translations if language is provided
-  const t = props.language ? (await getCustomTranslations(props.language)).t : undefined;
+  const t = props.language
+    ? (await getCustomTranslations(props.language)).t
+    : undefined;
 
   return (
     <article className={theme} id={_key}>
@@ -96,17 +91,17 @@ export const Grid = async (props: Props) => {
   );
 };
 
-const GridListSection = ({ 
-  list, 
-  t 
-}: { 
+const GridListSection = ({
+  list,
+  t,
+}: {
   list: GridList;
   t?: Awaited<ReturnType<typeof getCustomTranslations>>["t"];
 }) => {
   // For manual grids, show all items. For other types, apply maxItems limit
   const shouldApplyLimit = list.contentType !== "manual";
-  const maxItems = shouldApplyLimit ? (list.maxItems || 6) : undefined;
-  const displayItems = maxItems 
+  const maxItems = shouldApplyLimit ? list.maxItems || 6 : undefined;
+  const displayItems = maxItems
     ? list.items?.slice(0, maxItems) || []
     : list.items || [];
   const itemCount = displayItems.length;
@@ -125,11 +120,9 @@ const GridListSection = ({
 
 const GridElement = ({
   item,
-  slug,
   t,
 }: {
   item: EventDocument | AvailablePositionDocument | GridItem;
-  slug?: string;
   t?: Awaited<ReturnType<typeof getCustomTranslations>>["t"];
 }) => {
   const isPosition = "slug" in item;
@@ -138,31 +131,21 @@ const GridElement = ({
   const link =
     isPosition && t
       ? {
-          _key: `${item.slug?.current}`,
+          _key: `${item.slug}`,
           _type: "link",
           title: t(GlobalTranslationKey.readMore),
           type: LinkType.Internal,
           internalLink: {
-            _ref: `${item.slug?.current}?type=${CONTENT_TYPES.POSITION}`,
+            _ref: `${item.slug}?type=${CONTENT_TYPES.POSITION}`,
           },
         }
-      : isPosition && slug
-        ? {
-            _key: `${slug}/${item.slug}`,
-            _type: "link",
-            title: t?.(GlobalTranslationKey.readMore),
-            type: LinkType.Internal,
-            internalLink: {
-              _ref: `${slug}/${item.slug}?type=${CONTENT_TYPES.POSITION}`,
-            },
-          }
-        : "link" in item
-          ? item.link
-          : undefined;
+      : "link" in item
+        ? item.link
+        : undefined;
 
   return (
     <li className={styles.listItem}>
-      {"image" in item && item.image && (
+      {"image" in item && item.image?.asset?._ref && (
         <div className={styles.image}>
           <SanityNextImage image={item.image} />
         </div>
@@ -170,7 +153,9 @@ const GridElement = ({
       {item.title && <Text type="h4">{getDisplayText(item.title)}</Text>}
       {content &&
         (typeof content === "string" ? (
-          <Text type="small">{isPosition ? content : truncateText(content, 250)}</Text>
+          <Text type="small">
+            {isPosition ? content : truncateText(content, 250)}
+          </Text>
         ) : Array.isArray(content) && content.length > 0 ? (
           <PortableText value={content} components={myPortableTextComponents} />
         ) : null)}

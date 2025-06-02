@@ -29,7 +29,7 @@ export default function SanityNextImage({
 }: ImageProps) {
   // Handle Sanity asset case
   const imageUrl = urlFor(image)?.url();
-
+  console.log(imageUrl);
   if (!imageUrl) {
     return null;
   }
@@ -42,7 +42,7 @@ export default function SanityNextImage({
   // Calculate reasonable dimensions based on expected usage - higher for better quality
   const width = image.hotspot?.width || 1920;
   const height = image.hotspot?.height || 1080;
-  
+
   return (
     <Image
       src={imageUrl}
