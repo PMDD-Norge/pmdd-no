@@ -5,11 +5,11 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     
-    // Verify the webhook is from Sanity (temporarily disabled)
-    // const secret = request.nextUrl.searchParams.get('secret');
-    // if (secret !== process.env.REVALIDATE_SECRET) {
-    //   return NextResponse.json({ message: 'Invalid secret' }, { status: 401 });
-    // }
+    // Verify the webhook is from Sanity
+    const secret = request.nextUrl.searchParams.get('secret');
+    if (secret !== process.env.REVALIDATE_SECRET) {
+      return NextResponse.json({ message: 'Invalid secret' }, { status: 401 });
+    }
 
     // Revalidate all pages and layout
     revalidatePath('/', 'layout');
