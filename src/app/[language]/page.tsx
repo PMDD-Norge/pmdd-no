@@ -6,7 +6,7 @@ import { LANDING_PAGE_QUERY } from "@/sanity/lib/queries/pages";
 import { SEO_LANDING_QUERY } from "@/sanity/lib/queries/seo";
 import SectionRenderer from "@/utils/renderSection";
 import { Metadata } from "next";
-export const revalidate = 3600;
+export const revalidate = 60; // 1 minute instead of 1 hour
 
 export async function generateMetadata({
   params,

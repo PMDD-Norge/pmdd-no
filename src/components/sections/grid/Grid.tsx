@@ -103,8 +103,12 @@ const GridListSection = ({
   list: GridList;
   t?: Awaited<ReturnType<typeof getCustomTranslations>>["t"];
 }) => {
-  const maxItems = list.maxItems || 6;
-  const displayItems = list.items?.slice(0, maxItems) || [];
+  // For manual grids, show all items. For other types, apply maxItems limit
+  const shouldApplyLimit = list.contentType !== "manual";
+  const maxItems = shouldApplyLimit ? (list.maxItems || 6) : undefined;
+  const displayItems = maxItems 
+    ? list.items?.slice(0, maxItems) || []
+    : list.items || [];
   const itemCount = displayItems.length;
 
   return (
