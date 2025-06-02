@@ -10,6 +10,7 @@ import { AVAILABLE_POSITIONS_QUERY } from "@/sanity/lib/queries/editorial/availa
 import { sanityFetch } from "@/sanity/lib/live";
 import {
   getDocumentBySlug,
+  getDocumentWithLandingCheck,
   getDocumentTypeBySlug,
   QueryType,
 } from "@/utils/queries";
@@ -46,6 +47,7 @@ interface ComponentProps {
     | LegalDocument;
   slug?: string[];
   language: string;
+  landingPageId?: string | null;
   searchParams?: {
     type?: string;
     page?: string;
@@ -169,13 +171,13 @@ const pageComponentMap: Record<
     <Legal document={document as LegalDocument} language={language} />
   ),
 
-  [QueryType.Page]: ({ document, language }) => (
+  [QueryType.Page]: ({ document, landingPageId, language }) => (
     <>
       {(document as PageDocument)?.sections?.map((section: Section) => (
         <SectionRenderer
           key={section._key}
           section={section}
-          isLandingPage={false}
+          isLandingPage={document._id === landingPageId}
           language={language}
         />
       ))}
@@ -245,17 +247,31 @@ export default async function DynamicPage({ params, searchParams }: PageProps) {
     return <PMDDErrorMessage />;
   }
 
-  const { data: document } = await getDocumentBySlug(docType, slug, language);
+  // For Page type, use optimized query that also fetches landing page ID
+  let document, landingPageId = null;
+  
+  if (docType === QueryType.Page) {
+    const result = await getDocumentWithLandingCheck(docType, slug, language);
+    document = result.data;
+    landingPageId = result.landingPageId;
+  } else {
+    const result = await getDocumentBySlug(docType, slug, language);
+    document = result.data;
+  }
 
   if (!document) {
     return <PMDDErrorMessage />;
   }
 
   const Component = pageComponentMap[docType as QueryType];
-  return Component({
+  const result = Component({
     document,
     slug,
     language,
+    landingPageId,
     searchParams: resolvedSearchParams,
   });
+  
+  // Handle async components
+  return await result;
 }

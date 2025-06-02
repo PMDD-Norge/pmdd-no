@@ -1,6 +1,10 @@
 import { groq } from "next-sanity";
 import { LINK_FRAGMENT } from "./fragments";
 
+export const LANDING_PAGE_ID_QUERY = groq`
+  *[_type == "navigationManager"][0].setLanding._ref
+`;
+
 export const NAV_QUERY = groq`
   *[_type == "navigationManager"]{
     "main": {

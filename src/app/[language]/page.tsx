@@ -77,7 +77,7 @@ export default async function Page({
         ))}
       </div>
     );
-  } catch (error) {
+  } catch {
     return <PMDDErrorMessage />;
   }
 }

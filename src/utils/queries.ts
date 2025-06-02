@@ -5,6 +5,7 @@ import { HIGHLIGHTS_PAGE_QUERY } from "@/sanity/lib/queries/editorial/highlights
 import { INFORMATION_PAGE_QUERY } from "@/sanity/lib/queries/editorial/information";
 import { LEGAL_DOCUMENT_SLUG_QUERY } from "@/sanity/lib/queries/legalDocuments";
 import { SLUG_QUERY } from "@/sanity/lib/queries/pages";
+import { LANDING_PAGE_ID_QUERY } from "@/sanity/lib/queries/navigation";
 
 // Using const enum with explicit string values
 export const enum QueryType {
@@ -50,4 +51,32 @@ export async function getDocumentBySlug(
     query: Queries[type],
     params: { slug: slugToUse, language },
   });
+}
+
+export async function getDocumentWithLandingCheck(
+  type: QueryType,
+  slug: string[],
+  language: string
+) {
+  // Get the last element of the array if it exists, otherwise use the first element
+  const slugToUse = slug.length > 1 ? slug[slug.length - 1] : slug[0];
+  // If we don't have a query for this type, return null
+  if (!Queries[type]) {
+    return { data: null, landingPageId: null };
+  }
+
+  const [documentResult, landingPageResult] = await Promise.all([
+    sanityFetch({
+      query: Queries[type],
+      params: { slug: slugToUse, language },
+    }),
+    sanityFetch({
+      query: LANDING_PAGE_ID_QUERY,
+    }),
+  ]);
+
+  return { 
+    data: documentResult.data, 
+    landingPageId: landingPageResult.data 
+  };
 }

@@ -30,7 +30,7 @@ export const SEO_SLUG_QUERY = groq`
 `;
 
 export const SEO_LANDING_QUERY = groq`
-  *[_type == "page" && defined(seo)][0] {
+  *[_type == "page" && _id == *[_type == "navigationManager"][0].setLanding._ref][0] {
     "title": seo.title[_key == $language][0].value,
     "description": seo.description[_key == $language][0].value,
     "keywords": seo.keywords[_key == $language][0].value,
