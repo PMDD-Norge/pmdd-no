@@ -33,7 +33,7 @@ const ResourceGroup = ({
 }: {
   group: ResourceGroup;
   visibleItemCount: number;
-  firstNewItemRef: React.RefObject<HTMLLIElement | null>;
+  firstNewItemRef: React.RefObject<HTMLLIElement>;
 }) => (
   <div className={styles.group}>
     {group.title && <Text type="h3">{group.title}</Text>}
@@ -42,7 +42,7 @@ const ResourceGroup = ({
         <li
           key={`resource-${index}`}
           ref={
-            index === visibleItemCount - itemsPerLoad ? firstNewItemRef : null
+            index === visibleItemCount - itemsPerLoad ? firstNewItemRef : undefined
           }
         >
           <Card link={resourceItem} />
@@ -76,7 +76,7 @@ const Resources = ({ resources }: ResourcesProps) => {
     ? t(GlobalTranslationKey.showRemainingItems, { count: remainingItemCount })
     : t(GlobalTranslationKey.showMoreItems, { count: itemsPerLoad });
 
-  const firstNewItemRef = useRef<HTMLLIElement | null>(null);
+  const firstNewItemRef = useRef<HTMLLIElement>(null);
 
   const loadMoreItems = () => {
     if (totalResourceCount > visibleItemCount) {

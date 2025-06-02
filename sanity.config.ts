@@ -45,7 +45,6 @@ export default defineConfig({
         return supportedLanguages;
       },
       fieldTypes: ["string", "text", "richText"],
-      bulkPublish: true,
     }),
   ],
 });
