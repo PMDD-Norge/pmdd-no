@@ -157,7 +157,6 @@ const pageComponentMap: Record<
     return (
       <Highlights
         highlights={document as HightlightsDocument}
-        slug={slug[0]}
         language={language}
         events={data.events}
         availablePositions={data.positions}
