@@ -57,7 +57,7 @@
 .primary {
   color: var(--Background-main, #eff8f6);
   background: var(--Teal, #018852);
-  border: 2pxsolid var(--Teal, #018852);
+  border: 2px solid var(--Teal, #018852);
 
   &:hover {
     background: var(--ButtonHover, #00613a);
