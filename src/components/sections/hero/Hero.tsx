@@ -12,7 +12,6 @@ interface HeroProps {
 }
 
 const Hero = ({ hero, isLanding = false }: HeroProps) => {
-  console.log(hero.image);
   return (
     <div className={styles.sectionWrapperRow}>
       <div className={styles.hero}>
