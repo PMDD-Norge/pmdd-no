@@ -49,8 +49,8 @@ const Hero = ({ hero, isLanding = false }: HeroProps) => {
                         hero.callToActions &&
                         hero.callToActions.length > 1 &&
                         index === 0
-                          ? "secondary"
-                          : "primary"
+                          ? "primary"
+                          : "secondary"
                       }
                     />
                   </li>
