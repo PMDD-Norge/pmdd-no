@@ -74,6 +74,10 @@ export default async function Page({
     );
   } catch (error) {
     console.error('Error loading landing page:', error);
+    console.error('Environment:', process.env.NODE_ENV);
+    console.error('Has Sanity token:', !!process.env.SANITY_API_TOKEN_PROD);
+    console.error('Has dataset:', !!process.env.NEXT_PUBLIC_SANITY_DATASET);
+    console.error('Has project ID:', !!process.env.NEXT_PUBLIC_SANITY_PROJECT_ID);
     return <PMDDErrorMessage />;
   }
 }

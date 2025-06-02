@@ -68,7 +68,7 @@ const SECTIONS_FRAGMENT = groq`
             "title": title[_key == $language][0].value,
             "lead": lead[_key == $language][0].value,
             "richText": richText[_key == $language][0].value,
-            slug,
+             "slug": slug[_key == $language][0].value,
           },
         },
         contentType == "post" => {
@@ -78,7 +78,7 @@ const SECTIONS_FRAGMENT = groq`
             "lead": lead[_key == $language][0].value,
             "richText": richText[_key == $language][0].value,
             ${IMAGE_FRAGMENT},
-            slug,
+             "slug": slug[_key == $language][0].value,
           },
         },
       },
