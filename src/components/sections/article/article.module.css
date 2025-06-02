@@ -49,3 +49,13 @@
     }
   }
 }
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--Spacing-M);
+
+  @media (min-width: 640px) {
+    gap: var(--Spacing-L);
+  }
+}

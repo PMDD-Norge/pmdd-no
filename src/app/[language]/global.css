@@ -113,13 +113,15 @@ a {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--Spacing-XL, 3rem);
+  gap: var(--Spacing-M);
 
   @media (min-width: 1024px) {
     padding: 7.5rem 12rem;
+    gap: var(--Spacing-XL);
   }
   @media (min-width: 640px) {
     padding: 6rem;
+    gap: var(--Spacing-L);
   }
 }
 
