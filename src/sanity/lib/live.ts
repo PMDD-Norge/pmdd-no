@@ -17,6 +17,5 @@ export const { sanityFetch, SanityLive } = defineLive({
   serverToken: token,
   fetchOptions: {
     revalidate: 60,
-    next: { tags: ['sanity'] },
   },
 });
