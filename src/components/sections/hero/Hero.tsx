@@ -4,6 +4,7 @@ import SanityNextImage from "@/components/image/sanityImage";
 import Text from "@/components/text/Text";
 import { SanityLink } from "@/sanity/lib/interfaces/siteSettings";
 import LinkButton from "@/components/linkButton/LinkButton";
+import { getDisplayText } from "@/utils/textUtils";
 
 interface HeroProps {
   hero: HeroObject;
@@ -30,9 +31,9 @@ const Hero = ({ hero, isLanding = false }: HeroProps) => {
           <div className={styles.column}>
             <div className={styles.text}>
               {hero.title && (
-                <Text type={isLanding ? "display" : "h1"}>{hero.title}</Text>
+                <Text type={isLanding ? "display" : "h1"}>{getDisplayText(hero.title)}</Text>
               )}
-              {hero.body && <Text type="bodyLarge">{hero.body}</Text>}
+              {hero.body && <Text type="bodyLarge">{getDisplayText(hero.body)}</Text>}
             </div>
             {isLanding && (
               <ul className={styles.cta}>

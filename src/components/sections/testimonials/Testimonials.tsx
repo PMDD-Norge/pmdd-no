@@ -4,6 +4,7 @@ import Text from "@/components/text/Text";
 import { RichText } from "@/components/richText/RichText";
 import LinkButton from "@/components/linkButton/LinkButton";
 import SanityNextImage from "@/components/image/sanityImage";
+import { getDisplayText } from "@/utils/textUtils";
 
 const Testimonials = ({
   testimonials,
@@ -15,7 +16,7 @@ const Testimonials = ({
       <div className={styles.wrapper}>
         <div className={styles.content}>
           <div className={styles.text}>
-            <Text type="h2">{testimonials.title}</Text>
+            <Text type="h2">{getDisplayText(testimonials.title)}</Text>
             <RichText value={testimonials.richText} />
           </div>
           <div className={styles.desktopCta}>

@@ -10,6 +10,7 @@ import Text from "@/components/text/Text";
 import { RichText } from "@/components/richText/RichText";
 import LinkButton from "@/components/linkButton/LinkButton";
 import CustomLink from "@/components/link/CustomLink";
+import { getDisplayText } from "@/utils/textUtils";
 
 const Article = ({ article }: { article: ArticleObject }) => {
   const { appearance, callToActions } = article;
@@ -32,7 +33,7 @@ const Article = ({ article }: { article: ArticleObject }) => {
         <div className={styles.content}>
           <div>
             <Text type="caption">{article.tag}</Text>
-            <Text type="h2">{article.title}</Text>
+            <Text type="h2">{getDisplayText(article.title)}</Text>
           </div>
           {article.richText && <RichText value={article.richText} />}
           {callToActions && (
