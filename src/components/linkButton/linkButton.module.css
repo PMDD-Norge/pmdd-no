@@ -24,13 +24,11 @@
   @media (min-width: 640px) {
     text-wrap: nowrap;
     width: 100%;
-    padding: 0.625rem 1rem;
     font-size: 1.125rem;
   }
 
   @media (min-width: 1040px) {
     font-size: 1.25rem;
-    padding: 0.625rem 1.125rem;
     justify-content: center;
   }
 
@@ -53,16 +51,6 @@
   &::after {
     -webkit-mask: url("/_assets/chevron.svg") no-repeat center;
     mask: url("/_assets/chevron.svg") no-repeat center;
-  }
-}
-
-.large {
-  @media (min-width: 640px) {
-    padding: 0.75rem 1.5rem;
-  }
-
-  @media (min-width: 1040px) {
-    padding: 0.875rem 1.625rem;
   }
 }
 
