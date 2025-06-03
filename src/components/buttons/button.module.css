@@ -81,7 +81,7 @@
 
 .primary {
   background: var(--Teal);
-  color: var(--Background-main);
+  color: var(--white);
   border-color: var(--Teal);
 
   &:hover {
@@ -100,7 +100,7 @@
 }
 
 .secondary {
-  background: white;
+  background: var(--white);
   color: var(--Teal);
   border-color: var(--Teal);
 

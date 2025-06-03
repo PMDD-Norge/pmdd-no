@@ -55,7 +55,7 @@
 }
 
 .primary {
-  color: var(--Background-main);
+  color: var(--white);
   background: var(--Teal);
   border: 2px solid var(--Teal);
 
@@ -75,7 +75,7 @@
 }
 
 .secondary {
-  background: white;
+  background: var(--white);
 
   color: var(--Teal);
   border: 2px solid var(--Teal);
