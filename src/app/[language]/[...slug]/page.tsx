@@ -115,9 +115,16 @@ const pageComponentMap: Record<
   QueryType,
   (props: ComponentProps) => Promise<ReactElement> | ReactElement
 > = {
-  [QueryType.Post]: ({ document, language }) => (
-    <PostPage post={document as PostDocument} language={language} />
-  ),
+  [QueryType.Post]: ({ document, language, slug }) => {
+    if (!slug) return notFound();
+    return (
+      <PostPage
+        post={document as PostDocument}
+        language={language}
+        currentSlug={slug?.join("/")}
+      />
+    );
+  },
 
   [QueryType.AvailablePosition]: ({ document }) => (
     <AvailablePositionPage document={document as AvailablePositionDocument} />
@@ -167,8 +174,12 @@ const pageComponentMap: Record<
     );
   },
 
-  [QueryType.LegalDocument]: ({ document, language }) => (
-    <Legal document={document as LegalDocument} language={language} />
+  [QueryType.LegalDocument]: ({ document, language, slug }) => (
+    <Legal
+      document={document as LegalDocument}
+      language={language}
+      slug={slug?.join("/")}
+    />
   ),
 
   [QueryType.Page]: ({ document, landingPageId, language }) => (
@@ -248,8 +259,9 @@ export default async function DynamicPage({ params, searchParams }: PageProps) {
   }
 
   // For Page type, use optimized query that also fetches landing page ID
-  let document, landingPageId = null;
-  
+  let document,
+    landingPageId = null;
+
   if (docType === QueryType.Page) {
     const result = await getDocumentWithLandingCheck(docType, slug, language);
     document = result.data;
@@ -271,7 +283,7 @@ export default async function DynamicPage({ params, searchParams }: PageProps) {
     landingPageId,
     searchParams: resolvedSearchParams,
   });
-  
+
   // Handle async components
   return await result;
 }

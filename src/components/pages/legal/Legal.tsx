@@ -8,9 +8,11 @@ import { extractH2TextsFromPortableText } from "@/utils/textUtils";
 const Legal = ({
   document,
   language,
+  slug,
 }: {
   document: LegalDocument;
   language: string;
+  slug?: string;
 }) => {
   const hasQuickNav =
     extractH2TextsFromPortableText(document.richText).length > 0;
@@ -28,6 +30,7 @@ const Legal = ({
             richText={document.richText}
             language={language}
             isMainLayout={false}
+            currentSlug={slug}
           />
         )}
         <div className={styles.document}>

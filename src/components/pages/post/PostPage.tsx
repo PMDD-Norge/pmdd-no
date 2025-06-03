@@ -7,9 +7,11 @@ import { RichText } from "@/components/richText/RichText";
 const PostPage = async ({
   post,
   language,
+  currentSlug,
 }: {
   post: PostDocument;
   language: string;
+  currentSlug: string;
 }) => {
   if (!post) {
     return;
@@ -29,7 +31,11 @@ const PostPage = async ({
         {title && <Text type="h1">{title}</Text>}
         {lead && <Text type="bodyLarge">{lead}</Text>}
         {richText && (
-          <QuickNavigation richText={richText} language={language} />
+          <QuickNavigation
+            richText={richText}
+            language={language}
+            currentSlug={currentSlug}
+          />
         )}
 
         {/* {image && (

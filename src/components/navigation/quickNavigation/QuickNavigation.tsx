@@ -15,10 +15,12 @@ const QuickNavigation = async ({
   richText,
   language,
   isMainLayout = true,
+  currentSlug,
 }: {
   richText: PortableTextBlock[];
   language: string;
   isMainLayout?: boolean;
+  currentSlug: string;
 }) => {
   const { t } = await getCustomTranslations(language);
   const quickNavigationString =
@@ -41,19 +43,21 @@ const QuickNavigation = async ({
       <ul className={styles.anchorLinks} aria-labelledby={quickNav}>
         {headings.map((heading, index) => {
           const hash = generateHashFromHeading(heading);
-          const link = {
-            _key: `heading-${index}`,
-            _type: "link",
-            title: heading,
-            type: LinkType.Internal,
-            internalLink: {
-              _ref: `#${hash}`,
-            },
-          };
           return (
             <li key={hash}>
               {isMainLayout ? (
-                <CustomLink link={link} />
+                <CustomLink
+                  link={{
+                    _key: `heading-${index}`,
+                    _type: "link",
+                    title: heading,
+                    type: LinkType.Internal,
+                    internalLink: {
+                      _ref: currentSlug,
+                    },
+                    anchor: hash,
+                  }}
+                />
               ) : (
                 <Link href={`#${hash}`} className={styles.link}>
                   {heading}
