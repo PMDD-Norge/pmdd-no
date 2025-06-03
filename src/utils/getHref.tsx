@@ -33,7 +33,7 @@ export const getHref = (link: SanityLink): string => {
           link =
             path === "/"
               ? "/"
-              : `/${path}${query ? `?${query}` : ""}${anchor ? `#${anchor}` : ""}`;
+              : `/${path}${query ? `?${query}` : ""}${anchor ? `${anchor}` : ""}`;
         }
 
         return link;
