@@ -14,6 +14,7 @@ import {
   HighlightIcon,
   CaseIcon,
   ConfettiIcon,
+  LinkIcon,
 } from "@sanity/icons";
 import { companyInfoID } from "./schemaTypes/documents/admin/companyInformation";
 import { legalDocumentID } from "./schemaTypes/documents/admin/legalDocument";
@@ -117,6 +118,10 @@ const siteSettingsSection = (S: StructureBuilder) =>
             .child(
               S.document().schemaType(soMeLinksID).documentId(soMeLinksID)
             ),
+          S.listItem()
+            .title("Redirects")
+            .icon(LinkIcon)
+            .child(S.documentTypeList("redirect").title("Redirects")),
         ])
     );
 

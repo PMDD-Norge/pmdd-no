@@ -23,6 +23,7 @@ import { groupedResources } from "./objects/sections/resources";
 import highlights from "./documents/editorial/highlights/highlights";
 import availablePosition from "./documents/editorial/highlights/availablePosition";
 import event from "./documents/editorial/highlights/event";
+import redirect from "./documents/siteSettings/redirect";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -52,5 +53,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     highlights,
     availablePosition,
     event,
+    redirect,
   ],
 };

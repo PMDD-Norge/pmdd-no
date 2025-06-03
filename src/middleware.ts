@@ -10,6 +10,12 @@ const intlMiddleware = createMiddleware({
   localePrefix: "never",
 });
 
+// Static redirects configuration - easy to manage without database calls
+const STATIC_REDIRECTS: Record<string, { to: string; type: number }> = {
+  "/informasjon-om-pmdd": { to: "/informasjon", type: 301 },
+  // Add more redirects here as needed
+};
+
 export default function middleware(request: NextRequest) {
   const { nextUrl } = request;
 
@@ -17,6 +23,13 @@ export default function middleware(request: NextRequest) {
   if (nextUrl.pathname.startsWith("/no/")) {
     const newUrl = new URL(nextUrl.pathname.replace(/^\/no/, ""), request.url);
     return NextResponse.redirect(newUrl);
+  }
+
+  // Check for static redirects
+  const redirect = STATIC_REDIRECTS[nextUrl.pathname];
+  if (redirect) {
+    const redirectUrl = new URL(redirect.to, request.url);
+    return NextResponse.redirect(redirectUrl, redirect.type);
   }
 
   return intlMiddleware(request);
