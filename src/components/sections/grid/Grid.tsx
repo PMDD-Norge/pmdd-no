@@ -54,10 +54,8 @@ export const Grid = async (props: Props) => {
     return (
       <article className={theme} id={_key}>
         <div className="sectionWrapperColumn">
-          <div className={styles.textWrapper}>
-            <Text type="h2">{getDisplayText(title)}</Text>
-            {richText && <RichText value={richText} />}
-          </div>
+          <Text type="h2">{getDisplayText(title)}</Text>
+          {richText && <RichText value={richText} />}
           {lists?.map((list, i) => (
             <GridListSection key={list._key || i} list={list} t={t} />
           ))}
@@ -78,10 +76,8 @@ export const Grid = async (props: Props) => {
   return (
     <article className={theme} id={_key}>
       <div className="sectionWrapperColumn">
-        <div className={styles.textWrapper}>
-          <Text type="h2">{getDisplayText(title)}</Text>
-          {richText && <RichText value={richText} />}
-        </div>
+        <Text type="h2">{getDisplayText(title)}</Text>
+        {richText && <RichText value={richText} />}
         {lists?.map((list, i) => (
           <GridListSection key={list._key || i} list={list} t={t} />
         ))}
