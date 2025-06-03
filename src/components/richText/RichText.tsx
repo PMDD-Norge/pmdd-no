@@ -5,6 +5,7 @@ import textStyles from "../text/text.module.css";
 import styles from "./richtext.module.css";
 import SanityImage from "../image/sanityImage";
 import Text from "../text/Text";
+import { isExternalLink, shouldOpenInNewTab } from "@/utils/linkUtils";
 
 const formatId = (text: string): string => {
   return text
@@ -80,12 +81,15 @@ const richTextComponents: Partial<PortableTextReactComponents> = {
   marks: {
     link: ({ value, children }) => {
       const { href, blank } = value;
+      const isExternal = isExternalLink(href);
+      const openInNewTab = shouldOpenInNewTab(href, blank);
+      
       return (
         <a
           href={href}
-          target={blank ? "_blank" : undefined}
-          rel={blank ? "noopener noreferrer" : undefined}
-          className={styles.link}
+          target={openInNewTab ? "_blank" : undefined}
+          rel={openInNewTab ? "noopener noreferrer" : undefined}
+          className={isExternal ? styles.externalLink : styles.internalLink}
         >
           {children}
         </a>

@@ -46,12 +46,18 @@
   font-style: italic;
 }
 
-.link {
+/* Base styles for all rich text links */
+.internalLink,
+.externalLink {
   display: inline-flex;
   flex-direction: row;
   align-items: center;
   gap: 2px;
-  &::after {
+}
+
+/* External links get the external link icon */
+.externalLink {
+  &[target="_blank"]::after {
     content: "";
     width: 1rem;
     height: 1rem;
@@ -62,3 +68,5 @@
     background-color: currentColor;
   }
 }
+
+/* Internal links have no additional styling beyond the base styles */
