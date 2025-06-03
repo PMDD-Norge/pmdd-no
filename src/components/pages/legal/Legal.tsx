@@ -3,6 +3,7 @@ import styles from "./legal.module.css";
 import Text from "@/components/text/Text";
 import QuickNavigation from "@/components/navigation/quickNavigation/QuickNavigation";
 import { RichText } from "@/components/richText/RichText";
+import { extractH2TextsFromPortableText } from "@/utils/textUtils";
 
 const Legal = ({
   document,
@@ -11,17 +12,24 @@ const Legal = ({
   document: LegalDocument;
   language: string;
 }) => {
+  const hasQuickNav =
+    extractH2TextsFromPortableText(document.richText).length > 0;
+
   return (
-    <div className={styles.wrapper}>
+    <div
+      className={`${styles.wrapper} ${!hasQuickNav ? styles.noQuickNav : ""}`}
+    >
       <div className={styles.hero}>
         <Text type="h1">{document.title}</Text>
       </div>
       <div className={styles.body}>
-        <QuickNavigation
-          richText={document.richText}
-          language={language}
-          isMainLayout={false}
-        />
+        {hasQuickNav && (
+          <QuickNavigation
+            richText={document.richText}
+            language={language}
+            isMainLayout={false}
+          />
+        )}
         <div className={styles.document}>
           <RichText value={document.richText} />
         </div>

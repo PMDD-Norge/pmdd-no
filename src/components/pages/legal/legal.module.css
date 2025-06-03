@@ -15,6 +15,11 @@
   }
 }
 
+.noQuickNav {
+  max-width: 800px;
+  margin: auto;
+}
+
 .common {
   max-width: 1200px;
 }
