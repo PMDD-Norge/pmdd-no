@@ -80,47 +80,47 @@
 }
 
 .primary {
-  background: var(--Teal, #018852);
-  color: var(--Background-main, #eff8f6);
-  border-color: var(--Teal, #018852);
+  background: var(--Teal);
+  color: var(--Background-main);
+  border-color: var(--Teal);
 
   &:hover {
-    background: var(--ButtonHover, #00613a);
-    border-color: var(--ButtonHover, #00613a);
+    background: var(--ButtonHover);
+    border-color: var(--ButtonHover);
   }
 
   &:active {
-    background: var(--ButtonPressed, #004328);
-    border-color: var(--ButtonPressed, #004328);
+    background: var(--ButtonPressed);
+    border-color: var(--ButtonPressed);
   }
 
   &::after {
-    background-color: var(--Background-main, #eff8f6);
+    background-color: var(--Background-main);
   }
 }
 
 .secondary {
-  background: var(--Background-main, #eff8f6);
-  color: var(--Teal, #018852);
-  border-color: var(--Teal, #018852);
+  background: white;
+  color: var(--Teal);
+  border-color: var(--Teal);
 
   &::after {
-    background-color: var(--Teal, #018852);
+    background-color: var(--Teal);
   }
 
   &:hover {
-    color: var(--ButtonHover, #00613a);
-    border-color: var(--ButtonHover, #00613a);
+    color: var(--ButtonHover);
+    border-color: var(--ButtonHover);
     &::after {
-      background-color: var(--ButtonHover, #00613a);
+      background-color: var(--ButtonHover);
     }
   }
 
   &:active {
-    color: var(--ButtonPressed, #004328);
-    border-color: var(--ButtonPressed, #004328);
+    color: var(--ButtonPressed);
+    border-color: var(--ButtonPressed);
     &::after {
-      background-color: var(--ButtonPressed, #004328);
+      background-color: var(--ButtonPressed);
     }
   }
 }
