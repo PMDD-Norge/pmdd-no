@@ -12,7 +12,7 @@ const Legal = ({
 }: {
   document: LegalDocument;
   language: string;
-  slug?: string;
+  slug: string;
 }) => {
   const hasQuickNav =
     extractH2TextsFromPortableText(document.richText).length > 0;

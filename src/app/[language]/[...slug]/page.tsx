@@ -174,13 +174,16 @@ const pageComponentMap: Record<
     );
   },
 
-  [QueryType.LegalDocument]: ({ document, language, slug }) => (
-    <Legal
-      document={document as LegalDocument}
-      language={language}
-      slug={slug?.join("/")}
-    />
-  ),
+  [QueryType.LegalDocument]: ({ document, language, slug }) => {
+    if (!slug) return notFound();
+    return (
+      <Legal
+        document={document as LegalDocument}
+        language={language}
+        slug={slug.join("/")}
+      />
+    );
+  },
 
   [QueryType.Page]: ({ document, landingPageId, language }) => (
     <>
