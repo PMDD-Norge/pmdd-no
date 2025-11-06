@@ -22,14 +22,58 @@ const nextConfig: NextConfig = {
   },
   experimental: {
     taint: true,
-    optimizePackageImports: ["next-intl"],
+    optimizePackageImports: [
+      "next-intl", 
+      "@sanity/ui",
+      "@sanity/image-url",
+      "framer-motion"
+    ],
+    // typedRoutes: true, // Disabled due to type conflicts
   },
+  serverExternalPackages: ['@sanity/vision'],
   allowedDevOrigins: ["http://localhost:3000"],
-  webpack: (config) => {
+  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+    // Configure aliases
     config.resolve.alias = {
       ...config.resolve.alias,
       "framer-motion": require.resolve("framer-motion"),
     };
+
+    // Exclude heavy Sanity dependencies from main bundle
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        path: false,
+        os: false,
+      };
+    }
+
+    // Split chunks for better caching (production only)
+    if (!dev && !isServer) {
+      config.optimization = {
+        ...config.optimization,
+        splitChunks: {
+          ...config.optimization.splitChunks,
+          cacheGroups: {
+            ...config.optimization.splitChunks.cacheGroups,
+            sanity: {
+              name: 'sanity',
+              test: /[\\/]node_modules[\\/](@sanity|sanity)[\\/]/,
+              priority: 40,
+              chunks: 'all',
+            },
+            ui: {
+              name: 'ui-libs',
+              test: /[\\/]node_modules[\\/](framer-motion)[\\/]/,
+              priority: 30,
+              chunks: 'all',
+            },
+          },
+        },
+      };
+    }
+
     return config;
   },
 };

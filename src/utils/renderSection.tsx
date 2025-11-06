@@ -1,17 +1,20 @@
-import { ReactElement } from "react";
+import { ReactElement, lazy, Suspense } from "react";
 
+// Critical sections - load immediately
 import Hero from "@/components/sections/hero/Hero";
 import Article from "@/components/sections/article/Article";
 import Callout from "@/components/sections/callout/Callout";
 import CallToAction from "@/components/sections/callToAction/CallToAction";
 import Contact from "@/components/sections/contact/Contact";
-import Features from "@/components/sections/features/Features";
-import { Grid } from "@/components/sections/grid/Grid";
 import ImageSection from "@/components/sections/imageSection/ImageSection";
-import LogoSalad from "@/components/sections/logoSalad/LogoSalad";
-import Quote from "@/components/sections/quote/Quote";
-import Resources from "@/components/sections/resources/Resources";
-import Testimonials from "@/components/sections/testimonials/Testimonials";
+
+// Heavy sections - lazy load
+const Features = lazy(() => import("@/components/sections/features/Features"));
+const Grid = lazy(() => import("@/components/sections/grid/Grid").then(m => ({ default: m.Grid })));
+const LogoSalad = lazy(() => import("@/components/sections/logoSalad/LogoSalad"));
+const Quote = lazy(() => import("@/components/sections/quote/Quote"));
+const Resources = lazy(() => import("@/components/sections/resources/Resources"));
+const Testimonials = lazy(() => import("@/components/sections/testimonials/Testimonials"));
 import {
   ArticleObject,
   CalloutObject,
@@ -28,6 +31,19 @@ import {
   TestimonialsObject,
 } from "@/sanity/lib/interfaces/pages";
 
+// Import optimized loading component
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
+
+// Enhanced loading boundary for sections
+const SectionLoading = ({ sectionType }: { sectionType?: string }) => (
+  <div className="min-h-[200px] flex items-center justify-center">
+    <LoadingSpinner 
+      size="md" 
+      text={`Loading ${sectionType || 'content'}...`} 
+    />
+  </div>
+);
+
 const sectionRenderers: Record<
   string,
   (
@@ -35,25 +51,48 @@ const sectionRenderers: Record<
     props: { isLandingPage: boolean; language?: string }
   ) => ReactElement
 > = {
+  // Critical sections - no suspense needed
   hero: (section, { isLandingPage }) => (
     <Hero hero={section as HeroObject} isLanding={isLandingPage} />
   ),
-  logoSalad: (section) => <LogoSalad logoSalad={section as LogoSaladObject} />,
   article: (section) => <Article article={section as ArticleObject} />,
   callout: (section) => <Callout callout={section as CalloutObject} />,
-  quote: (section) => <Quote quote={section as QuoteObject} />,
   ctaSection: (section) => (
     <CallToAction callToAction={section as CallToActionObject} />
   ),
-  resources: (section) => <Resources resources={section as ResourcesObject} />,
   contactSection: (section) => <Contact contact={section as ContactObject} />,
-  testimonials: (section) => (
-    <Testimonials testimonials={section as TestimonialsObject} />
-  ),
-  features: (section) => <Features features={section as FeaturesObject} />,
   imageSection: (section) => <ImageSection section={section as ImageObject} />,
+  
+  // Heavy sections - with suspense
+  logoSalad: (section) => (
+    <Suspense fallback={<SectionLoading sectionType="logo section" />}>
+      <LogoSalad logoSalad={section as LogoSaladObject} />
+    </Suspense>
+  ),
+  quote: (section) => (
+    <Suspense fallback={<SectionLoading sectionType="quote" />}>
+      <Quote quote={section as QuoteObject} />
+    </Suspense>
+  ),
+  resources: (section) => (
+    <Suspense fallback={<SectionLoading sectionType="resources" />}>
+      <Resources resources={section as ResourcesObject} />
+    </Suspense>
+  ),
+  testimonials: (section) => (
+    <Suspense fallback={<SectionLoading sectionType="testimonials" />}>
+      <Testimonials testimonials={section as TestimonialsObject} />
+    </Suspense>
+  ),
+  features: (section) => (
+    <Suspense fallback={<SectionLoading sectionType="features" />}>
+      <Features features={section as FeaturesObject} />
+    </Suspense>
+  ),
   grid: (section, { language }) => (
-    <Grid grid={section as GridObject} language={language} />
+    <Suspense fallback={<SectionLoading sectionType="content grid" />}>
+      <Grid grid={section as GridObject} language={language} />
+    </Suspense>
   ),
 };
 

@@ -34,8 +34,8 @@ import { Metadata } from "next";
 import { SEO_SLUG_QUERY } from "@/sanity/lib/queries/seo";
 import { urlFor } from "@/sanity/lib/image";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 60; // 1 minute cache
+export const revalidate = 86400; // ISR: 24 hours - regenerate daily
+export const dynamicParams = true; // Enable ISR for new pages
 
 interface ComponentProps {
   document:

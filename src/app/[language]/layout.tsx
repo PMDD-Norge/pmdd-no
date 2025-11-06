@@ -16,6 +16,7 @@ import { lazy } from "react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
 import { DisableDraftMode } from "@/components/disableDraftMode/DisableDraftMode";
+import ServiceWorkerRegistration from "@/components/ServiceWorkerRegistration";
 
 const Header = lazy(() => import("@/components/navigation/header/Header"));
 const Footer = lazy(() => import("@/components/navigation/footer/Footer"));
@@ -26,10 +27,10 @@ const pollerOne = Poller_One({
   subsets: ["latin"],
   variable: "--font-pollerOne",
   weight: "400",
-  display: "swap",
+  display: "optional", // Better performance than swap
   fallback: ["system-ui", "arial"],
   adjustFontFallback: true,
-  preload: false, // Changed to false to prevent render blocking
+  preload: false,
 });
 
 const nunito = Nunito({
@@ -44,25 +45,25 @@ const nunito = Nunito({
 
 const fetchData = async (language: string) => {
   const queries = [
-    sanityFetch({ 
-      query: NAV_QUERY, 
+    sanityFetch({
+      query: NAV_QUERY,
       params: { language },
-      tags: ['navigation']
+      tags: ["navigation"],
     }),
-    sanityFetch({ 
-      query: BRAND_ASSETS_QUERY, 
+    sanityFetch({
+      query: BRAND_ASSETS_QUERY,
       params: {},
-      tags: ['brandAssets']
+      tags: ["brandAssets"],
     }),
-    sanityFetch({ 
-      query: SOMEPROFILES_QUERY, 
+    sanityFetch({
+      query: SOMEPROFILES_QUERY,
       params: {},
-      tags: ['socialMedia']
+      tags: ["socialMedia"],
     }),
-    sanityFetch({ 
-      query: SUPPORTED_LANGUAGES_QUERY, 
+    sanityFetch({
+      query: SUPPORTED_LANGUAGES_QUERY,
       params: {},
-      tags: ['languages']
+      tags: ["languages"],
     }),
   ];
 
@@ -105,7 +106,11 @@ export default async function RootLayout({
     <html lang={language}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
         <link rel="dns-prefetch" href="https://cdn.sanity.io" />
       </head>
       <body className={`${nunito.variable} ${pollerOne.variable}`}>
@@ -135,6 +140,7 @@ export default async function RootLayout({
           <>
             <Analytics />
             <SpeedInsights />
+            <ServiceWorkerRegistration />
           </>
         )}
       </body>

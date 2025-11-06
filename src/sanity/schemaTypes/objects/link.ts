@@ -60,15 +60,16 @@ const baseLinkSchema = defineField({
       components: {
         input: LinkTypeSelector,
       },
-      // TODO: check validation after translation
-      // validation: (Rule) =>
-      //   Rule.custom((value, context) => {
-      //     const parent = context.parent as Parent;
-      //     if (parent?.title[0] && !value) {
-      //       return "Link type is required";
-      //     }
-      //     return true;
-      //   }),
+      validation: (Rule) =>
+        Rule.custom((value, context) => {
+          const parent = context.parent as Parent;
+          // Check if any title translation exists and require type selection
+          const hasTitle = parent?.title?.some((t) => t.value && t.value.trim() !== "");
+          if (hasTitle && !value) {
+            return "Link type is required when title is provided";
+          }
+          return true;
+        }),
     },
     {
       name: "internalLink",

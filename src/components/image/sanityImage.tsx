@@ -15,7 +15,11 @@ interface ImageProps {
 const urlFor = (source: SanityImageData) => {
   // Handle Sanity asset
   if (source.asset?._ref) {
-    return imageBuilder.image(source).auto("format").fit("crop").quality(90);
+    return imageBuilder
+      .image(source)
+      .auto("format") // Automatically serves WebP/AVIF when supported
+      .fit("crop")
+      .quality(85); // Slightly lower for better compression
   }
 
   return null;
@@ -38,10 +42,10 @@ export default function SanityNextImage({
     ? `${image.hotspot.x * 100}% ${image.hotspot.y * 100}%`
     : "50% 50%";
 
-  // TODO: FIX HOTSPOT
-  // Calculate reasonable dimensions based on expected usage - higher for better quality
-  const width = image.hotspot?.width || 1920;
-  const height = image.hotspot?.height || 1080;
+  // Use Sanity's image metadata or fallback to responsive defaults
+  // Hotspot dimensions are relative (0-1), not absolute pixels
+  const width = 1920; // Default responsive width
+  const height = 1080; // Default responsive height
 
   return (
     <Image
