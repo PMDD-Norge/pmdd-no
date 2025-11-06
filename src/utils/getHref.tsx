@@ -9,6 +9,12 @@ export const getHref = (link: SanityLink): string => {
 
   const { type, internalLink, anchor, url, email, phone } = link;
 
+  // Helper function to ensure anchor has proper # prefix without duplication
+  const formatAnchor = (anchor: string | undefined) => {
+    if (!anchor) return "";
+    return anchor.startsWith("#") ? anchor : `#${anchor}`;
+  };
+
   switch (type) {
     case LinkType.Internal:
       if (internalLink?._ref) {
@@ -28,12 +34,12 @@ export const getHref = (link: SanityLink): string => {
           link =
             path === "/"
               ? "/"
-              : `/${parentPage}/${path}${parentPage == "aktuelt" ? "?type=position" : query ? `?${query}` : ""}${anchor ? `#${anchor}` : ""}`;
+              : `/${parentPage}/${path}${parentPage == "aktuelt" ? "?type=position" : query ? `?${query}` : ""}${formatAnchor(anchor)}`;
         } else {
           link =
             path === "/"
-              ? `/${anchor ? `#${anchor}` : ""}`
-              : `/${path}${query ? `?${query}` : ""}${anchor ? `#${anchor}` : ""}`;
+              ? `/${formatAnchor(anchor)}`
+              : `/${path}${query ? `?${query}` : ""}${formatAnchor(anchor)}`;
         }
 
         return link;

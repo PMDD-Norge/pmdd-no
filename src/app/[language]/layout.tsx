@@ -20,7 +20,7 @@ import { DisableDraftMode } from "@/components/disableDraftMode/DisableDraftMode
 const Header = lazy(() => import("@/components/navigation/header/Header"));
 const Footer = lazy(() => import("@/components/navigation/footer/Footer"));
 
-export const revalidate = 60; // 1 minute cache
+export const revalidate = 300; // 5 minute cache for better performance
 
 const pollerOne = Poller_One({
   subsets: ["latin"],
@@ -39,15 +39,31 @@ const nunito = Nunito({
   display: "swap",
   fallback: ["system-ui", "arial"],
   adjustFontFallback: true,
-  preload: true, // Keep primary font preloaded
+  preload: true,
 });
 
 const fetchData = async (language: string) => {
   const queries = [
-    sanityFetch({ query: NAV_QUERY, params: { language } }),
-    sanityFetch({ query: BRAND_ASSETS_QUERY, params: {} }),
-    sanityFetch({ query: SOMEPROFILES_QUERY, params: {} }),
-    sanityFetch({ query: SUPPORTED_LANGUAGES_QUERY, params: {} }),
+    sanityFetch({ 
+      query: NAV_QUERY, 
+      params: { language },
+      tags: ['navigation']
+    }),
+    sanityFetch({ 
+      query: BRAND_ASSETS_QUERY, 
+      params: {},
+      tags: ['brandAssets']
+    }),
+    sanityFetch({ 
+      query: SOMEPROFILES_QUERY, 
+      params: {},
+      tags: ['socialMedia']
+    }),
+    sanityFetch({ 
+      query: SUPPORTED_LANGUAGES_QUERY, 
+      params: {},
+      tags: ['languages']
+    }),
   ];
 
   const [
@@ -87,6 +103,11 @@ export default async function RootLayout({
 
   return (
     <html lang={language}>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://cdn.sanity.io" />
+      </head>
       <body className={`${nunito.variable} ${pollerOne.variable}`}>
         <NextIntlClientProvider messages={messages}>
           <a href="#main" className="skipLink">
