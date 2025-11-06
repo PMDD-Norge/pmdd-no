@@ -27,17 +27,17 @@ const pollerOne = Poller_One({
   subsets: ["latin"],
   variable: "--font-pollerOne",
   weight: "400",
-  display: "optional", // Better performance than swap
+  display: "swap", // Ensure fonts show up in production
   fallback: ["system-ui", "arial"],
   adjustFontFallback: true,
-  preload: false,
+  preload: true, // Force preload in production
 });
 
 const nunito = Nunito({
   subsets: ["latin"],
   weight: ["400", "700"],
   variable: "--font-nunito",
-  display: "swap",
+  display: "swap", 
   fallback: ["system-ui", "arial"],
   adjustFontFallback: true,
   preload: true,
@@ -112,6 +112,12 @@ export default async function RootLayout({
           crossOrigin="anonymous"
         />
         <link rel="dns-prefetch" href="https://cdn.sanity.io" />
+        
+        {/* Critical font loading for production */}
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Poller+One:wght@400&display=swap"
+        />
       </head>
       <body className={`${nunito.variable} ${pollerOne.variable}`}>
         <NextIntlClientProvider messages={messages}>
