@@ -1,11 +1,6 @@
 {
-  "functions": {
-    "app/api/**/*.ts": {
-      "runtime": "nodejs22.x"
-    }
-  },
   "buildCommand": "npm run build",
-  "devCommand": "npm run dev",
+  "devCommand": "npm run dev", 
   "installCommand": "npm ci --omit=dev",
   "framework": "nextjs",
   "regions": ["arn1"],
