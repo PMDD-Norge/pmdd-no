@@ -1,0 +1,84 @@
+# Development files
+.env.local
+.env.development
+
+# Test files
+__tests__
+*.test.js
+*.test.ts
+*.spec.js
+*.spec.ts
+src/utils/__tests__
+coverage
+
+# Documentation
+docs
+*.md
+!README.md
+CHANGELOG.md
+LICENSE
+
+# CI/CD
+.github
+.gitlab
+.circleci
+
+# Editor directories
+.vscode
+.idea
+*.sublime-*
+.DS_Store
+
+# Cache and logs
+.eslintcache
+.stylelintcache
+*.log
+npm-debug.log*
+yarn-debug.log*
+.pnpm-debug.log*
+
+# Development dependencies
+.husky
+.prettierignore
+.eslintignore
+
+# Design files
+*.sketch
+*.fig
+*.xd
+*.psd
+
+# MacOS/Windows
+.DS_Store
+Thumbs.db
+
+# Development scripts
+scripts
+bin
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Backup folder (din unused-files-backup)
+unused-files-backup
+
+# Bundle analyzer reports (genereres ved build)
+.next/analyze
+
+# Next.js cache (kan bli veldig stor)
+.next/cache
+.next/standalone
+
+# Development config filer
+tsconfig.tsbuildinfo
+
+# Sanity Studio development files (siden studio er i samme repo)
+sanity.cli.ts
+
+# Node modules (selvfølgelig)
+node_modules
+
+# Git
+.git

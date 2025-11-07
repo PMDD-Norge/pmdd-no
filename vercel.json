@@ -5,7 +5,11 @@
     }
   },
   "buildCommand": "npm run build",
-  "devCommand": "npm run dev", 
-  "installCommand": "npm install",
-  "framework": "nextjs"
+  "devCommand": "npm run dev",
+  "installCommand": "npm ci --omit=dev",
+  "framework": "nextjs",
+  "regions": ["arn1"],
+  "env": {
+    "NEXT_TELEMETRY_DISABLED": "1"
+  }
 }
