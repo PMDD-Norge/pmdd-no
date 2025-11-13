@@ -1,5 +1,5 @@
 import { sanityFetch } from "@/sanity/lib/live";
-import { LANDING_PAGE_ID_QUERY } from "@/sanity/lib/queries/navigation";
+import { LANDING_PAGE_ID_QUERY } from "@/sanity/lib/queries";
 
 /**
  * Checks if a given page ID matches the landing page ID from navigationManager

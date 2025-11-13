@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { SEO_SLUG_QUERY } from "@/sanity/lib/queries/seo";
+import { SEO_FALLBACK_QUERY, BRAND_ASSETS_QUERY } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 import { cachedSanityFetch } from "./getPageData";
 
@@ -17,19 +17,26 @@ export async function generateMetadata({
   const lastSlug = slug[slug.length - 1];
 
   try {
-    const { data: seo } = await cachedSanityFetch(SEO_SLUG_QUERY, {
-      language,
+    // Fetch page-specific SEO or use fallback
+    const pageQuery = `*[slug.current == $slug][0]{ seo }`;
+    const { data: page } = await cachedSanityFetch(pageQuery, {
       slug: lastSlug,
     });
 
-    const faviconUrl = seo?.favicon ? urlFor(seo.favicon).url() : "";
+    // Fetch fallback SEO and brand assets
+    const [{ data: fallbackSeo }, { data: brandAssets }] = await Promise.all([
+      cachedSanityFetch(SEO_FALLBACK_QUERY, {}),
+      cachedSanityFetch(BRAND_ASSETS_QUERY, {}),
+    ]);
+
+    const seo = page?.seo || fallbackSeo;
+    const faviconUrl = brandAssets?.favicon ? urlFor(brandAssets.favicon).url() : "";
 
     return {
-      title: seo?.title || "",
-      description: seo?.description || "",
-      keywords: seo?.keywords || "",
+      title: seo?.metaTitle || "",
+      description: seo?.metaDescription || "",
       openGraph: {
-        images: [seo?.image || ""],
+        images: seo?.openGraphImage ? [urlFor(seo.openGraphImage).url()] : [],
       },
       icons: faviconUrl
         ? { icon: [{ rel: "icon", url: faviconUrl }] }

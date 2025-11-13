@@ -14,7 +14,6 @@ export const client = createClient({
   perspective: "published",
   useCdn: false,
   stega: {
-    enabled: process.env.NODE_ENV === "development",
-    studioUrl: "/studio",
+    enabled: false, // Studio is now in separate repo
   },
 });
