@@ -1,50 +1,91 @@
-import { groq } from "next-sanity";
-import { LINK_FRAGMENT } from "./fragments";
+/**
+ * GROQ queries for navigation and footer
+ */
 
-export const LANDING_PAGE_ID_QUERY = groq`
-  *[_type == "navigationManager"][0].setLanding._ref
-`;
-
-export const NAV_QUERY = groq`
-  *[_type == "navigationManager"]{
-    "main": {
-      "links": main[_type == "link"] {
-        ...,
-        ${LINK_FRAGMENT}
-      },
-      "ctas": main[_type == "callToActionField"] {
-        ...,
-        ${LINK_FRAGMENT}
+// Get full navigation including footer
+export const NAVIGATION_QUERY = `
+*[_type == "navigationManager"][0] {
+  _id,
+  mainNavigation[]{
+    _key,
+    title,
+    type,
+    type == "internal" => {
+      "internalLink": internalLink->{
+        _type,
+        title,
+        slug
       }
     },
-    "sidebar": {
-      "links": sidebar[_type == "link"] {
-        ...,
-        ${LINK_FRAGMENT}
-      },
-      "ctas": sidebar[_type == "callToActionField"] {
-        ...,
-        ${LINK_FRAGMENT}
-      }
-    },
-    "footer": footer[] {
-      ...,
-      sectionType,
-      sectionTitle,
-      "linksAndContent": linksAndContent[] {
-        ...,
-        _type == 'richTextObject' => {
-          ...,
-          "richText": richText[_key == $language][0].value,
-        },
-        _type == 'link' => {
-          ...,
-          ${LINK_FRAGMENT}
+    type == "external" => {url},
+    type == "email" => {email},
+    type == "phone" => {phone},
+    anchor,
+    newTab
+  },
+  ctaButton{
+    title,
+    link{
+      _type,
+      title,
+      type,
+      type == "internal" => {
+        "internalLink": internalLink->{
+          _type,
+          title,
+          slug
         }
       },
-      "socialMediaLinks": socialMediaLinks->{
-        "_ref": slug.current
+      type == "external" => {url},
+      type == "email" => {email},
+      type == "phone" => {phone},
+      anchor,
+      newTab
+    }
+  },
+  footerSections[]{
+    _key,
+    sectionTitle,
+    sectionType,
+    sectionType == "content" => {
+      linksAndContent[]{
+        _type,
+        _key,
+        _type == "link" => {
+          title,
+          type,
+          type == "internal" => {
+            "internalLink": internalLink->{
+              _type,
+              title,
+              slug
+            }
+          },
+          type == "external" => {url},
+          type == "email" => {email},
+          type == "phone" => {phone},
+          anchor,
+          newTab
+        },
+        _type == "richTextObject" => {
+          richText
+        }
+      }
+    },
+    sectionType == "socialMedia" => {
+      "socialMedia": *[_type == "socialMediaProfiles"][0]{
+        profiles[]{
+          _key,
+          platform,
+          url
+        }
       }
     }
-  }[0]
+  }
+}
+`;
+
+// Get landing page ID
+export const LANDING_PAGE_ID_QUERY = `
+*[_type == "page" && title == "Forside" || title == "Home"][0]._id
 `;

@@ -1,5 +1,7 @@
-import { soMeLinksID } from "@/sanity/schemaTypes/documents/siteSettings/socialMediaProfiles";
 import { SanityBase } from "./base";
+
+// Local constant definition (schemas removed from frontend)
+export const soMeLinksID = "socialMediaProfiles";
 
 // Define the SocialMediaLink interface based on the expected structure
 export interface SocialMediaLink extends SanityBase {

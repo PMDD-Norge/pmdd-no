@@ -1,69 +1,45 @@
-import { languages } from "@/i18n/supportedLanguages";
 import { client } from "@/sanity/lib/client";
 import { MetadataRoute } from "next";
 
-// Content types from Sanity schema
+// Content types from Sanity schema (updated)
 const CONTENT_TYPES = {
-  post: "post",
+  article: "article",
   page: "page",
-  legalDocument: "legalDocument",
+  event: "event",
+  collectionHub: "collectionHub",
 } as const;
 
 type ContentType = (typeof CONTENT_TYPES)[keyof typeof CONTENT_TYPES];
 
-// URL structure for different content types
-const URL_PATHS: Record<ContentType, string> = {
-  [CONTENT_TYPES.post]: "information",
-  [CONTENT_TYPES.page]: "",
-  [CONTENT_TYPES.legalDocument]: "legal",
-};
-
 // SEO priorities for different content types
 const PRIORITIES: Record<ContentType, number> = {
-  [CONTENT_TYPES.post]: 0.8,
+  [CONTENT_TYPES.article]: 0.8,
   [CONTENT_TYPES.page]: 0.7,
-  [CONTENT_TYPES.legalDocument]: 0.6,
+  [CONTENT_TYPES.event]: 0.75,
+  [CONTENT_TYPES.collectionHub]: 0.7,
 };
-
-interface SanitySlug {
-  _key: string;
-  value: string;
-  _type: "internationalizedArrayStringValue";
-}
 
 interface SanityDocument {
   _type: ContentType;
   _id: string;
   _updatedAt: string;
-  slug: SanitySlug[];
+  slug: {
+    current: string;
+  };
 }
 
 async function getAllContent() {
-  const query = `*[_type in ["post", "page", "legalDocument"]] {
+  const query = `*[_type in ["article", "page", "event", "collectionHub"] && defined(slug.current)] {
     _type,
     _id,
     _updatedAt,
-    slug[] {
-      _key,
-      value
-    }
+    slug
   }`;
 
   return await client.fetch<SanityDocument[]>(query);
 }
 
-function getUrl(doc: SanityDocument, lang: string, baseUrl: string): string {
-  const langSlug = doc.slug.find((s: SanitySlug) => s._key === lang)?.value;
-  if (!langSlug) return "";
-
-  const pathPrefix = URL_PATHS[doc._type];
-  return pathPrefix
-    ? `${baseUrl}/${lang}/${pathPrefix}/${langSlug}`
-    : `${baseUrl}/${lang}/${langSlug}`;
-}
-
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  // Define baseUrl at the top of the function
   const baseUrl =
     process.env.NEXT_PUBLIC_BASE_URL ||
     (process.env.VERCEL_URL
@@ -74,40 +50,37 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const documents = await getAllContent();
     const routes: MetadataRoute.Sitemap = [];
 
-    // Add homepage routes for each language
-    languages.forEach((lang) => {
-      routes.push({
-        url: `${baseUrl}/${lang.id}`,
-        lastModified: new Date(),
-        changeFrequency: "daily",
-        priority: 1,
-      });
+    // Add homepage
+    routes.push({
+      url: baseUrl,
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 1,
     });
 
-    // Add content routes for each language
+    // Add content routes (no language prefix since we're Norwegian only)
     documents.forEach((doc) => {
-      languages.forEach((lang) => {
-        const url = getUrl(doc, lang.id, baseUrl);
-        if (url) {
-          routes.push({
-            url,
-            lastModified: new Date(doc._updatedAt),
-            changeFrequency: "weekly",
-            priority: PRIORITIES[doc._type],
-          });
-        }
-      });
+      if (doc.slug?.current) {
+        routes.push({
+          url: `${baseUrl}/${doc.slug.current}`,
+          lastModified: new Date(doc._updatedAt),
+          changeFrequency: "weekly",
+          priority: PRIORITIES[doc._type],
+        });
+      }
     });
 
     return routes;
   } catch (error) {
     console.error("Error generating sitemap:", error);
-    // Fallback to just homepage routes using baseUrl from outer scope
-    return languages.map((lang) => ({
-      url: `${baseUrl}/${lang.id}`,
-      lastModified: new Date(),
-      changeFrequency: "daily",
-      priority: 1,
-    }));
+    // Fallback to just homepage
+    return [
+      {
+        url: baseUrl,
+        lastModified: new Date(),
+        changeFrequency: "daily",
+        priority: 1,
+      },
+    ];
   }
 }

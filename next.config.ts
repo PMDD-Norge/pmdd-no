@@ -1,8 +1,5 @@
 import withNextBundleAnalyzer from "@next/bundle-analyzer";
-import createNextIntlPlugin from "next-intl/plugin";
 import type { NextConfig } from "next";
-
-const withNextIntl = createNextIntlPlugin();
 
 const withBundleAnalyzer = withNextBundleAnalyzer({
   enabled: process.env.ANALYZE === "true",
@@ -23,7 +20,6 @@ const nextConfig: NextConfig = {
   experimental: {
     taint: true,
     optimizePackageImports: [
-      "next-intl", 
       "@sanity/ui",
       "@sanity/image-url",
       "framer-motion"
@@ -78,4 +74,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default withNextIntl(withBundleAnalyzer(nextConfig));
+export default withBundleAnalyzer(nextConfig);

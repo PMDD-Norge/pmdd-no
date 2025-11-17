@@ -18,7 +18,6 @@ interface InformationProps {
   categories: Category[];
   initialPosts: PostDocument[];
   slug: string;
-  language: string;
   postCount: number;
   currentPage: number;
   selectedCategoryName?: string;
@@ -28,14 +27,13 @@ export async function Information({
   information,
   initialPosts,
   slug,
-  language,
   categories,
   postCount,
   currentPage,
   selectedCategoryName,
 }: InformationProps) {
   const { title, richText, contactSection } = information;
-  const { t } = await getCustomTranslations(language);
+  const { t } = await getCustomTranslations();
   const allString = t(GlobalTranslationKey.all) || "All";
 
   const categoriesToShow = [
@@ -76,7 +74,6 @@ export async function Information({
           <CategoryNavigation
             categories={categoriesToShow}
             selectedCategory={selectedCategoryName}
-            language={language}
             slug={slug}
           />
           <section aria-live="polite" role="region">
@@ -86,7 +83,6 @@ export async function Information({
               numberOfPosts={postCount}
               initialLoading={false}
               slug={slug}
-              language={language}
               currentPage={currentPage}
             />
           </section>

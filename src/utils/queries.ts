@@ -1,30 +1,25 @@
 import { sanityFetch } from "@/sanity/lib/live";
-import { AVAILABLE_POSITION_SLUG_QUERY } from "@/sanity/lib/queries/editorial/availablePositions";
-import { POST_SLUG_QUERY } from "@/sanity/lib/queries/editorial/blogpost";
-import { HIGHLIGHTS_PAGE_QUERY } from "@/sanity/lib/queries/editorial/highlights";
-import { INFORMATION_PAGE_QUERY } from "@/sanity/lib/queries/editorial/information";
-import { LEGAL_DOCUMENT_SLUG_QUERY } from "@/sanity/lib/queries/legalDocuments";
-import { SLUG_QUERY } from "@/sanity/lib/queries/pages";
-import { LANDING_PAGE_ID_QUERY } from "@/sanity/lib/queries/navigation";
+import {
+  ARTICLE_BY_SLUG_QUERY,
+  PAGE_BY_SLUG_QUERY,
+  COLLECTION_HUB_BY_TYPE_QUERY,
+  LANDING_PAGE_ID_QUERY,
+} from "@/sanity/lib/queries";
 
 // Using const enum with explicit string values
 export const enum QueryType {
   Page = "page",
-  LegalDocument = "legalDocument",
-  AvailablePosition = "availablePosition",
-  Post = "post",
-  Highlights = "highlights",
-  Information = "information",
+  Article = "article",
+  CollectionHub = "collectionHub",
+  Event = "event",
 }
 
 // Map query types to their respective queries
 const Queries: Record<QueryType, string> = {
-  [QueryType.Page]: SLUG_QUERY,
-  [QueryType.LegalDocument]: LEGAL_DOCUMENT_SLUG_QUERY,
-  [QueryType.AvailablePosition]: AVAILABLE_POSITION_SLUG_QUERY,
-  [QueryType.Post]: POST_SLUG_QUERY,
-  [QueryType.Highlights]: HIGHLIGHTS_PAGE_QUERY,
-  [QueryType.Information]: INFORMATION_PAGE_QUERY,
+  [QueryType.Page]: PAGE_BY_SLUG_QUERY,
+  [QueryType.Article]: ARTICLE_BY_SLUG_QUERY,
+  [QueryType.CollectionHub]: COLLECTION_HUB_BY_TYPE_QUERY,
+  [QueryType.Event]: `*[_type == "event" && slug.current == $slug][0]`,
 };
 
 export async function getDocumentTypeBySlug(slug: string[], language: string) {

@@ -1,6 +1,6 @@
 import { Slug } from "./pages";
 import { SanityBase } from "./base";
-import { PortableTextBlock } from "sanity";
+import { PortableTextBlock } from "next-sanity";
 
 export interface LegalDocument extends SanityBase {
   title: string;

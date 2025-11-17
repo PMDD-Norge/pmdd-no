@@ -10,14 +10,12 @@ import Grid from "@/components/sections/grid/Grid";
 
 interface HighlightsProps {
   highlights: HightlightsDocument;
-  language: string;
   events: EventDocument[];
   availablePositions: AvailablePositionDocument[];
 }
 
 export async function Highlights({
   highlights,
-  language,
   availablePositions,
   events,
 }: HighlightsProps) {
@@ -46,7 +44,6 @@ export async function Highlights({
                 items: events,
               }]
             }}
-            language={language}
           />
         )}
         {availablePositions.length > 0 && (
@@ -64,7 +61,6 @@ export async function Highlights({
                 items: availablePositions,
               }]
             }}
-            language={language}
           />
         )}
       </div>

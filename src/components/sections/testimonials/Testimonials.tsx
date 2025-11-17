@@ -24,7 +24,7 @@ const Testimonials = ({
           </div>
         </div>
         <ul className={styles.list}>
-          {testimonials.list.map((testimonial) => (
+          {testimonials.list?.map((testimonial) => (
             <li className={styles.item} key={testimonial._key}>
               <div className={styles.listContent}>
                 <span className={styles.quotationMark} />

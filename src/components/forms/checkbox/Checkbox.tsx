@@ -1,7 +1,6 @@
 import styles from "./checkbox.module.css";
 import textStyles from "src/components/text/text.module.css";
-import { PortableTextBlock } from "sanity";
-import { PortableText } from "@portabletext/react";
+import { PortableText, PortableTextBlock } from "next-sanity";
 import Text from "@/components/text/Text";
 
 interface CheckboxProps {

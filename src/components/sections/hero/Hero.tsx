@@ -42,7 +42,7 @@ const Hero = ({ hero, isLanding = false }: HeroProps) => {
             {isLanding && (
               <ul className={styles.cta}>
                 {hero.callToActions?.map((cta: SanityLink, index) => (
-                  <li key={cta._key}>
+                  <li key={cta._key || `cta-${index}`}>
                     <LinkButton
                       link={cta}
                       type={

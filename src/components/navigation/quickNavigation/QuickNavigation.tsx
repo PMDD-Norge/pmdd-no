@@ -1,6 +1,6 @@
 import Link from "next/link";
 import styles from "./quickNavigation.module.css";
-import { PortableTextBlock } from "sanity";
+import { PortableTextBlock } from "next-sanity";
 import { getCustomTranslations } from "@/utils/translations";
 import { GlobalTranslationKey } from "@/utils/constants/globalTranslationKeys";
 import {
@@ -13,16 +13,14 @@ import CustomLink from "@/components/link/CustomLink";
 
 const QuickNavigation = async ({
   richText,
-  language,
   isMainLayout = true,
   currentSlug,
 }: {
   richText: PortableTextBlock[];
-  language: string;
   isMainLayout?: boolean;
   currentSlug: string;
 }) => {
-  const { t } = await getCustomTranslations(language);
+  const { t } = await getCustomTranslations();
   const quickNavigationString =
     t(GlobalTranslationKey.quickNavigation) || "Quick Navigation";
 
@@ -41,7 +39,7 @@ const QuickNavigation = async ({
         {quickNavigationString}
       </Text>
       <ul className={styles.anchorLinks} aria-labelledby={quickNav}>
-        {headings.map((heading, index) => {
+        {headings?.map((heading, index) => {
           const hash = generateHashFromHeading(heading);
           return (
             <li key={hash}>

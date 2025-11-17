@@ -1,5 +1,5 @@
-import { PortableTextBlock } from "sanity";
-import { PortableTextSpan, PortableTextTextBlock } from "sanity";
+import { PortableTextBlock } from "next-sanity";
+import { PortableTextSpan } from "@portabletext/types";
 
 /**
  * Extracts all h2 text content from a PortableText block.
@@ -14,13 +14,14 @@ export function extractH2TextsFromPortableText(
   }
 
   return portableText
-    .filter((block): block is PortableTextTextBlock => block.style === "h2")
-    .map((block) =>
-      block.children
-        .filter((child): child is PortableTextSpan => child._type === "span")
+    .filter((block) => block.style === "h2")
+    .map((block) => {
+      const children = block.children as unknown as PortableTextSpan[];
+      return (children || [])
+        .filter((child) => child._type === "span")
         .map((span) => span.text)
-        .join("")
-    );
+        .join("");
+    });
 }
 
 /**

@@ -1,12 +1,13 @@
 import { sanityFetch } from "@/sanity/lib/live";
 import {
-  CATEGORIZED_POSTS_QUERY,
-  COUNT_POSTS_QUERY,
-} from "@/sanity/lib/queries/editorial/blogpost";
-import { INFORMATION_CATEGORIES_QUERY } from "@/sanity/lib/queries/editorial/information";
-import { EVENT_QUERY } from "@/sanity/lib/queries/editorial/event";
-import { AVAILABLE_POSITIONS_QUERY } from "@/sanity/lib/queries/editorial/availablePositions";
-import { QueryParams } from "next-intl/navigation";
+  PAGINATED_ARTICLES_QUERY,
+  COUNT_ARTICLES_QUERY,
+  COLLECTION_CATEGORIES_QUERY,
+  ALL_EVENTS_QUERY,
+} from "@/sanity/lib/queries";
+
+// Type definition for query parameters (next-intl removed)
+type QueryParams = Record<string, string | string[] | number | boolean | null | undefined>;
 
 export const cachedSanityFetch = async (
   query: string,
@@ -32,18 +33,19 @@ export const fetchInformationData = async (
 
   try {
     const [postsCount, posts, categories] = await Promise.all([
-      cachedSanityFetch(COUNT_POSTS_QUERY, {
-        language,
-        categoryName: category || null,
+      cachedSanityFetch(COUNT_ARTICLES_QUERY, {
+        type: "blog-post",
+        category: category || undefined,
       }),
-      cachedSanityFetch(CATEGORIZED_POSTS_QUERY, {
-        slug,
-        language,
-        categoryName: category || null,
+      cachedSanityFetch(PAGINATED_ARTICLES_QUERY, {
+        type: "blog-post",
+        category: category || undefined,
         start,
         end,
       }),
-      cachedSanityFetch(INFORMATION_CATEGORIES_QUERY, { language }),
+      cachedSanityFetch(COLLECTION_CATEGORIES_QUERY, {
+        articleType: "blog-post",
+      }),
     ]);
 
     if (!posts?.data || !postsCount?.data) return null;
@@ -61,8 +63,13 @@ export const fetchInformationData = async (
 
 export const fetchHighlightsData = async (language: string) => {
   const [events, positions] = await Promise.all([
-    cachedSanityFetch(EVENT_QUERY, { language }),
-    cachedSanityFetch(AVAILABLE_POSITIONS_QUERY, { language }),
+    cachedSanityFetch(ALL_EVENTS_QUERY, {}),
+    cachedSanityFetch(PAGINATED_ARTICLES_QUERY, {
+      type: "job-position",
+      category: null,
+      start: 0,
+      end: 10,
+    }),
   ]);
 
   return { events: events.data, positions: positions.data };
