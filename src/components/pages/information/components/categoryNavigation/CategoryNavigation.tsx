@@ -8,15 +8,13 @@ import Text from "@/components/text/Text";
 const CategoryNavigation = async ({
   categories,
   selectedCategory: selectedCategoryName,
-  language,
   slug,
 }: {
   categories: Category[];
   selectedCategory?: string | null;
-  language: string;
   slug: string;
 }) => {
-  const { t } = await getCustomTranslations(language);
+  const { t } = await getCustomTranslations();
 
   return (
     <div className={styles.wrapper}>
@@ -24,7 +22,7 @@ const CategoryNavigation = async ({
         <>
           <Text type="h3">{t(GlobalTranslationKey.filterByCategory)}</Text>
           <nav className={styles.tabList}>
-            {categories.map((category, index) => {
+            {categories?.map((category, index) => {
               const isSelected = !selectedCategoryName
                 ? index === 0
                 : selectedCategoryName === category.name;
@@ -32,14 +30,16 @@ const CategoryNavigation = async ({
               // If it's "All" category, don't add the category parameter
               const href =
                 category._id === "all"
-                  ? `/${language}/${slug}`
-                  : `/${language}/${slug}?category=${category.name}`;
+                  ? `/${slug}`
+                  : `/${slug}?category=${category.name}`;
 
               return (
                 <Link
                   key={category._id}
                   href={href}
-                  className={`${styles.tab} ${isSelected ? styles.selected : ""}`}
+                  className={`${styles.tab} ${
+                    isSelected ? styles.selected : ""
+                  }`}
                   aria-current={isSelected ? "page" : undefined}
                 >
                   {category.name}

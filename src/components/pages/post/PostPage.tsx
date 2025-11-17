@@ -6,11 +6,9 @@ import { RichText } from "@/components/richText/RichText";
 
 const PostPage = async ({
   post,
-  language,
   currentSlug,
 }: {
   post: PostDocument;
-  language: string;
   currentSlug: string;
 }) => {
   if (!post) {
@@ -33,7 +31,6 @@ const PostPage = async ({
         {richText && (
           <QuickNavigation
             richText={richText}
-            language={language}
             currentSlug={currentSlug}
           />
         )}

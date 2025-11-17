@@ -30,7 +30,6 @@ const getGridClassForItemCount = (count: number) => {
 
 type Props = {
   grid: GridObject;
-  language?: string;
 };
 
 const determineGridMode = (grid: GridObject): "reference" | "manual" => {
@@ -49,7 +48,7 @@ export const Grid = async (props: Props) => {
     const { appearance, title, richText, lists, _key } = props.grid;
     const theme =
       appearance?.theme === "dark" ? "darkBackground" : "lightBackground";
-    const { t } = await getCustomTranslations(props.language || "en");
+    const { t } = await getCustomTranslations();
 
     return (
       <article className={theme} id={_key}>
@@ -68,10 +67,8 @@ export const Grid = async (props: Props) => {
   const theme =
     appearance?.theme === "dark" ? "darkBackground" : "lightBackground";
 
-  // Get translations if language is provided
-  const t = props.language
-    ? (await getCustomTranslations(props.language)).t
-    : undefined;
+  // Get translations
+  const { t } = await getCustomTranslations();
 
   return (
     <article className={theme} id={_key}>
@@ -91,7 +88,7 @@ const GridListSection = ({
   t,
 }: {
   list: GridList;
-  t?: Awaited<ReturnType<typeof getCustomTranslations>>["t"];
+  t: Awaited<ReturnType<typeof getCustomTranslations>>["t"];
 }) => {
   // For manual grids, show all items. For other types, apply maxItems limit
   const shouldApplyLimit = list.contentType !== "manual";
@@ -118,25 +115,24 @@ const GridElement = ({
   t,
 }: {
   item: EventDocument | AvailablePositionDocument | GridItem;
-  t?: Awaited<ReturnType<typeof getCustomTranslations>>["t"];
+  t: Awaited<ReturnType<typeof getCustomTranslations>>["t"];
 }) => {
   const isPosition = "slug" in item;
   const content = isPosition ? item.lead : item.richText;
 
-  const link =
-    isPosition && t
-      ? {
-          _key: `${item.slug}`,
-          _type: "link",
-          title: t(GlobalTranslationKey.readMore),
-          type: LinkType.Internal,
-          internalLink: {
-            _ref: `${item.slug}?type=${CONTENT_TYPES.POSITION}`,
-          },
-        }
-      : "link" in item
-        ? item.link
-        : undefined;
+  const link = isPosition
+    ? {
+        _key: `${item.slug}`,
+        _type: "link",
+        title: t(GlobalTranslationKey.readMore),
+        type: LinkType.Internal,
+        internalLink: {
+          _ref: `${item.slug}?type=${CONTENT_TYPES.POSITION}`,
+        },
+      }
+    : "link" in item
+      ? item.link
+      : undefined;
 
   return (
     <li className={styles.listItem}>

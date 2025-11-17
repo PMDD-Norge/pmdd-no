@@ -9,13 +9,11 @@ import { getCustomTranslations } from "@/utils/translations";
 export const PostCard = async ({
   post,
   slug,
-  language,
 }: {
   post: PostDocument;
   slug: string;
-  language: string;
 }) => {
-  const { t } = await getCustomTranslations(language);
+  const { t } = await getCustomTranslations();
   const postLink = `${slug}/${post.slug}`;
   const truncatedLead = truncateText(post.lead, 250); // Adjust the length as needed
 

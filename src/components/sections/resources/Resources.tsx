@@ -1,15 +1,18 @@
 "use client";
 import { useState, useRef } from "react";
 import styles from "./resources.module.css";
-import { useTranslations } from "next-intl";
 import { PortableText, PortableTextReactComponents } from "next-sanity";
 import { ResourcesObject } from "@/sanity/lib/interfaces/pages";
 import { SanityLink } from "@/sanity/lib/interfaces/siteSettings";
 import Text from "@/components/text/Text";
 import Card from "@/components/cards/Card";
-import { ColorTheme } from "@/sanity/schemaTypes/fields/appearance";
-import { GlobalTranslationKey } from "@/utils/constants/globalTranslationKeys";
 import Button from "@/components/buttons/Button";
+
+// Color theme enum (since we can't import from removed schemas)
+enum ColorTheme {
+  Light = "light",
+  Dark = "dark",
+}
 
 interface ResourcesProps {
   resources: ResourcesObject;
@@ -42,7 +45,9 @@ const ResourceGroup = ({
         <li
           key={`resource-${index}`}
           ref={
-            index === visibleItemCount - itemsPerLoad ? firstNewItemRef : undefined
+            index === visibleItemCount - itemsPerLoad
+              ? firstNewItemRef
+              : undefined
           }
         >
           <Card link={resourceItem} />
@@ -53,7 +58,6 @@ const ResourceGroup = ({
 );
 
 const Resources = ({ resources }: ResourcesProps) => {
-  const t = useTranslations();
   const { title, richText, groupedLinks, appearance } = resources;
 
   const backgroundTheme =
@@ -73,8 +77,8 @@ const Resources = ({ resources }: ResourcesProps) => {
   const isShowingLastBatch = remainingItemCount <= itemsPerLoad;
 
   const loadMoreText = isShowingLastBatch
-    ? t(GlobalTranslationKey.showRemainingItems, { count: remainingItemCount })
-    : t(GlobalTranslationKey.showMoreItems, { count: itemsPerLoad });
+    ? `Vis siste ${remainingItemCount} ressurser`
+    : `Vis ${itemsPerLoad} flere ressurser`;
 
   const firstNewItemRef = useRef<HTMLLIElement>(null);
 

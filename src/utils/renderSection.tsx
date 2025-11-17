@@ -89,9 +89,9 @@ const sectionRenderers: Record<
       <Features features={section as FeaturesObject} />
     </Suspense>
   ),
-  grid: (section, { language }) => (
+  grid: (section) => (
     <Suspense fallback={<SectionLoading sectionType="content grid" />}>
-      <Grid grid={section as GridObject} language={language} />
+      <Grid grid={section as GridObject} />
     </Suspense>
   ),
 };

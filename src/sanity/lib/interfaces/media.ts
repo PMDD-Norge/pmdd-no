@@ -1,5 +1,11 @@
-import { ImageAlignment } from "@/sanity/schemaTypes/fields/media";
 import { SanityBase } from "./base";
+
+// Local enum definition (schemas removed from frontend)
+export enum ImageAlignment {
+  Left = "left",
+  Center = "center",
+  Right = "right",
+}
 
 interface Hotspot {
   x: number;

@@ -5,7 +5,9 @@ import {
   COLLECTION_CATEGORIES_QUERY,
   ALL_EVENTS_QUERY,
 } from "@/sanity/lib/queries";
-import { QueryParams } from "next-intl/navigation";
+
+// Type definition for query parameters (next-intl removed)
+type QueryParams = Record<string, string | string[] | number | boolean | null | undefined>;
 
 export const cachedSanityFetch = async (
   query: string,
@@ -33,11 +35,11 @@ export const fetchInformationData = async (
     const [postsCount, posts, categories] = await Promise.all([
       cachedSanityFetch(COUNT_ARTICLES_QUERY, {
         type: "blog-post",
-        category: category || null,
+        category: category || undefined,
       }),
       cachedSanityFetch(PAGINATED_ARTICLES_QUERY, {
         type: "blog-post",
-        category: category || null,
+        category: category || undefined,
         start,
         end,
       }),

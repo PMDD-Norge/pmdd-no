@@ -6,8 +6,8 @@ import { PageLinks, PageCTAs } from "./components/links";
 import { SanityLink } from "@/sanity/lib/interfaces/siteSettings";
 
 interface Props {
-  sidebarLinks: SanityLink[];
-  sidebarCtas: SanityLink[];
+  sidebarLinks: SanityLink[] | undefined;
+  sidebarCtas: SanityLink[] | undefined;
 }
 
 const MobileMenu = ({ sidebarLinks, sidebarCtas }: Props) => {

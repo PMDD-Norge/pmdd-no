@@ -1,4 +1,4 @@
-import { ColorTheme } from "@/sanity/schemaTypes/fields/appearance";
+import { ColorTheme } from "@/sanity/lib/interfaces/appearance";
 import styles from "./features.module.css";
 import { FeaturesObject } from "@/sanity/lib/interfaces/pages";
 import Text from "@/components/text/Text";

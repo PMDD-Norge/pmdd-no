@@ -1,18 +1,20 @@
-import { getTranslations } from "next-intl/server";
-
 /**
  * Note: globalTranslations removed from Sanity (project is Norwegian only).
- * All translations are now managed through next-intl JSON files.
+ * All translations are now hardcoded in Norwegian.
  */
-export async function getCustomTranslations(language: string) {
-  // Get next-intl translations
-  const t = await getTranslations({
-    locale: language,
-  });
-
+export async function getCustomTranslations() {
+  // Simple translation function with hardcoded Norwegian strings
   return {
     t: (key: string, params?: Record<string, string | number>) => {
-      return t(key, params);
+      // Return Norwegian translations (can be expanded as needed)
+      const translations: Record<string, string> = {
+        "skip-to-main": "Hopp til hovedinnhold",
+        home: "Hjem",
+        "main-menu": "Hovedmeny",
+        // Add more translations as needed
+      };
+
+      return translations[key] || key;
     },
   };
 }

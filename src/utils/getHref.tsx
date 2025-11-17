@@ -1,6 +1,4 @@
 import { LinkType, SanityLink } from "@/sanity/lib/interfaces/siteSettings";
-import { availablePositionId } from "@/sanity/schemaTypes/documents/editorial/highlights/availablePosition";
-import { postId } from "@/sanity/schemaTypes/documents/editorial/information/post";
 
 const hash = "#";
 
@@ -19,22 +17,19 @@ export const getHref = (link: SanityLink): string => {
     case LinkType.Internal:
       if (internalLink?._ref) {
         const [path, query] = internalLink._ref.split("?");
-        const isNestedPage =
-          internalLink._type === availablePositionId ||
-          internalLink._type === postId;
+
+        // Note: With new schema structure, articles (including job positions and blog posts)
+        // are all type 'article' with different type field values
+        const isArticle = internalLink._type === "article";
 
         let link: string;
-        if (isNestedPage) {
-          const parentPage =
-            internalLink._type === availablePositionId
-              ? "aktuelt"
-              : internalLink._type === postId
-                ? "informasjon"
-                : null;
+        if (isArticle) {
+          // Articles can be nested under different parent pages based on their type
+          // This logic may need adjustment based on your routing structure
           link =
             path === "/"
               ? "/"
-              : `/${parentPage}/${path}${parentPage == "aktuelt" ? "?type=position" : query ? `?${query}` : ""}${formatAnchor(anchor)}`;
+              : `/${path}${query ? `?${query}` : ""}${formatAnchor(anchor)}`;
         } else {
           link =
             path === "/"

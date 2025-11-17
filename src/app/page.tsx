@@ -2,7 +2,10 @@ import PMDDErrorMessage from "@/components/pages/information/components/customEr
 import { urlFor } from "@/sanity/lib/image";
 import { Section } from "@/sanity/lib/interfaces/pages";
 import { sanityFetch } from "@/sanity/lib/live";
-import { LANDING_PAGE_QUERY, LANDING_PAGE_ID_QUERY } from "@/sanity/lib/queries";
+import {
+  LANDING_PAGE_QUERY,
+  LANDING_PAGE_ID_QUERY,
+} from "@/sanity/lib/queries";
 import { SEO_FALLBACK_QUERY, BRAND_ASSETS_QUERY } from "@/sanity/lib/queries";
 import SectionRenderer from "@/utils/renderSection";
 import { Metadata } from "next";
@@ -35,10 +38,10 @@ export async function generateMetadata(): Promise<Metadata> {
   );
 
   const metadata = {
-    title: seo?.metaTitle || "",
-    description: seo?.metaDescription || "",
+    title: seo?.title || "",
+    description: seo?.description || "",
     openGraph: {
-      images: seo?.openGraphImage ? [urlFor(seo.openGraphImage).url()] : [],
+      images: seo?.image ? [urlFor(seo.image).url()] : [],
     },
     icons: { icon: icons },
   };
@@ -59,7 +62,7 @@ export default async function Page() {
 
     return (
       <div>
-        {initialLandingPage.sections.map((section: Section) => (
+        {initialLandingPage.sections?.map((section: Section) => (
           <SectionRenderer key={section._key} section={section} isLandingPage />
         ))}
       </div>

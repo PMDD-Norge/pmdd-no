@@ -8,7 +8,7 @@ const LogoSalad = ({ logoSalad }: { logoSalad: LogoSaladObject }) => {
       <div className={styles.logoList}>
         {logoSalad.logos && (
           <ul className={styles.logoWrapper}>
-            {logoSalad.logos.map(
+            {logoSalad.logos?.map(
               (logo) =>
                 logo && (
                   <li key={logo._key}>

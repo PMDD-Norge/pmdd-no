@@ -1,4 +1,4 @@
-import { PortableTextBlock } from "sanity";
+import { PortableTextBlock } from "next-sanity";
 import { SanityBase } from "./base";
 import { SanityImageData } from "./media";
 

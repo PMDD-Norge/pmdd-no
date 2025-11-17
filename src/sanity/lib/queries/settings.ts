@@ -5,11 +5,23 @@
 // Get all settings in one query
 export const ALL_SETTINGS_QUERY = `
 {
-  "seo": *[_type == "seoFallback"][0].seo{
-    metaTitle,
-    metaDescription,
-    openGraphImage{asset->},
-    noIndex
+  "seo": *[_type == "seoFallback"][0]{
+    "title": coalesce(
+      title[_key == "no"][0].value,
+      title[0].value,
+      title
+    ),
+    "description": coalesce(
+      description[_key == "no"][0].value,
+      description[0].value,
+      description
+    ),
+    "keywords": coalesce(
+      keywords[_key == "no"][0].value,
+      keywords[0].value,
+      keywords
+    ),
+    image{asset->}
   },
   "brandAssets": *[_type == "brandAssets"][0]{
     _id,
@@ -38,11 +50,23 @@ export const ALL_SETTINGS_QUERY = `
 
 // Get SEO fallback
 export const SEO_FALLBACK_QUERY = `
-*[_type == "seoFallback"][0].seo{
-  metaTitle,
-  metaDescription,
-  openGraphImage{asset->},
-  noIndex
+*[_type == "seoFallback"][0]{
+  "title": coalesce(
+    title[_key == "no"][0].value,
+    title[0].value,
+    title
+  ),
+  "description": coalesce(
+    description[_key == "no"][0].value,
+    description[0].value,
+    description
+  ),
+  "keywords": coalesce(
+    keywords[_key == "no"][0].value,
+    keywords[0].value,
+    keywords
+  ),
+  image{asset->}
 }
 `;
 

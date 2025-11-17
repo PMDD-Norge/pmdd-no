@@ -11,10 +11,15 @@ export const PageLinks = ({
   links,
   isMobile = false,
 }: {
-  links: SanityLink[];
+  links: SanityLink[] | undefined;
   isMobile?: boolean;
 }) => {
   const pathname = usePathname();
+
+  if (!links || links.length === 0) {
+    return null;
+  }
+
   return (
     <ul className={isMobile ? styles.listMobile : styles.desktopLinks}>
       {links.map((link: SanityLink) => {
@@ -34,20 +39,26 @@ export const PageCTAs = ({
   ctas,
   isMobile = false,
 }: {
-  ctas: SanityLink[];
+  ctas: SanityLink[] | undefined;
   isMobile?: boolean;
-}) => (
-  <ul className={isMobile ? styles.listMobile : styles.desktopCtas}>
-    {ctas.map((link: SanityLink, index) => (
-      <li key={link._key}>
-        <LinkButton
-          link={link}
-          type={ctas.length < 2 || index === 1 ? "primary" : "secondary"}
-        />
-      </li>
-    ))}
-  </ul>
-);
+}) => {
+  if (!ctas || ctas.length === 0) {
+    return null;
+  }
+
+  return (
+    <ul className={isMobile ? styles.listMobile : styles.desktopCtas}>
+      {ctas.map((link: SanityLink, index) => (
+        <li key={link._key}>
+          <LinkButton
+            link={link}
+            type={ctas.length < 2 || index === 1 ? "primary" : "secondary"}
+          />
+        </li>
+      ))}
+    </ul>
+  );
+};
 
 // Helper function to normalize paths for comparison
 const normalizePath = (path: string) => {

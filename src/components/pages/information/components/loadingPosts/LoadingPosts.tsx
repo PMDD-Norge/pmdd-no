@@ -3,8 +3,8 @@ import styles from "./loadingPosts.module.css";
 import { getCustomTranslations } from "@/utils/translations";
 import { GlobalTranslationKey } from "@/utils/constants/globalTranslationKeys";
 
-const LoadingPosts = async ({ language }: { language: string }) => {
-  const { t } = await getCustomTranslations(language);
+const LoadingPosts = async () => {
+  const { t } = await getCustomTranslations();
 
   return (
     <div className={styles.wrapper}>

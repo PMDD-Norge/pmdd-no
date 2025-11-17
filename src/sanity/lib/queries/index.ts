@@ -17,6 +17,7 @@ export {
   PAGE_BY_SLUG_QUERY,
   PAGE_SLUGS_QUERY,
   LANDING_PAGE_ID_QUERY,
+  LANDING_PAGE_QUERY,
 } from './page';
 
 // Collection Hub queries

@@ -33,7 +33,6 @@ export default function SanityNextImage({
 }: ImageProps) {
   // Handle Sanity asset case
   const imageUrl = urlFor(image)?.url();
-  console.log(imageUrl);
   if (!imageUrl) {
     return null;
   }

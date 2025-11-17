@@ -13,7 +13,6 @@ const PostPreviewGrid = async ({
   title,
   slug,
   initialLoading = false,
-  language,
   currentPage,
   category,
 }: {
@@ -22,12 +21,11 @@ const PostPreviewGrid = async ({
   title: string;
   slug: string;
   initialLoading: boolean;
-  language: string;
   loading?: boolean;
   currentPage: number;
   category?: string;
 }) => {
-  const { t } = await getCustomTranslations(language);
+  const { t } = await getCustomTranslations();
   const postsAlreadyRendered = posts.length;
   const remainingPosts = numberOfPosts - postsAlreadyRendered;
   const itemsPerLoad = 9;
@@ -47,7 +45,7 @@ const PostPreviewGrid = async ({
   }
 
   if (initialLoading) {
-    return <LoadingPosts language={language} />;
+    return <LoadingPosts />;
   }
 
   const link = {
@@ -61,9 +59,9 @@ const PostPreviewGrid = async ({
   return (
     <div className={styles.wrapper}>
       <ul className={styles.list} aria-label={title} aria-live="polite">
-        {posts.map((post) => (
+        {posts?.map((post) => (
           <li key={post._id}>
-            <PostCard post={post} slug={slug} language={language} />
+            <PostCard post={post} slug={slug} />
           </li>
         ))}
       </ul>

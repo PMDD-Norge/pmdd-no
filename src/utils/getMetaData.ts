@@ -33,10 +33,10 @@ export async function generateMetadata({
     const faviconUrl = brandAssets?.favicon ? urlFor(brandAssets.favicon).url() : "";
 
     return {
-      title: seo?.metaTitle || "",
-      description: seo?.metaDescription || "",
+      title: seo?.title || "",
+      description: seo?.description || "",
       openGraph: {
-        images: seo?.openGraphImage ? [urlFor(seo.openGraphImage).url()] : [],
+        images: seo?.image ? [urlFor(seo.image).url()] : [],
       },
       icons: faviconUrl
         ? { icon: [{ rel: "icon", url: faviconUrl }] }

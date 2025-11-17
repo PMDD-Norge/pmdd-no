@@ -5,7 +5,7 @@ import {
   ColorTheme,
   ImagePosition,
   LinkType,
-} from "@/sanity/schemaTypes/fields/appearance";
+} from "@/sanity/lib/interfaces/appearance";
 import Text from "@/components/text/Text";
 import { RichText } from "@/components/richText/RichText";
 import LinkButton from "@/components/linkButton/LinkButton";
@@ -64,14 +64,10 @@ const Article = ({ article }: { article: ArticleObject }) => {
             <ul className={styles.list}>
               {callToActions?.map((cta, index) => (
                 <li key={`cta-${index}`}>
-                  {appearance?.linkType == LinkType.linkButton ? (
-                    <LinkButton
-                      link={cta}
-                      type={index === 0 ? "primary" : "secondary"}
-                    />
-                  ) : (
-                    <CustomLink link={cta} />
-                  )}
+                  <LinkButton
+                    link={cta}
+                    type={index === 0 ? "primary" : "secondary"}
+                  />
                 </li>
               ))}
             </ul>

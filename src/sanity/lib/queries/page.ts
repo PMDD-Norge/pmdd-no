@@ -6,7 +6,7 @@
 export const PAGE_BY_SLUG_QUERY = `
 *[_type == "page" && slug.current == $slug][0] {
   _id,
-  title,
+  pageName,
   slug,
   sections[]{
     _type,
@@ -239,10 +239,10 @@ export const PAGE_BY_SLUG_QUERY = `
     }
   },
   seo{
-    metaTitle,
-    metaDescription,
-    openGraphImage{asset->},
-    noIndex
+    title,
+    description,
+    image{asset->},
+    keywords
   }
 }
 `;
@@ -256,14 +256,14 @@ export const PAGE_SLUGS_QUERY = `
 
 // Get landing page ID
 export const LANDING_PAGE_ID_QUERY = `
-*[_type == "page" && title == "Forside" || title == "Home"][0]._id
+*[_type == "page" && (pageName == "Forside" || pageName == "Home" || pageName == "Hjem")][0]._id
 `;
 
 // Get landing page with full data
 export const LANDING_PAGE_QUERY = `
-*[_type == "page" && (title == "Forside" || title == "Home")][0] {
+*[_type == "page" && (pageName == "Forside" || pageName == "Home" || pageName == "Hjem")][0] {
   _id,
-  title,
+  pageName,
   slug,
   sections[]{
     _type,
@@ -315,10 +315,10 @@ export const LANDING_PAGE_QUERY = `
     _type == "logoSalad" => {...}
   },
   seo{
-    metaTitle,
-    metaDescription,
-    openGraphImage{asset->},
-    noIndex
+    title,
+    description,
+    image{asset->},
+    keywords
   }
 }
 `;

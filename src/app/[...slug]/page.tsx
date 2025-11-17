@@ -1,206 +1,36 @@
 import { ReactElement } from "react";
 import { notFound } from "next/navigation";
-import {
-  CATEGORIZED_POSTS_QUERY,
-  COUNT_POSTS_QUERY,
-} from "@/sanity/lib/queries/editorial/blogpost";
-import { INFORMATION_CATEGORIES_QUERY } from "@/sanity/lib/queries/editorial/information";
-import { EVENT_QUERY } from "@/sanity/lib/queries/editorial/event";
-import { AVAILABLE_POSITIONS_QUERY } from "@/sanity/lib/queries/editorial/availablePositions";
 import { sanityFetch } from "@/sanity/lib/live";
+import {
+  PAGINATED_ARTICLES_QUERY,
+  COUNT_ARTICLES_QUERY,
+  COLLECTION_CATEGORIES_QUERY,
+  ALL_EVENTS_QUERY,
+  PAGE_BY_SLUG_QUERY,
+  ARTICLE_BY_SLUG_QUERY,
+  LANDING_PAGE_ID_QUERY,
+  SEO_FALLBACK_QUERY,
+  BRAND_ASSETS_QUERY,
+} from "@/sanity/lib/queries";
 import {
   getDocumentBySlug,
   getDocumentWithLandingCheck,
   getDocumentTypeBySlug,
   QueryType,
 } from "@/utils/queries";
-import PostPage from "@/components/pages/post/PostPage";
-import AvailablePositionPage from "@/components/pages/availablePosition/AvailablePositionPage";
-import { Information } from "@/components/pages/information/Information";
-import { Highlights } from "@/components/pages/highlights/Highlights";
-import Legal from "@/components/pages/legal/Legal";
 import {
-  AvailablePositionDocument,
-  HightlightsDocument,
-  InformationDocument,
-  PageDocument,
-  PostDocument,
   Section,
 } from "@/sanity/lib/interfaces/pages";
 import SectionRenderer from "@/utils/renderSection";
 import PMDDErrorMessage from "@/components/pages/information/components/customErrorMessage/PMDDErrorMessage";
-import { LegalDocument } from "@/sanity/lib/interfaces/admin";
 import { Metadata } from "next";
-import { SEO_SLUG_QUERY } from "@/sanity/lib/queries/seo";
 import { urlFor } from "@/sanity/lib/image";
 
 export const revalidate = 86400; // ISR: 24 hours - regenerate daily
 export const dynamicParams = true; // Enable ISR for new pages
 
-interface ComponentProps {
-  document:
-    | PageDocument
-    | PostDocument
-    | AvailablePositionDocument
-    | InformationDocument
-    | HightlightsDocument
-    | LegalDocument;
-  slug?: string[];
-  language: string;
-  landingPageId?: string | null;
-  searchParams?: {
-    type?: string;
-    page?: string;
-    category?: string;
-  };
-}
-
-// Separate data fetching functions for better organization
-const fetchInformationData = async (
-  slug: string,
-  language: string,
-  page: number,
-  category?: string
-) => {
-  const POSTS_PER_PAGE = 12;
-  const start = (page - 1) * POSTS_PER_PAGE;
-  const end = start + POSTS_PER_PAGE - 1;
-
-  const [postsCount, posts, categories] = await Promise.all([
-    sanityFetch({
-      query: COUNT_POSTS_QUERY,
-      params: { language, categoryName: category || null },
-    }),
-    sanityFetch({
-      query: CATEGORIZED_POSTS_QUERY,
-      params: {
-        slug,
-        language,
-        categoryName: category || null,
-        start,
-        end,
-      },
-    }),
-    sanityFetch({
-      query: INFORMATION_CATEGORIES_QUERY,
-      params: { language },
-    }),
-  ]);
-
-  if (!posts?.data || !postsCount?.data) return null;
-  return {
-    posts: posts.data,
-    categories: categories.data,
-    postsCount: postsCount.data,
-  };
-};
-
-const fetchHighlightsData = async (language: string) => {
-  const [events, positions] = await Promise.all([
-    sanityFetch({
-      query: EVENT_QUERY,
-      params: { language },
-    }),
-    sanityFetch({
-      query: AVAILABLE_POSITIONS_QUERY,
-      params: { language },
-    }),
-  ]);
-
-  return { events: events.data, positions: positions.data };
-};
-
-// Component mapping with async handlers
-const pageComponentMap: Record<
-  QueryType,
-  (props: ComponentProps) => Promise<ReactElement> | ReactElement
-> = {
-  [QueryType.Post]: ({ document, language, slug }) => {
-    if (!slug) return notFound();
-    return (
-      <PostPage
-        post={document as PostDocument}
-        language={language}
-        currentSlug={slug?.join("/")}
-      />
-    );
-  },
-
-  [QueryType.AvailablePosition]: ({ document }) => (
-    <AvailablePositionPage document={document as AvailablePositionDocument} />
-  ),
-
-  [QueryType.Information]: async ({
-    document,
-    slug,
-    language,
-    searchParams,
-  }) => {
-    const page = Number(searchParams?.page) || 1;
-    if (!slug) return notFound();
-    const data = await fetchInformationData(
-      slug[0],
-      language,
-      page,
-      searchParams?.category
-    );
-
-    if (!data) return notFound();
-
-    return (
-      <Information
-        information={document as InformationDocument}
-        initialPosts={data.posts}
-        slug={slug[0]}
-        language={language}
-        categories={data.categories}
-        selectedCategoryName={searchParams?.category}
-        postCount={data.postsCount}
-        currentPage={page}
-      />
-    );
-  },
-
-  [QueryType.Highlights]: async ({ document, slug, language }) => {
-    if (!slug) return notFound();
-    const data = await fetchHighlightsData(language);
-    return (
-      <Highlights
-        highlights={document as HightlightsDocument}
-        language={language}
-        events={data.events}
-        availablePositions={data.positions}
-      />
-    );
-  },
-
-  [QueryType.LegalDocument]: ({ document, language, slug }) => {
-    if (!slug) return notFound();
-    return (
-      <Legal
-        document={document as LegalDocument}
-        language={language}
-        slug={slug.join("/")}
-      />
-    );
-  },
-
-  [QueryType.Page]: ({ document, landingPageId, language }) => (
-    <>
-      {(document as PageDocument)?.sections?.map((section: Section) => (
-        <SectionRenderer
-          key={section._key}
-          section={section}
-          isLandingPage={document._id === landingPageId}
-          language={language}
-        />
-      ))}
-    </>
-  ),
-};
-
 interface PageProps {
-  params: Promise<{ slug: string[]; language: string }>;
+  params: Promise<{ slug: string[] }>;
   searchParams: Promise<{
     type?: string;
     page?: string;
@@ -211,25 +41,31 @@ interface PageProps {
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
-  const { language, slug } = await params;
-
+  const { slug } = await params;
   const lastSlug = slug[slug.length - 1];
 
-  const [{ data: seo }] = await Promise.all([
-    sanityFetch({
-      query: SEO_SLUG_QUERY,
-      params: {
-        language: language,
-        slug: lastSlug,
-      },
-    }),
-  ]);
+  // Fetch page-specific SEO or use fallback
+  const pageQuery = `*[slug.current == $slug][0]{ seo }`;
+  const [{ data: page }, { data: fallbackSeo }, { data: brandAssets }] =
+    await Promise.all([
+      sanityFetch({
+        query: pageQuery,
+        params: { slug: lastSlug },
+      }),
+      sanityFetch({
+        query: SEO_FALLBACK_QUERY,
+        params: {},
+      }),
+      sanityFetch({
+        query: BRAND_ASSETS_QUERY,
+        params: {},
+      }),
+    ]);
 
-  // Generate favicon URL if available
-  const favicon = seo?.favicon;
+  const seo = page?.seo || fallbackSeo;
+  const favicon = brandAssets?.favicon;
   const faviconUrl = favicon ? urlFor(favicon).url() : "";
 
-  // Filter out null icons
   const icons = [faviconUrl ? { rel: "icon", url: faviconUrl } : null].filter(
     (icon): icon is NonNullable<typeof icon> => icon !== null
   );
@@ -237,9 +73,8 @@ export async function generateMetadata({
   const metadata = {
     title: seo?.title || "",
     description: seo?.description || "",
-    keywords: seo?.keywords || "",
     openGraph: {
-      images: [seo?.image || ""],
+      images: seo?.image ? [urlFor(seo.image).url()] : [],
     },
     icons: { icon: icons },
   };
@@ -248,45 +83,107 @@ export async function generateMetadata({
 }
 
 export default async function DynamicPage({ params, searchParams }: PageProps) {
-  const { slug, language } = await params;
+  const { slug } = await params;
   const resolvedSearchParams = await searchParams;
 
   if (!slug?.length) {
     return <PMDDErrorMessage />;
   }
 
-  const { data: docType } = await getDocumentTypeBySlug(slug, language);
+  // Get document type
+  const { data: docType } = await getDocumentTypeBySlug(slug, "no");
 
-  if (!docType || !(docType in pageComponentMap)) {
+  if (!docType) {
     return <PMDDErrorMessage />;
   }
 
-  // For Page type, use optimized query that also fetches landing page ID
-  let document,
-    landingPageId = null;
+  // Handle different document types
+  if (docType === "page") {
+    const result = await getDocumentWithLandingCheck(
+      QueryType.Page,
+      slug,
+      "no"
+    );
+    const document = result.data;
+    const landingPageId = result.landingPageId;
 
-  if (docType === QueryType.Page) {
-    const result = await getDocumentWithLandingCheck(docType, slug, language);
-    document = result.data;
-    landingPageId = result.landingPageId;
-  } else {
-    const result = await getDocumentBySlug(docType, slug, language);
-    document = result.data;
+    if (!document) {
+      return <PMDDErrorMessage />;
+    }
+
+    return (
+      <>
+        {document?.sections?.map((section: Section) => (
+          <SectionRenderer
+            key={section._key}
+            section={section}
+            isLandingPage={document._id === landingPageId}
+          />
+        ))}
+      </>
+    );
   }
 
-  if (!document) {
-    return <PMDDErrorMessage />;
+  if (docType === "article") {
+    const { data: article } = await getDocumentBySlug(
+      QueryType.Article,
+      slug,
+      "no"
+    );
+
+    if (!article) {
+      return <PMDDErrorMessage />;
+    }
+
+    // TODO: Render article page
+    // For now, return a simple placeholder
+    return (
+      <div>
+        <h1>{article.title}</h1>
+        <p>Article rendering to be implemented</p>
+      </div>
+    );
   }
 
-  const Component = pageComponentMap[docType as QueryType];
-  const result = Component({
-    document,
-    slug,
-    language,
-    landingPageId,
-    searchParams: resolvedSearchParams,
-  });
+  if (docType === "collectionHub") {
+    const { data: hub } = await getDocumentBySlug(
+      QueryType.CollectionHub,
+      slug,
+      "no"
+    );
 
-  // Handle async components
-  return await result;
+    if (!hub) {
+      return <PMDDErrorMessage />;
+    }
+
+    // TODO: Render collection hub page
+    return (
+      <div>
+        <h1>{hub.title}</h1>
+        <p>Collection hub rendering to be implemented</p>
+      </div>
+    );
+  }
+
+  if (docType === "event") {
+    const { data: event } = await getDocumentBySlug(
+      QueryType.Event,
+      slug,
+      "no"
+    );
+
+    if (!event) {
+      return <PMDDErrorMessage />;
+    }
+
+    // TODO: Render event page
+    return (
+      <div>
+        <h1>{event.title}</h1>
+        <p>Event rendering to be implemented</p>
+      </div>
+    );
+  }
+
+  return <PMDDErrorMessage />;
 }

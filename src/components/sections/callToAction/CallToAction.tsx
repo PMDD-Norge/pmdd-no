@@ -3,7 +3,7 @@ import styles from "./callToAction.module.css";
 import {
   ColorTheme,
   ImagePosition,
-} from "@/sanity/schemaTypes/fields/appearance";
+} from "@/sanity/lib/interfaces/appearance";
 import SanityNextImage from "@/components/image/sanityImage";
 import Text from "@/components/text/Text";
 import { RichText } from "@/components/richText/RichText";
@@ -15,7 +15,7 @@ interface CallToActionProps {
 
 const CallToAction = ({ callToAction }: CallToActionProps) => {
   const { appearance, title, richText, callToActions } = callToAction;
-  const image = appearance.image;
+  const image = appearance?.image;
   const imagePosition = appearance?.layout?.imagePosition;
   const theme =
     appearance?.theme === ColorTheme.Dark

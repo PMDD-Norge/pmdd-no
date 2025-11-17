@@ -1,5 +1,5 @@
 import { PortableText, PortableTextReactComponents } from "@portabletext/react";
-import { PortableTextBlock } from "sanity";
+import { PortableTextBlock } from "next-sanity";
 import React from "react";
 import textStyles from "../text/text.module.css";
 import styles from "./richtext.module.css";
@@ -18,7 +18,7 @@ const formatId = (text: string): string => {
 
 const isImageBlock = (
   block: PortableTextBlock
-): block is PortableTextBlock & { asset: { _ref: string } } => {
+): block is PortableTextBlock & { asset: { _ref: string }; _key: string } => {
   return (
     block?._type === "image" &&
     typeof block === "object" &&
@@ -27,7 +27,9 @@ const isImageBlock = (
     typeof block.asset === "object" &&
     block.asset !== null &&
     "_ref" in block.asset &&
-    typeof block.asset._ref === "string"
+    typeof block.asset._ref === "string" &&
+    "_key" in block &&
+    typeof block._key === "string"
   );
 };
 
@@ -83,7 +85,7 @@ const richTextComponents: Partial<PortableTextReactComponents> = {
       const { href, blank } = value;
       const isExternal = isExternalLink(href);
       const openInNewTab = shouldOpenInNewTab(href, blank);
-      
+
       return (
         <a
           href={href}
@@ -177,8 +179,9 @@ export const RichText = ({ value }: RichTextProps) => {
             header: {
               _type: "block",
               style: "normal",
-              children: [{ text: "" }],
+              children: [{ _type: "span", text: "" }],
               _key: "initial",
+              markDefs: [],
             },
             content: [block],
             subsections: [],
@@ -193,8 +196,10 @@ export const RichText = ({ value }: RichTextProps) => {
           header: {
             _type: "block",
             style: "normal",
-            children: [{ text: "" }],
-            _key: `image-section-${block._key || Math.random().toString(36).substr(2, 9)}`, // Generate unique key
+            children: [{ _type: "span", text: "" }],
+            _key: `image-section-${
+              block._key || Math.random().toString(36).substr(2, 9)
+            }`, // Generate unique key
             markDefs: [],
           },
           content: [block],
@@ -211,7 +216,7 @@ export const RichText = ({ value }: RichTextProps) => {
     }
   });
 
-  return sections.map((section, index) => (
+  return sections?.map((section, index) => (
     <div
       key={`section-${section.header._key || index}`}
       className={styles.section}

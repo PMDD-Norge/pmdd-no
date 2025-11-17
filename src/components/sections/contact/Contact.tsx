@@ -1,6 +1,6 @@
 import { ContactObject } from "@/sanity/lib/interfaces/pages";
 import styles from "./contact.module.css";
-import { ColorTheme } from "@/sanity/schemaTypes/fields/appearance";
+import { ColorTheme } from "@/sanity/lib/interfaces/appearance";
 import Text from "@/components/text/Text";
 import { RichText } from "@/components/richText/RichText";
 import LinkButton from "@/components/linkButton/LinkButton";
