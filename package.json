@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
-    "@sanity/types": "^4.15.0",
+    "@sanity/types": "^3.88.2",
     "@types/node": "^22.15.21",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
