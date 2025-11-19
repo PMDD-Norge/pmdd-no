@@ -3,8 +3,6 @@ import { PostCard } from "../postCard/PostCard";
 import LoadingPosts from "../loadingPosts/LoadingPosts";
 import { PostDocument } from "@/sanity/lib/interfaces/pages";
 import LinkButton from "@/components/linkButton/LinkButton";
-import { GlobalTranslationKey } from "@/utils/constants/globalTranslationKeys";
-import { getCustomTranslations } from "@/utils/translations";
 import { LinkType } from "@/sanity/lib/interfaces/siteSettings";
 
 const PostPreviewGrid = async ({
@@ -25,16 +23,13 @@ const PostPreviewGrid = async ({
   currentPage: number;
   category?: string;
 }) => {
-  const { t } = await getCustomTranslations();
   const postsAlreadyRendered = posts.length;
   const remainingPosts = numberOfPosts - postsAlreadyRendered;
   const itemsPerLoad = 9;
   const isShowingLastBatch = remainingPosts <= itemsPerLoad;
   const loadMoreButtonText = isShowingLastBatch
-    ? t(GlobalTranslationKey.loadLastItems, {
-        count: remainingPosts,
-      })
-    : t(GlobalTranslationKey.loadMoreItems, { count: itemsPerLoad });
+    ? `Last siste ${remainingPosts}`
+    : `Last ${itemsPerLoad} flere`;
 
   // Construct the URL for the next page
   const nextPageUrl = new URLSearchParams();

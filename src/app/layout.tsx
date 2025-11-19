@@ -5,19 +5,17 @@ import { draftMode } from "next/headers";
 import { VisualEditing } from "next-sanity";
 import {
   BRAND_ASSETS_QUERY,
-  SOCIAL_MEDIA_QUERY,
   NAVIGATION_QUERY,
 } from "@/sanity/lib/queries";
-import { lazy } from "react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
 import { DisableDraftMode } from "@/components/disableDraftMode/DisableDraftMode";
 import ServiceWorkerRegistration from "@/components/ServiceWorkerRegistration";
+import Header from "@/components/navigation/header/Header";
+import Footer from "@/components/navigation/footer/Footer";
 
-const Header = lazy(() => import("@/components/navigation/header/Header"));
-const Footer = lazy(() => import("@/components/navigation/footer/Footer"));
-
-export const revalidate = 300; // 5 minute cache for better performance
+// No cache during development for faster iterations
+export const revalidate = 0;
 
 const pollerOne = Poller_One({
   subsets: ["latin"],
@@ -51,20 +49,14 @@ const fetchData = async () => {
       params: {},
       tags: ["brandAssets"],
     }),
-    sanityFetch({
-      query: SOCIAL_MEDIA_QUERY,
-      params: {},
-      tags: ["socialMedia"],
-    }),
   ];
 
-  const [navResponse, brandAssetsResponse, soMeResponse] =
+  const [navResponse, brandAssetsResponse] =
     await Promise.all(queries);
 
   return {
     nav: navResponse.data,
     brandAssets: brandAssetsResponse.data,
-    soMe: soMeResponse.data,
   };
 };
 
@@ -75,7 +67,7 @@ export default async function RootLayout({
 }>) {
   const isDev = process.env.NODE_ENV === "development";
   const { isEnabled: isDraftMode } = await draftMode();
-  const { nav, brandAssets, soMe } = await fetchData();
+  const { nav, brandAssets } = await fetchData();
 
   return (
     <html lang="no">
@@ -105,7 +97,7 @@ export default async function RootLayout({
         <main id="main" tabIndex={-1}>
           {children}
         </main>
-        <Footer navigationData={nav} soMeData={soMe} />
+        <Footer navigationData={nav} />
         {isDev && <SanityLive />}
         {isDraftMode && (
           <>

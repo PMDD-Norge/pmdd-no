@@ -17,6 +17,24 @@
   }
 }
 
+.imagePositionLeftOnSmallerScreens {
+  @media (max-width: 640px) {
+    flex-direction: column-reverse;
+  }
+}
+
+.image {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+
+  @media (min-width: 640px) {
+    width: 50%;
+  }
+}
+
 .maxWrapper {
   display: flex;
   flex-direction: column;

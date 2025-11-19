@@ -2,8 +2,9 @@ import { sanityFetch } from "@/sanity/lib/live";
 import {
   ARTICLE_BY_SLUG_QUERY,
   PAGE_BY_SLUG_QUERY,
-  COLLECTION_HUB_BY_TYPE_QUERY,
+  COLLECTION_HUB_BY_SLUG_QUERY,
   LANDING_PAGE_ID_QUERY,
+  LEGAL_DOCUMENT_BY_SLUG_QUERY,
 } from "@/sanity/lib/queries";
 
 // Using const enum with explicit string values
@@ -12,20 +13,33 @@ export const enum QueryType {
   Article = "article",
   CollectionHub = "collectionHub",
   Event = "event",
+  AvailablePosition = "availablePosition",
+  LegalDocument = "legalDocument",
 }
 
 // Map query types to their respective queries
 const Queries: Record<QueryType, string> = {
   [QueryType.Page]: PAGE_BY_SLUG_QUERY,
   [QueryType.Article]: ARTICLE_BY_SLUG_QUERY,
-  [QueryType.CollectionHub]: COLLECTION_HUB_BY_TYPE_QUERY,
+  [QueryType.CollectionHub]: COLLECTION_HUB_BY_SLUG_QUERY,
   [QueryType.Event]: `*[_type == "event" && slug.current == $slug][0]`,
+  [QueryType.AvailablePosition]: `*[_type == "availablePosition" && slug.current == $slug][0] {
+    _id,
+    _type,
+    title,
+    slug,
+    lead,
+    richText,
+    tag,
+    image{asset->, altText, hotspot}
+  }`,
+  [QueryType.LegalDocument]: LEGAL_DOCUMENT_BY_SLUG_QUERY,
 };
 
 export async function getDocumentTypeBySlug(slug: string[], language: string) {
   const slugToUse = slug.length > 1 ? slug[slug.length - 1] : slug[0];
   return sanityFetch({
-    query: `*[defined(slug) && slug[_key == $language][0].value == $slug][0]._type`,
+    query: `*[defined(slug) && slug.current == $slug][0]._type`,
     params: { slug: slugToUse, language },
   });
 }

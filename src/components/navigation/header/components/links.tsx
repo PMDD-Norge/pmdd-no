@@ -52,7 +52,7 @@ export const PageCTAs = ({
         <li key={link._key}>
           <LinkButton
             link={link}
-            type={ctas.length < 2 || index === 1 ? "primary" : "secondary"}
+            type={index === 0 ? "secondary" : "primary"}
           />
         </li>
       ))}

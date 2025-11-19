@@ -3,6 +3,62 @@
  * Collection types: 'blog', 'news', 'highlights', 'resources'
  */
 
+// Get collection hub by slug (supports both new collectionHub and legacy information/highlights types)
+export const COLLECTION_HUB_BY_SLUG_QUERY = `
+*[(_type == "collectionHub" || _type == "information" || _type == "highlights") && slug.current == $slug][0] {
+  _id,
+  _type,
+  type,
+  "page": page->{
+    ...
+  },
+  title,
+  slug,
+  description,
+  richText,
+  image{
+    asset->,
+    altText,
+    hotspot,
+    title,
+    description
+  },
+  contactSection{
+    _type,
+    _key,
+    title,
+    description,
+    richText,
+    showCompanyInfo,
+    showCompanyInfo == true => {
+      "companyInfo": *[_type == "companyInformation"][0]{
+        organizationName,
+        address,
+        email,
+        phone
+      }
+    },
+    additionalInfo,
+    appearance
+  },
+  eventsSection{
+    title,
+    richText
+  },
+  availablePositionsSection{
+    title,
+    richText
+  },
+  allPostsLabel,
+  seo{
+    metaTitle,
+    metaDescription,
+    openGraphImage{asset->},
+    noIndex
+  }
+}
+`;
+
 // Get collection hub by type
 export const COLLECTION_HUB_BY_TYPE_QUERY = `
 *[_type == "collectionHub" && type == $type][0] {

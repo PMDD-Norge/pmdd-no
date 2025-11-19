@@ -1,8 +1,6 @@
 import Link from "next/link";
 import styles from "./quickNavigation.module.css";
 import { PortableTextBlock } from "next-sanity";
-import { getCustomTranslations } from "@/utils/translations";
-import { GlobalTranslationKey } from "@/utils/constants/globalTranslationKeys";
 import {
   extractH2TextsFromPortableText,
   generateHashFromHeading,
@@ -20,9 +18,7 @@ const QuickNavigation = async ({
   isMainLayout?: boolean;
   currentSlug: string;
 }) => {
-  const { t } = await getCustomTranslations();
-  const quickNavigationString =
-    t(GlobalTranslationKey.quickNavigation) || "Quick Navigation";
+  const quickNavigationString = "Hurtignavigasjon";
 
   const headings = extractH2TextsFromPortableText(richText);
   const quickNav = "quick-nav";

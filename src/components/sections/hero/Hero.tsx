@@ -16,9 +16,9 @@ const Hero = ({ hero, isLanding = false }: HeroProps) => {
     <div className={styles.sectionWrapperRow}>
       <div className={styles.hero}>
         <div
-          className={`${styles.content} ${isLanding && hero.image ? "" : styles.imagePositionAlwaysLeftOnMobile}`}
+          className={`${styles.content} ${isLanding && hero.image?.asset ? "" : styles.imagePositionAlwaysLeftOnMobile}`}
         >
-          {hero.image && (
+          {hero.image?.asset && (
             <div className={styles.image}>
               <SanityNextImage
                 image={hero.image}

@@ -7,8 +7,6 @@ import {
   InformationDocument,
   PostDocument,
 } from "@/sanity/lib/interfaces/pages";
-import { getCustomTranslations } from "@/utils/translations";
-import { GlobalTranslationKey } from "@/utils/constants/globalTranslationKeys";
 import Text from "@/components/text/Text";
 import { RichText } from "@/components/richText/RichText";
 import Contact from "@/components/sections/contact/Contact";
@@ -33,14 +31,12 @@ export async function Information({
   selectedCategoryName,
 }: InformationProps) {
   const { title, richText, contactSection } = information;
-  const { t } = await getCustomTranslations();
-  const allString = t(GlobalTranslationKey.all) || "All";
 
   const categoriesToShow = [
     {
       _id: "all",
       _type: "category",
-      name: `${allString} ${information?.allPostsLabel}`,
+      name: `Alle ${information?.allPostsLabel}`,
     },
     ...(categories || []),
   ];

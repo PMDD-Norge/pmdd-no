@@ -134,7 +134,7 @@ export interface GridList extends SanityBase {
   contentType?: "manual" | "event" | "availablePosition" | "post";
   items?: GridItem[];
   maxItems?: number;
-  ctaLink?: SanityLink;
+  internalLink?: SanityLink;
 }
 
 export interface GridObject extends SanityBase {
@@ -215,8 +215,13 @@ export interface Writer extends SanityBase {
 export interface EventDocument extends SanityBase {
   title: string;
   richText?: PortableTextBlock[] | null;
+  body?: PortableTextBlock[] | null;
   image: SanityImageData;
-  link: SanityLink;
+  link?: SanityLink;
+  slug?: Slug;
+  startDate?: string;
+  endDate?: string;
+  location?: string;
 }
 
 export interface AvailablePositionDocument extends SanityBase {

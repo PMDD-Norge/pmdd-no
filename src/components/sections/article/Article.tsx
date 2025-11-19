@@ -4,24 +4,24 @@ import { ArticleObject } from "@/sanity/lib/interfaces/pages";
 import {
   ColorTheme,
   ImagePosition,
-  LinkType,
 } from "@/sanity/lib/interfaces/appearance";
 import Text from "@/components/text/Text";
 import { RichText } from "@/components/richText/RichText";
 import LinkButton from "@/components/linkButton/LinkButton";
-import CustomLink from "@/components/link/CustomLink";
 import { getDisplayText } from "@/utils/textUtils";
 
 const Article = ({ article }: { article: ArticleObject }) => {
   const { appearance, callToActions, mediaType, image, iframeUrl } = article;
   const imagePosition = appearance?.layout?.imagePosition;
   const mediaIsIframe = mediaType === "iframe" && iframeUrl;
+  const appearanceImage = appearance?.image;
   const theme =
     appearance?.theme === ColorTheme.Dark
       ? "darkBackground"
       : "lightBackground";
 
   const renderMedia = () => {
+    // Priority 1: iframe
     if (mediaIsIframe) {
       return (
         <div className={styles.iframe}>
@@ -37,10 +37,20 @@ const Article = ({ article }: { article: ArticleObject }) => {
       );
     }
 
+    // Priority 2: main image when mediaType is set to image
     if (mediaType === "image" && image) {
       return (
         <div className={styles.image}>
           <SanityNextImage image={image} />
+        </div>
+      );
+    }
+
+    // Priority 3: appearance image (fallback)
+    if (appearanceImage) {
+      return (
+        <div className={styles.image}>
+          <SanityNextImage image={appearanceImage} />
         </div>
       );
     }

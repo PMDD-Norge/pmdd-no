@@ -22,6 +22,7 @@ export {
 
 // Collection Hub queries
 export {
+  COLLECTION_HUB_BY_SLUG_QUERY,
   COLLECTION_HUB_BY_TYPE_QUERY,
   COLLECTION_HUB_WITH_ARTICLES_QUERY,
   COLLECTION_CATEGORIES_QUERY,
@@ -48,3 +49,9 @@ export {
   UPCOMING_EVENTS_QUERY,
   EVENT_SLUGS_QUERY,
 } from './event';
+
+// Legal document queries
+export {
+  LEGAL_DOCUMENT_BY_SLUG_QUERY,
+  LEGAL_DOCUMENT_SLUGS_QUERY,
+} from './legal';
