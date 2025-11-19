@@ -41,14 +41,12 @@ export const EVENT_BY_SLUG_QUERY = `
   registrationLink{
     title,
     type,
-    type == "external" => {url},
-    type == "internal" => {
-      "internalLink": internalLink->{
-        _type,
-        title,
-        slug
-      }
+    "internalLink": internalLink->{
+      _type,
+      title,
+      slug
     },
+    url,
     newTab
   }
 }

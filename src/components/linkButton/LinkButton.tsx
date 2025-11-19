@@ -20,7 +20,7 @@ const typeClassMap: { [key in LinkButtonType]: string } = {
 const LinkButton = ({ isLoadMore, type = "primary", link }: IButton) => {
   const className = `${styles.button} ${isLoadMore ? styles.isLoadMore : ""} ${typeClassMap[type]}`;
   const href = getHref(link);
-  const isExternal = link.type === LinkType.External;
+  const isExternal = link?.type === LinkType.External;
   return (
     href && (
       <Link
@@ -29,7 +29,7 @@ const LinkButton = ({ isLoadMore, type = "primary", link }: IButton) => {
         target={isExternal ? "_blank" : "_self"} // Open external links in a new tab
         rel={isExternal ? "noopener noreferrer" : undefined} // For security reasons when opening external links in a new tab
       >
-        {link.title}
+        {link?.title}
       </Link>
     )
   );

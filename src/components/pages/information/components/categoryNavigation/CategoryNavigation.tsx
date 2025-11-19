@@ -1,6 +1,4 @@
 import { Category } from "@/sanity/lib/interfaces/pages";
-import { GlobalTranslationKey } from "@/utils/constants/globalTranslationKeys";
-import { getCustomTranslations } from "@/utils/translations";
 import styles from "./categoryNavigation.module.css";
 import Link from "next/link";
 import Text from "@/components/text/Text";
@@ -14,13 +12,11 @@ const CategoryNavigation = async ({
   selectedCategory?: string | null;
   slug: string;
 }) => {
-  const { t } = await getCustomTranslations();
-
   return (
     <div className={styles.wrapper}>
       {categories.length > 2 && (
         <>
-          <Text type="h3">{t(GlobalTranslationKey.filterByCategory)}</Text>
+          <Text type="h3">Filtrer etter kategori</Text>
           <nav className={styles.tabList}>
             {categories?.map((category, index) => {
               const isSelected = !selectedCategoryName

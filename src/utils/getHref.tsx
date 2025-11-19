@@ -15,30 +15,36 @@ export const getHref = (link: SanityLink): string => {
 
   switch (type) {
     case LinkType.Internal:
-      if (internalLink?._ref) {
-        const [path, query] = internalLink._ref.split("?");
+      // Get the slug from the expanded reference
+      const slug = internalLink?.slug?.current;
 
-        // Note: With new schema structure, articles (including job positions and blog posts)
-        // are all type 'article' with different type field values
-        const isArticle = internalLink._type === "article";
+      // Debug logging to help identify missing slugs
+      if (!slug && internalLink) {
+        console.warn(
+          "Internal link is missing slug.current:",
+          internalLink,
+          "Link title:",
+          link?.title
+        );
+      }
 
+      if (slug) {
+        const [path, query] = slug.split("?");
+
+        // Build the URL path
         let link: string;
-        if (isArticle) {
-          // Articles can be nested under different parent pages based on their type
-          // This logic may need adjustment based on your routing structure
-          link =
-            path === "/"
-              ? "/"
-              : `/${path}${query ? `?${query}` : ""}${formatAnchor(anchor)}`;
+        if (path === "/") {
+          // Root page - just add anchor if present
+          link = `/${formatAnchor(anchor)}`;
         } else {
-          link =
-            path === "/"
-              ? `/${formatAnchor(anchor)}`
-              : `/${path}${query ? `?${query}` : ""}${formatAnchor(anchor)}`;
+          // Regular page - add path, query params, and anchor
+          link = `/${path}${query ? `?${query}` : ""}${formatAnchor(anchor)}`;
         }
 
         return link;
       }
+
+      // If we reach here, the internal link is missing its slug
       return hash;
 
     case LinkType.External:

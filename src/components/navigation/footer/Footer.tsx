@@ -5,17 +5,13 @@ import {
 } from "@/sanity/lib/interfaces/siteSettings";
 import CustomLink from "../../link/CustomLink";
 import styles from "./footer.module.css";
-import {
-  SocialMediaLink,
-  SocialMediaProfiles,
-} from "@/sanity/lib/interfaces/socialMedia";
+import { SocialMediaLink } from "@/sanity/lib/interfaces/socialMedia";
 import { RichText } from "@/components/richText/RichText";
 import Text from "@/components/text/Text";
 import SoMeLink from "@/components/link/SoMeLink";
 
 interface FooterProps {
   navigationData: Navigation | undefined;
-  soMeData: SocialMediaProfiles | undefined;
 }
 
 interface Section {
@@ -25,14 +21,11 @@ interface Section {
   _key: string;
 }
 
-const Footer = ({ navigationData, soMeData }: FooterProps) => {
+const Footer = ({ navigationData }: FooterProps) => {
   return (
     <footer className={styles.footer}>
       <nav className={styles.nav}>
-        <SocialMediaSection
-          navigationData={navigationData}
-          soMeData={soMeData}
-        />
+        <SocialMediaSection navigationData={navigationData} />
         <ContentSections navigationData={navigationData} />
       </nav>
     </footer>
@@ -89,22 +82,29 @@ const ContentSections = ({
   });
 };
 
-const SocialMediaSection = ({ navigationData, soMeData }: FooterProps) => {
+const SocialMediaSection = ({ navigationData }: { navigationData: Navigation | undefined }) => {
   const socialMediaSections = filterSectionsByType(
     navigationData,
     "socialMedia"
   );
-  const socialMediaTitle = getSectionTitles(navigationData, "socialMedia")?.[0];
 
-  if (!socialMediaSections || !soMeData?.soMeLinkArray || soMeData.soMeLinkArray.length === 0) {
+  if (!socialMediaSections || socialMediaSections.length === 0) {
+    return null;
+  }
+
+  // Get the first social media section
+  const socialMediaSection = socialMediaSections[0];
+  const profiles = socialMediaSection.socialMedia?.profiles;
+
+  if (!profiles || profiles.length === 0) {
     return null;
   }
 
   return (
     <div className={styles.column}>
-      <Text type="h4">{socialMediaTitle}</Text>
+      <Text type="h4">{socialMediaSection.sectionTitle}</Text>
       <ul className={styles.list}>
-        {soMeData.soMeLinkArray.map((link: SocialMediaLink) => (
+        {profiles.map((link: SocialMediaLink) => (
           <li key={link._key}>
             <SoMeLink link={link} />
           </li>
@@ -118,8 +118,5 @@ const filterSectionsByType = (
   data: Navigation | undefined,
   type: "content" | "socialMedia"
 ) => data?.footer?.filter((section: Section) => section.sectionType === type);
-
-const getSectionTitles = (data: Navigation | undefined, type: "content" | "socialMedia") =>
-  filterSectionsByType(data, type)?.map((section) => section.sectionTitle);
 
 export default Footer;

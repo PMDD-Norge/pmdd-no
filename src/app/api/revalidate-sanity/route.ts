@@ -7,9 +7,12 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     
     // Verify webhook secret (optional but recommended)
-    const secret = request.headers.get('sanity-webhook-secret')
-    if (secret !== process.env.SANITY_WEBHOOK_SECRET) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    // Skip in development mode for easier testing
+    if (process.env.NODE_ENV === 'production') {
+      const secret = request.headers.get('sanity-webhook-secret')
+      if (secret !== process.env.SANITY_WEBHOOK_SECRET) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      }
     }
 
     // Determine what to revalidate based on document type
@@ -21,7 +24,7 @@ export async function POST(request: NextRequest) {
         break
       case 'information':
         revalidateTag('information')
-        break  
+        break
       case 'post':
         revalidateTag('posts')
         break
@@ -30,6 +33,12 @@ export async function POST(request: NextRequest) {
         break
       case 'navigation':
         revalidateTag('navigation')
+        break
+      case 'socialMediaProfiles':
+        revalidateTag('socialMedia')
+        break
+      case 'event':
+        revalidateTag('events')
         break
       default:
         // Revalidate all for unknown types

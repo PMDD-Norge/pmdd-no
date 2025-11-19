@@ -13,8 +13,8 @@ interface ImageProps {
 }
 
 const urlFor = (source: SanityImageData) => {
-  // Handle Sanity asset
-  if (source.asset?._ref) {
+  // Handle both reference (_ref) and expanded (_id) asset formats
+  if (source.asset?._ref || source.asset?._id) {
     return imageBuilder
       .image(source)
       .auto("format") // Automatically serves WebP/AVIF when supported

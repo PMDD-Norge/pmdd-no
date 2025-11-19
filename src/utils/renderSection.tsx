@@ -55,7 +55,7 @@ const sectionRenderers: Record<
   hero: (section, { isLandingPage }) => (
     <Hero hero={section as HeroObject} isLanding={isLandingPage} />
   ),
-  article: (section) => <Article article={section as ArticleObject} />,
+  articleSection: (section) => <Article article={section as ArticleObject} />,
   callout: (section) => <Callout callout={section as CalloutObject} />,
   ctaSection: (section) => (
     <CallToAction callToAction={section as CallToActionObject} />

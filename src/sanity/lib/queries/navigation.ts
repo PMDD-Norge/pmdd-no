@@ -6,44 +6,71 @@
 export const NAVIGATION_QUERY = `
 *[_type == "navigationManager"][0] {
   _id,
-  mainNavigation[]{
-    _key,
-    title,
-    type,
-    type == "internal" => {
+  "main": {
+    "links": mainMenu[_type == "link"]{
+      _key,
+      title,
+      type,
       "internalLink": internalLink->{
         _type,
         title,
         slug
-      }
+      },
+      url,
+      email,
+      phone,
+      anchor,
+      newTab
     },
-    type == "external" => {url},
-    type == "email" => {email},
-    type == "phone" => {phone},
-    anchor,
-    newTab
-  },
-  ctaButton{
-    title,
-    link{
-      _type,
+    "callToActionField": mainMenu[_type == "callToActionField"]{
+      _key,
       title,
       type,
-      type == "internal" => {
-        "internalLink": internalLink->{
-          _type,
-          title,
-          slug
-        }
+      "internalLink": internalLink->{
+        _type,
+        title,
+        slug
       },
-      type == "external" => {url},
-      type == "email" => {email},
-      type == "phone" => {phone},
+      url,
+      email,
+      phone,
       anchor,
       newTab
     }
   },
-  footerSections[]{
+  "sidebar": {
+    "links": sidebarMenu[_type == "link"]{
+      _key,
+      title,
+      type,
+      "internalLink": internalLink->{
+        _type,
+        title,
+        slug
+      },
+      url,
+      email,
+      phone,
+      anchor,
+      newTab
+    },
+    "callToActionField": sidebarMenu[_type == "callToActionField"]{
+      _key,
+      title,
+      type,
+      "internalLink": internalLink->{
+        _type,
+        title,
+        slug
+      },
+      url,
+      email,
+      phone,
+      anchor,
+      newTab
+    }
+  },
+  "footer": footerSections[]{
     _key,
     sectionTitle,
     sectionType,
@@ -54,16 +81,14 @@ export const NAVIGATION_QUERY = `
         _type == "link" => {
           title,
           type,
-          type == "internal" => {
-            "internalLink": internalLink->{
-              _type,
-              title,
-              slug
-            }
+          "internalLink": internalLink->{
+            _type,
+            title,
+            slug
           },
-          type == "external" => {url},
-          type == "email" => {email},
-          type == "phone" => {phone},
+          url,
+          email,
+          phone,
           anchor,
           newTab
         },
@@ -73,11 +98,14 @@ export const NAVIGATION_QUERY = `
       }
     },
     sectionType == "socialMedia" => {
-      "socialMedia": *[_type == "socialMediaProfiles"][0]{
-        profiles[]{
+      "socialMedia": socialMediaLinks->{
+        _id,
+        _type,
+        sectionTitle,
+        "profiles": soMeLinkArray[]{
           _key,
-          platform,
-          url
+          "platform": socialMediaPlatform,
+          "url": socialMediaUrl
         }
       }
     }

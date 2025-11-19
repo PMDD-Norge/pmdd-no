@@ -20,24 +20,19 @@ export const PAGE_BY_SLUG_QUERY = `
       body,
       image{asset->, altText, hotspot, title, description},
       callToActions[]{
+        _key,
         title,
-        link{
+        type,
+        "internalLink": internalLink->{
           _type,
           title,
-          type,
-          type == "internal" => {
-            "internalLink": internalLink->{
-              _type,
-              title,
-              slug
-            }
-          },
-          type == "external" => {url},
-          type == "email" => {email},
-          type == "phone" => {phone},
-          anchor,
-          newTab
-        }
+          slug
+        },
+        url,
+        email,
+        phone,
+        anchor,
+        newTab
       },
       imagePosition
     },
@@ -45,30 +40,47 @@ export const PAGE_BY_SLUG_QUERY = `
     // Grid section (with new lists structure)
     _type == "grid" => {
       title,
+      richText,
+      appearance{
+        theme,
+        linkType,
+        layout{
+          imagePosition
+        },
+        image{
+          asset->,
+          altText,
+          hotspot,
+          crop,
+          title,
+          description,
+          credits,
+          imageAlignment
+        }
+      },
       lists[]{
         _key,
         title,
         contentType,
+        maxItems,
 
         // Manual items
         contentType == "manual" => {
           items[]{
             _key,
             title,
-            description,
+            richText,
             image{asset->, altText, hotspot},
             link{
               _type,
               title,
               type,
-              type == "internal" => {
-                "internalLink": internalLink->{
-                  _type,
-                  title,
-                  slug
-                }
+              "internalLink": internalLink->{
+                _type,
+                title,
+                slug
               },
-              type == "external" => {url},
+              url,
               anchor,
               newTab
             }
@@ -91,12 +103,28 @@ export const PAGE_BY_SLUG_QUERY = `
         contentType == "event" => {
           "items": *[_type == "event"] | order(startDate desc) {
             _id,
+            _type,
             title,
             startDate,
             endDate,
             location,
+            richText,
+            body,
             image{asset->, altText, hotspot},
-            slug
+            slug,
+            link{
+              _type,
+              title,
+              type,
+              "internalLink": internalLink->{
+                _type,
+                title,
+                slug
+              },
+              url,
+              anchor,
+              newTab
+            }
           }
         },
 
@@ -129,11 +157,43 @@ export const PAGE_BY_SLUG_QUERY = `
         contentType == "job-position" => {
           "items": *[_type == "article" && type == "job-position"] | order(publishedAt desc) [0...6] {
             _id,
+            _type,
+            type,
             title,
-            excerpt,
+            lead,
+            richText,
             image{asset->, altText, hotspot},
             slug,
-            publishedAt
+            publishedAt,
+            tag
+          }
+        },
+
+        // Auto-populated posts
+        contentType == "post" => {
+          "items": *[_type == "post"] | order(date desc) {
+            _id,
+            _type,
+            "title": coalesce(title[_key == "no"][0].value, title[0].value),
+            "lead": coalesce(lead[_key == "no"][0].value, lead[0].value),
+            "richText": coalesce(richText[_key == "no"][0].value, richText[0].value),
+            image{asset->, altText, hotspot},
+            slug,
+            date,
+            categories[]->{_id, name}
+          }
+        },
+
+        // Auto-populated available positions
+        contentType == "availablePosition" => {
+          "items": *[_type == "availablePosition"] | order(_createdAt desc) {
+            _id,
+            _type,
+            title,
+            lead,
+            richText,
+            tag,
+            slug
           }
         }
       }
@@ -141,16 +201,56 @@ export const PAGE_BY_SLUG_QUERY = `
 
     // Callout section
     _type == "callout" => {
+      richText,
+      appearance{
+        theme,
+        linkType,
+        layout{
+          imagePosition
+        },
+        image{
+          asset->,
+          altText,
+          hotspot,
+          crop,
+          title,
+          description,
+          credits,
+          imageAlignment
+        }
+      }
+    },
+
+    // Call To Action section
+    _type == "ctaSection" => {
       title,
-      body,
+      richText,
+      appearance{
+        theme,
+        layout{
+          imagePosition
+        },
+        image{asset->, altText, hotspot}
+      },
       callToActions[]{
+        _type,
         title,
-        link{...}
+        type,
+        "internalLink": internalLink->{
+          _type,
+          title,
+          slug
+        },
+        url,
+        email,
+        phone,
+        anchor,
+        newTab
       }
     },
 
     // Contact section
-    _type == "contact" => {
+    _type == "contactSection" => {
       title,
       description,
       showCompanyInfo,
@@ -166,21 +266,86 @@ export const PAGE_BY_SLUG_QUERY = `
     },
 
     // Article section (embedded)
-    _type == "article" => {
+    _type == "articleSection" => {
+      tag,
       title,
-      body,
-      image{asset->, altText, hotspot},
-      imagePosition
+      richText,
+      callToActions[]{
+        _type,
+        title,
+        type,
+        "internalLink": internalLink->{
+          _type,
+          title,
+          slug
+        },
+        url,
+        email,
+        phone,
+        anchor,
+        newTab
+      },
+      mediaType,
+      image{
+        asset->,
+        altText,
+        hotspot,
+        crop,
+        title,
+        description,
+        credits
+      },
+      iframeUrl,
+      appearance{
+        theme,
+        linkType,
+        layout{
+          imagePosition
+        },
+        image{
+          asset->,
+          altText,
+          hotspot,
+          crop,
+          title,
+          description,
+          credits,
+          imageAlignment
+        }
+      }
     },
 
     // Features section
     _type == "features" => {
       title,
-      features[]{
+      richText,
+      list[]{
         _key,
         title,
+        richText,
         description,
         icon
+      },
+      link{
+        _type,
+        title,
+        type,
+        "internalLink": internalLink->{
+          _type,
+          title,
+          slug
+        },
+        url,
+        anchor,
+        newTab
+      },
+      appearance{
+        theme,
+        image{
+          asset->,
+          altText,
+          hotspot
+        }
       }
     },
 
@@ -212,17 +377,27 @@ export const PAGE_BY_SLUG_QUERY = `
     // Resources section
     _type == "resources" => {
       title,
-      groups[]{
+      richText,
+      appearance{
+        theme
+      },
+      groupedLinks[]{
         _key,
-        groupTitle,
-        resources[]->{
-          _id,
+        _type,
+        title,
+        links[]{
+          _key,
+          _type,
           title,
           description,
-          resourceType,
-          image,
-          externalUrl,
-          file
+          type,
+          url,
+          newTab,
+          "internalLink": internalLink->{
+            _type,
+            title,
+            slug
+          }
         }
       }
     },
@@ -277,42 +452,349 @@ export const LANDING_PAGE_QUERY = `
       body,
       image{asset->, altText, hotspot, title, description},
       callToActions[]{
+        _key,
         title,
-        link{...}
+        type,
+        "internalLink": internalLink->{
+          _type,
+          title,
+          slug
+        },
+        url,
+        email,
+        phone,
+        anchor,
+        newTab
       },
       imagePosition
     },
 
     _type == "grid" => {
       title,
+      richText,
+      appearance{
+        theme,
+        linkType,
+        layout{
+          imagePosition
+        },
+        image{
+          asset->,
+          altText,
+          hotspot,
+          crop,
+          title,
+          description,
+          credits,
+          imageAlignment
+        }
+      },
       lists[]{
         _key,
         title,
         contentType,
+        maxItems,
         contentType == "manual" => {
-          items[]{...}
+          items[]{
+            _key,
+            title,
+            richText,
+            image{asset->, altText, hotspot},
+            link{
+              _type,
+              title,
+              type,
+              "internalLink": internalLink->{
+                _type,
+                title,
+                slug
+              },
+              url,
+              anchor,
+              newTab
+            }
+          }
         },
         contentType == "writer" => {
-          "items": *[_type == "writer"] | order(name asc) {...}
+          "items": *[_type == "writer"] | order(name asc) {
+            _id,
+            name,
+            role,
+            image{asset->, altText, hotspot},
+            slug,
+            bio
+          }
         },
         contentType == "event" => {
-          "items": *[_type == "event"] | order(startDate desc) {...}
+          "items": *[_type == "event"] | order(startDate desc) {
+            _id,
+            _type,
+            title,
+            startDate,
+            endDate,
+            location,
+            richText,
+            body,
+            image{asset->, altText, hotspot},
+            slug,
+            link{
+              _type,
+              title,
+              type,
+              "internalLink": internalLink->{
+                _type,
+                title,
+                slug
+              },
+              url,
+              anchor,
+              newTab
+            }
+          }
         },
         contentType == "blog-post" => {
-          "items": *[_type == "article" && type == "blog-post"] | order(publishedAt desc) [0...6] {...}
+          "items": *[_type == "article" && type == "blog-post"] | order(publishedAt desc) [0...6] {
+            _id,
+            title,
+            excerpt,
+            image{asset->, altText, hotspot},
+            slug,
+            publishedAt,
+            "author": author->{name, slug}
+          }
+        },
+        contentType == "news" => {
+          "items": *[_type == "article" && type == "news"] | order(publishedAt desc) [0...6] {
+            _id,
+            title,
+            excerpt,
+            image{asset->, altText, hotspot},
+            slug,
+            publishedAt
+          }
+        },
+        contentType == "job-position" => {
+          "items": *[_type == "article" && type == "job-position"] | order(publishedAt desc) [0...6] {
+            _id,
+            _type,
+            type,
+            title,
+            lead,
+            richText,
+            image{asset->, altText, hotspot},
+            slug,
+            publishedAt,
+            tag
+          }
+        },
+        contentType == "post" => {
+          "items": *[_type == "post"] | order(date desc) {
+            _id,
+            _type,
+            "title": coalesce(title[_key == "no"][0].value, title[0].value),
+            "lead": coalesce(lead[_key == "no"][0].value, lead[0].value),
+            "richText": coalesce(richText[_key == "no"][0].value, richText[0].value),
+            image{asset->, altText, hotspot},
+            slug,
+            date,
+            categories[]->{_id, name}
+          }
+        },
+        contentType == "availablePosition" => {
+          "items": *[_type == "availablePosition"] | order(_createdAt desc) {
+            _id,
+            _type,
+            title,
+            lead,
+            richText,
+            tag,
+            slug
+          }
         }
       }
     },
 
-    _type == "callout" => {...},
-    _type == "contact" => {...},
-    _type == "article" => {...},
-    _type == "features" => {...},
-    _type == "testimonials" => {...},
-    _type == "image" => {...},
-    _type == "quote" => {...},
-    _type == "resources" => {...},
-    _type == "logoSalad" => {...}
+    _type == "callout" => {
+      richText,
+      appearance{
+        theme,
+        linkType,
+        layout{
+          imagePosition
+        },
+        image{
+          asset->,
+          altText,
+          hotspot,
+          crop,
+          title,
+          description,
+          credits,
+          imageAlignment
+        }
+      }
+    },
+    _type == "ctaSection" => {
+      title,
+      richText,
+      appearance{
+        theme,
+        layout{
+          imagePosition
+        },
+        image{asset->, altText, hotspot}
+      },
+      callToActions[]{
+        _type,
+        title,
+        type,
+        "internalLink": internalLink->{
+          _type,
+          title,
+          slug
+        },
+        url,
+        email,
+        phone,
+        anchor,
+        newTab
+      }
+    },
+    _type == "contactSection" => {...},
+    _type == "articleSection" => {
+      tag,
+      title,
+      richText,
+      callToActions[]{
+        _type,
+        title,
+        type,
+        "internalLink": internalLink->{
+          _type,
+          title,
+          slug
+        },
+        url,
+        email,
+        phone,
+        anchor,
+        newTab
+      },
+      mediaType,
+      image{
+        asset->,
+        altText,
+        hotspot,
+        crop,
+        title,
+        description,
+        credits
+      },
+      iframeUrl,
+      appearance{
+        theme,
+        linkType,
+        layout{
+          imagePosition
+        },
+        image{
+          asset->,
+          altText,
+          hotspot,
+          crop,
+          title,
+          description,
+          credits,
+          imageAlignment
+        }
+      }
+    },
+    _type == "features" => {
+      title,
+      richText,
+      list[]{
+        _key,
+        title,
+        richText,
+        description,
+        icon
+      },
+      link{
+        _type,
+        title,
+        type,
+        "internalLink": internalLink->{
+          _type,
+          title,
+          slug
+        },
+        url,
+        anchor,
+        newTab
+      },
+      appearance{
+        theme,
+        image{
+          asset->,
+          altText,
+          hotspot
+        }
+      }
+    },
+    _type == "testimonials" => {
+      title,
+      testimonies[]{
+        _key,
+        name,
+        company,
+        quote,
+        image{asset->, altText, hotspot}
+      }
+    },
+    _type == "image" => {
+      image{asset->, altText, hotspot, title, description},
+      caption
+    },
+    _type == "quote" => {
+      quote,
+      author,
+      role
+    },
+    _type == "resources" => {
+      title,
+      richText,
+      appearance{
+        theme
+      },
+      groupedLinks[]{
+        _key,
+        _type,
+        title,
+        links[]{
+          _key,
+          _type,
+          title,
+          description,
+          type,
+          url,
+          newTab,
+          "internalLink": internalLink->{
+            _type,
+            title,
+            slug
+          }
+        }
+      }
+    },
+    _type == "logoSalad" => {
+      title,
+      logos[]{
+        _key,
+        asset->,
+        altText,
+        hotspot
+      }
+    }
   },
   seo{
     title,

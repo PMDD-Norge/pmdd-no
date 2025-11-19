@@ -2,9 +2,7 @@ import CustomLink from "@/components/link/CustomLink";
 import Text from "@/components/text/Text";
 import { PostDocument } from "@/sanity/lib/interfaces/pages";
 import { LinkType } from "@/sanity/lib/interfaces/siteSettings";
-import { GlobalTranslationKey } from "@/utils/constants/globalTranslationKeys";
 import { truncateText } from "@/utils/textUtils";
-import { getCustomTranslations } from "@/utils/translations";
 
 export const PostCard = async ({
   post,
@@ -13,17 +11,20 @@ export const PostCard = async ({
   post: PostDocument;
   slug: string;
 }) => {
-  const { t } = await getCustomTranslations();
-  const postLink = `${slug}/${post.slug}`;
+  const postLink = `${slug}/${post.slug.current}`;
   const truncatedLead = truncateText(post.lead, 250); // Adjust the length as needed
 
   const link = {
     _key: postLink,
     _type: "link",
-    title: t(GlobalTranslationKey.readMore),
+    title: "Les mer",
     type: LinkType.Internal,
     internalLink: {
-      _ref: postLink,
+      _ref: post._id || "",
+      _type: post._type,
+      slug: {
+        current: postLink,
+      },
     },
   };
 

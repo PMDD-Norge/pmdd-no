@@ -13,7 +13,15 @@ export interface HeaderProps {
 
 const Header = ({ navigation, assets }: HeaderProps) => {
   const links = navigation?.main?.links;
-  const ctas = navigation?.main?.ctas;
+  const ctas = navigation?.main?.callToActionField;
+  const sidebarLinks = navigation?.sidebar?.links;
+  const sidebarCtas = navigation?.sidebar?.callToActionField;
+
+  // Debug logging
+  if (typeof window !== 'undefined') {
+    console.log('Header - navigation.main:', navigation?.main);
+    console.log('Header - CTAs:', ctas);
+  }
 
   return (
     <div className={styles.focusOn} id="headerWrapper">
@@ -35,7 +43,7 @@ const Header = ({ navigation, assets }: HeaderProps) => {
               <MobileMenuButton />
             </div>
           </div>
-          <MobileMenu sidebarLinks={links} sidebarCtas={ctas} />
+          <MobileMenu sidebarLinks={sidebarLinks} sidebarCtas={sidebarCtas} />
         </nav>
       </header>
     </div>

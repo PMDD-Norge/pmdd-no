@@ -1,21 +1,30 @@
 import { PortableTextBlock } from "next-sanity";
 import { SanityBase } from "./base";
 import { SanityImageData } from "./media";
+import { SocialMediaLink } from "./socialMedia";
 
 interface Reference {
   _ref: string;
   _type?: string;
 }
 
+// Extended reference that can include expanded data from queries
+export interface ExpandedReference extends Reference {
+  slug?: {
+    current: string;
+  };
+  title?: string;
+}
+
 export interface Navigation {
   _id: string;
   main: {
     links: SanityLink[];
-    ctas: SanityLink[];
+    callToActionField: SanityLink[];
   };
   sidebar?: {
     links: SanityLink[];
-    ctas: SanityLink[];
+    callToActionField: SanityLink[];
   };
   footer?: FooterSection[];
 }
@@ -24,7 +33,7 @@ export interface SanityLink extends SanityBase {
   title: string;
   description?: string;
   type: LinkType;
-  internalLink?: Reference;
+  internalLink?: ExpandedReference;
   url?: string;
   email?: string;
   phone?: string;
@@ -44,6 +53,12 @@ export interface FooterSection extends SanityBase {
   sectionType: FooterSectionType;
   linksAndContent?: Array<SanityLink | RichTextObject>;
   socialMediaLinks?: Reference;
+  socialMedia?: {
+    _id: string;
+    _type: string;
+    sectionTitle: string;
+    profiles: SocialMediaLink[];
+  };
 }
 
 export enum LinkType {

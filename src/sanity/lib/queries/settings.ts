@@ -25,9 +25,9 @@ export const ALL_SETTINGS_QUERY = `
   },
   "brandAssets": *[_type == "brandAssets"][0]{
     _id,
-    primaryLogo{asset->, altText, hotspot},
-    secondaryLogo{asset->, altText, hotspot},
-    favicon{asset->}
+    primaryLogo,
+    secondaryLogo,
+    favicon
   },
   "companyInfo": *[_type == "companyInformation"][0]{
     _id,
@@ -39,7 +39,9 @@ export const ALL_SETTINGS_QUERY = `
   },
   "socialMedia": *[_type == "socialMediaProfiles"][0]{
     _id,
-    profiles[]{
+    _type,
+    sectionTitle,
+    "soMeLinkArray": profiles[]{
       _key,
       platform,
       url
@@ -74,9 +76,9 @@ export const SEO_FALLBACK_QUERY = `
 export const BRAND_ASSETS_QUERY = `
 *[_type == "brandAssets"][0]{
   _id,
-  primaryLogo{asset->, altText, hotspot},
-  secondaryLogo{asset->, altText, hotspot},
-  favicon{asset->}
+  primaryLogo,
+  secondaryLogo,
+  favicon
 }
 `;
 
@@ -96,7 +98,9 @@ export const COMPANY_INFO_QUERY = `
 export const SOCIAL_MEDIA_QUERY = `
 *[_type == "socialMediaProfiles"][0]{
   _id,
-  profiles[]{
+  _type,
+  sectionTitle,
+  "soMeLinkArray": profiles[]{
     _key,
     platform,
     url

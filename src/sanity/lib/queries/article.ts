@@ -11,9 +11,10 @@ const ARTICLE_FIELDS = `
   title,
   slug,
   excerpt,
+  lead,
   publishedAt,
   featured,
-  "image": image{
+  "image": featuredImage{
     asset->,
     altText,
     hotspot,
@@ -39,6 +40,8 @@ export const ARTICLE_BY_SLUG_QUERY = `
 *[_type == "article" && slug.current == $slug][0] {
   ${ARTICLE_FIELDS},
   body,
+  richText,
+  tag,
   seo{
     metaTitle,
     metaDescription,

@@ -25,6 +25,8 @@ export interface SanityImageData extends SanityBase {
   asset?: {
     _ref: string;
     _type?: string;
+    _id?: string; // For expanded assets from GROQ queries with asset->
+    url?: string; // URL when asset is expanded
   };
   crop?: Crop;
   hotspot?: Hotspot;
