@@ -180,14 +180,21 @@ const GridElement = ({
 }: {
   item: EventDocument | AvailablePositionDocument | GridItem;
 }) => {
-  // Check if this is an event document
+  // Check document type
   const isEvent = "_type" in item && item._type === "event";
+  const isWriter = "_type" in item && item._type === "writer";
+
+  // Get title - writers use 'name' field
+  const itemTitle = isWriter && "name" in item ? item.name : item.title;
 
   // Determine content based on available fields
   let content: string | PortableTextBlock[] | null | undefined = null;
   if ("lead" in item && item.lead) {
     // Use lead for items that have it (posts, articles, positions)
     content = item.lead;
+  } else if ("occupation" in item && item.occupation) {
+    // Use occupation for writers (team members)
+    content = item.occupation;
   } else if ("richText" in item && item.richText) {
     // Use richText if available
     content = item.richText;
@@ -205,7 +212,7 @@ const GridElement = ({
           <SanityNextImage image={item.image} />
         </div>
       )}
-      {item.title && <Text type="h4">{getDisplayText(item.title)}</Text>}
+      {itemTitle && <Text type="h4">{getDisplayText(itemTitle)}</Text>}
 
       {/* Event-specific fields: date and location */}
       {isEvent && "startDate" in item && item.startDate && (

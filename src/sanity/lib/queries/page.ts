@@ -56,11 +56,10 @@ const SECTIONS_PROJECTION = `sections[]{
       contentType == "writer" => {
         "items": *[_type == "writer"] | order(name asc) {
           _id,
+          _type,
           name,
-          role,
-          image${IMAGE_SIMPLE_FRAGMENT},
-          slug,
-          bio
+          occupation,
+          image${IMAGE_SIMPLE_FRAGMENT}
         }
       },
 
