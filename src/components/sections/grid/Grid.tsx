@@ -185,16 +185,16 @@ const GridElement = ({
   const isWriter = "_type" in item && item._type === "writer";
 
   // Get title - writers use 'name' field
-  const itemTitle = isWriter && "name" in item ? item.name : item.title;
+  const itemTitle: string | undefined = isWriter && "name" in item ? (item.name as string) : item.title;
 
   // Determine content based on available fields
   let content: string | PortableTextBlock[] | null | undefined = null;
   if ("lead" in item && item.lead) {
     // Use lead for items that have it (posts, articles, positions)
     content = item.lead;
-  } else if ("occupation" in item && item.occupation) {
+  } else if ("occupation" in item && item.occupation && typeof item.occupation === 'string') {
     // Use occupation for writers (team members)
-    content = item.occupation;
+    content = item.occupation as string;
   } else if ("richText" in item && item.richText) {
     // Use richText if available
     content = item.richText;
