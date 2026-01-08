@@ -9,6 +9,7 @@ import {
   PortableTextBlock,
 } from "@portabletext/react";
 import { getDisplayText } from "@/utils/textUtils";
+import { getThemeClassFromAppearance } from "@/utils/themeUtils";
 import { LinkType, SanityLink } from "@/sanity/lib/interfaces/siteSettings";
 
 import {
@@ -44,8 +45,7 @@ type Props = {
 
 export const Grid = async (props: Props) => {
   const { appearance, title, richText, lists, _key } = props.grid;
-  const theme =
-    appearance?.theme === "dark" ? "darkBackground" : "lightBackground";
+  const theme = getThemeClassFromAppearance(appearance);
 
   return (
     <article className={theme} id={_key}>

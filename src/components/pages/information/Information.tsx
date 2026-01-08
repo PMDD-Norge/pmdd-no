@@ -84,7 +84,7 @@ export async function Information({
           </section>
         </div>
       </div>
-      <Contact contact={contactSection} />
+      {contactSection && <Contact contact={contactSection} />}
     </>
   );
 }

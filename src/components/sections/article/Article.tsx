@@ -9,6 +9,7 @@ import Text from "@/components/text/Text";
 import { RichText } from "@/components/richText/RichText";
 import LinkButton from "@/components/linkButton/LinkButton";
 import { getDisplayText } from "@/utils/textUtils";
+import { cn } from "@/utils/cn";
 
 const Article = ({ article }: { article: ArticleObject }) => {
   const { appearance, callToActions, mediaType, image, iframeUrl } = article;
@@ -61,7 +62,10 @@ const Article = ({ article }: { article: ArticleObject }) => {
   return (
     <article className={theme} id={article._key}>
       <div
-        className={`${styles.sectionWrapperRow} ${imagePosition == ImagePosition.Left ? "" : "imagePositionAlwaysLeftOnMobile"}`}
+        className={cn(
+          styles.sectionWrapperRow,
+          imagePosition !== ImagePosition.Left && "imagePositionAlwaysLeftOnMobile"
+        )}
       >
         {renderMedia()}
         <div className={styles.content}>

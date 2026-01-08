@@ -5,6 +5,7 @@ import {
   COLLECTION_CATEGORIES_QUERY,
   ALL_EVENTS_QUERY,
 } from "@/sanity/lib/queries";
+import { logError } from './logger';
 
 // Type definition for query parameters (next-intl removed)
 type QueryParams = Record<string, string | string[] | number | boolean | null | undefined>;
@@ -23,7 +24,6 @@ export const cachedSanityFetch = async (
 
 export const fetchInformationData = async (
   slug: string,
-  language: string,
   page: number,
   category?: string
 ) => {
@@ -56,12 +56,12 @@ export const fetchInformationData = async (
       postsCount: postsCount.data,
     };
   } catch (error) {
-    console.error("Error fetching information data:", error);
+    logError(error, { context: "Fetching information data", slug, page, category });
     return null;
   }
 };
 
-export const fetchHighlightsData = async (language: string) => {
+export const fetchHighlightsData = async () => {
   const [events, positions] = await Promise.all([
     cachedSanityFetch(ALL_EVENTS_QUERY, {}),
     cachedSanityFetch(PAGINATED_ARTICLES_QUERY, {

@@ -1,5 +1,6 @@
 import { readBaseUrl } from "@/lib/env";
 import type { MetadataRoute } from "next";
+import { logger, logError } from '@/utils/logger';
 
 export default function robots(): MetadataRoute.Robots {
   const robotsFile: MetadataRoute.Robots = {
@@ -24,13 +25,12 @@ export default function robots(): MetadataRoute.Robots {
         baseUrlResult.value
       ).toString();
     } catch (error) {
-      console.error("Failed to construct sitemap URL:", error);
+      logError(error, { context: "Constructing sitemap URL" });
     }
   } else {
-    console.warn(
-      "Could not include sitemap in robots.txt, missing base url:",
-      baseUrlResult.error
-    );
+    logger.warn("Could not include sitemap in robots.txt, missing base url", {
+      error: baseUrlResult.error
+    });
   }
 
   return robotsFile;

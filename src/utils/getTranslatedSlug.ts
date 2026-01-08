@@ -8,6 +8,7 @@ import {
   SlugTranslationResult,
   SUPPORTED_DOC_TYPES,
 } from "@/types/slug";
+import { logger, logError } from './logger';
 
 export async function getTranslatedSlug(
   pathSegments: string[],
@@ -19,7 +20,7 @@ export async function getTranslatedSlug(
   }
 ): Promise<string[] | null> {
   if (!pathSegments.length || !currentLang || !newLang) {
-    console.warn("Invalid translation parameters");
+    logger.warn("Invalid translation parameters", { pathSegments, currentLang, newLang });
     return null;
   }
 
@@ -63,8 +64,8 @@ export async function getTranslatedSlug(
       ? [result.mainTranslatedSlug, pathSegments[1]]
       : null;
   } catch (error) {
-    console.error("Slug translation error:", {
-      error,
+    logError(error, {
+      context: "Slug translation",
       pathSegments,
       currentLang,
       newLang,
