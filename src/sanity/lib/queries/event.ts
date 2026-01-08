@@ -24,6 +24,7 @@ const EVENT_FIELDS = `
 export const ALL_EVENTS_QUERY = `
 *[_type == "event" && !(_id in path("drafts.**"))] | order(startDate desc) {
   ${EVENT_FIELDS},
+  richText,
   registrationLink{
     title,
     type,
@@ -37,7 +38,7 @@ export const ALL_EVENTS_QUERY = `
 export const EVENT_BY_SLUG_QUERY = `
 *[_type == "event" && slug.current == $slug][0] {
   ${EVENT_FIELDS},
-  body,
+  richText,
   registrationLink{
     title,
     type,

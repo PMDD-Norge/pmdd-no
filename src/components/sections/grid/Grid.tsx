@@ -180,6 +180,9 @@ const GridElement = ({
 }: {
   item: EventDocument | AvailablePositionDocument | GridItem;
 }) => {
+  // Check if this is an event document
+  const isEvent = "_type" in item && item._type === "event";
+
   // Determine content based on available fields
   let content: string | PortableTextBlock[] | null | undefined = null;
   if ("lead" in item && item.lead) {
@@ -203,6 +206,29 @@ const GridElement = ({
         </div>
       )}
       {item.title && <Text type="h4">{getDisplayText(item.title)}</Text>}
+
+      {/* Event-specific fields: date and location */}
+      {isEvent && "startDate" in item && item.startDate && (
+        <Text type="small" className={styles.eventDate}>
+          {new Date(item.startDate).toLocaleDateString("nb-NO", {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })}
+          {"endDate" in item && item.endDate && ` - ${new Date(item.endDate).toLocaleDateString("nb-NO", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })}`}
+        </Text>
+      )}
+      {isEvent && "location" in item && item.location && (
+        <Text type="small" className={styles.eventLocation}>
+          📍 {item.location}
+        </Text>
+      )}
+
       {content && typeof content === "string" && (
         <Text type="small">{content}</Text>
       )}
