@@ -1,5 +1,6 @@
 import { client } from "@/sanity/lib/client";
 import { MetadataRoute } from "next";
+import { logError } from '@/utils/logger';
 
 // Content types from Sanity schema (updated)
 const CONTENT_TYPES = {
@@ -72,7 +73,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     return routes;
   } catch (error) {
-    console.error("Error generating sitemap:", error);
+    logError(error, { context: "Generating sitemap" });
     // Fallback to just homepage
     return [
       {

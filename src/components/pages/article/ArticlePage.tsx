@@ -49,7 +49,6 @@ const ArticlePage = async ({ article, currentSlug, showQuickNavigation = true }:
     image,
     author,
     publishedAt,
-    categories,
   } = article;
 
   // Use body if available, otherwise use richText

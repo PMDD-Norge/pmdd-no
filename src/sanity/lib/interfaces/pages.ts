@@ -131,7 +131,7 @@ export interface GridItem extends SanityBase {
 
 export interface GridList extends SanityBase {
   title: string;
-  contentType?: "manual" | "event" | "availablePosition" | "post";
+  contentType?: "manual" | "event" | "availablePosition" | "post" | "blog-post" | "news" | "job-position" | "resource" | "writer";
   items?: GridItem[];
   maxItems?: number;
   internalLink?: SanityLink;

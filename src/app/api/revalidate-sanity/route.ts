@@ -1,11 +1,12 @@
 import { revalidateTag } from 'next/cache'
 import { NextRequest, NextResponse } from 'next/server'
+import { logger, logError } from '@/utils/logger'
 
 // Webhook handler for Sanity to trigger ISR
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    
+
     // Verify webhook secret (optional but recommended)
     // Skip in development mode for easier testing
     if (process.env.NODE_ENV === 'production') {
@@ -17,7 +18,7 @@ export async function POST(request: NextRequest) {
 
     // Determine what to revalidate based on document type
     const { _type, _id } = body
-    
+
     switch (_type) {
       case 'page':
         revalidateTag('pages')
@@ -45,18 +46,18 @@ export async function POST(request: NextRequest) {
         revalidateTag('sanity')
     }
 
-    console.log(`ISR: Revalidated ${_type} document: ${_id}`)
-    
-    return NextResponse.json({ 
-      revalidated: true, 
+    logger.info(`ISR: Revalidated ${_type} document: ${_id}`, { type: _type, id: _id })
+
+    return NextResponse.json({
+      revalidated: true,
       type: _type,
       timestamp: new Date().toISOString()
     })
-    
+
   } catch (error) {
-    console.error('ISR revalidation error:', error)
-    return NextResponse.json({ 
-      error: 'Failed to revalidate' 
+    logError(error, { context: 'ISR revalidation' })
+    return NextResponse.json({
+      error: 'Failed to revalidate'
     }, { status: 500 })
   }
 }

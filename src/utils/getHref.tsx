@@ -1,4 +1,5 @@
 import { LinkType, SanityLink } from "@/sanity/lib/interfaces/siteSettings";
+import { logger } from './logger';
 
 const hash = "#";
 
@@ -20,12 +21,10 @@ export const getHref = (link: SanityLink): string => {
 
       // Debug logging to help identify missing slugs
       if (!slug && internalLink) {
-        console.warn(
-          "Internal link is missing slug.current:",
+        logger.warn("Internal link is missing slug.current", {
           internalLink,
-          "Link title:",
-          link?.title
-        );
+          linkTitle: link?.title
+        });
       }
 
       if (slug) {

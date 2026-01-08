@@ -96,6 +96,8 @@ const sectionRenderers: Record<
   ),
 };
 
+import { logger } from "@/utils/logger";
+
 const SectionRenderer = ({
   section,
   isLandingPage = false,
@@ -108,7 +110,10 @@ const SectionRenderer = ({
   const renderSection = sectionRenderers[section._type];
 
   if (!renderSection) {
-    console.warn(`No renderer found for section type: ${section._type}`);
+    logger.warn(`No renderer found for section type: ${section._type}`, {
+      sectionType: section._type,
+      sectionKey: section._key
+    });
     return null;
   }
 

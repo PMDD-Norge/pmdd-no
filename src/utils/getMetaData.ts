@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { SEO_FALLBACK_QUERY, BRAND_ASSETS_QUERY } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 import { cachedSanityFetch } from "./getPageData";
+import { logError } from './logger';
 
 interface PageProps {
   params: Promise<{
@@ -13,7 +14,7 @@ interface PageProps {
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
-  const { language, slug } = await params;
+  const { slug } = await params;
   const lastSlug = slug[slug.length - 1];
 
   try {
@@ -43,7 +44,7 @@ export async function generateMetadata({
         : undefined,
     };
   } catch (error) {
-    console.error("Error generating metadata:", error);
+    logError(error, { context: "Generating metadata", slug: lastSlug });
     return {};
   }
 }
