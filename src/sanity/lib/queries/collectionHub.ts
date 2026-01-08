@@ -181,6 +181,16 @@ export const COLLECTION_HUB_BY_SLUG_QUERY = `
     }
   },
   allPostsLabel,
+
+  // Highlights-specific fields
+  eventsSection{
+    title,
+    "richText": coalesce(body, richText)
+  },
+  availablePositionsSection{
+    title,
+    "richText": coalesce(body, richText)
+  },
   seo{
     metaTitle,
     metaDescription,
