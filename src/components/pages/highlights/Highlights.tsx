@@ -34,15 +34,17 @@ export async function Highlights({
             grid={{
               _type: "grid",
               _key: "events-grid",
-              title: eventsSection.title,
-              richText: eventsSection.richText,
-              lists: [{
-                _type: "gridList",
-                _key: "events-list",
-                title: eventsSection.title,
-                contentType: "event",
-                items: events,
-              }]
+              title: eventsSection?.title,
+              richText: eventsSection?.richText,
+              lists: [
+                {
+                  _type: "gridList",
+                  _key: "events-list",
+                  title: eventsSection?.title,
+                  contentType: "event",
+                  items: events,
+                },
+              ],
             }}
           />
         )}
@@ -51,15 +53,17 @@ export async function Highlights({
             grid={{
               _type: "grid",
               _key: "positions-grid",
-              title: availablePositionsSection.title,
-              richText: availablePositionsSection.richText,
-              lists: [{
-                _type: "gridList",
-                _key: "positions-list",
-                title: availablePositionsSection.title,
-                contentType: "availablePosition",
-                items: availablePositions,
-              }]
+              title: availablePositionsSection?.title,
+              richText: availablePositionsSection?.richText,
+              lists: [
+                {
+                  _type: "gridList",
+                  _key: "positions-list",
+                  title: availablePositionsSection?.title,
+                  contentType: "availablePosition",
+                  items: availablePositions,
+                },
+              ],
             }}
           />
         )}
