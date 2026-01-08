@@ -207,7 +207,7 @@ const GridElement = ({
 
   return (
     <li className={styles.listItem}>
-      {"image" in item && item.image?.asset?._ref && (
+      {"image" in item && item.image?.asset && (item.image.asset._ref || item.image.asset._id) && (
         <div className={styles.image}>
           <SanityNextImage image={item.image} />
         </div>
