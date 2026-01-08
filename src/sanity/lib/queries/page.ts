@@ -54,7 +54,7 @@ const SECTIONS_PROJECTION = `sections[]{
 
       // Auto-populated writers
       contentType == "writer" => {
-        "items": *[_type == "writer"] | order(name asc) {
+        "items": *[_type == "writer"] | order(orderRank) {
           _id,
           _type,
           name,
