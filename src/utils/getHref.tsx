@@ -19,6 +19,11 @@ export const getHref = (link: SanityLink): string => {
       // Get the slug from the expanded reference
       const slug = internalLink?.slug?.current;
 
+      // Fallback: if _ref looks like a path (e.g. "/"), use it directly
+      if (!slug && internalLink?._ref?.startsWith("/")) {
+        return `${internalLink._ref}${formatAnchor(anchor)}`;
+      }
+
       // Debug logging to help identify missing slugs
       if (!slug && internalLink) {
         logger.warn("Internal link is missing slug.current", {

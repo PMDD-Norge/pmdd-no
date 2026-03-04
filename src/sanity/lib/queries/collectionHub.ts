@@ -55,10 +55,11 @@ export const COLLECTION_HUB_BY_SLUG_QUERY = `
       "items": *[_type == "article" && type == "blog-post" && !(_id in path("drafts.**"))] | order(publishedAt desc) [0...20] {
         _id,
         _type,
+        type,
         title,
         slug,
-        excerpt,
-        image{
+        lead,
+        "image": featuredImage{
           asset->,
           altText,
           hotspot
@@ -92,10 +93,11 @@ export const COLLECTION_HUB_BY_SLUG_QUERY = `
       "items": *[_type == "article" && type == "news" && !(_id in path("drafts.**"))] | order(publishedAt desc) [0...20] {
         _id,
         _type,
+        type,
         title,
         slug,
-        excerpt,
-        image{
+        lead,
+        "image": featuredImage{
           asset->,
           altText,
           hotspot

@@ -46,6 +46,7 @@ const SECTIONS_PROJECTION = `sections[]{
         items[]{
           _key,
           title,
+          lead,
           richText,
           image${IMAGE_SIMPLE_FRAGMENT},
           link${LINK_FRAGMENT}
@@ -84,8 +85,12 @@ const SECTIONS_PROJECTION = `sections[]{
       contentType == "blog-post" => {
         "items": *[_type == "article" && type == "blog-post"] | order(publishedAt desc) [0...6] {
           _id,
+          _type,
+          type,
           title,
+          lead,
           excerpt,
+          richText,
           image${IMAGE_SIMPLE_FRAGMENT},
           slug,
           publishedAt,
@@ -97,8 +102,12 @@ const SECTIONS_PROJECTION = `sections[]{
       contentType == "news" => {
         "items": *[_type == "article" && type == "news"] | order(publishedAt desc) [0...6] {
           _id,
+          _type,
+          type,
           title,
+          lead,
           excerpt,
+          richText,
           image${IMAGE_SIMPLE_FRAGMENT},
           slug,
           publishedAt

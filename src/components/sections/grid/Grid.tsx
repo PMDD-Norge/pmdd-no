@@ -189,17 +189,16 @@ const GridElement = ({
 
   // Determine content based on available fields
   let content: string | PortableTextBlock[] | null | undefined = null;
+  const itemAny = item as Record<string, unknown>;
   if ("lead" in item && item.lead) {
-    // Use lead for items that have it (posts, articles, positions)
     content = item.lead;
+  } else if ("excerpt" in item && itemAny.excerpt && typeof itemAny.excerpt === "string") {
+    content = itemAny.excerpt as string;
   } else if ("occupation" in item && item.occupation && typeof item.occupation === 'string') {
-    // Use occupation for writers (team members)
     content = item.occupation as string;
   } else if ("richText" in item && item.richText) {
-    // Use richText if available
     content = item.richText;
   } else if ("body" in item && item.body) {
-    // Use body for events
     content = item.body;
   }
 
