@@ -6,14 +6,14 @@ import styles from "./richtext.module.css";
 import SanityImage from "../image/sanityImage";
 import Text from "../text/Text";
 import { isExternalLink, shouldOpenInNewTab } from "@/utils/linkUtils";
+import { generateHashFromHeading } from "@/utils/textUtils";
 
-const formatId = (text: string): string => {
-  return text
-    ? text
-        .toLowerCase()
-        .replace(/\s+/g, "-")
-        .replace(/[^\w-]+/g, "")
-    : `section-${Math.random().toString(36).substr(2, 9)}`;
+const extractTextFromBlock = (value: PortableTextBlock): string => {
+  const children = value.children as Array<{ _type: string; text: string }>;
+  return (children || [])
+    .filter((c) => c._type === "span")
+    .map((c) => c.text)
+    .join("");
 };
 
 const isImageBlock = (
@@ -35,22 +35,16 @@ const isImageBlock = (
 
 const richTextComponents: Partial<PortableTextReactComponents> = {
   block: {
-    h2: ({ children }) => {
-      const id =
-        typeof children === "string"
-          ? formatId(children)
-          : formatId(children?.toString() || "");
+    h2: ({ children, value }) => {
+      const id = generateHashFromHeading(extractTextFromBlock(value));
       return (
         <Text type="h2" id={id} className={styles.heading}>
           {children}
         </Text>
       );
     },
-    h3: ({ children }) => {
-      const id =
-        typeof children === "string"
-          ? formatId(children)
-          : formatId(children?.toString() || "");
+    h3: ({ children, value }) => {
+      const id = generateHashFromHeading(extractTextFromBlock(value));
       return (
         <Text type="h3" id={id} className={styles.subheading}>
           {children}

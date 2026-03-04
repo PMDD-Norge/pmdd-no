@@ -48,6 +48,7 @@ const QuickNavigation = async ({
                     type: LinkType.Internal,
                     internalLink: {
                       _ref: currentSlug,
+                      slug: { current: currentSlug },
                     },
                     anchor: hash,
                   }}
