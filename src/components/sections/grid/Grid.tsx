@@ -189,7 +189,7 @@ const GridElement = ({
 
   // Determine content based on available fields
   let content: string | PortableTextBlock[] | null | undefined = null;
-  const itemAny = item as Record<string, unknown>;
+  const itemAny = item as unknown as Record<string, unknown>;
   if ("lead" in item && item.lead) {
     content = item.lead;
   } else if ("excerpt" in item && itemAny.excerpt && typeof itemAny.excerpt === "string") {
