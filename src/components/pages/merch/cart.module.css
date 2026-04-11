@@ -1,0 +1,154 @@
+.wrapper {
+  max-width: var(--max-content-width-small, 1000px);
+  margin: auto;
+  padding: 5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--Spacing-XL);
+
+  @media (min-width: 640px) {
+    padding: 6rem;
+  }
+
+  @media (min-width: 1024px) {
+    padding: 7.5rem 6rem;
+  }
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--Spacing-M);
+  align-items: flex-start;
+}
+
+/* ── Vareliste ── */
+
+.items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.item {
+  display: flex;
+  gap: var(--Spacing-M);
+  align-items: center;
+  padding: var(--Spacing-L) 0;
+  border-bottom: 1px solid var(--Background-offshade);
+
+  &:first-child {
+    border-top: 1px solid var(--Background-offshade);
+  }
+}
+
+.itemImage {
+  position: relative;
+  width: 5rem;
+  height: 5rem;
+  flex-shrink: 0;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  background: var(--Background-offshade);
+}
+
+.itemDetails {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--Spacing-XXS);
+}
+
+.removeButton {
+  background: none;
+  border: none;
+  font-family: var(--font-nunito);
+  font-size: 0.875rem;
+  color: var(--Teal);
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0.25rem;
+  flex-shrink: 0;
+
+  &:hover {
+    color: var(--ButtonHover);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--focus-color);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+}
+
+/* ── Antallkontroller ── */
+
+.quantityRow {
+  display: flex;
+  align-items: center;
+  gap: var(--Spacing-XS);
+  margin-top: var(--Spacing-XXS);
+}
+
+.quantityButton {
+  background: none;
+  border: 1px solid var(--ButtonHover);
+  border-radius: 50%;
+  width: 1.75rem;
+  height: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--Teal);
+  cursor: pointer;
+  flex-shrink: 0;
+  padding: 0;
+
+  &:hover { border-color: var(--Teal); }
+
+  &:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  &:focus-visible {
+    outline: 2px solid var(--focus-color);
+    outline-offset: 2px;
+  }
+}
+
+.quantityValue {
+  font-family: var(--font-nunito);
+  font-size: 1rem;
+  font-weight: 600;
+  min-width: 1.5rem;
+  text-align: center;
+}
+
+/* ── Oppsummering ── */
+
+.summary {
+  display: flex;
+  flex-direction: column;
+  gap: var(--Spacing-L);
+  align-items: flex-start;
+}
+
+.total {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* ── Tom handlekurv ── */
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  gap: var(--Spacing-L);
+  align-items: flex-start;
+}

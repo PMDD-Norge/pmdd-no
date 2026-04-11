@@ -1,0 +1,183 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 25, 34, 0.4);
+  z-index: 100;
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100dvh;
+  width: min(28rem, 100vw);
+  background: var(--Background-main);
+  z-index: 101;
+  display: flex;
+  flex-direction: column;
+  gap: var(--Spacing-L);
+  overflow: hidden;
+
+  animation: slideIn 0.25s ease-out;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drawer { animation: none; }
+}
+
+/* ── Topplinje ── */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--Spacing-L) var(--Spacing-L) 0;
+  flex-shrink: 0;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  color: var(--Teal);
+  cursor: pointer;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+
+  &:hover { color: var(--ButtonHover); }
+
+  &:focus-visible {
+    outline: 2px solid var(--focus-color);
+    outline-offset: 2px;
+  }
+}
+
+/* ── Vareliste ── */
+
+.items {
+  list-style: none;
+  margin: 0;
+  padding: 0 var(--Spacing-L);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.item {
+  display: flex;
+  gap: var(--Spacing-M);
+  align-items: center;
+  padding: var(--Spacing-M) 0;
+  border-bottom: 1px solid var(--Background-offshade);
+
+  &:first-child { border-top: 1px solid var(--Background-offshade); }
+}
+
+.itemImage {
+  position: relative;
+  width: 4rem;
+  height: 4rem;
+  flex-shrink: 0;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  background: var(--Background-offshade);
+}
+
+.itemDetails {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--Spacing-XXS);
+}
+
+.removeButton {
+  background: none;
+  border: none;
+  font-family: var(--font-nunito);
+  font-size: 0.875rem;
+  color: var(--Teal);
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0.25rem;
+  flex-shrink: 0;
+
+  &:hover { color: var(--ButtonHover); }
+
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  &:focus-visible {
+    outline: 2px solid var(--focus-color);
+    border-radius: 2px;
+  }
+}
+
+/* ── Antallkontroller ── */
+
+.quantityRow {
+  display: flex;
+  align-items: center;
+  gap: var(--Spacing-XS);
+  margin-top: var(--Spacing-XXS);
+}
+
+.quantityButton {
+  background: none;
+  border: 1px solid var(--ButtonHover);
+  border-radius: 50%;
+  width: 1.75rem;
+  height: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--Teal);
+  cursor: pointer;
+  flex-shrink: 0;
+  padding: 0;
+
+  &:hover { border-color: var(--Teal); }
+
+  &:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  &:focus-visible {
+    outline: 2px solid var(--focus-color);
+    outline-offset: 2px;
+  }
+}
+
+.quantityValue {
+  font-family: var(--font-nunito);
+  font-size: 1rem;
+  font-weight: 600;
+  min-width: 1.5rem;
+  text-align: center;
+}
+
+/* ── Bunn: total + kasse ── */
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--Spacing-M);
+  padding: var(--Spacing-L);
+  border-top: 2px solid var(--Background-offshade);
+  flex-shrink: 0;
+}
+
+.total {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+/* ── Tom ── */
+
+.empty {
+  padding: 0 var(--Spacing-L);
+}

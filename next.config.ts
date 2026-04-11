@@ -12,6 +12,10 @@ const nextConfig: NextConfig = {
         protocol: "https" as const,
         hostname: "cdn.sanity.io",
       },
+      {
+        protocol: "https" as const,
+        hostname: "cdn.shopify.com",
+      },
     ],
     formats: ["image/avif", "image/webp"],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920],

@@ -84,12 +84,12 @@
   color: var(--white);
   border-color: var(--Teal);
 
-  &:hover {
+  &:hover:not(:disabled) {
     background: var(--ButtonHover);
     border-color: var(--ButtonHover);
   }
 
-  &:active {
+  &:active:not(:disabled) {
     background: var(--ButtonPressed);
     border-color: var(--ButtonPressed);
   }
@@ -108,7 +108,7 @@
     background-color: var(--Teal);
   }
 
-  &:hover {
+  &:hover:not(:disabled) {
     color: var(--ButtonHover);
     border-color: var(--ButtonHover);
     &::after {
@@ -116,7 +116,7 @@
     }
   }
 
-  &:active {
+  &:active:not(:disabled) {
     color: var(--ButtonPressed);
     border-color: var(--ButtonPressed);
     &::after {
@@ -135,6 +135,12 @@
     -webkit-mask: url("/_assets/arrow-back.svg") no-repeat center;
     background-color: currentColor;
   }
+}
+
+.primary:disabled,
+.secondary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 .loading {

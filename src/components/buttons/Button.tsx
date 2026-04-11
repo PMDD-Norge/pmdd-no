@@ -12,6 +12,7 @@ interface IButton {
   disabled?: boolean;
   loading?: boolean;
   ariaDisabled?: boolean;
+  ariaBusy?: boolean;
   showChevron?: boolean;
 }
 
@@ -33,6 +34,7 @@ const Button = ({
   disabled,
   loading,
   ariaDisabled,
+  ariaBusy,
   showChevron = false,
 }: IButton) => {
   const className = `${styles.button} ${sizeClassMap[size]} ${typeClassMap[type]} ${loading ? styles.loading : ""} ${showChevron ? styles.chevron : ""}`;
@@ -43,6 +45,7 @@ const Button = ({
       onClick={onClick}
       disabled={disabled}
       aria-disabled={ariaDisabled}
+      aria-busy={ariaBusy}
     >
       {children}
     </button>

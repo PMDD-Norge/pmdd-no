@@ -12,6 +12,7 @@ import { DisableDraftMode } from "@/components/disableDraftMode/DisableDraftMode
 import ServiceWorkerRegistration from "@/components/ServiceWorkerRegistration";
 import Header from "@/components/navigation/header/Header";
 import Footer from "@/components/navigation/footer/Footer";
+import CartWrapper from "@/components/cart/CartWrapper";
 import { fontVariables } from "@/config/fonts";
 
 // No cache during development for faster iterations
@@ -56,17 +57,19 @@ export default async function RootLayout({
         <link rel="dns-prefetch" href="https://cdn.sanity.io" />
       </head>
       <body className={fontVariables}>
-        <a href="#main" className="skipLink">
-          Hopp til hovedinnhold
-        </a>
-        <Header
-          navigation={nav}
-          assets={brandAssets}
-        />
-        <main id="main" tabIndex={-1}>
-          {children}
-        </main>
-        <Footer navigationData={nav} />
+        <CartWrapper>
+          <a href="#main" className="skipLink">
+            Hopp til hovedinnhold
+          </a>
+          <Header
+            navigation={nav}
+            assets={brandAssets}
+          />
+          <main id="main" tabIndex={-1}>
+            {children}
+          </main>
+          <Footer navigationData={nav} />
+        </CartWrapper>
         {isDev && <SanityLive />}
         {isDraftMode && (
           <>

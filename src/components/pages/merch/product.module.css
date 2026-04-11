@@ -1,0 +1,335 @@
+.wrapper {
+  max-width: var(--max-content-width-medium, 1200px);
+  margin: auto;
+  padding: 5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--Spacing-XL);
+
+  @media (min-width: 640px) {
+    padding: 6rem;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: var(--Spacing-XXL);
+  }
+
+  @media (min-width: 1024px) {
+    padding: 7.5rem 6rem;
+  }
+}
+
+/* ── Bildekolonne ── */
+
+.imageColumn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--Spacing-S);
+}
+
+.mainImageWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 1.25rem;
+  overflow: hidden;
+  background: var(--Background-offshade);
+}
+
+.mainImage {
+  object-fit: cover;
+}
+
+/* ── Karusell-slide-animasjon ── */
+
+/* Wrapperen fyller hele bildeflaten (som fill-Image) */
+.slideWrapper {
+  position: absolute;
+  inset: 0;
+}
+
+/* Animasjon kun for brukere som ikke har bedt om redusert bevegelse */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes slideInFromRight {
+    from { transform: translateX(100%); }
+    to   { transform: translateX(0); }
+  }
+  @keyframes slideInFromLeft {
+    from { transform: translateX(-100%); }
+    to   { transform: translateX(0); }
+  }
+  @keyframes slideOutToLeft {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-100%); }
+  }
+  @keyframes slideOutToRight {
+    from { transform: translateX(0); }
+    to   { transform: translateX(100%); }
+  }
+
+  .slideFromRight    { animation: slideInFromRight 0.35s ease-in-out; }
+  .slideFromLeft     { animation: slideInFromLeft  0.35s ease-in-out; }
+  .slideOutToLeft    { animation: slideOutToLeft   0.35s ease-in-out; }
+  .slideOutToRight   { animation: slideOutToRight  0.35s ease-in-out; }
+}
+
+/* ── Karusellkontroller ── */
+
+/* pointer-events: none på wrapper — lar klikk gå gjennom til bildet */
+.carouselControls {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--Spacing-S);
+  pointer-events: none;
+}
+
+.carouselButton {
+  pointer-events: all;
+  background: var(--Background-offshade, #e3f6f0);
+  border: none;
+  border-radius: 50%;
+  width: 1.875rem;
+  height: 1.875rem;
+  aspect-ratio: 1 / 1;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  cursor: pointer;
+  color: var(--ButtonHover, #0a79a1);
+  transition: background 0.15s ease, color 0.15s ease;
+
+  &:hover:not(:disabled) {
+    background: var(--Teal);
+    color: var(--white);
+  }
+
+  &:disabled {
+    opacity: 0.3;
+    cursor: default;
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--focus-color);
+    outline-offset: 2px;
+  }
+}
+
+.thumbnails {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: var(--Spacing-XS);
+  flex-wrap: wrap;
+}
+
+.thumbnail {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 2px solid transparent;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+  transition: border-color 0.15s ease;
+
+  /* box-shadow klipper ikke — outline ville blitt klippet av overflow: hidden */
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--focus-color);
+  }
+}
+
+.thumbnailActive {
+  border-color: var(--Teal);
+}
+
+.thumbnailImage {
+  object-fit: cover;
+}
+
+/* Overstyrer .link-pilen: skjuler ::after, legger arrow-back foran teksten */
+.backLink {
+  &::after {
+    display: none;
+  }
+
+  &::before {
+    content: "";
+    width: 1.25rem;
+    height: 1.25rem;
+    flex-shrink: 0;
+    -webkit-mask: url("/_assets/arrow-back.svg") no-repeat center;
+    -webkit-mask-size: cover;
+    mask: url("/_assets/arrow-back.svg") no-repeat center;
+    mask-size: cover;
+    background-color: currentColor;
+  }
+}
+
+/* h1-element med h2-størrelse */
+.productTitle {
+  font-size: 1.5rem;
+
+  @media (min-width: 1024px) {
+    font-size: 2.25rem;
+  }
+}
+
+/* ── Detaljkolonne ── */
+
+.detailColumn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--Spacing-L);
+}
+
+/* ── Størrelse / variant ── */
+
+/* Resett fieldset til å se ut som en vanlig div */
+.optionGroup {
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--Spacing-XXS, 0.25rem);
+}
+
+.sizeButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--Spacing-XS);
+}
+
+.sizeButton {
+  display: flex;
+  min-width: 2.3125rem;
+  padding: 0.5rem;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 0.625rem;
+  border: 1.5px solid var(--Teal);
+  background: var(--Background-offshade);
+  color: var(--Body-text);
+  cursor: pointer;
+
+  /* Body-tekststil */
+  font-family: var(--font-nunito);
+  font-size: 0.9375rem;
+  line-height: 140%;
+
+  @media (min-width: 640px) {
+    font-size: 1.0625rem;
+  }
+
+  @media (min-width: 1024px) {
+    font-size: 1.1875rem;
+  }
+
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+
+  &:hover:not(:disabled) {
+    background-color: var(--Teal);
+    color: var(--white);
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--focus-color);
+    outline-offset: 2px;
+  }
+}
+
+.sizeButtonActive {
+  background: var(--Teal);
+  color: var(--white);
+  font-weight: 600;
+  /* border beholdes som --Teal — ingen layout-shift */
+}
+
+/* Opacity alene er ikke nok — tekst i sr-only dekker WCAG 1.4.1 */
+.sizeButtonUnavailable {
+  opacity: 0.4;
+  cursor: not-allowed;
+  text-decoration: line-through;
+}
+
+/* ── Antall ── */
+
+.quantityRow {
+  display: flex;
+  width: 9.375rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--Spacing-XXS, 0.25rem);
+}
+
+.quantityControls {
+  display: flex;
+  padding: 0.5rem;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+  border-radius: 0.625rem;
+  border: 1.5px solid var(--ButtonHover, #0a79a1);
+  background: var(--Background-main, #eff8f6);
+}
+
+.quantityButton {
+  padding: 0.5rem;
+  background: transparent;
+  border: none;
+  color: var(--Teal);
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--Background-offshade);
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--focus-color);
+    outline-offset: 2px;
+  }
+}
+
+.quantityValue {
+  min-width: 2rem;
+  text-align: center;
+  font-family: var(--font-nunito);
+  font-size: 1.0625rem;
+  font-weight: bold;
+  color: var(--Body-text);
+
+  @media (min-width: 1024px) {
+    font-size: 1.5rem;
+  }
+}
+
+/* ── Feilmelding ── */
+
+.errorMessage {
+  margin: 0;
+  color: var(--Body-text);
+  font-size: 0.875rem;
+  font-weight: bold;
+}
+
+/* ── Legg i handlekurv ── */
+
+.addToCartWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--Spacing-S, 0.75rem);
+}

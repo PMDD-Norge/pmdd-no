@@ -31,6 +31,8 @@ import { Highlights } from "@/components/pages/highlights/Highlights";
 import EventPage from "@/components/pages/event/EventPage";
 import ArticlePage from "@/components/pages/article/ArticlePage";
 import AvailablePositionPage from "@/components/pages/availablePosition/AvailablePositionPage";
+import ProductPage from "@/components/pages/merch/ProductPage";
+import { getProductByHandle, getMerchProducts } from "@/utils/shopify";
 import { ReactElement } from "react";
 
 /**
@@ -293,6 +295,20 @@ export async function handleCollectionHubType(
       );
     }
 
+    case "nettbutikk": {
+      const MerchPage = (await import("@/components/pages/merch/MerchPage")).default;
+      const products = await getMerchProducts();
+
+      return (
+        <MerchPage
+          products={products}
+          title={hub.title}
+          richText={hub.richText || hub.body}
+          hubSlug={slug[slug.length - 1]}
+        />
+      );
+    }
+
     default: {
       return <PMDDErrorMessage />;
     }
@@ -372,6 +388,27 @@ export async function handleLegalDocumentType(
 }
 
 /**
+ * Handler for "merch" document type
+ * The Sanity document's slug.current is used directly as the Shopify product handle.
+ */
+export async function handleMerchType(
+  slug: string[],
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _language: string,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _searchParams?: SearchParams
+): Promise<ReactElement> {
+  const handle = slug[slug.length - 1];
+  const product = await getProductByHandle(handle);
+
+  if (!product) {
+    return <PMDDErrorMessage />;
+  }
+
+  return <ProductPage product={product} />;
+}
+
+/**
  * Content type handler registry
  * Maps document types to their handler functions
  *
@@ -385,6 +422,7 @@ export const contentTypeHandlers = {
   event: handleEventType,
   availablePosition: handleAvailablePositionType,
   legalDocument: handleLegalDocumentType,
+  merch: handleMerchType,
 } as const;
 
 /**
