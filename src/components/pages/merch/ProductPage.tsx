@@ -23,6 +23,7 @@ const ProductPage = ({ product }: { product: ShopifyProductDetail }) => {
       o.name.toLowerCase() === "size" || o.name.toLowerCase() === "størrelse",
   );
 
+  const anyAvailable = variants.some((v) => v.availableForSale);
   const firstAvailable =
     variants.find((v) => v.availableForSale) ?? variants[0];
   const [selectedVariant, setSelectedVariant] =
@@ -253,9 +254,34 @@ const ProductPage = ({ product }: { product: ShopifyProductDetail }) => {
           </Text>
         </div>
 
-        {product.description && <Text type="body">{product.description}</Text>}
+        {product.descriptionHtml && (
+          <div
+            className={styles.description}
+            dangerouslySetInnerHTML={{
+              __html: product.descriptionHtml
+                .replace(/<meta[^>]*>/gi, "")
+                .replace(/\s*role="presentation"/gi, "")
+                .replace(/\s*dir="ltr"/gi, ""),
+            }}
+          />
+        )}
 
-        {sizeOption && (
+        {product.metafields?.filter(Boolean).length > 0 && (
+          <table className={styles.specsTable}>
+            <tbody>
+              {product.metafields.filter(Boolean).map((field) => (
+                <tr key={`${field!.namespace}-${field!.key}`}>
+                  <th scope="row" className={styles.specsKey}>
+                    {field!.key.replace(/_/g, " ")}
+                  </th>
+                  <td className={styles.specsValue}>{field!.value}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+
+        {sizeOption && anyAvailable && (
           <div
             className={styles.optionGroup}
             role="group"
@@ -293,7 +319,7 @@ const ProductPage = ({ product }: { product: ShopifyProductDetail }) => {
           </div>
         )}
 
-        {!hasSizeOption && variants.length > 1 && (
+        {!hasSizeOption && variants.length > 1 && anyAvailable && (
           <div
             className={styles.optionGroup}
             role="group"

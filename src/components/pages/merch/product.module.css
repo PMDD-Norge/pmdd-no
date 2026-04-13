@@ -192,6 +192,56 @@
   gap: var(--Spacing-L);
 }
 
+/* ── Beskrivelse (HTML fra Shopify) ── */
+
+.description {
+  font-family: var(--font-nunito);
+  font-size: 0.9375rem;
+  line-height: 140%;
+  color: var(--Body-text);
+
+  @media (min-width: 640px) { font-size: 1.0625rem; }
+  @media (min-width: 1024px) { font-size: 1.1875rem; }
+}
+
+/* :global trengs fordi elementene ikke er CSS Module-scoped */
+.description :global(p) { margin: 0; }
+.description :global(p + p) { margin-top: 0.75rem; }
+.description :global(strong) { font-weight: 700; }
+.description :global(ul),
+.description :global(ol) { padding-left: 1.25rem; margin: 0; }
+
+/* ── Spesifikasjoner ── */
+
+.specsTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-nunito);
+  font-size: 0.9375rem;
+  line-height: 140%;
+
+  @media (min-width: 640px) { font-size: 1.0625rem; }
+}
+
+.specsKey {
+  text-align: left;
+  font-weight: 600;
+  padding: 0.4rem 0.75rem 0.4rem 0;
+  color: var(--Body-text);
+  text-transform: capitalize;
+  white-space: nowrap;
+  vertical-align: top;
+  border-bottom: 1px solid var(--Background-offshade);
+  width: 40%;
+}
+
+.specsValue {
+  padding: 0.4rem 0 0.4rem 0.75rem;
+  color: var(--Body-text);
+  vertical-align: top;
+  border-bottom: 1px solid var(--Background-offshade);
+}
+
 /* ── Størrelse / variant ── */
 
 /* Resett fieldset til å se ut som en vanlig div */

@@ -20,6 +20,13 @@ export interface ShopifyVariant {
   selectedOptions: Array<{ name: string; value: string }>;
 }
 
+export interface ShopifyMetafield {
+  namespace: string;
+  key: string;
+  value: string;
+  type: string;
+}
+
 export interface ShopifyProductDetail extends ShopifyProduct {
   descriptionHtml: string;
   images: {
@@ -29,6 +36,7 @@ export interface ShopifyProductDetail extends ShopifyProduct {
     edges: Array<{ node: ShopifyVariant }>;
   };
   options: Array<{ name: string; values: string[] }>;
+  metafields: Array<ShopifyMetafield | null>;
 }
 
 const COLLECTION_PRODUCTS_QUERY = `
@@ -84,6 +92,26 @@ const PRODUCT_BY_HANDLE_QUERY = `
             selectedOptions { name value }
           }
         }
+      }
+      metafields(identifiers: [
+        { namespace: "custom", key: "materiale" },
+        { namespace: "custom", key: "material" },
+        { namespace: "custom", key: "innhold" },
+        { namespace: "custom", key: "vekt" },
+        { namespace: "custom", key: "dimensjoner" },
+        { namespace: "custom", key: "mal" },
+        { namespace: "custom", key: "farge" },
+        { namespace: "custom", key: "storrelse" },
+        { namespace: "custom", key: "spesifikasjoner" },
+        { namespace: "descriptors", key: "subtitle" },
+        { namespace: "descriptors", key: "care_guide" },
+        { namespace: "global", key: "material" },
+        { namespace: "global", key: "harmonized_system_code" }
+      ]) {
+        namespace
+        key
+        value
+        type
       }
     }
   }
