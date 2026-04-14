@@ -57,7 +57,7 @@ export default function SanityNextImage({
         objectFit: "cover",
         objectPosition,
         width: "100%",
-        height: "100%",
+        height: "auto",
       }}
       width={width}
       height={height}

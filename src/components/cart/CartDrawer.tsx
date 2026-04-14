@@ -27,10 +27,22 @@ const CartDrawer = () => {
     return () => document.removeEventListener('keydown', handler);
   }, [isOpen, closeCart]);
 
-  // Lås scroll på body
+  // Lås scroll på body — position:fixed er nødvendig på iOS Safari
+  // overflow:hidden alene fungerer ikke og lar touch-events henge igjen
   useEffect(() => {
-    document.body.style.overflow = isOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
+    if (!isOpen) return;
+
+    const scrollY = window.scrollY;
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.width = '100%';
+
+    return () => {
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      window.scrollTo(0, scrollY);
+    };
   }, [isOpen]);
 
   if (!isOpen) return null;
@@ -177,6 +189,7 @@ const CartDrawer = () => {
               >
                 Gå til kassen
               </Button>
+              <Text type="small">Betaling og utsendelse håndteres av getMerch.</Text>
             </div>
           </>
         )}

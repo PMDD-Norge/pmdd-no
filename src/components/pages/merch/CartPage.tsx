@@ -156,6 +156,7 @@ const CartPage = ({ cart }: { cart: ShopifyCart | null }) => {
             >
               Gå til kassen
             </Button>
+            <Text type="small">Betaling og utsendelse håndteres av getMerch.</Text>
           </div>
     </article>
   );
