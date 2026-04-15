@@ -3,7 +3,7 @@ import {
   PAGINATED_ARTICLES_QUERY,
   COUNT_ARTICLES_QUERY,
   COLLECTION_CATEGORIES_QUERY,
-  ALL_EVENTS_QUERY,
+  UPCOMING_EVENTS_QUERY,
 } from "@/sanity/lib/queries";
 import { logError } from './logger';
 
@@ -63,7 +63,7 @@ export const fetchInformationData = async (
 
 export const fetchHighlightsData = async () => {
   const [events, positions] = await Promise.all([
-    cachedSanityFetch(ALL_EVENTS_QUERY, {}),
+    cachedSanityFetch(UPCOMING_EVENTS_QUERY, {}),
     cachedSanityFetch(PAGINATED_ARTICLES_QUERY, {
       type: "job-position",
       category: null,

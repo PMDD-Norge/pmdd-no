@@ -11,6 +11,10 @@ export const MobileMenuButton = () => {
   useEffect(() => {
     const handleMenuStateChange = (event: CustomEvent) => {
       setIsOpen(event.detail);
+      // Return focus to button when menu closes so focus-trap is released
+      if (!event.detail) {
+        buttonRef.current?.focus();
+      }
     };
 
     // Listen for both toggle events and complete events

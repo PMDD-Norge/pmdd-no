@@ -35,9 +35,10 @@ const MobileMenu = ({ sidebarLinks, sidebarCtas }: Props) => {
     const handleToggle = (event: CustomEvent) => {
       setIsMenuOpen(event.detail);
 
-      // Lock scrolling when menu is open
       if (event.detail) {
         document.body.style.overflow = "hidden";
+      } else {
+        document.body.style.overflow = "";
       }
     };
 
