@@ -1,9 +1,10 @@
 import React from "react";
 import styles from "./link.module.css";
+import buttonStyles from "@/components/buttons/button.module.css";
 import Link from "next/link";
 import { SanityLink } from "@/sanity/lib/interfaces/siteSettings";
 import { getHref } from "@/utils/getHref";
-type Componenttype = "link" | "headerLink" | "footerLink";
+type Componenttype = "link" | "headerLink" | "footerLink" | "buttonLink";
 
 interface CustomLinkProps {
   type?: Componenttype;
@@ -21,6 +22,20 @@ const CustomLink = ({ type = "link", link, isSelected }: CustomLinkProps) => {
     type === "headerLink"
       ? `${styles.headerLink} ${isSelected ? styles.selected : ""}`
       : styles.footerLink;
+
+  if (type === "buttonLink") {
+    return (
+      <Link
+        className={`${buttonStyles.button} ${buttonStyles.primary} ${buttonStyles.small}`}
+        href={href}
+        target={target}
+        rel={rel}
+        aria-label={link.ariaLabel}
+      >
+        {title}
+      </Link>
+    );
+  }
 
   return type === "link" ? (
     <div className={styles.wrapper}>

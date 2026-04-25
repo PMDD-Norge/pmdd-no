@@ -12,14 +12,9 @@ import {
 } from './fragments';
 
 /**
- * Shared sections projection - used by both PAGE_BY_SLUG and LANDING_PAGE queries
- * This eliminates ~400 lines of duplication
+ * Individual section type projections - reused in both page sections and sectionGroup
  */
-const SECTIONS_PROJECTION = `sections[]{
-  _type,
-  _key,
-  theme,
-
+const SECTION_TYPE_PROJECTIONS = `
   // Hero section
   _type == "hero" => {
     title,
@@ -302,6 +297,26 @@ const SECTIONS_PROJECTION = `sections[]{
       asset->,
       altText,
       hotspot
+    }
+  }
+`;
+
+/**
+ * Shared sections projection - used by both PAGE_BY_SLUG and LANDING_PAGE queries
+ */
+const SECTIONS_PROJECTION = `sections[]{
+  _type,
+  _key,
+  theme,
+  ${SECTION_TYPE_PROJECTIONS},
+
+  // Section group (sections with no gap between them)
+  _type == "sectionGroup" => {
+    title,
+    sections[]{
+      _type,
+      _key,
+      ${SECTION_TYPE_PROJECTIONS}
     }
   }
 }`;

@@ -15,6 +15,7 @@ const LogoSalad = lazy(() => import("@/components/sections/logoSalad/LogoSalad")
 const Quote = lazy(() => import("@/components/sections/quote/Quote"));
 const Resources = lazy(() => import("@/components/sections/resources/Resources"));
 const Testimonials = lazy(() => import("@/components/sections/testimonials/Testimonials"));
+const SectionGroup = lazy(() => import("@/components/sections/sectionGroup/SectionGroup"));
 import {
   ArticleObject,
   CalloutObject,
@@ -28,6 +29,7 @@ import {
   QuoteObject,
   ResourcesObject,
   Section,
+  SectionGroupObject,
   TestimonialsObject,
 } from "@/sanity/lib/interfaces/pages";
 
@@ -92,6 +94,11 @@ const sectionRenderers: Record<
   grid: (section) => (
     <Suspense fallback={<SectionLoading sectionType="content grid" />}>
       <Grid grid={section as GridObject} />
+    </Suspense>
+  ),
+  sectionGroup: (section, { isLandingPage }) => (
+    <Suspense fallback={<SectionLoading sectionType="section group" />}>
+      <SectionGroup group={section as SectionGroupObject} isLandingPage={isLandingPage} />
     </Suspense>
   ),
 };

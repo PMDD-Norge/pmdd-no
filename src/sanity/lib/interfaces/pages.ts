@@ -167,12 +167,18 @@ export interface GridObject extends SanityBase {
   lists: GridList[];
 }
 
+export interface SectionGroupObject extends SanityBase {
+  title?: string;
+  sections: SectionObject[];
+}
+
 export type Section =
   | HeroObject
   | LogoSaladObject
   | ArticleObject
   | CalloutObject
-  | CallToActionObject;
+  | CallToActionObject
+  | SectionGroupObject;
 
 export interface PageDocument extends SanityBase {
   page: string;

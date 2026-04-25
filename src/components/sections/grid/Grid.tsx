@@ -81,7 +81,7 @@ const GridListSection = ({ list }: { list: GridList }) => {
       </ul>
       {list.ctaLink && (
         <div className={styles.ctaLink}>
-          <CustomLink link={list.ctaLink} />
+          <CustomLink type="buttonLink" link={list.ctaLink} />
         </div>
       )}
     </section>
