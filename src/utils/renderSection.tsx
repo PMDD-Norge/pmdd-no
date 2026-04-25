@@ -15,7 +15,6 @@ const LogoSalad = lazy(() => import("@/components/sections/logoSalad/LogoSalad")
 const Quote = lazy(() => import("@/components/sections/quote/Quote"));
 const Resources = lazy(() => import("@/components/sections/resources/Resources"));
 const Testimonials = lazy(() => import("@/components/sections/testimonials/Testimonials"));
-const SectionGroup = lazy(() => import("@/components/sections/sectionGroup/SectionGroup"));
 import {
   ArticleObject,
   CalloutObject,
@@ -32,6 +31,7 @@ import {
   SectionGroupObject,
   TestimonialsObject,
 } from "@/sanity/lib/interfaces/pages";
+import { getThemeClassFromAppearance } from "@/utils/themeUtils";
 
 // Import optimized loading component
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
@@ -39,9 +39,9 @@ import LoadingSpinner from "@/components/ui/LoadingSpinner";
 // Enhanced loading boundary for sections
 const SectionLoading = ({ sectionType }: { sectionType?: string }) => (
   <div className="min-h-[200px] flex items-center justify-center">
-    <LoadingSpinner 
-      size="md" 
-      text={`Loading ${sectionType || 'content'}...`} 
+    <LoadingSpinner
+      size="md"
+      text={`Loading ${sectionType || 'content'}...`}
     />
   </div>
 );
@@ -64,7 +64,7 @@ const sectionRenderers: Record<
   ),
   contactSection: (section) => <Contact contact={section as ContactObject} />,
   imageSection: (section) => <ImageSection section={section as ImageObject} />,
-  
+
   // Heavy sections - with suspense
   logoSalad: (section) => (
     <Suspense fallback={<SectionLoading sectionType="logo section" />}>
@@ -96,11 +96,24 @@ const sectionRenderers: Record<
       <Grid grid={section as GridObject} />
     </Suspense>
   ),
-  sectionGroup: (section, { isLandingPage }) => (
-    <Suspense fallback={<SectionLoading sectionType="section group" />}>
-      <SectionGroup group={section as SectionGroupObject} isLandingPage={isLandingPage} />
-    </Suspense>
-  ),
+  sectionGroup: (section, { isLandingPage }) => {
+    const group = section as SectionGroupObject;
+    const theme = getThemeClassFromAppearance(group.appearance);
+    return (
+      <div style={{ display: "flex", flexDirection: "column", width: "100%" }} className={theme}>
+        {group.sections?.map((innerSection) => {
+          const s = innerSection as unknown as Section;
+          const innerRender = sectionRenderers[s._type];
+          if (!innerRender) return null;
+          return (
+            <section key={s._key} data-section-type={s._type}>
+              {innerRender(s, { isLandingPage, language: undefined })}
+            </section>
+          );
+        })}
+      </div>
+    );
+  },
 };
 
 import { logger } from "@/utils/logger";

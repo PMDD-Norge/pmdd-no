@@ -78,7 +78,7 @@ const GridListSection = ({ list }: { list: GridList }) => {
           <GridElement key={item._key || item._id} item={item} />
         ))}
       </ul>
-      {list.ctaLink && (
+      {list.ctaLink?.title && (
         <div className={styles.ctaLink}>
           <CustomLink type="buttonLink" link={list.ctaLink} />
         </div>
