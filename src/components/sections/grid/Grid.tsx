@@ -52,7 +52,7 @@ export const Grid = async (props: Props) => {
   return (
     <article className={theme} id={_key}>
       <div className="sectionWrapperColumn">
-        <Text type="h2">{getDisplayText(title)}</Text>
+        {title && <Text type="h2">{getDisplayText(title)}</Text>}
         {richText && <RichText value={richText} />}
         {lists?.map((list, i) => (
           <GridListSection key={list._key || i} list={list} />
@@ -72,7 +72,7 @@ const GridListSection = ({ list }: { list: GridList }) => {
 
   return (
     <section className={styles.listSection}>
-      <Text type="h3">{getDisplayText(list.title)}</Text>
+      {list.title && <Text type="h3">{getDisplayText(list.title)}</Text>}
       <ul className={`${styles.list} ${getGridClassForItemCount(itemCount)}`}>
         {displayItems.map((item) => (
           <GridElement key={item._key || item._id} item={item} />

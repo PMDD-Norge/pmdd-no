@@ -27,12 +27,12 @@ const SECTION_TYPE_PROJECTIONS = `
 
   // Grid section (with dynamic content types)
   _type == "grid" => {
-    title,
+    "title": coalesce(title, optionalTitle),
     richText,
     appearance${APPEARANCE_FRAGMENT},
     lists[]{
       _key,
-      title,
+      "title": coalesce(title, optionalTitle),
       contentType,
       maxItems,
       ctaLink${LINK_FRAGMENT},

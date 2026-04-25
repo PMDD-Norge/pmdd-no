@@ -41,16 +41,18 @@ const classMap: { [key in TextType]?: string } = {
 
 const Text = ({
   type = "body",
+  as,
   children,
   id,
   className,
 }: {
   type?: TextType;
+  as?: string;
   children: React.ReactNode;
   id?: string;
   className?: string;
 }) => {
-  const element = elementMap[type];
+  const element = as ?? elementMap[type];
   const generatedClassName = `${classMap[type]} ${className || ""}`.trim();
 
   return React.createElement(
