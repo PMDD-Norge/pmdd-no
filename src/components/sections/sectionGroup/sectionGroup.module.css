@@ -25,3 +25,8 @@
   padding-top: 0;
   padding-bottom: 0;
 }
+
+/* La seksjongruppens bakgrunnsfarge vises — inner seksjoners article skal ikke dekke over */
+.group :global(article) {
+  background: none;
+}
