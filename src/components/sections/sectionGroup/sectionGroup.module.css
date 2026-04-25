@@ -2,4 +2,22 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  padding: 5rem 0;
+  gap: 5rem;
+
+  @media (min-width: 640px) {
+    padding: 6rem 0;
+    gap: 6rem;
+  }
+
+  @media (min-width: 1024px) {
+    padding: 7.5rem 0;
+    gap: 7.5rem;
+  }
+}
+
+/* Fjern vertical padding fra individuelle seksjoner — gruppen er containeren */
+.group :global(.sectionWrapperColumn) {
+  padding-top: 0;
+  padding-bottom: 0;
 }
