@@ -260,11 +260,7 @@ const GridElement = ({
       ? (item.turvenn as WalkingTourDocument["turvenn"])
       : undefined;
 
-  // Image: turvenn has own image; walkingTour turvenn may have image
-  const image =
-    "image" in item && item.image
-      ? item.image
-      : (walkingTourTurvenn?.image ?? undefined);
+  const image = "image" in item && item.image ? item.image : undefined;
 
   return (
     <li className={styles.listItem}>
