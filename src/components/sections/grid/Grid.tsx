@@ -91,7 +91,12 @@ const GridListSection = ({ list }: { list: GridList }) => {
 // Helper function to determine the correct route path based on document type
 // Documents should route through their hub pages
 const getRouteForType = (
-  item: EventDocument | AvailablePositionDocument | GridItem | WalkingTourDocument | TurVennDocument
+  item:
+    | EventDocument
+    | AvailablePositionDocument
+    | GridItem
+    | WalkingTourDocument
+    | TurVennDocument,
 ): string => {
   // Safety check: ensure item is an object
   if (!item || typeof item !== "object") {
@@ -146,7 +151,12 @@ const getRouteForType = (
 
 // Helper function to create internal link for auto-populated items
 const createInternalLink = (
-  item: EventDocument | AvailablePositionDocument | GridItem | WalkingTourDocument | TurVennDocument
+  item:
+    | EventDocument
+    | AvailablePositionDocument
+    | GridItem
+    | WalkingTourDocument
+    | TurVennDocument,
 ): SanityLink | undefined => {
   // If item already has a link, use it (works for GridItem, EventDocument, etc.)
   if ("link" in item && item.link) {
@@ -184,7 +194,12 @@ const createInternalLink = (
 const GridElement = ({
   item,
 }: {
-  item: EventDocument | AvailablePositionDocument | GridItem | WalkingTourDocument | TurVennDocument;
+  item:
+    | EventDocument
+    | AvailablePositionDocument
+    | GridItem
+    | WalkingTourDocument
+    | TurVennDocument;
 }) => {
   const itemAny = item as unknown as Record<string, unknown>;
 
@@ -206,9 +221,17 @@ const GridElement = ({
     content = item.description as string;
   } else if ("lead" in item && item.lead) {
     content = item.lead;
-  } else if ("excerpt" in itemAny && itemAny.excerpt && typeof itemAny.excerpt === "string") {
+  } else if (
+    "excerpt" in itemAny &&
+    itemAny.excerpt &&
+    typeof itemAny.excerpt === "string"
+  ) {
     content = itemAny.excerpt as string;
-  } else if ("occupation" in item && item.occupation && typeof item.occupation === 'string') {
+  } else if (
+    "occupation" in item &&
+    item.occupation &&
+    typeof item.occupation === "string"
+  ) {
     content = item.occupation as string;
   } else if ("richText" in item && item.richText) {
     content = item.richText;
@@ -241,7 +264,7 @@ const GridElement = ({
   const image =
     "image" in item && item.image
       ? item.image
-      : walkingTourTurvenn?.image ?? undefined;
+      : (walkingTourTurvenn?.image ?? undefined);
 
   return (
     <li className={styles.listItem}>
@@ -266,16 +289,18 @@ const GridElement = ({
             month: "long",
             day: "numeric",
           })}
-          {"endDate" in item && item.endDate && ` - ${new Date(item.endDate).toLocaleDateString("nb-NO", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          })}`}
+          {"endDate" in item &&
+            item.endDate &&
+            ` - ${new Date(item.endDate).toLocaleDateString("nb-NO", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}`}
         </Text>
       )}
       {isEvent && "location" in item && item.location && (
         <Text type="small" className={styles.eventLocation}>
-          📍 {item.location as string}
+          {item.location as string}
         </Text>
       )}
 
@@ -294,7 +319,7 @@ const GridElement = ({
       )}
       {isWalkingTour && "location" in item && item.location && (
         <Text type="small" className={styles.eventLocation}>
-          📍 {item.location as string}
+          {item.location as string}
         </Text>
       )}
       {isWalkingTour && walkingTourTurvenn?.name && (
