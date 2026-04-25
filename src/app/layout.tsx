@@ -2,10 +2,7 @@ import "./global.css";
 import { sanityFetch, SanityLive } from "@/sanity/lib/live";
 import { draftMode } from "next/headers";
 import { VisualEditing } from "next-sanity";
-import {
-  BRAND_ASSETS_QUERY,
-  NAVIGATION_QUERY,
-} from "@/sanity/lib/queries";
+import { BRAND_ASSETS_QUERY, NAVIGATION_QUERY } from "@/sanity/lib/queries";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
 import { DisableDraftMode } from "@/components/disableDraftMode/DisableDraftMode";
@@ -33,8 +30,7 @@ const fetchData = async () => {
     }),
   ];
 
-  const [navResponse, brandAssetsResponse] =
-    await Promise.all(queries);
+  const [navResponse, brandAssetsResponse] = await Promise.all(queries);
 
   return {
     nav: navResponse.data,
@@ -54,6 +50,11 @@ export default async function RootLayout({
   return (
     <html lang="no">
       <head>
+        <script
+          src="https://assets.mailmojo.no/sdk.js"
+          data-token="zmqMACuPZfxyaI15lPLOybaa4Y2knW"
+          async
+        ></script>
         <link rel="dns-prefetch" href="https://cdn.sanity.io" />
       </head>
       <body className={fontVariables}>
@@ -61,10 +62,7 @@ export default async function RootLayout({
           <a href="#main" className="skipLink">
             Hopp til hovedinnhold
           </a>
-          <Header
-            navigation={nav}
-            assets={brandAssets}
-          />
+          <Header navigation={nav} assets={brandAssets} />
           <main id="main" tabIndex={-1}>
             {children}
           </main>
