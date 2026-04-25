@@ -1,32 +1,5 @@
 .group {
-  max-width: 1000px;
-  margin: auto;
-  padding: 5rem 1rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 5rem;
-  align-self: stretch;
-
-  @media (min-width: 640px) {
-    padding: 6rem;
-    gap: 6rem;
-  }
-
-  @media (min-width: 1024px) {
-    padding: 7.5rem 12rem;
-    gap: 7.5rem;
-  }
-}
-
-/* Fjern vertikal padding fra inner seksjoners egne containere */
-.group :global(.sectionWrapperColumn) {
-  padding-top: 0;
-  padding-bottom: 0;
-}
-
-/* La seksjongruppens bakgrunnsfarge vises — inner seksjoners article skal ikke dekke over */
-.group :global(article) {
-  background: none;
+  width: 100%;
 }

@@ -1,21 +1,25 @@
-import { ReactNode } from "react";
 import styles from "./sectionGroup.module.css";
-import { SectionGroupObject } from "@/sanity/lib/interfaces/pages";
+import SectionRenderer from "@/utils/renderSection";
+import { Section, SectionGroupObject } from "@/sanity/lib/interfaces/pages";
 import { getThemeClassFromAppearance } from "@/utils/themeUtils";
 
 type Props = {
   group: SectionGroupObject;
-  children: ReactNode;
+  isLandingPage?: boolean;
 };
 
-const SectionGroup = ({ group, children }: Props) => {
+const SectionGroup = ({ group, isLandingPage = false }: Props) => {
   const theme = getThemeClassFromAppearance(group.appearance);
   return (
-    <article className={theme}>
-      <div className={styles.group}>
-        {children}
-      </div>
-    </article>
+    <div className={`${styles.group} ${theme}`}>
+      {group.sections?.map((section) => (
+        <SectionRenderer
+          key={section._key}
+          section={section as Section}
+          isLandingPage={isLandingPage}
+        />
+      ))}
+    </div>
   );
 };
 

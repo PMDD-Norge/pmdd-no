@@ -1,4 +1,4 @@
-import { ReactElement, lazy, Suspense, Fragment } from "react";
+import { ReactElement, lazy, Suspense } from "react";
 
 // Critical sections - load immediately
 import Hero from "@/components/sections/hero/Hero";
@@ -7,7 +7,6 @@ import Callout from "@/components/sections/callout/Callout";
 import CallToAction from "@/components/sections/callToAction/CallToAction";
 import Contact from "@/components/sections/contact/Contact";
 import ImageSection from "@/components/sections/imageSection/ImageSection";
-import SectionGroup from "@/components/sections/sectionGroup/SectionGroup";
 
 // Heavy sections - lazy load
 const Features = lazy(() => import("@/components/sections/features/Features"));
@@ -32,6 +31,7 @@ import {
   SectionGroupObject,
   TestimonialsObject,
 } from "@/sanity/lib/interfaces/pages";
+import { getThemeClassFromAppearance } from "@/utils/themeUtils";
 
 // Import optimized loading component
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
@@ -98,8 +98,9 @@ const sectionRenderers: Record<
   ),
   sectionGroup: (section, { isLandingPage }) => {
     const group = section as SectionGroupObject;
+    const theme = getThemeClassFromAppearance(group.appearance);
     return (
-      <SectionGroup group={group}>
+      <div style={{ display: "flex", flexDirection: "column", width: "100%" }} className={theme}>
         {group.sections?.map((innerSection) => {
           const s = innerSection as unknown as Section;
           const innerRender = sectionRenderers[s._type];
@@ -110,7 +111,7 @@ const sectionRenderers: Record<
             </section>
           );
         })}
-      </SectionGroup>
+      </div>
     );
   },
 };
