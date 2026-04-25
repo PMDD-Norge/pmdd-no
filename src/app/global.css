@@ -90,6 +90,26 @@ a {
   color: var(--sky);
 }
 
+/* SECTION GROUP */
+
+section[data-section-type="sectionGroup"] {
+  display: flex;
+  flex-direction: column;
+  gap: 7.5rem;
+  padding: 5rem 1rem;
+
+  @media (min-width: 1024px) {
+    padding: 7.5rem 12rem;
+  }
+  @media (min-width: 640px) {
+    padding: 6rem;
+  }
+}
+
+section[data-section-type="sectionGroup"] .sectionWrapperColumn {
+  padding: 0;
+}
+
 /*  APPARANCE  */
 
 .lightBackground {

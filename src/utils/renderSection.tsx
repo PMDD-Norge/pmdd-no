@@ -97,28 +97,6 @@ const sectionRenderers: Record<
       <Grid grid={section as GridObject} />
     </Suspense>
   ),
-  sectionGroup: (section, { isLandingPage }) => {
-    const group = section as SectionGroupObject;
-    const theme = getThemeClassFromAppearance(group.appearance);
-    const groupTheme = group.appearance?.theme;
-    return (
-      <div style={{ display: "flex", flexDirection: "column", width: "100%" }} className={theme}>
-        {group.sections?.map((innerSection) => {
-          const s = innerSection as unknown as Section;
-          const innerRender = sectionRenderers[s._type];
-          if (!innerRender) return null;
-          const sWithTheme = groupTheme
-            ? { ...s, appearance: { ...(s as { appearance?: Appearance }).appearance, theme: groupTheme } as Appearance }
-            : s;
-          return (
-            <section key={s._key} data-section-type={s._type}>
-              {innerRender(sWithTheme, { isLandingPage, language: undefined })}
-            </section>
-          );
-        })}
-      </div>
-    );
-  },
 };
 
 import { logger } from "@/utils/logger";
@@ -132,9 +110,38 @@ const SectionRenderer = ({
   isLandingPage?: boolean;
   language?: string;
 }): ReactElement | null => {
-  const renderSection = sectionRenderers[section._type];
+  if (section._type === "sectionGroup") {
+    const group = section as SectionGroupObject;
+    const theme = getThemeClassFromAppearance(group.appearance);
+    const groupTheme = group.appearance?.theme;
+    return (
+      <section
+        data-section-type="sectionGroup"
+        className={theme}
+      >
+        {group.sections?.map((innerSection) => {
+          const s = innerSection as unknown as Section;
+          const innerRender = sectionRenderers[s._type];
+          if (!innerRender) return null;
+          const sWithTheme = groupTheme
+            ? { ...s, appearance: { ...(s as { appearance?: Appearance }).appearance, theme: groupTheme } as Appearance }
+            : s;
+          return (
+            <SectionRenderer
+              key={s._key}
+              section={sWithTheme as Section}
+              isLandingPage={isLandingPage}
+              language={language}
+            />
+          );
+        })}
+      </section>
+    );
+  }
 
-  if (!renderSection) {
+  const renderFn = sectionRenderers[section._type];
+
+  if (!renderFn) {
     logger.warn(`No renderer found for section type: ${section._type}`, {
       sectionType: section._type,
       sectionKey: section._key
@@ -144,7 +151,7 @@ const SectionRenderer = ({
 
   return (
     <section data-section-type={section._type}>
-      {renderSection(section, { isLandingPage, language })}
+      {renderFn(section, { isLandingPage, language })}
     </section>
   );
 };
