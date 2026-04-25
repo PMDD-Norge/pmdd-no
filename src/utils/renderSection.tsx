@@ -107,7 +107,7 @@ const sectionRenderers: Record<
           const innerRender = sectionRenderers[s._type];
           if (!innerRender) return null;
           const sWithTheme = groupTheme
-            ? { ...s, appearance: { ...(s as any).appearance, theme: groupTheme } }
+            ? { ...s, appearance: { ...(s as { appearance?: Record<string, unknown> }).appearance, theme: groupTheme } }
             : s;
           return (
             <section key={s._key} data-section-type={s._type}>

@@ -15,7 +15,7 @@ const SectionGroup = ({ group, isLandingPage = false }: Props) => {
     <div className={`${styles.group} ${theme}`}>
       {group.sections?.map((section) => {
         const sectionWithTheme = groupTheme
-          ? { ...section, appearance: { ...(section as any).appearance, theme: groupTheme } }
+          ? { ...section, appearance: { ...(section as { appearance?: Record<string, unknown> }).appearance, theme: groupTheme } }
           : section;
         return (
           <SectionRenderer
