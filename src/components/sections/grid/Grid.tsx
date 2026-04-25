@@ -63,11 +63,10 @@ export const Grid = async (props: Props) => {
 };
 
 const GridListSection = ({ list }: { list: GridList }) => {
-  // For manual grids, show all items. For other types, apply maxItems limit
-  const shouldApplyLimit = list.contentType !== "manual";
-  const maxItems = shouldApplyLimit ? list.maxItems || 6 : undefined;
-  const displayItems = maxItems
-    ? list.items?.slice(0, maxItems) || []
+  // For manual grids, show all items. For other types, apply maxItems limit (0 = show all)
+  const shouldApplyLimit = list.contentType !== "manual" && !!list.maxItems;
+  const displayItems = shouldApplyLimit
+    ? list.items?.slice(0, list.maxItems) || []
     : list.items || [];
   const itemCount = displayItems.length;
 

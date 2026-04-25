@@ -169,6 +169,7 @@ export interface GridObject extends SanityBase {
 
 export interface SectionGroupObject extends SanityBase {
   title?: string;
+  appearance?: Appearance;
   sections: SectionObject[];
 }
 

@@ -313,6 +313,7 @@ const SECTIONS_PROJECTION = `sections[]{
   // Section group (sections with no gap between them)
   _type == "sectionGroup" => {
     title,
+    appearance{theme},
     sections[]{
       _type,
       _key,
