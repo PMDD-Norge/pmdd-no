@@ -1,10 +1,7 @@
 import SanityNextImage from "@/components/image/sanityImage";
 import styles from "./article.module.css";
 import { ArticleObject } from "@/sanity/lib/interfaces/pages";
-import {
-  ColorTheme,
-  ImagePosition,
-} from "@/sanity/lib/interfaces/appearance";
+import { ColorTheme, ImagePosition } from "@/sanity/lib/interfaces/appearance";
 import Text from "@/components/text/Text";
 import { RichText } from "@/components/richText/RichText";
 import LinkButton from "@/components/linkButton/LinkButton";
@@ -64,7 +61,8 @@ const Article = ({ article }: { article: ArticleObject }) => {
       <div
         className={cn(
           styles.sectionWrapperRow,
-          imagePosition !== ImagePosition.Left && "imagePositionAlwaysLeftOnMobile"
+          imagePosition !== ImagePosition.Left &&
+            "imagePositionAlwaysLeftOnMobile",
         )}
       >
         {renderMedia()}
@@ -80,7 +78,8 @@ const Article = ({ article }: { article: ArticleObject }) => {
                 <li key={`cta-${index}`}>
                   <LinkButton
                     link={cta}
-                    type={index === 0 ? "primary" : "secondary"}
+                    // type={index === 0 ? "primary" : "secondary"}
+                    type="secondary"
                   />
                 </li>
               ))}
