@@ -34,7 +34,7 @@ export const COLLECTION_HUB_BY_SLUG_QUERY = `
 
     // Dynamically populate based on type
     type == "event" => {
-      "items": *[_type == "event" && !(_id in path("drafts.**"))] | order(startDate desc) [0...20] {
+      "items": *[_type == "event" && startDate >= now() && !(_id in path("drafts.**"))] | order(startDate asc) [0...20] {
         _id,
         _type,
         title,

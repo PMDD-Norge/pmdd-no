@@ -131,10 +131,33 @@ export interface GridItem extends SanityBase {
 
 export interface GridList extends SanityBase {
   title: string;
-  contentType?: "manual" | "event" | "availablePosition" | "post" | "blog-post" | "news" | "job-position" | "resource" | "writer";
+  contentType?: "manual" | "event" | "availablePosition" | "post" | "blog-post" | "news" | "job-position" | "resource" | "writer" | "walking-tour" | "turvenn";
   items?: GridItem[];
   maxItems?: number;
   internalLink?: SanityLink;
+  ctaLink?: SanityLink;
+}
+
+export interface WalkingTourDocument extends SanityBase {
+  title: string;
+  dateTime?: string;
+  location?: string;
+  description?: string;
+  wheelchairFriendly?: boolean;
+  strollerFriendly?: boolean;
+  bringFood?: boolean;
+  facebookUrl?: string;
+  turvenn?: {
+    name: string;
+    city?: string;
+    image?: SanityImageData;
+  };
+}
+
+export interface TurVennDocument extends SanityBase {
+  name: string;
+  city?: string;
+  image?: SanityImageData;
 }
 
 export interface GridObject extends SanityBase {

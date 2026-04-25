@@ -18,6 +18,8 @@ import {
   GridItem,
   GridList,
   GridObject,
+  TurVennDocument,
+  WalkingTourDocument,
 } from "@/sanity/lib/interfaces/pages";
 
 // Interface for articles with type field
@@ -77,6 +79,11 @@ const GridListSection = ({ list }: { list: GridList }) => {
           <GridElement key={item._key || item._id} item={item} />
         ))}
       </ul>
+      {list.ctaLink && (
+        <div className={styles.ctaLink}>
+          <CustomLink link={list.ctaLink} />
+        </div>
+      )}
     </section>
   );
 };
@@ -84,7 +91,7 @@ const GridListSection = ({ list }: { list: GridList }) => {
 // Helper function to determine the correct route path based on document type
 // Documents should route through their hub pages
 const getRouteForType = (
-  item: EventDocument | AvailablePositionDocument | GridItem
+  item: EventDocument | AvailablePositionDocument | GridItem | WalkingTourDocument | TurVennDocument
 ): string => {
   // Safety check: ensure item is an object
   if (!item || typeof item !== "object") {
@@ -122,17 +129,16 @@ const getRouteForType = (
   // Different document types belong to different hub pages
   switch (documentType) {
     case "event":
-      // Events don't have a specific hub prefix in this setup
       return slug;
     case "article":
-      // Generic articles route directly
       return slug;
     case "post":
-      // Posts belong to the "informasjon" hub
       return `informasjon/${slug}`;
     case "availablePosition":
-      // Available positions belong to the "verv" hub
       return `verv/${slug}`;
+    case "walkingTour":
+    case "turvenn":
+      return slug;
     default:
       return slug;
   }
@@ -140,7 +146,7 @@ const getRouteForType = (
 
 // Helper function to create internal link for auto-populated items
 const createInternalLink = (
-  item: EventDocument | AvailablePositionDocument | GridItem
+  item: EventDocument | AvailablePositionDocument | GridItem | WalkingTourDocument | TurVennDocument
 ): SanityLink | undefined => {
   // If item already has a link, use it (works for GridItem, EventDocument, etc.)
   if ("link" in item && item.link) {
@@ -178,21 +184,29 @@ const createInternalLink = (
 const GridElement = ({
   item,
 }: {
-  item: EventDocument | AvailablePositionDocument | GridItem;
+  item: EventDocument | AvailablePositionDocument | GridItem | WalkingTourDocument | TurVennDocument;
 }) => {
+  const itemAny = item as unknown as Record<string, unknown>;
+
   // Check document type
   const isEvent = "_type" in item && item._type === "event";
   const isWriter = "_type" in item && item._type === "writer";
+  const isWalkingTour = "_type" in item && item._type === "walkingTour";
+  const isTurVenn = "_type" in item && item._type === "turvenn";
 
-  // Get title - writers use 'name' field
-  const itemTitle: string | undefined = isWriter && "name" in item ? (item.name as string) : item.title;
+  // Get title - writers and turvenn use 'name' field
+  const itemTitle: string | undefined =
+    (isWriter || isTurVenn) && "name" in item
+      ? (item.name as string)
+      : (item as { title?: string }).title;
 
   // Determine content based on available fields
   let content: string | PortableTextBlock[] | null | undefined = null;
-  const itemAny = item as unknown as Record<string, unknown>;
-  if ("lead" in item && item.lead) {
+  if (isWalkingTour && "description" in item && item.description) {
+    content = item.description as string;
+  } else if ("lead" in item && item.lead) {
     content = item.lead;
-  } else if ("excerpt" in item && itemAny.excerpt && typeof itemAny.excerpt === "string") {
+  } else if ("excerpt" in itemAny && itemAny.excerpt && typeof itemAny.excerpt === "string") {
     content = itemAny.excerpt as string;
   } else if ("occupation" in item && item.occupation && typeof item.occupation === 'string') {
     content = item.occupation as string;
@@ -204,14 +218,44 @@ const GridElement = ({
 
   const link = createInternalLink(item);
 
+  // Build Facebook link for walking tours
+  const facebookLink: SanityLink | undefined =
+    isWalkingTour && "facebookUrl" in item && item.facebookUrl
+      ? {
+          _key: "facebook",
+          _type: "link",
+          title: "Facebook-arrangement",
+          type: LinkType.External,
+          url: item.facebookUrl as string,
+          newTab: true,
+        }
+      : undefined;
+
+  // Walking tour turvenn info
+  const walkingTourTurvenn =
+    isWalkingTour && "turvenn" in item && item.turvenn
+      ? (item.turvenn as WalkingTourDocument["turvenn"])
+      : undefined;
+
+  // Image: turvenn has own image; walkingTour turvenn may have image
+  const image =
+    "image" in item && item.image
+      ? item.image
+      : walkingTourTurvenn?.image ?? undefined;
+
   return (
     <li className={styles.listItem}>
-      {"image" in item && item.image?.asset && (item.image.asset._ref || item.image.asset._id) && (
+      {image?.asset && (image.asset._ref || image.asset._id) && (
         <div className={styles.image}>
-          <SanityNextImage image={item.image} />
+          <SanityNextImage image={image} />
         </div>
       )}
       {itemTitle && <Text type="h4">{getDisplayText(itemTitle)}</Text>}
+
+      {/* City for turvenn */}
+      {isTurVenn && "city" in item && item.city && (
+        <Text type="small">{item.city as string}</Text>
+      )}
 
       {/* Event-specific fields: date and location */}
       {isEvent && "startDate" in item && item.startDate && (
@@ -231,8 +275,30 @@ const GridElement = ({
       )}
       {isEvent && "location" in item && item.location && (
         <Text type="small" className={styles.eventLocation}>
-          📍 {item.location}
+          📍 {item.location as string}
         </Text>
+      )}
+
+      {/* Walking tour-specific fields */}
+      {isWalkingTour && "dateTime" in item && item.dateTime && (
+        <Text type="small" className={styles.eventDate}>
+          {new Date(item.dateTime as string).toLocaleDateString("nb-NO", {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          })}
+        </Text>
+      )}
+      {isWalkingTour && "location" in item && item.location && (
+        <Text type="small" className={styles.eventLocation}>
+          📍 {item.location as string}
+        </Text>
+      )}
+      {isWalkingTour && walkingTourTurvenn?.name && (
+        <Text type="small">Turvenn: {walkingTourTurvenn.name}</Text>
       )}
 
       {content && typeof content === "string" && (
@@ -241,7 +307,12 @@ const GridElement = ({
       {content && Array.isArray(content) && content.length > 0 && (
         <PortableText value={content} components={myPortableTextComponents} />
       )}
-      {link && (
+      {facebookLink && (
+        <div>
+          <CustomLink link={facebookLink} />
+        </div>
+      )}
+      {!facebookLink && link && (
         <div>
           <CustomLink link={link} />
         </div>

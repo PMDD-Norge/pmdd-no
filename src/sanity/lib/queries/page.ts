@@ -40,6 +40,7 @@ const SECTIONS_PROJECTION = `sections[]{
       title,
       contentType,
       maxItems,
+      ctaLink${LINK_FRAGMENT},
 
       // Manual items
       contentType == "manual" => {
@@ -155,6 +156,38 @@ const SECTIONS_PROJECTION = `sections[]{
           richText,
           tag,
           slug
+        }
+      },
+
+      // Auto-populated walking tours
+      contentType == "walking-tour" => {
+        "items": *[_type == "walkingTour" && !(_id in path("drafts.**"))] | order(dateTime asc) {
+          _id,
+          _type,
+          title,
+          dateTime,
+          location,
+          description,
+          wheelchairFriendly,
+          strollerFriendly,
+          bringFood,
+          facebookUrl,
+          "turvenn": turvenn->{
+            name,
+            city,
+            image${IMAGE_SIMPLE_FRAGMENT}
+          }
+        }
+      },
+
+      // Auto-populated turvenn
+      contentType == "turvenn" => {
+        "items": *[_type == "turvenn" && !(_id in path("drafts.**"))] | order(name asc) {
+          _id,
+          _type,
+          name,
+          city,
+          image${IMAGE_SIMPLE_FRAGMENT}
         }
       }
     }

@@ -49,6 +49,10 @@
   }
 }
 
+.ctaLink {
+  margin-top: var(--Spacing-XS);
+}
+
 .image {
   max-width: 80%;
   height: auto;
