@@ -10,15 +10,21 @@ type Props = {
 
 const SectionGroup = ({ group, isLandingPage = false }: Props) => {
   const theme = getThemeClassFromAppearance(group.appearance);
+  const groupTheme = group.appearance?.theme;
   return (
     <div className={`${styles.group} ${theme}`}>
-      {group.sections?.map((section) => (
-        <SectionRenderer
-          key={section._key}
-          section={section as Section}
-          isLandingPage={isLandingPage}
-        />
-      ))}
+      {group.sections?.map((section) => {
+        const sectionWithTheme = groupTheme
+          ? { ...section, appearance: { ...(section as any).appearance, theme: groupTheme } }
+          : section;
+        return (
+          <SectionRenderer
+            key={section._key}
+            section={sectionWithTheme as Section}
+            isLandingPage={isLandingPage}
+          />
+        );
+      })}
     </div>
   );
 };

@@ -99,15 +99,19 @@ const sectionRenderers: Record<
   sectionGroup: (section, { isLandingPage }) => {
     const group = section as SectionGroupObject;
     const theme = getThemeClassFromAppearance(group.appearance);
+    const groupTheme = group.appearance?.theme;
     return (
       <div style={{ display: "flex", flexDirection: "column", width: "100%" }} className={theme}>
         {group.sections?.map((innerSection) => {
           const s = innerSection as unknown as Section;
           const innerRender = sectionRenderers[s._type];
           if (!innerRender) return null;
+          const sWithTheme = groupTheme
+            ? { ...s, appearance: { ...(s as any).appearance, theme: groupTheme } }
+            : s;
           return (
             <section key={s._key} data-section-type={s._type}>
-              {innerRender(s, { isLandingPage, language: undefined })}
+              {innerRender(sWithTheme, { isLandingPage, language: undefined })}
             </section>
           );
         })}
