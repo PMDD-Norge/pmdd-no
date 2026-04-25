@@ -1,5 +1,6 @@
 import styles from "./sectionGroup.module.css";
 import SectionRenderer from "@/utils/renderSection";
+import { Appearance } from "@/sanity/lib/interfaces/appearance";
 import { Section, SectionGroupObject } from "@/sanity/lib/interfaces/pages";
 import { getThemeClassFromAppearance } from "@/utils/themeUtils";
 
@@ -15,7 +16,7 @@ const SectionGroup = ({ group, isLandingPage = false }: Props) => {
     <div className={`${styles.group} ${theme}`}>
       {group.sections?.map((section) => {
         const sectionWithTheme = groupTheme
-          ? { ...section, appearance: { ...(section as { appearance?: Record<string, unknown> }).appearance, theme: groupTheme } }
+          ? { ...section, appearance: { ...(section as { appearance?: Appearance }).appearance, theme: groupTheme } as Appearance }
           : section;
         return (
           <SectionRenderer

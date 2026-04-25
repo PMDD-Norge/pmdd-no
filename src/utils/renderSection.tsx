@@ -31,6 +31,7 @@ import {
   SectionGroupObject,
   TestimonialsObject,
 } from "@/sanity/lib/interfaces/pages";
+import { Appearance } from "@/sanity/lib/interfaces/appearance";
 import { getThemeClassFromAppearance } from "@/utils/themeUtils";
 
 // Import optimized loading component
@@ -107,7 +108,7 @@ const sectionRenderers: Record<
           const innerRender = sectionRenderers[s._type];
           if (!innerRender) return null;
           const sWithTheme = groupTheme
-            ? { ...s, appearance: { ...(s as { appearance?: Record<string, unknown> }).appearance, theme: groupTheme } }
+            ? { ...s, appearance: { ...(s as { appearance?: Appearance }).appearance, theme: groupTheme } as Appearance }
             : s;
           return (
             <section key={s._key} data-section-type={s._type}>
