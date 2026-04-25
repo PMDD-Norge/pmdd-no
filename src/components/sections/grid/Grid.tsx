@@ -21,6 +21,7 @@ import {
   TurVennDocument,
   WalkingTourDocument,
 } from "@/sanity/lib/interfaces/pages";
+import LinkButton from "@/components/linkButton/LinkButton";
 
 // Interface for articles with type field
 interface ArticleWithType {
@@ -80,7 +81,11 @@ const GridListSection = ({ list }: { list: GridList }) => {
       </ul>
       {list.ctaLink?.title && (
         <div className={styles.ctaLink}>
-          <CustomLink type="buttonLink" link={list.ctaLink} />
+          <LinkButton
+            link={list.ctaLink}
+            // type={index === 0 ? "primary" : "secondary"}
+            type="secondary"
+          />
         </div>
       )}
     </section>
