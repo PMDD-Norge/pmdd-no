@@ -11,9 +11,11 @@ type Props = {
 const SectionGroup = ({ group, children }: Props) => {
   const theme = getThemeClassFromAppearance(group.appearance);
   return (
-    <div className={`${styles.group} ${theme}`}>
-      {children}
-    </div>
+    <article className={theme}>
+      <div className={styles.group}>
+        {children}
+      </div>
+    </article>
   );
 };
 
