@@ -70,11 +70,15 @@ const GridListSection = ({ list }: { list: GridList }) => {
     ? list.items?.slice(0, list.maxItems) || []
     : list.items || [];
   const itemCount = displayItems.length;
+  const columns = list.columns ?? 3;
 
   return (
     <section className={styles.listSection}>
       {list.title && <Text type="h3">{getDisplayText(list.title)}</Text>}
-      <ul className={`${styles.list} ${getGridClassForItemCount(itemCount)}`}>
+      <ul
+        className={`${styles.list} ${getGridClassForItemCount(itemCount)}`}
+        style={{ "--columns": columns } as React.CSSProperties}
+      >
         {displayItems.map((item) => (
           <GridElement key={item._key || item._id} item={item} />
         ))}
@@ -288,6 +292,7 @@ const GridElement = ({
             year: "numeric",
             month: "long",
             day: "numeric",
+            timeZone: "Europe/Oslo",
           })}
           {"endDate" in item &&
             item.endDate &&
@@ -295,6 +300,7 @@ const GridElement = ({
               year: "numeric",
               month: "long",
               day: "numeric",
+              timeZone: "Europe/Oslo",
             })}`}
         </Text>
       )}
@@ -314,6 +320,7 @@ const GridElement = ({
             day: "numeric",
             hour: "2-digit",
             minute: "2-digit",
+            timeZone: "Europe/Oslo",
           })}
         </Text>
       )}

@@ -14,20 +14,19 @@
 }
 
 .list {
+  --columns: 3;
   display: flex;
-  flex-direction: column;
-  gap: 1.5rem var(--Spacing-M);
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  align-content: flex-start;
+  gap: 1.5rem var(--Spacing-XS);
   margin: 0;
   padding: 0;
   list-style: none;
   align-self: stretch;
 
   @media (min-width: 640px) {
-    padding: 0;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    align-content: flex-start;
     gap: 1.5rem var(--Spacing-L);
   }
 }
@@ -36,16 +35,16 @@
   display: flex;
   flex-direction: column;
   text-align: left;
-  width: 100%;
+  width: calc(50% - 0.25rem);
 
   gap: var(--Spacing-XS);
 
   @media (min-width: 640px) {
-    width: calc(50% - 1rem); /* Accounts for gap */
+    width: calc(50% - 1rem);
   }
 
   @media (min-width: 1024px) {
-    width: calc(33.333% - 2rem); /* Accounts for gap */
+    width: calc(100% / var(--columns) - 2rem);
   }
 }
 
@@ -54,12 +53,9 @@
 }
 
 .image {
-  max-width: 80%;
+  width: 100%;
+  max-width: 100%;
   height: auto;
   overflow: hidden;
   object-fit: contain;
-  @media (min-width: 1024px) {
-    width: 100%;
-    max-width: 100%;
-  }
 }

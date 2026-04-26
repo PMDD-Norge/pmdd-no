@@ -34,6 +34,7 @@ const SECTION_TYPE_PROJECTIONS = `
       _key,
       "title": coalesce(title, optionalTitle),
       contentType,
+      columns,
       maxItems,
       ctaLink${LINK_FRAGMENT},
 
