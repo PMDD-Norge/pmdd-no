@@ -1,8 +1,5 @@
 import { Suspense } from "react";
-import {
-  VippsDonasjoner,
-  ContactObject,
-} from "@/sanity/lib/interfaces/pages";
+import { VippsDonasjoner, ContactObject } from "@/sanity/lib/interfaces/pages";
 import styles from "./minnehagen.module.css";
 import Text from "@/components/text/Text";
 import { RichText } from "@/components/richText/RichText";
@@ -33,9 +30,13 @@ const MinnehagenPage = ({ document }: { document: MinnehagenHubData }) => {
           </div>
         )}
         <div className={styles.intro}>
-          {title && <Text type="h1">{title}</Text>}
-          {richText && <RichText value={richText} />}
-          <PlantBlomstKnapp />
+          <div className={styles.introContent}>
+            {title && <Text type="h1">{title}</Text>}
+            {richText && <RichText value={richText} />}
+          </div>
+          <div>
+            <PlantBlomstKnapp />
+          </div>
         </div>
       </div>
 

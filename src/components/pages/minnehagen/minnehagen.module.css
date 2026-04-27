@@ -20,9 +20,16 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--Spacing-M);
+  gap: var(--Spacing-L);
   align-self: stretch;
   margin: auto;
+}
+
+.introContent {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: var(--Spacing-XS, 0.5rem);
 }
 
 /* Donasjonsseksjon */

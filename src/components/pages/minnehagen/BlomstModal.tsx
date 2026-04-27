@@ -39,6 +39,7 @@ const BLOMSTER: { value: BlomstType; navn: string }[] = [
 ];
 
 const PRESET_BELOEP = [50, 100, 200, 500, 1000];
+const VIPPS_ENABLED = process.env.NEXT_PUBLIC_VIPPS_ENABLED === 'true';
 
 interface Props {
   isOpen: boolean;
@@ -120,7 +121,13 @@ export default function BlomstModal({ isOpen, onClose }: Props) {
         const res = await fetch("/api/plant-blomst", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ blomstType: valgt, tilMinneOm, hilsen, navn, url: honeypot }),
+          body: JSON.stringify({
+            blomstType: valgt,
+            tilMinneOm,
+            hilsen,
+            navn,
+            url: honeypot,
+          }),
         });
         const data = await res.json();
         if (!res.ok) {
@@ -157,7 +164,13 @@ export default function BlomstModal({ isOpen, onClose }: Props) {
       const blomstRes = await fetch("/api/plant-blomst", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ blomstType: valgt, tilMinneOm, hilsen, navn, url: honeypot }),
+        body: JSON.stringify({
+          blomstType: valgt,
+          tilMinneOm,
+          hilsen,
+          navn,
+          url: honeypot,
+        }),
       });
       const blomstData = await blomstRes.json();
 
@@ -177,7 +190,9 @@ export default function BlomstModal({ isOpen, onClose }: Props) {
       const vippsData = await vippsRes.json();
 
       if (!vippsRes.ok) {
-        setFeilmelding(vippsData.error ?? "Kunne ikke starte Vipps-betaling. Prøv igjen.");
+        setFeilmelding(
+          vippsData.error ?? "Kunne ikke starte Vipps-betaling. Prøv igjen.",
+        );
         setStatus("error");
         return;
       }
@@ -284,7 +299,12 @@ export default function BlomstModal({ isOpen, onClose }: Props) {
               tabIndex={-1}
               aria-hidden="true"
               autoComplete="off"
-              style={{ position: "absolute", opacity: 0, height: 0, pointerEvents: "none" }}
+              style={{
+                position: "absolute",
+                opacity: 0,
+                height: 0,
+                pointerEvents: "none",
+              }}
             />
             <fieldset className={modalStyles.fieldset}>
               <legend className={modalStyles.blomstLegend}>
@@ -346,15 +366,17 @@ export default function BlomstModal({ isOpen, onClose }: Props) {
             />
 
             <div className={modalStyles.bunn}>
-              <label className={modalStyles.donasjonsCheckbox}>
-                <input
-                  type="checkbox"
-                  checked={vilDonere}
-                  onChange={(e) => setVilDonere(e.target.checked)}
-                  disabled={status === "loading"}
-                />
-                <span>Jeg vil også donere til PMDD Norges arbeid</span>
-              </label>
+              {VIPPS_ENABLED && (
+                <label className={modalStyles.donasjonsCheckbox}>
+                  <input
+                    type="checkbox"
+                    checked={vilDonere}
+                    onChange={(e) => setVilDonere(e.target.checked)}
+                    disabled={status === "loading"}
+                  />
+                  <span>Jeg vil også donere til PMDD Norges arbeid</span>
+                </label>
+              )}
               {feilmelding && (
                 <p className={modalStyles.feil} role="alert">
                   {feilmelding}
@@ -367,17 +389,18 @@ export default function BlomstModal({ isOpen, onClose }: Props) {
                   loading={status === "loading"}
                   size="small"
                 >
-                  {status === "loading" ? "Planter..." : "Neste"}
+                  {status === "loading" ? "Planter..." : VIPPS_ENABLED ? "Neste" : "Plant blomsten"}
                 </Button>
               </div>
             </div>
           </form>
         )}
 
-        {step === "donate" && (
+        {VIPPS_ENABLED && step === "donate" && (
           <div className={modalStyles.donasjonSteg}>
             <Text type="body">
-              Din donasjon går til PMDD Norges arbeid for kunnskap, støtte og viktig hjelp.
+              Din donasjon går til PMDD Norges arbeid for kunnskap, støtte og
+              viktig hjelp.
             </Text>
 
             <div className={modalStyles.beloepGrid}>

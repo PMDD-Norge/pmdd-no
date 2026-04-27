@@ -5,7 +5,7 @@ const SUBSCRIPTION_KEY = process.env.VIPPS_SUBSCRIPTION_KEY!;
 const MERCHANT_SERIAL_NUMBER = process.env.VIPPS_MERCHANT_SERIAL_NUMBER!;
 
 async function getAccessToken(): Promise<string> {
-  const res = await fetch(`${VIPPS_API_URL}/auth/token`, {
+  const res = await fetch(`${VIPPS_API_URL}/accessToken/get`, {
     method: 'POST',
     headers: {
       'client_id': CLIENT_ID,
@@ -16,6 +16,7 @@ async function getAccessToken(): Promise<string> {
 
   if (!res.ok) {
     const text = await res.text();
+    console.error('Vipps token feil:', res.status, text);
     throw new Error(`Vipps token error ${res.status}: ${text}`);
   }
 
@@ -31,6 +32,20 @@ export async function createVippsPayment(params: {
 }): Promise<{ redirectUrl: string }> {
   const token = await getAccessToken();
 
+  const requestBody = {
+    amount: {
+      value: params.beloep * 100,
+      currency: 'NOK',
+    },
+    paymentMethod: { type: 'WALLET' },
+    reference: params.orderId,
+    returnUrl: params.returnUrl,
+    userFlow: 'WEB_REDIRECT',
+    paymentDescription: params.description,
+  };
+
+  console.log('Vipps payment request:', JSON.stringify(requestBody, null, 2));
+
   const res = await fetch(`${VIPPS_API_URL}/epayment/v1/payments`, {
     method: 'POST',
     headers: {
@@ -38,26 +53,18 @@ export async function createVippsPayment(params: {
       'Ocp-Apim-Subscription-Key': SUBSCRIPTION_KEY,
       'Merchant-Serial-Number': MERCHANT_SERIAL_NUMBER,
       'Content-Type': 'application/json',
+      'Idempotency-Key': params.orderId,
     },
-    body: JSON.stringify({
-      amount: {
-        value: params.beloep * 100,
-        currency: 'NOK',
-      },
-      paymentMethod: { type: 'WALLET' },
-      customer: {},
-      reference: params.orderId,
-      returnUrl: params.returnUrl,
-      userFlow: 'WEB_REDIRECT',
-      paymentDescription: params.description,
-    }),
+    body: JSON.stringify(requestBody),
   });
 
   if (!res.ok) {
     const text = await res.text();
+    console.error('Vipps payment feil:', res.status, text);
     throw new Error(`Vipps payment error ${res.status}: ${text}`);
   }
 
   const data = await res.json();
+  console.log('Vipps payment respons:', JSON.stringify(data, null, 2));
   return { redirectUrl: data.redirectUrl as string };
 }
