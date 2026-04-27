@@ -18,21 +18,24 @@
   list-style: none;
   padding: 0;
   margin: 0;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: var(--Spacing-M) var(--Spacing-XS);
   width: 100%;
-}
-
-.grid > * {
-  width: calc(50% - var(--Spacing-XS) / 2);
 
   @media (min-width: 640px) {
-    width: calc(33.333% - var(--Spacing-XS));
+    grid-template-columns: repeat(3, 1fr);
   }
 
   @media (min-width: 1024px) {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid > * {
     width: 9rem;
   }
 }
