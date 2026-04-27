@@ -23,6 +23,10 @@
   gap: var(--Spacing-L);
   align-self: stretch;
   margin: auto;
+  @media (max-width: 640px) {
+    width: 100%;
+    max-width: 400px;
+  }
 }
 
 .introContent {
