@@ -14,7 +14,7 @@ export const COLLECTION_HUB_BY_SLUG_QUERY = `
   description,
   richText,
   body,
-  image{
+  "image": coalesce(heroImage, image){
     asset->,
     altText,
     hotspot,
@@ -183,6 +183,20 @@ export const COLLECTION_HUB_BY_SLUG_QUERY = `
     }
   },
   allPostsLabel,
+
+  // Minnehagen-specific fields
+  vippsDonasjoner{
+    aktivert,
+    tittel,
+    beskrivelse,
+    vippsNummer,
+    innsamlingslenke,
+    forslagteBeloep[]{
+      beloep,
+      etikett
+    },
+    takkeTekst
+  },
 
   // Highlights-specific fields
   eventsSection{

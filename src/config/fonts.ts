@@ -3,7 +3,7 @@
  * Centralizes Next.js font setup for better maintainability
  */
 
-import { Nunito, Poller_One } from "next/font/google";
+import { Inter, Nunito, Poller_One } from "next/font/google";
 
 /**
  * Poller One - Display font for headings
@@ -15,6 +15,18 @@ export const pollerOne = Poller_One({
   display: "swap",
   fallback: ["system-ui", "arial"],
   adjustFontFallback: true,
+  preload: true,
+});
+
+/**
+ * Inter - UI font for labels and interface elements
+ */
+export const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  weight: ["400", "500"],
+  display: "swap",
+  fallback: ["system-ui", "arial"],
   preload: true,
 });
 
@@ -34,4 +46,4 @@ export const nunito = Nunito({
 /**
  * Combined font class names for applying to body element
  */
-export const fontVariables = `${nunito.variable} ${pollerOne.variable}`;
+export const fontVariables = `${nunito.variable} ${pollerOne.variable} ${inter.variable}`;

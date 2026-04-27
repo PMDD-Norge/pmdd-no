@@ -135,3 +135,12 @@
     font-size: 1.5rem;
   }
 }
+
+.label {
+  color: var(--App-Nytrale-farger-Dark-Navy, #021922);
+  font-family: var(--font-nunito);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.25rem;
+  letter-spacing: -0.00938rem;
+}

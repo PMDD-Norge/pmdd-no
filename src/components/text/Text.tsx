@@ -11,7 +11,8 @@ export type TextType =
   | "bodyLarge"
   | "body"
   | "small"
-  | "caption";
+  | "caption"
+  | "label";
 
 const elementMap: { [key in TextType]: string } = {
   display: "h1",
@@ -24,6 +25,7 @@ const elementMap: { [key in TextType]: string } = {
   body: "p",
   small: "p",
   caption: "p",
+  label: "span",
 };
 
 const classMap: { [key in TextType]?: string } = {
@@ -37,6 +39,7 @@ const classMap: { [key in TextType]?: string } = {
   body: styles.body,
   small: styles.small,
   caption: styles.caption,
+  label: styles.label,
 };
 
 const Text = ({

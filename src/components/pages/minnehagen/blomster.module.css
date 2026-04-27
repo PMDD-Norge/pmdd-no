@@ -1,0 +1,64 @@
+.seksjon {
+  background: var(--Background-offshade);
+  width: 100%;
+  padding: var(--Spacing-XXL) 0;
+}
+
+.inner {
+  max-width: var(--max-content-width-medium);
+  margin: 0 auto;
+  padding: 0 var(--Spacing-L);
+  display: flex;
+  flex-direction: column;
+  gap: var(--Spacing-XXL);
+  align-items: center;
+}
+
+.grid {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--Spacing-M) var(--Spacing-XS);
+  width: 100%;
+}
+
+.grid > * {
+  width: calc(50% - var(--Spacing-XS) / 2);
+
+  @media (min-width: 640px) {
+    width: calc(33.333% - var(--Spacing-XS));
+  }
+
+  @media (min-width: 1024px) {
+    width: 9rem;
+  }
+}
+
+.kort {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--Spacing-XXS);
+  text-align: center;
+  padding: var(--Spacing-XS) var(--Spacing-XXS);
+}
+
+.navn {
+  font-weight: 700;
+  margin-top: 0.2rem;
+}
+
+.tekst {
+  opacity: 0.7;
+  font-style: italic;
+}
+
+.beskrivelse {
+  max-width: var(--max-content-width-small);
+  text-align: center;
+  opacity: 0.65;
+  line-height: 1.6;
+}

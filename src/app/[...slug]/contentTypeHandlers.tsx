@@ -309,6 +309,11 @@ export async function handleCollectionHubType(
       );
     }
 
+    case "minnehagen": {
+      const MinnehagenPage = (await import("@/components/pages/minnehagen/MinnehagenPage")).default;
+      return <MinnehagenPage document={hub} />;
+    }
+
     default: {
       return <PMDDErrorMessage />;
     }

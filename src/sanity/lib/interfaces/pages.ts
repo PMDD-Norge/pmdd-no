@@ -262,3 +262,28 @@ export interface AvailablePositionDocument extends SanityBase {
   richText: PortableTextBlock[];
   lead: string;
 }
+
+export interface VippsBeloep {
+  beloep: number;
+  etikett?: string;
+}
+
+export interface VippsDonasjoner {
+  aktivert: boolean;
+  tittel?: string;
+  beskrivelse?: string;
+  vippsNummer?: string;
+  innsamlingslenke?: string;
+  forslagteBeloep?: VippsBeloep[];
+  takkeTekst?: string;
+}
+
+export interface MinnehagenDocument extends SanityBase {
+  pageName: string;
+  slug: Slug;
+  title?: string;
+  richText?: PortableTextBlock[];
+  heroImage?: SanityImageData;
+  callToAction?: MinnehagenCallToAction;
+  vippsDonasjoner?: VippsDonasjoner;
+}

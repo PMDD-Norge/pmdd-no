@@ -1,0 +1,223 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(239, 248, 246, 0.5);
+  backdrop-filter: blur(20px);
+  z-index: 100;
+  animation: fadeIn 0.15s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 101;
+  left: var(--Spacing-M);
+  right: var(--Spacing-M);
+  transform: translateY(-50%);
+  width: auto;
+
+  @media (min-width: 640px) {
+    left: 50%;
+    right: auto;
+    transform: translate(-50%, -50%);
+    width: fit-content;
+  }
+  max-height: calc(100dvh - 3rem);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  gap: 1.5rem;
+  padding: var(--Spacing-XL) var(--Spacing-L);
+
+  @media (min-width: 640px) {
+    padding: 3.125rem 5rem;
+  }
+  background: var(--Background-offshade, #e3f6f0);
+  border-radius: 0.75rem;
+  box-shadow: 0 8px 50px 0 rgba(28, 101, 128, 0.5);
+  animation: popIn 0.2s ease-out;
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backdrop,
+  .modal {
+    animation: none;
+  }
+}
+
+/* ── Topplinje ── */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-shrink: 0;
+  width: 100%;
+}
+
+.tittelBlokk {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.undertittel {
+  opacity: 0.65;
+  margin: 0;
+}
+
+.lukk {
+  background: none;
+  border: none;
+  color: var(--Teal);
+  cursor: pointer;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  border-radius: 4px;
+  margin-top: 0.2rem;
+
+  &:hover {
+    opacity: 0.7;
+  }
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+  &:focus-visible {
+    outline: 2px solid var(--Teal);
+    outline-offset: 2px;
+  }
+}
+
+/* ── Suksess ── */
+.suksess {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+  max-width: 22rem;
+}
+
+/* ── Skjema ── */
+.innhold {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  width: 100%;
+}
+
+.fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  align-self: stretch;
+}
+
+/* ── Blomstrad ── */
+.blomstGrid {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.25rem;
+}
+
+.blomstInput {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.blomstKnapp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 0.625rem;
+  border: 1px solid transparent;
+  padding: 0.375rem;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
+
+  &:has(input:checked) {
+    border-color: var(--CottonBall, #cbecfc);
+    background: #eff8f6;
+  }
+
+  &:focus-within {
+    outline: 2px solid var(--Teal);
+    outline-offset: 2px;
+  }
+}
+
+.blomstIkon {
+  object-fit: contain;
+  height: 100px;
+  width: auto;
+  aspect-ratio: 41 / 58;
+}
+
+.blomstLegend {
+  color: var(--App-Nytrale-farger-Dark-Navy, #021922);
+  font-family: var(--font-nunito);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.25rem;
+  letter-spacing: -0.00938rem;
+}
+
+/* ── Bunn ── */
+.bunn {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 0.25rem;
+}
+
+.donasjonsInfo {
+  font-size: 0.82rem;
+  opacity: 0.65;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.sendRad {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.feil {
+  color: #c0392b;
+  font-size: 0.9rem;
+}

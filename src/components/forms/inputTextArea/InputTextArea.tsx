@@ -1,61 +1,60 @@
-import Text from "@/components/text/Text";
+import textStyles from "@/components/text/text.module.css";
 import styles from "./inputTextArea.module.css";
-import textStyles from "src/components/text/text.module.css";
 
 interface InputTextAreaProps {
   label: string;
-  name: string;
+  id: string;
   value: string;
-  onChange: (name: string, value: string) => void;
+  onChange: (value: string) => void;
+  placeholder?: string;
+  maxLength?: number;
+  rows?: number;
+  disabled?: boolean;
   error?: string;
   required?: boolean;
 }
 
 const InputTextArea = ({
   label,
-  name,
+  id,
   value,
   onChange,
+  placeholder,
+  maxLength,
+  rows = 3,
+  disabled,
   error,
   required,
 }: InputTextAreaProps) => {
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    onChange(name, e.target.value);
-  };
-
-  const labelText = `${label} ${!required ? "(Optional)" : ""}`;
-  const hintID = `${name}-hint`;
-
   return (
     <div className={styles.container}>
-      <label htmlFor={name} className={`${textStyles.caption} ${styles.label}`}>
-        {labelText}
+      <label htmlFor={id} className={textStyles.label}>
+        {label}
       </label>
       <textarea
-        id={name}
-        name={name}
+        id={id}
         className={styles.textarea}
         value={value}
-        onChange={handleChange}
-        autoCapitalize="true"
-        autoComplete="off"
-        autoCorrect="off"
-        spellCheck="true"
-        aria-describedby={hintID}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        maxLength={maxLength}
+        rows={rows}
+        disabled={disabled}
         aria-required={required}
+        aria-describedby={error ? `${id}-error` : undefined}
       />
-      {error && (
-        <span>
-          <Text
-            type="small"
-            className={styles.error}
-            id={hintID}
-            aria-live="assertive"
-          >
+      <div className={styles.bunn}>
+        {error && (
+          <span id={`${id}-error`} className={styles.error} role="alert">
             {error}
-          </Text>
-        </span>
-      )}
+          </span>
+        )}
+        {maxLength && (
+          <span className={styles.teller} aria-live="polite">
+            {value.length}/{maxLength}
+          </span>
+        )}
+      </div>
     </div>
   );
 };

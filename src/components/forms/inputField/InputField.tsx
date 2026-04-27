@@ -1,78 +1,55 @@
-import styles from "./inputField.module.css";
-import textStyles from "src/components/text/text.module.css";
 import { HTMLInputAutoCompleteAttribute, HTMLInputTypeAttribute } from "react";
-import Text from "@/components/text/Text";
+import textStyles from "@/components/text/text.module.css";
+import styles from "./inputField.module.css";
 
 interface InputFieldProps {
   label: string;
-  name: string;
-  error?: string;
-  autoComplete?: HTMLInputAutoCompleteAttribute;
-  autoCorrect?: string;
-  type?: HTMLInputTypeAttribute;
-  spellCheck?: "true" | "false";
-  autoCapitalize?: string;
+  id: string;
   value: string;
-  onChange: (name: string, value: string) => void;
+  onChange: (value: string) => void;
+  type?: HTMLInputTypeAttribute;
+  placeholder?: string;
+  maxLength?: number;
+  disabled?: boolean;
+  autoComplete?: HTMLInputAutoCompleteAttribute;
+  error?: string;
   required?: boolean;
 }
 
 const InputField = ({
   label,
-  name,
-  error,
-  autoComplete,
-  autoCorrect = "off",
-  type = "text",
-  spellCheck,
-  autoCapitalize,
+  id,
   value,
   onChange,
+  type = "text",
+  placeholder,
+  maxLength,
+  disabled,
+  autoComplete,
+  error,
   required,
 }: InputFieldProps) => {
-  if (type == "email") {
-    autoCapitalize = "off";
-    autoCorrect = "off";
-    spellCheck = "false";
-    type = "text"; // to use custom validation we're setting type to 'text' in order to avoid default tooltip validations
-  }
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(name, event.target.value);
-  };
-
-  const labelText = `${label} ${!required ? "(Optional)" : ""}`;
-  const hintID = `${name}-hint`;
-
   return (
     <div className={styles.container}>
-      <label htmlFor={name} className={`${textStyles.caption} ${styles.label}`}>
-        {labelText}
+      <label htmlFor={id} className={textStyles.label}>
+        {label}
       </label>
       <input
-        id={name}
-        name={name}
-        autoCapitalize={autoCapitalize}
-        autoComplete={autoComplete}
-        autoCorrect={autoCorrect}
+        id={id}
         type={type}
         className={styles.input}
-        spellCheck={spellCheck}
         value={value}
-        onChange={handleChange}
-        aria-describedby={hintID}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        maxLength={maxLength}
+        disabled={disabled}
+        autoComplete={autoComplete}
         aria-required={required}
+        aria-describedby={error ? `${id}-error` : undefined}
       />
       {error && (
-        <span>
-          <Text
-            type="small"
-            className={styles.error}
-            id={hintID}
-            aria-live="assertive"
-          >
-            {error}
-          </Text>
+        <span id={`${id}-error`} className={styles.error} role="alert">
+          {error}
         </span>
       )}
     </div>

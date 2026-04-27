@@ -55,3 +55,12 @@ export {
   LEGAL_DOCUMENT_BY_SLUG_QUERY,
   LEGAL_DOCUMENT_SLUGS_QUERY,
 } from './legal';
+
+// Minnehagen queries
+export {
+  MINNEHAGEN_BY_SLUG_QUERY,
+  MINNEHAGEN_SLUGS_QUERY,
+} from './minnehagen';
+
+// Blomst queries
+export { GODKJENTE_BLOMSTER_QUERY } from './blomst';
