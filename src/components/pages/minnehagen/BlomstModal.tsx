@@ -17,7 +17,8 @@ type BlomstType =
   | "prestekrage"
   | "forglemmegei";
 
-type Status = "idle" | "loading" | "success" | "error";
+type Step = "form" | "donate" | "success" | "vipps-pending";
+type Status = "idle" | "loading" | "error";
 
 const BLOMST_FILNAVN: Record<BlomstType, string> = {
   snoklokke: "snøklokke",
@@ -37,6 +38,8 @@ const BLOMSTER: { value: BlomstType; navn: string }[] = [
   { value: "forglemmegei", navn: "Forglemmegei" },
 ];
 
+const PRESET_BELOEP = [50, 100, 200, 500, 1000];
+
 interface Props {
   isOpen: boolean;
   onClose: () => void;
@@ -50,6 +53,11 @@ export default function BlomstModal({ isOpen, onClose }: Props) {
   const [honeypot, setHoneypot] = useState("");
   const [status, setStatus] = useState<Status>("idle");
   const [feilmelding, setFeilmelding] = useState("");
+  const [step, setStep] = useState<Step>("form");
+  const [vilDonere, setVilDonere] = useState(false);
+  const [valgtBeloep, setValgtBeloep] = useState<number | null>(null);
+  const [annetBeloep, setAnnetBeloep] = useState("");
+
   const modalRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
 
@@ -67,6 +75,10 @@ export default function BlomstModal({ isOpen, onClose }: Props) {
     setNavn("");
     setStatus("idle");
     setFeilmelding("");
+    setStep("form");
+    setVilDonere(false);
+    setValgtBeloep(null);
+    setAnnetBeloep("");
   }
 
   useEffect(() => {
@@ -97,27 +109,81 @@ export default function BlomstModal({ isOpen, onClose }: Props) {
     };
   }, [isOpen]);
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleFormNeste(e: React.FormEvent) {
     e.preventDefault();
     if (!valgt || status === "loading") return;
+
+    if (!vilDonere) {
+      setStatus("loading");
+      setFeilmelding("");
+      try {
+        const res = await fetch("/api/plant-blomst", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ blomstType: valgt, tilMinneOm, hilsen, navn, url: honeypot }),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          setFeilmelding(data.error ?? "Noe gikk galt. Prøv igjen.");
+          setStatus("error");
+        } else {
+          setStatus("idle");
+          setStep("success");
+        }
+      } catch {
+        setFeilmelding("Kunne ikke nå serveren. Prøv igjen.");
+        setStatus("error");
+      }
+    } else {
+      setStep("donate");
+    }
+  }
+
+  function effektivtBeloep(): number | null {
+    if (valgtBeloep !== null) return valgtBeloep;
+    const parsed = parseInt(annetBeloep, 10);
+    if (!isNaN(parsed) && parsed >= 10) return parsed;
+    return null;
+  }
+
+  async function handleDoner() {
+    const beloep = effektivtBeloep();
+    if (beloep === null || status === "loading") return;
 
     setStatus("loading");
     setFeilmelding("");
 
     try {
-      const res = await fetch("/api/plant-blomst", {
+      const blomstRes = await fetch("/api/plant-blomst", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ blomstType: valgt, tilMinneOm, hilsen, navn, url: honeypot }),
       });
-      const data = await res.json();
+      const blomstData = await blomstRes.json();
 
-      if (!res.ok) {
-        setFeilmelding(data.error ?? "Noe gikk galt. Prøv igjen.");
+      if (!blomstRes.ok) {
+        setFeilmelding(blomstData.error ?? "Noe gikk galt. Prøv igjen.");
         setStatus("error");
-      } else {
-        setStatus("success");
+        return;
       }
+
+      const blomstId: string = blomstData.id;
+
+      const vippsRes = await fetch("/api/vipps-donasjon", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ beloep, blomstId }),
+      });
+      const vippsData = await vippsRes.json();
+
+      if (!vippsRes.ok) {
+        setFeilmelding(vippsData.error ?? "Kunne ikke starte Vipps-betaling. Prøv igjen.");
+        setStatus("error");
+        return;
+      }
+
+      setStep("vipps-pending");
+      window.location.href = vippsData.redirectUrl;
     } catch {
       setFeilmelding("Kunne ikke nå serveren. Prøv igjen.");
       setStatus("error");
@@ -125,6 +191,8 @@ export default function BlomstModal({ isOpen, onClose }: Props) {
   }
 
   if (!isOpen) return null;
+
+  const showHeader = step === "form" || step === "donate";
 
   return (
     <>
@@ -137,7 +205,7 @@ export default function BlomstModal({ isOpen, onClose }: Props) {
         aria-labelledby="blomst-tittel"
         className={modalStyles.modal}
       >
-        {status === "success" ? (
+        {step === "success" && (
           <div className={modalStyles.suksess}>
             {valgt && (
               <Image
@@ -148,7 +216,7 @@ export default function BlomstModal({ isOpen, onClose }: Props) {
                 className={modalStyles.blomstIkon}
               />
             )}
-            <Text type="bodyLarge">Så fin den ble. </Text>
+            <Text type="bodyLarge">Så fin den ble.</Text>
             <Text type="body">
               Takk for at du plantet en blomst. Snart vil den blomstre sammen
               med alle de andre i minnehagen.
@@ -157,133 +225,222 @@ export default function BlomstModal({ isOpen, onClose }: Props) {
               Lukk
             </Button>
           </div>
-        ) : (
-          <>
-            <div className={modalStyles.header}>
-              <div className={modalStyles.tittelBlokk}>
-                <Text type="h3" as="h2" id="blomst-tittel">
-                  Plant en blomst
-                </Text>
+        )}
+
+        {step === "vipps-pending" && (
+          <div className={modalStyles.vippsPending}>
+            <div className={modalStyles.spinner} aria-hidden="true" />
+            <Text type="bodyLarge">Sender deg til Vipps...</Text>
+          </div>
+        )}
+
+        {showHeader && (
+          <div className={modalStyles.header}>
+            <div className={modalStyles.tittelBlokk}>
+              <Text type="h3" as="h2" id="blomst-tittel">
+                {step === "donate" ? "Velg donasjonsbeløp" : "Plant en blomst"}
+              </Text>
+              {step === "form" && (
                 <Text>Velg en blomst og legg gjerne igjen en hilsen.</Text>
+              )}
+            </div>
+            <button
+              ref={closeRef}
+              className={modalStyles.lukk}
+              onClick={lukk}
+              aria-label="Lukk"
+              disabled={status === "loading"}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M18 6L6 18M6 6l12 12"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </button>
+          </div>
+        )}
+
+        {step === "form" && (
+          <form
+            onSubmit={handleFormNeste}
+            className={modalStyles.innhold}
+            noValidate
+          >
+            <input
+              type="text"
+              name="url"
+              value={honeypot}
+              onChange={(e) => setHoneypot(e.target.value)}
+              tabIndex={-1}
+              aria-hidden="true"
+              autoComplete="off"
+              style={{ position: "absolute", opacity: 0, height: 0, pointerEvents: "none" }}
+            />
+            <fieldset className={modalStyles.fieldset}>
+              <legend className={modalStyles.blomstLegend}>
+                Velg en blomst:
+              </legend>
+              <div className={modalStyles.blomstGrid}>
+                {BLOMSTER.map((b) => (
+                  <label key={b.value} className={modalStyles.blomstKnapp}>
+                    <input
+                      type="radio"
+                      name="blomstType"
+                      value={b.value}
+                      checked={valgt === b.value}
+                      onChange={() => setValgt(b.value)}
+                      required
+                      className={modalStyles.blomstInput}
+                    />
+                    <Image
+                      src={`/blomster/${BLOMST_FILNAVN[b.value]}.png`}
+                      alt={b.navn}
+                      width={71}
+                      height={100}
+                      className={modalStyles.blomstIkon}
+                    />
+                  </label>
+                ))}
               </div>
-              <button
-                ref={closeRef}
-                className={modalStyles.lukk}
-                onClick={lukk}
-                aria-label="Lukk"
+            </fieldset>
+
+            <InputField
+              label="Til minne om eller til støtte for (valgfri)"
+              id="tilMinneOm"
+              value={tilMinneOm}
+              onChange={setTilMinneOm}
+              maxLength={100}
+              placeholder="Skriv her..."
+              disabled={status === "loading"}
+            />
+
+            <InputTextArea
+              label="En personlig hilsen (valgfri)"
+              id="hilsen"
+              value={hilsen}
+              onChange={setHilsen}
+              maxLength={150}
+              rows={3}
+              placeholder="Skriv her..."
+              disabled={status === "loading"}
+            />
+
+            <InputField
+              label="Ditt navn (valgfri)"
+              id="navn"
+              value={navn}
+              onChange={setNavn}
+              maxLength={60}
+              placeholder="Skriv her..."
+              disabled={status === "loading"}
+            />
+
+            <div className={modalStyles.bunn}>
+              <label className={modalStyles.donasjonsCheckbox}>
+                <input
+                  type="checkbox"
+                  checked={vilDonere}
+                  onChange={(e) => setVilDonere(e.target.checked)}
+                  disabled={status === "loading"}
+                />
+                <span>Jeg vil også donere til PMDD Norges arbeid</span>
+              </label>
+              {feilmelding && (
+                <p className={modalStyles.feil} role="alert">
+                  {feilmelding}
+                </p>
+              )}
+              <div className={modalStyles.sendRad}>
+                <Button
+                  type="primary"
+                  disabled={!valgt || status === "loading"}
+                  loading={status === "loading"}
+                  size="small"
+                >
+                  {status === "loading" ? "Planter..." : "Neste"}
+                </Button>
+              </div>
+            </div>
+          </form>
+        )}
+
+        {step === "donate" && (
+          <div className={modalStyles.donasjonSteg}>
+            <Text type="body">
+              Din donasjon går til PMDD Norges arbeid for kunnskap, støtte og viktig hjelp.
+            </Text>
+
+            <div className={modalStyles.beloepGrid}>
+              {PRESET_BELOEP.map((b) => (
+                <button
+                  key={b}
+                  type="button"
+                  className={`${modalStyles.beloepKnapp}${valgtBeloep === b ? ` ${modalStyles.valgtBeloep}` : ""}`}
+                  onClick={() => {
+                    setValgtBeloep(b);
+                    setAnnetBeloep("");
+                  }}
+                  disabled={status === "loading"}
+                >
+                  {b} kr
+                </button>
+              ))}
+            </div>
+
+            <div className={modalStyles.annetBeloep}>
+              <InputField
+                label="Annet beløp"
+                id="annetBeloep"
+                type="number"
+                value={annetBeloep}
+                onChange={(val) => {
+                  setAnnetBeloep(val);
+                  setValgtBeloep(null);
+                }}
+                placeholder="Minimum 10 kr"
+                disabled={status === "loading"}
+              />
+            </div>
+
+            {feilmelding && (
+              <p className={modalStyles.feil} role="alert">
+                {feilmelding}
+              </p>
+            )}
+
+            <div className={modalStyles.navigasjon}>
+              <Button
+                type="secondary"
+                size="small"
+                onClick={() => {
+                  setStep("form");
+                  setFeilmelding("");
+                }}
                 disabled={status === "loading"}
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="22"
-                  height="22"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="M18 6L6 18M6 6l12 12"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                  />
-                </svg>
-              </button>
+                Tilbake
+              </Button>
+              <Button
+                type="primary"
+                size="small"
+                onClick={handleDoner}
+                disabled={effektivtBeloep() === null || status === "loading"}
+                loading={status === "loading"}
+              >
+                {status === "loading" ? "Venter..." : "Doner via Vipps"}
+              </Button>
             </div>
-            <form
-              onSubmit={handleSubmit}
-              className={modalStyles.innhold}
-              noValidate
-            >
-              {/* Honeypot: skjult for mennesker, bots fyller det ut */}
-              <input
-                type="text"
-                name="url"
-                value={honeypot}
-                onChange={(e) => setHoneypot(e.target.value)}
-                tabIndex={-1}
-                aria-hidden="true"
-                autoComplete="off"
-                style={{ position: 'absolute', opacity: 0, height: 0, pointerEvents: 'none' }}
-              />
-              <fieldset className={modalStyles.fieldset}>
-                <legend className={modalStyles.blomstLegend}>
-                  Velg en blomst:
-                </legend>
-                <div className={modalStyles.blomstGrid}>
-                  {BLOMSTER.map((b) => (
-                    <label key={b.value} className={modalStyles.blomstKnapp}>
-                      <input
-                        type="radio"
-                        name="blomstType"
-                        value={b.value}
-                        checked={valgt === b.value}
-                        onChange={() => setValgt(b.value)}
-                        required
-                        className={modalStyles.blomstInput}
-                      />
-                      <Image
-                        src={`/blomster/${BLOMST_FILNAVN[b.value]}.png`}
-                        alt={b.navn}
-                        width={71}
-                        height={100}
-                        className={modalStyles.blomstIkon}
-                      />
-                    </label>
-                  ))}
-                </div>
-              </fieldset>
-
-              <InputField
-                label="Til minne om eller til støtte for (valgfri)"
-                id="tilMinneOm"
-                value={tilMinneOm}
-                onChange={setTilMinneOm}
-                maxLength={100}
-                placeholder="Skriv her..."
-                disabled={status === "loading"}
-              />
-
-              <InputTextArea
-                label="En personlig hilsen (valgfri)"
-                id="hilsen"
-                value={hilsen}
-                onChange={setHilsen}
-                maxLength={150}
-                rows={3}
-                placeholder="Skriv her..."
-                disabled={status === "loading"}
-              />
-
-              <InputField
-                label="Ditt navn (valgfri)"
-                id="navn"
-                value={navn}
-                onChange={setNavn}
-                maxLength={60}
-                placeholder="Skriv her..."
-                disabled={status === "loading"}
-              />
-
-              <div className={modalStyles.bunn}>
-                {feilmelding && (
-                  <p className={modalStyles.feil} role="alert">
-                    {feilmelding}
-                  </p>
-                )}
-                <div className={modalStyles.sendRad}>
-                  <Button
-                    type="primary"
-                    disabled={!valgt || status === "loading"}
-                    loading={status === "loading"}
-                    size="small"
-                  >
-                    {status === "loading" ? "Planter..." : "Plant blomsten"}
-                  </Button>
-                </div>
-              </div>
-            </form>
-          </>
+          </div>
         )}
       </div>
     </>

@@ -212,6 +212,26 @@
   margin: 0;
 }
 
+.donasjonsCheckbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-family: var(--font-nunito);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--App-Nytrale-farger-Dark-Navy, #021922);
+
+  & input[type="checkbox"] {
+    width: 1.125rem;
+    height: 1.125rem;
+    flex-shrink: 0;
+    accent-color: var(--Teal);
+    cursor: pointer;
+  }
+}
+
 .sendRad {
   display: flex;
   justify-content: flex-end;
@@ -220,4 +240,94 @@
 .feil {
   color: #c0392b;
   font-size: 0.9rem;
+}
+
+/* ── Donasjons-steg ── */
+.donasjonSteg {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+.beloepGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.beloepKnapp {
+  background: #fff;
+  border: 1.5px solid var(--CottonBall, #cbecfc);
+  border-radius: 0.5rem;
+  color: var(--App-Nytrale-farger-Dark-Navy, #021922);
+  cursor: pointer;
+  font-family: var(--font-nunito);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  padding: 0.4rem 0.875rem;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
+
+  &:hover {
+    border-color: var(--Teal);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--Teal);
+    outline-offset: 2px;
+  }
+}
+
+.valgtBeloep {
+  background: #eff8f6;
+  border-color: var(--Teal);
+}
+
+.annetBeloep {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.navigasjon {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+/* ── Venter på Vipps ── */
+.vippsPending {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  text-align: center;
+  max-width: 22rem;
+  padding: 1rem 0;
+}
+
+.spinner {
+  width: 2rem;
+  height: 2rem;
+  border: 3px solid rgba(28, 101, 128, 0.2);
+  border-top-color: var(--Teal);
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation: none;
+    border-top-color: var(--Teal);
+  }
 }

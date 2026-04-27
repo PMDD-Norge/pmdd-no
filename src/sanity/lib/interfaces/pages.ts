@@ -284,6 +284,6 @@ export interface MinnehagenDocument extends SanityBase {
   title?: string;
   richText?: PortableTextBlock[];
   heroImage?: SanityImageData;
-  callToAction?: MinnehagenCallToAction;
+  callToAction?: SanityLink;
   vippsDonasjoner?: VippsDonasjoner;
 }

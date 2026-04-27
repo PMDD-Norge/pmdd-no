@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./linkButton.module.css";
 import Link from "next/link";
-import { LinkType, SanityLink } from "@/sanity/lib/interfaces/siteSettings";
+import { SanityLink } from "@/sanity/lib/interfaces/siteSettings";
 import { getHref } from "@/utils/getHref";
 
 type LinkButtonType = "primary" | "secondary";
