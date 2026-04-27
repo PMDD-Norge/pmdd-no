@@ -40,7 +40,9 @@ export default async function MinnehagenBlomster() {
 
         <Text type="small" className={styles.beskrivelse}>
           Her vokser det blomster til minne om dem vi har mistet til PMDD, og
-          til støtte for alle som lever med det. <br />
+          til støtte for alle som lever med det. <br /> Vi leser gjennom og
+          godkjenner hver blomst før den publiseres, for å holde minnehagen som
+          et trygt sted. Blomster vises innen 24 timer.
           {/* Alle donasjoner går til PMDD Norges arbeid for kunnskap, støtte og
           viktig hjelp. */}
         </Text>

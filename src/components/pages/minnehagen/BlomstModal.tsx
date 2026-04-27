@@ -237,7 +237,8 @@ export default function BlomstModal({ isOpen, onClose, callToAction }: Props) {
             <Text type="bodyLarge">Så fin den ble.</Text>
             <Text type="body">
               Takk for at du plantet en blomst. Snart vil den blomstre sammen
-              med alle de andre i minnehagen.
+              med de andre. Alle blomster godkjennes manuelt for å holde
+              minnehagen trygg. Dette tar vanligvis under 24 timer.
             </Text>
             {resolvedCta?.title && (
               <div className={modalStyles.ctaBlokk}>
@@ -272,7 +273,13 @@ export default function BlomstModal({ isOpen, onClose, callToAction }: Props) {
                 {step === "donate" ? "Velg donasjonsbeløp" : "Plant en blomst"}
               </Text>
               {step === "form" && (
-                <Text>Velg en blomst og legg gjerne igjen en hilsen.</Text>
+                <>
+                  <Text>Velg en blomst og legg gjerne igjen en hilsen.</Text>
+                  <Text type="small">
+                    Blomsten din vil vises innen 24 timer. Alle blomster
+                    godkjennes manuelt for å holde minnehagen trygg for alle.
+                  </Text>
+                </>
               )}
             </div>
             <button
