@@ -9,6 +9,7 @@
 
   @media (min-width: 1024px) {
     padding: 7.5rem 12rem;
+    gap: 6rem;
   }
 
   @media (min-width: 640px) {
