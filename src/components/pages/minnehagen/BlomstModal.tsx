@@ -1,12 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import Text from "@/components/text/Text";
 import Button from "@/components/buttons/Button";
 import InputField from "@/components/forms/inputField/InputField";
 import InputTextArea from "@/components/forms/inputTextArea/InputTextArea";
 import { useFocusTrap } from "@/utils/useFocusTrap";
+import FlowerSVG from "./FlowerSVG";
+import BlomstKort from "./BlomstKort";
 import modalStyles from "./blomstModal.module.css";
 
 type BlomstType =
@@ -20,15 +21,6 @@ type BlomstType =
 type Step = "form" | "donate" | "success" | "vipps-pending";
 type Status = "idle" | "loading" | "error";
 
-const BLOMST_FILNAVN: Record<BlomstType, string> = {
-  snoklokke: "snøklokke",
-  alperose: "alperose",
-  dahlia: "dahlia",
-  krokus: "krokus",
-  prestekrage: "prestekrage",
-  forglemmegei: "forglemmegei",
-};
-
 const BLOMSTER: { value: BlomstType; navn: string }[] = [
   { value: "prestekrage", navn: "Prestekrage" },
   { value: "alperose", navn: "Alperose" },
@@ -39,7 +31,7 @@ const BLOMSTER: { value: BlomstType; navn: string }[] = [
 ];
 
 const PRESET_BELOEP = [50, 100, 200, 500, 1000];
-const VIPPS_ENABLED = process.env.NEXT_PUBLIC_VIPPS_ENABLED === 'true';
+const VIPPS_ENABLED = process.env.NEXT_PUBLIC_VIPPS_ENABLED === "true";
 
 interface Props {
   isOpen: boolean;
@@ -222,15 +214,7 @@ export default function BlomstModal({ isOpen, onClose }: Props) {
       >
         {step === "success" && (
           <div className={modalStyles.suksess}>
-            {valgt && (
-              <Image
-                src={`/blomster/${BLOMST_FILNAVN[valgt]}.png`}
-                alt=""
-                width={71}
-                height={100}
-                className={modalStyles.blomstIkon}
-              />
-            )}
+            {valgt && <FlowerSVG type={valgt} size={100} />}
             <Text type="bodyLarge">Så fin den ble.</Text>
             <Text type="body">
               Takk for at du plantet en blomst. Snart vil den blomstre sammen
@@ -322,13 +306,7 @@ export default function BlomstModal({ isOpen, onClose }: Props) {
                       required
                       className={modalStyles.blomstInput}
                     />
-                    <Image
-                      src={`/blomster/${BLOMST_FILNAVN[b.value]}.png`}
-                      alt={b.navn}
-                      width={71}
-                      height={100}
-                      className={modalStyles.blomstIkon}
-                    />
+                    <FlowerSVG type={b.value} alt={b.navn} size={100} />
                   </label>
                 ))}
               </div>
@@ -365,6 +343,25 @@ export default function BlomstModal({ isOpen, onClose }: Props) {
               disabled={status === "loading"}
             />
 
+            {valgt && (
+              <div
+                className={modalStyles.forhåndsvisningWrapper}
+                aria-hidden="true"
+              >
+                <Text type="label"> Så fin blomsten din blir</Text>
+                <div className={modalStyles.forhåndsvisning}>
+                  <BlomstKort
+                    blomstType={valgt}
+                    tilMinneOm={tilMinneOm}
+                    hilsen={hilsen}
+                    navn={navn}
+                    size={100}
+                    hilsenPrefix="Hilsen"
+                  />
+                </div>
+              </div>
+            )}
+
             <div className={modalStyles.bunn}>
               {VIPPS_ENABLED && (
                 <label className={modalStyles.donasjonsCheckbox}>
@@ -389,7 +386,11 @@ export default function BlomstModal({ isOpen, onClose }: Props) {
                   loading={status === "loading"}
                   size="small"
                 >
-                  {status === "loading" ? "Planter..." : VIPPS_ENABLED ? "Neste" : "Plant blomsten"}
+                  {status === "loading"
+                    ? "Planter..."
+                    : VIPPS_ENABLED
+                      ? "Neste"
+                      : "Plant blomsten"}
                 </Button>
               </div>
             </div>

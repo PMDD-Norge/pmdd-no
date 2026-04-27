@@ -49,15 +49,6 @@
   padding: var(--Spacing-XS) var(--Spacing-XXS);
 }
 
-.navn {
-  font-weight: 700;
-  margin-top: 0.2rem;
-}
-
-.tekst {
-  opacity: 0.7;
-  font-style: italic;
-}
 
 .beskrivelse {
   max-width: var(--max-content-width-small);

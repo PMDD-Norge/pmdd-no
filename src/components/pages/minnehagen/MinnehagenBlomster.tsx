@@ -1,7 +1,7 @@
 import { sanityFetch } from "@/sanity/lib/live";
 import { GODKJENTE_BLOMSTER_QUERY } from "@/sanity/lib/queries/blomst";
 import Text from "@/components/text/Text";
-import FlowerSVG from "./FlowerSVG";
+import BlomstKort from "./BlomstKort";
 import styles from "./blomster.module.css";
 
 interface Blomst {
@@ -27,18 +27,16 @@ export default async function MinnehagenBlomster() {
         <ul className={styles.grid} role="list">
           {blomster.map((blomst: Blomst) => {
             const visNavn = blomst.navn;
-            const visTekst = blomst.hilsen;
 
             return (
               <li key={blomst._id} className={styles.kort}>
-                <FlowerSVG type={blomst.blomstType} size={130} />
-                {visNavn && (
-                  <Text type="small" className={styles.navn}>
-                    {blomst.tilMinneOm}
-                  </Text>
-                )}
-                {visTekst && <Text type="small">{blomst.hilsen}</Text>}
-                {visNavn && <Text type="small">Klem {blomst.navn}</Text>}
+                <BlomstKort
+                  blomstType={blomst.blomstType}
+                  tilMinneOm={visNavn ? blomst.tilMinneOm : undefined}
+                  hilsen={blomst.hilsen}
+                  navn={blomst.navn}
+                  size={130}
+                />
               </li>
             );
           })}

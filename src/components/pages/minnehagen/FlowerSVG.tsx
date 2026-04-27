@@ -4,6 +4,7 @@ import { CSSProperties } from 'react';
 interface Props {
   type: string;
   size?: number;
+  alt?: string;
   style?: CSSProperties;
 }
 
@@ -16,16 +17,16 @@ const FLOWER_FILENAMES: Record<string, string> = {
   forglemmegei: 'forglemmegei',
 };
 
-export default function FlowerSVG({ type, size = 90, style }: Props) {
+export default function FlowerSVG({ type, size = 90, alt = '', style }: Props) {
   const filename = FLOWER_FILENAMES[type] ?? 'prestekrage';
   return (
     <span
       style={{ display: 'inline-block', width: size, height: size, ...style }}
-      aria-hidden="true"
+      aria-hidden={alt ? undefined : 'true'}
     >
       <Image
         src={`/blomster/${filename}.png`}
-        alt=""
+        alt={alt}
         width={size}
         height={size}
         style={{ objectFit: 'contain', width: '100%', height: '100%' }}

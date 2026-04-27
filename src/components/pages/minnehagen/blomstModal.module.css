@@ -18,37 +18,30 @@
 
 .modal {
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  inset: var(--Spacing-M);
   z-index: 101;
-  left: var(--Spacing-M);
-  right: var(--Spacing-M);
-  transform: translateY(-50%);
-  width: auto;
-
-  @media (min-width: 640px) {
-    left: 50%;
-    right: auto;
-    transform: translate(-50%, -50%);
-    width: fit-content;
-  }
-  max-height: calc(100dvh - 3rem);
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  align-items: flex-end;
+  align-items: stretch;
   gap: 1.5rem;
   padding: var(--Spacing-XL) var(--Spacing-L);
-
-  @media (min-width: 640px) {
-    padding: 3.125rem 5rem;
-  }
   background: var(--Background-offshade, #e3f6f0);
   border-radius: 0.75rem;
   box-shadow: 0 8px 50px 0 rgba(28, 101, 128, 0.5);
-  animation: popIn 0.2s ease-out;
+  animation: fadeIn 0.2s ease-out;
+
+  @media (min-width: 640px) {
+    inset: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: fit-content;
+    min-width: 28rem;
+    max-height: 80dvh;
+    padding: 3.125rem 5rem;
+    animation: popIn 0.2s ease-out;
+  }
 }
 
 @keyframes popIn {
@@ -128,7 +121,7 @@
 .innhold {
   display: flex;
   flex-direction: column;
-  gap: 0.875rem;
+  gap: 1.5rem;
   width: 100%;
 }
 
@@ -146,15 +139,16 @@
 
 /* ── Blomstrad ── */
 .blomstGrid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: flex-start;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 0.25rem;
+  width: 100%;
 
   @media (min-width: 640px) {
+    display: flex;
     flex-wrap: nowrap;
     gap: 1.5rem;
+    width: auto;
   }
 }
 
@@ -169,6 +163,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   cursor: pointer;
   border-radius: 0.625rem;
   border: 1px solid transparent;
@@ -203,6 +198,39 @@
   line-height: 1.25rem;
   letter-spacing: -0.00938rem;
 }
+
+
+/* ── Forhåndsvisning ── */
+.forhåndsvisningWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--Spacing-XS, 0.5rem);
+  align-self: center;
+  margin-top: var(--Spacing-S, 0.75rem);
+}
+
+.forhåndsvisningLabel {
+  margin: 0;
+  font-family: var(--font-nunito);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  opacity: 0.65;
+}
+
+.forhåndsvisning {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  width: 14.125rem;
+  padding: 1.375rem;
+  background: var(--Background-main, #eff8f6);
+  border-radius: 1.25rem;
+  text-align: center;
+}
+
 
 /* ── Bunn ── */
 .bunn {
