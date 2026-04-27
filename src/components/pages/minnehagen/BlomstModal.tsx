@@ -388,7 +388,6 @@ export default function BlomstModal({ isOpen, onClose, callToAction }: Props) {
                     hilsen={hilsen}
                     navn={navn}
                     size={100}
-                    hilsenPrefix="Hilsen"
                   />
                 </div>
               </div>

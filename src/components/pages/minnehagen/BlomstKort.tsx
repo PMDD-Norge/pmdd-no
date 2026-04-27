@@ -17,7 +17,6 @@ export default function BlomstKort({
   hilsen,
   navn,
   size = 100,
-  hilsenPrefix = "Klem",
 }: Props) {
   const hasTekst = tilMinneOm || hilsen || navn;
 
@@ -28,11 +27,7 @@ export default function BlomstKort({
         <div className={styles.tekst}>
           {tilMinneOm && <Text className={styles.minne}>{tilMinneOm}</Text>}
           {hilsen && <Text>{hilsen}</Text>}
-          {navn && (
-            <Text>
-              {hilsenPrefix} {navn}
-            </Text>
-          )}
+          {navn && <Text>Klem {navn}</Text>}
         </div>
       )}
     </div>

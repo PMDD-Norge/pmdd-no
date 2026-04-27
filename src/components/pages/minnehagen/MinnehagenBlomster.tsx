@@ -25,21 +25,17 @@ export default async function MinnehagenBlomster() {
     <section className={styles.seksjon}>
       <div className={styles.inner}>
         <ul className={styles.grid} role="list">
-          {blomster.map((blomst: Blomst) => {
-            const visNavn = blomst.navn;
-
-            return (
-              <li key={blomst._id} className={styles.kort}>
-                <BlomstKort
-                  blomstType={blomst.blomstType}
-                  tilMinneOm={visNavn ? blomst.tilMinneOm : undefined}
-                  hilsen={blomst.hilsen}
-                  navn={blomst.navn}
-                  size={130}
-                />
-              </li>
-            );
-          })}
+          {blomster.map((blomst: Blomst) => (
+            <li key={blomst._id} className={styles.kort}>
+              <BlomstKort
+                blomstType={blomst.blomstType}
+                tilMinneOm={blomst.tilMinneOm}
+                hilsen={blomst.hilsen}
+                navn={blomst.navn}
+                size={130}
+              />
+            </li>
+          ))}
         </ul>
 
         <Text type="small" className={styles.beskrivelse}>
