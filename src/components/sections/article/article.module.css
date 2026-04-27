@@ -13,7 +13,7 @@
 
   @media (min-width: 640px) {
     padding: 6rem;
-    flex-direction: row;
+    flex-direction: var(--image-position, row);
   }
 
   & h3 {

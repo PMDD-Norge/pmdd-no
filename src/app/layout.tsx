@@ -11,6 +11,7 @@ import Header from "@/components/navigation/header/Header";
 import Footer from "@/components/navigation/footer/Footer";
 import CartWrapper from "@/components/cart/CartWrapper";
 import { fontVariables } from "@/config/fonts";
+import ScrollToHash from "@/components/ui/ScrollToHash";
 
 // No cache during development for faster iterations
 // Note: Next.js requires static values for revalidate export
@@ -63,6 +64,7 @@ export default async function RootLayout({
             Hopp til hovedinnhold
           </a>
           <Header navigation={nav} assets={brandAssets} />
+          <ScrollToHash />
           <main id="main" tabIndex={-1}>
             {children}
           </main>

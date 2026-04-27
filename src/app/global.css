@@ -121,12 +121,6 @@ section[data-section-type="sectionGroup"] .sectionWrapperColumn {
   background: var(--Background-offshade, #daf2e8);
 }
 
-.imagePositionAlwaysLeftOnMobile {
-  @media (min-width: 640px) {
-    flex-direction: row-reverse;
-    flex-direction: column-reverse;
-  }
-}
 
 .sectionWrapperColumn {
   max-width: 1000px;
