@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import Text from "@/components/text/Text";
 import Button from "@/components/buttons/Button";
 import InputField from "@/components/forms/inputField/InputField";
@@ -8,6 +9,8 @@ import InputTextArea from "@/components/forms/inputTextArea/InputTextArea";
 import { useFocusTrap } from "@/utils/useFocusTrap";
 import FlowerSVG from "./FlowerSVG";
 import BlomstKort from "./BlomstKort";
+import { SanityLink } from "@/sanity/lib/interfaces/siteSettings";
+import { getHref } from "@/utils/getHref";
 import modalStyles from "./blomstModal.module.css";
 
 type BlomstType =
@@ -33,20 +36,36 @@ const BLOMSTER: { value: BlomstType; navn: string }[] = [
 const PRESET_BELOEP = [50, 100, 200, 500, 1000];
 const VIPPS_ENABLED = process.env.NEXT_PUBLIC_VIPPS_ENABLED === "true";
 
+// Dev preview: sett til true for å se suksesssteget direkte
+const DEV_SHOW_SUCCESS = process.env.NODE_ENV === "development" && true;
+
 interface Props {
   isOpen: boolean;
   onClose: () => void;
+  callToAction?: SanityLink;
 }
 
-export default function BlomstModal({ isOpen, onClose }: Props) {
-  const [valgt, setValgt] = useState<BlomstType | null>(null);
+const DEV_CTA: SanityLink = {
+  _type: "link",
+  _key: "dev",
+  title: "Bli medlem",
+  type: "external" as never,
+  url: "/bidra-na",
+  newTab: false,
+};
+
+export default function BlomstModal({ isOpen, onClose, callToAction }: Props) {
+  const resolvedCta = callToAction ?? (DEV_SHOW_SUCCESS ? DEV_CTA : undefined);
+  const [valgt, setValgt] = useState<BlomstType | null>(
+    DEV_SHOW_SUCCESS ? "prestekrage" : null,
+  );
   const [tilMinneOm, setTilMinneOm] = useState("");
   const [hilsen, setHilsen] = useState("");
   const [navn, setNavn] = useState("");
   const [honeypot, setHoneypot] = useState("");
   const [status, setStatus] = useState<Status>("idle");
   const [feilmelding, setFeilmelding] = useState("");
-  const [step, setStep] = useState<Step>("form");
+  const [step, setStep] = useState<Step>(DEV_SHOW_SUCCESS ? "success" : "form");
   const [vilDonere, setVilDonere] = useState(false);
   const [valgtBeloep, setValgtBeloep] = useState<number | null>(null);
   const [annetBeloep, setAnnetBeloep] = useState("");
@@ -62,13 +81,13 @@ export default function BlomstModal({ isOpen, onClose }: Props) {
   }
 
   function reset() {
-    setValgt(null);
+    setValgt(DEV_SHOW_SUCCESS ? "prestekrage" : null);
     setTilMinneOm("");
     setHilsen("");
     setNavn("");
     setStatus("idle");
     setFeilmelding("");
-    setStep("form");
+    setStep(DEV_SHOW_SUCCESS ? "success" : "form");
     setVilDonere(false);
     setValgtBeloep(null);
     setAnnetBeloep("");
@@ -220,6 +239,19 @@ export default function BlomstModal({ isOpen, onClose }: Props) {
               Takk for at du plantet en blomst. Snart vil den blomstre sammen
               med alle de andre i minnehagen.
             </Text>
+            {resolvedCta?.title && (
+              <div className={modalStyles.ctaBlokk}>
+                <Text type="small">Er du ikke medlem av PMDD Norge?</Text>
+                <Link
+                  href={getHref(resolvedCta)}
+                  className={modalStyles.ctaLenke}
+                  target={resolvedCta.newTab ? "_blank" : undefined}
+                  rel={resolvedCta.newTab ? "noopener noreferrer" : undefined}
+                >
+                  {resolvedCta.title}
+                </Link>
+              </div>
+            )}
             <Button type="secondary" onClick={lukk} size="small">
               Lukk
             </Button>

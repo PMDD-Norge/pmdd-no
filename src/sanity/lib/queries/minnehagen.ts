@@ -29,6 +29,20 @@ export const MINNEHAGEN_BY_SLUG_QUERY = `
     },
     takkeTekst
   },
+  "callToAction": callToAction{
+    title,
+    type,
+    "internalLink": internalLink->{
+      _type,
+      title,
+      slug
+    },
+    url,
+    email,
+    phone,
+    anchor,
+    newTab
+  },
   seo{
     title,
     description,

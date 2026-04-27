@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import { VippsDonasjoner, ContactObject } from "@/sanity/lib/interfaces/pages";
+import { SanityLink } from "@/sanity/lib/interfaces/siteSettings";
 import styles from "./minnehagen.module.css";
 import Text from "@/components/text/Text";
 import { RichText } from "@/components/richText/RichText";
@@ -16,10 +17,11 @@ interface MinnehagenHubData {
   image?: SanityImageData;
   contactSection?: ContactObject;
   vippsDonasjoner?: VippsDonasjoner;
+  callToAction?: SanityLink;
 }
 
 const MinnehagenPage = ({ document }: { document: MinnehagenHubData }) => {
-  const { title, image, richText, contactSection } = document;
+  const { title, image, richText, contactSection, callToAction } = document;
 
   return (
     <>
@@ -35,7 +37,7 @@ const MinnehagenPage = ({ document }: { document: MinnehagenHubData }) => {
             {richText && <RichText value={richText} />}
           </div>
           <div>
-            <PlantBlomstKnapp />
+            <PlantBlomstKnapp callToAction={callToAction} />
           </div>
         </div>
       </div>
