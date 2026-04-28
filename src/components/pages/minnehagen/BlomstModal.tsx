@@ -253,9 +253,11 @@ export default function BlomstModal({ isOpen, onClose, callToAction }: Props) {
                 </Link>
               </div>
             )}
-            <Button type="secondary" onClick={lukk} size="small">
-              Lukk
-            </Button>
+            <div>
+              <Button type="secondary" onClick={lukk} size="small">
+                Lukk
+              </Button>
+            </div>
           </div>
         )}
 

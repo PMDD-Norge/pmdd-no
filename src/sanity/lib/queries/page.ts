@@ -156,6 +156,27 @@ const SECTION_TYPE_PROJECTIONS = `
       },
 
       // Auto-populated walking tours
+      // Combined activities: events + walking tours, sorted by date
+      contentType == "activities" => {
+        "items": [
+          ...*[_type == "event" && !(_id in path("drafts.**"))] {
+            _id, _type, title,
+            "date": coalesce(startDate, _createdAt),
+            startDate, endDate, location,
+            richText, body,
+            image${IMAGE_SIMPLE_FRAGMENT},
+            slug, link${LINK_FRAGMENT}
+          },
+          ...*[_type == "walkingTour" && !(_id in path("drafts.**"))] {
+            _id, _type, title,
+            "date": dateTime,
+            dateTime, location, description,
+            wheelchairFriendly, strollerFriendly, bringFood, facebookUrl,
+            "turvenn": turvenn->{ name, city, image${IMAGE_SIMPLE_FRAGMENT} }
+          }
+        ] | order(date asc)
+      },
+
       contentType == "walking-tour" => {
         "items": *[_type == "walkingTour" && !(_id in path("drafts.**"))] | order(dateTime asc) {
           _id,
