@@ -129,8 +129,6 @@
 }
 
 .ctaLenke {
-  font-family: var(--font-nunito);
-  font-size: 0.875rem;
   font-weight: 600;
   color: var(--Teal);
   text-decoration: underline;

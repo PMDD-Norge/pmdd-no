@@ -237,20 +237,25 @@ export default function BlomstModal({ isOpen, onClose, callToAction }: Props) {
             <Text type="bodyLarge">Så fin den ble.</Text>
             <Text type="body">
               Takk for at du plantet en blomst. Snart vil den blomstre sammen
-              med de andre. Alle blomster godkjennes manuelt for å holde
-              minnehagen trygg. Dette tar vanligvis under 24 timer.
+              med de andre.
+            </Text>
+            <Text type="small">
+              Alle blomster godkjennes manuelt for å holde minnehagen trygg.
+              Dette tar vanligvis under 24 timer.
             </Text>
             {resolvedCta?.title && (
               <div className={modalStyles.ctaBlokk}>
                 <Text type="small">Er du ikke medlem av PMDD Norge?</Text>
-                <Link
-                  href={getHref(resolvedCta)}
-                  className={modalStyles.ctaLenke}
-                  target={resolvedCta.newTab ? "_blank" : undefined}
-                  rel={resolvedCta.newTab ? "noopener noreferrer" : undefined}
-                >
-                  {resolvedCta.title}
-                </Link>
+                <Text type="small" as="span">
+                  <Link
+                    href={getHref(resolvedCta)}
+                    className={modalStyles.ctaLenke}
+                    target={resolvedCta.newTab ? "_blank" : undefined}
+                    rel={resolvedCta.newTab ? "noopener noreferrer" : undefined}
+                  >
+                    {resolvedCta.title}
+                  </Link>
+                </Text>
               </div>
             )}
             <div>
