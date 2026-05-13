@@ -263,11 +263,11 @@ const GridElement = ({
       : undefined;
 
   // Walking tour turvenn info
-  type TurvennInfo = NonNullable<WalkingTourDocument["turvenn"]>;
-  const walkingTourTurvenn: TurvennInfo | undefined =
-    isWalkingTour && "turvenn" in item && item.turvenn
-      ? (item.turvenn as TurvennInfo)
-      : undefined;
+  const walkingTourTurvenn = isWalkingTour
+    ? (item as WalkingTourDocument).turvenn
+    : undefined;
+  const turvennName: string | null =
+    walkingTourTurvenn?.name ?? null;
 
   const image = "image" in item && item.image ? item.image : undefined;
 
@@ -281,14 +281,14 @@ const GridElement = ({
       {itemTitle && <Text type="h4">{getDisplayText(itemTitle)}</Text>}
 
       {/* City for turvenn */}
-      {isTurVenn && "city" in item && item.city && (
+      {isTurVenn && "city" in item && !!item.city && (
         <Text type="small">{item.city as string}</Text>
       )}
 
       {/* Event-specific fields: date and location */}
-      {isEvent && "startDate" in item && item.startDate && (
+      {isEvent && "startDate" in item && !!item.startDate && (
         <Text type="small" className={styles.eventDate}>
-          {new Date(item.startDate).toLocaleDateString("nb-NO", {
+          {new Date(item.startDate as string).toLocaleDateString("nb-NO", {
             weekday: "long",
             year: "numeric",
             month: "long",
@@ -296,8 +296,8 @@ const GridElement = ({
             timeZone: "Europe/Oslo",
           })}
           {"endDate" in item &&
-            item.endDate &&
-            ` - ${new Date(item.endDate).toLocaleDateString("nb-NO", {
+            !!item.endDate &&
+            ` - ${new Date(item.endDate as string).toLocaleDateString("nb-NO", {
               year: "numeric",
               month: "long",
               day: "numeric",
@@ -305,14 +305,14 @@ const GridElement = ({
             })}`}
         </Text>
       )}
-      {isEvent && "location" in item && item.location && (
+      {isEvent && "location" in item && !!item.location && (
         <Text type="small" className={styles.eventLocation}>
           {item.location as string}
         </Text>
       )}
 
       {/* Walking tour-specific fields */}
-      {isWalkingTour && "dateTime" in item && item.dateTime && (
+      {isWalkingTour && "dateTime" in item && !!item.dateTime && (
         <Text type="small" className={styles.eventDate}>
           {new Date(item.dateTime as string).toLocaleDateString("nb-NO", {
             weekday: "long",
@@ -325,14 +325,14 @@ const GridElement = ({
           })}
         </Text>
       )}
-      {isWalkingTour && "location" in item && item.location && (
+      {isWalkingTour && "location" in item && !!item.location && (
         <Text type="small" className={styles.eventLocation}>
           {item.location as string}
         </Text>
       )}
-      {isWalkingTour && walkingTourTurvenn?.name ? (
-        <Text type="small">Turvenn: {walkingTourTurvenn.name}</Text>
-      ) : null}
+      {turvennName !== null && (
+        <Text type="small">Turvenn: {turvennName}</Text>
+      )}
 
       {content && typeof content === "string" && (
         <Text type="small">{content}</Text>
@@ -340,7 +340,7 @@ const GridElement = ({
       {content && Array.isArray(content) && content.length > 0 && (
         <PortableText value={content} components={myPortableTextComponents} />
       )}
-      {isWriter && "email" in item && item.email && (
+      {isWriter && "email" in item && !!item.email && (
         <Text type="small">
           <a href={`mailto:${item.email as string}`}>{item.email as string}</a>
         </Text>
