@@ -25,7 +25,7 @@ const CallToAction = ({ callToAction }: CallToActionProps) => {
   return (
     <article className={theme} id={callToAction._key}>
       <div
-        className={`${styles.sectionWrapperRow} ${styles.content} ${imagePosition == ImagePosition.Left ? "" : styles.imagePositionLeftOnSmallerScreens}`}
+        className={`sectionWrapperRow ${styles.content} ${imagePosition == ImagePosition.Left ? "" : styles.imagePositionLeftOnSmallerScreens}`}
       >
         {image && (
           <div className={styles.image}>

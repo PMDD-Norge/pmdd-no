@@ -21,7 +21,7 @@ const Callout = ({ callout }: { callout: CalloutObject }) => {
     callout.richText && (
       <article className={theme} id={callout._key}>
         <div
-          className={`${styles.sectionWrapperRow} ${imagePosition == ImagePosition.Left ? "" : styles.imagePositionLeftOnSmallerScreens}`}
+          className={`sectionWrapperRow ${imagePosition == ImagePosition.Left ? "" : styles.imagePositionLeftOnSmallerScreens}`}
         >
           {image && (
             <div className={styles.image}>

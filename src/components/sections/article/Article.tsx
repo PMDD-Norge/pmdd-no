@@ -58,7 +58,7 @@ const Article = ({ article }: { article: ArticleObject }) => {
   return (
     <article className={theme} id={article._key}>
       <div
-        className={styles.sectionWrapperRow}
+        className={`sectionWrapperRow ${styles.articleLayout}`}
         style={{ "--image-position": imagePosition === ImagePosition.Right ? "row-reverse" : "row" } as React.CSSProperties}
       >
         {renderMedia()}

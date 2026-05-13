@@ -16,7 +16,7 @@ const Features = ({ features }: { features: FeaturesObject }) => {
 
   return (
     <article id={features._key} className={theme}>
-      <div className={styles.sectionWrapperRow}>
+      <div className="sectionWrapperRow">
         <div className={styles.leftColumn}>
           <div className={styles.intro}>
             <Text type="h2">{getDisplayText(features.title)}</Text>
