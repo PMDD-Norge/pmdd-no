@@ -52,7 +52,7 @@ export const Grid = async (props: Props) => {
 
   return (
     <article className={theme} id={_key}>
-      <div className="sectionWrapperColumn">
+      <div className={`sectionWrapperColumn ${styles.grid}`}>
         {title && <Text type={tittelNivaa ?? "h2"}>{getDisplayText(title)}</Text>}
         {richText && <RichText value={richText} />}
         {lists?.map((list, i) => (
