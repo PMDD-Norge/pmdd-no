@@ -165,6 +165,7 @@ export interface TurVennDocument extends SanityBase {
 
 export interface GridObject extends SanityBase {
   title: string;
+  tittelNivaa?: "h2" | "h3";
   richText?: PortableTextBlock[] | null;
   appearance?: Appearance;
   lists: GridList[];

@@ -47,13 +47,13 @@ type Props = {
 };
 
 export const Grid = async (props: Props) => {
-  const { appearance, title, richText, lists, _key } = props.grid;
+  const { appearance, title, tittelNivaa, richText, lists, _key } = props.grid;
   const theme = getThemeClassFromAppearance(appearance);
 
   return (
     <article className={theme} id={_key}>
       <div className="sectionWrapperColumn">
-        {title && <Text type="h2">{getDisplayText(title)}</Text>}
+        {title && <Text type={tittelNivaa ?? "h2"}>{getDisplayText(title)}</Text>}
         {richText && <RichText value={richText} />}
         {lists?.map((list, i) => (
           <GridListSection key={list._key || i} list={list} />
@@ -352,7 +352,7 @@ const GridElement = ({
           <CustomLink link={facebookLink} />
         </div>
       )}
-      {!facebookLink && link && (
+      {!facebookLink && link?.title && (
         <div>
           <CustomLink link={link} />
         </div>
