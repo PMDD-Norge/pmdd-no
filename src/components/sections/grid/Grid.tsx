@@ -263,9 +263,10 @@ const GridElement = ({
       : undefined;
 
   // Walking tour turvenn info
-  const walkingTourTurvenn =
+  type TurvennInfo = NonNullable<WalkingTourDocument["turvenn"]>;
+  const walkingTourTurvenn: TurvennInfo | undefined =
     isWalkingTour && "turvenn" in item && item.turvenn
-      ? (item.turvenn as WalkingTourDocument["turvenn"])
+      ? (item.turvenn as TurvennInfo)
       : undefined;
 
   const image = "image" in item && item.image ? item.image : undefined;
@@ -329,9 +330,9 @@ const GridElement = ({
           {item.location as string}
         </Text>
       )}
-      {isWalkingTour && !!walkingTourTurvenn?.name && (
-        <Text type="small">Turvenn: {walkingTourTurvenn!.name as string}</Text>
-      )}
+      {isWalkingTour && walkingTourTurvenn?.name ? (
+        <Text type="small">Turvenn: {walkingTourTurvenn.name}</Text>
+      ) : null}
 
       {content && typeof content === "string" && (
         <Text type="small">{content}</Text>
