@@ -30,7 +30,7 @@ export async function Information({
   currentPage,
   selectedCategoryName,
 }: InformationProps) {
-  const { title, richText, contactSection } = information;
+  const { title, richText, contactSection, infoMessage } = information;
 
   const categoriesToShow = [
     {
@@ -54,16 +54,12 @@ export async function Information({
       <div className={`sectionWrapperColumn ${styles.maxWidth}`}>
         {title && <Text type="h1">{title}</Text>}
         {richText && <RichText value={richText} />}
-        <div className={styles.message}>
-          <Text type="h4">Info: Under utvikling</Text>
-          <Text>
-            Vi bygger kontinuerlig ut vår kunnskapsbase med nye artikler for å
-            gi deg en grundig forståelse av PMDD. Her vil du finne informasjon
-            om alt fra symptomer og diagnose til behandlingsmuligheter og
-            mestringsstrategier. Følg med mens vi utvider med mer innhold for å
-            støtte deg på best mulig måte.
-          </Text>
-        </div>
+        {(infoMessage?.tittel || infoMessage?.tekst) && (
+          <div className={styles.message}>
+            {infoMessage.tittel && <Text type="h4">{infoMessage.tittel}</Text>}
+            {infoMessage.tekst && <RichText value={infoMessage.tekst} />}
+          </div>
+        )}
       </div>
       <div className="darkBackground">
         <div className="sectionWrapperColumn">

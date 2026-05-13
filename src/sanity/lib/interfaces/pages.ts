@@ -227,6 +227,10 @@ export interface InformationDocument extends SanityBase {
   title: string;
   richText: PortableTextBlock[];
   contactSection: ContactObject;
+  infoMessage?: {
+    tittel?: string;
+    tekst?: PortableTextBlock[];
+  };
 }
 
 export interface PostDocument extends SanityBase {

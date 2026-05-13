@@ -183,6 +183,10 @@ export const COLLECTION_HUB_BY_SLUG_QUERY = `
     }
   },
   allPostsLabel,
+  infoMessage{
+    tittel,
+    tekst
+  },
 
   // Minnehagen-specific fields
   "callToAction": callToAction{
