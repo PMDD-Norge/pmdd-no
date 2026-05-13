@@ -5,9 +5,7 @@
     gap: 6rem;
   }
 
-  & h3 {
-    color: var(--Teal, #018852);
-  }
+
 }
 
 .image {

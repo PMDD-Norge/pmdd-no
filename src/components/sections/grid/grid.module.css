@@ -1,9 +1,3 @@
-.grid {
-  & h3 {
-    color: var(--Teal, #018852);
-  }
-}
-
 .textWrapper {
   display: flex;
   flex-direction: column;
