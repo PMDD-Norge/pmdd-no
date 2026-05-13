@@ -40,6 +40,7 @@ const SECTION_TYPE_PROJECTIONS = `
       "title": coalesce(title, optionalTitle),
       contentType,
       columns,
+      kolonnerMobil,
       maxItems,
       ctaLink${LINK_FRAGMENT},
       bunnTekst,

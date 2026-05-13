@@ -71,13 +71,14 @@ const GridListSection = ({ list }: { list: GridList }) => {
     : list.items || [];
   const itemCount = displayItems.length;
   const columns = list.columns ?? 3;
+  const kolonnerMobil = list.kolonnerMobil ?? 2;
 
   return (
     <section className={styles.listSection}>
       {list.title && <Text type="h3">{getDisplayText(list.title)}</Text>}
       <ul
         className={`${styles.list} ${getGridClassForItemCount(itemCount)}`}
-        style={{ "--columns": columns } as React.CSSProperties}
+        style={{ "--columns": columns, "--columns-mobile": kolonnerMobil } as React.CSSProperties}
       >
         {displayItems.map((item) => (
           <GridElement key={item._key || item._id} item={item} />
