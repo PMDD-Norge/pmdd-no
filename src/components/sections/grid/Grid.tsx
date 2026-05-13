@@ -330,7 +330,7 @@ const GridElement = ({
         </Text>
       )}
       {isWalkingTour && !!walkingTourTurvenn?.name && (
-        <Text type="small">Turvenn: {walkingTourTurvenn!.name}</Text>
+        <Text type="small">Turvenn: {walkingTourTurvenn!.name as string}</Text>
       )}
 
       {content && typeof content === "string" && (
