@@ -14,7 +14,7 @@ interface HeroProps {
 
 const Hero = ({ hero, isLanding = false }: HeroProps) => {
   return (
-    <div className="sectionWrapperColumn">
+    <div className={`sectionWrapperColumn ${styles.wrapper}`}>
       <div className={styles.hero}>
         <div
           className={`${styles.content} ${isLanding && hero.image?.asset ? "" : styles.imagePositionAlwaysLeftOnMobile}`}
