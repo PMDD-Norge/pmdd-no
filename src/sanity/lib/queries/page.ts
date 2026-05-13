@@ -50,13 +50,50 @@ const SECTION_TYPE_PROJECTIONS = `
         }
       },
 
-      // Auto-populated writers
+      // Auto-populated writers (all)
       contentType == "writer" => {
         "items": *[_type == "writer"] | order(orderRank) {
           _id,
           _type,
           name,
           occupation,
+          email,
+          gruppe,
+          image${IMAGE_SIMPLE_FRAGMENT}
+        }
+      },
+
+      // Auto-populated writers filtered by group
+      contentType == "writer-styret" => {
+        "items": *[_type == "writer" && gruppe == "styret"] | order(orderRank) {
+          _id,
+          _type,
+          name,
+          occupation,
+          email,
+          gruppe,
+          image${IMAGE_SIMPLE_FRAGMENT}
+        }
+      },
+      contentType == "writer-raadgivere" => {
+        "items": *[_type == "writer" && gruppe == "raadgivere"] | order(orderRank) {
+          _id,
+          _type,
+          name,
+          occupation,
+          email,
+          gruppe,
+          image${IMAGE_SIMPLE_FRAGMENT}
+        }
+      },
+      contentType == "writer-frivillige" => {
+        "items": *[_type == "writer" && gruppe == "frivillige"] | order(orderRank) {
+          _id,
+          _type,
+          name,
+          occupation,
+          email,
+          gruppe,
           image${IMAGE_SIMPLE_FRAGMENT}
         }
       },
@@ -158,23 +195,23 @@ const SECTION_TYPE_PROJECTIONS = `
       // Auto-populated walking tours
       // Combined activities: events + walking tours, sorted by date
       contentType == "activities" => {
-        "items": [
-          ...*[_type == "event" && !(_id in path("drafts.**"))] {
+        "items": (
+          *[_type == "event" && !(_id in path("drafts.**"))] {
             _id, _type, title,
             "date": coalesce(startDate, _createdAt),
             startDate, endDate, location,
             richText, body,
             image${IMAGE_SIMPLE_FRAGMENT},
             slug, link${LINK_FRAGMENT}
-          },
-          ...*[_type == "walkingTour" && !(_id in path("drafts.**"))] {
+          } +
+          *[_type == "walkingTour" && !(_id in path("drafts.**"))] {
             _id, _type, title,
             "date": dateTime,
             dateTime, location, description,
             wheelchairFriendly, strollerFriendly, bringFood, facebookUrl,
             "turvenn": turvenn->{ name, city, image${IMAGE_SIMPLE_FRAGMENT} }
           }
-        ] | order(date asc)
+        ) | order(date asc)
       },
 
       contentType == "walking-tour" => {

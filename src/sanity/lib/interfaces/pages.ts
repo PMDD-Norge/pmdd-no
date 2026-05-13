@@ -132,7 +132,7 @@ export interface GridItem extends SanityBase {
 export interface GridList extends SanityBase {
   title: string;
   columns?: 3 | 4;
-  contentType?: "manual" | "event" | "availablePosition" | "post" | "blog-post" | "news" | "job-position" | "resource" | "writer" | "walking-tour" | "turvenn";
+  contentType?: "manual" | "event" | "availablePosition" | "post" | "blog-post" | "news" | "job-position" | "resource" | "writer" | "writer-styret" | "writer-raadgivere" | "writer-frivillige" | "walking-tour" | "turvenn" | "activities";
   items?: GridItem[];
   maxItems?: number;
   internalLink?: SanityLink;
