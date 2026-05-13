@@ -138,6 +138,7 @@ export interface GridList extends SanityBase {
   maxItems?: number;
   internalLink?: SanityLink;
   ctaLink?: SanityLink;
+  bunnTekst?: PortableTextBlock[];
 }
 
 export interface WalkingTourDocument extends SanityBase {

@@ -83,11 +83,13 @@ const GridListSection = ({ list }: { list: GridList }) => {
           <GridElement key={item._key || item._id} item={item} />
         ))}
       </ul>
+      {list.bunnTekst && list.bunnTekst.length > 0 && (
+        <RichText value={list.bunnTekst} />
+      )}
       {list.ctaLink?.title && (
         <div className={styles.ctaLink}>
           <LinkButton
             link={list.ctaLink}
-            // type={index === 0 ? "primary" : "secondary"}
             type="secondary"
           />
         </div>

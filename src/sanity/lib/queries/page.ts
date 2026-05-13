@@ -37,6 +37,7 @@ const SECTION_TYPE_PROJECTIONS = `
       columns,
       maxItems,
       ctaLink${LINK_FRAGMENT},
+      bunnTekst,
 
       // Manual items
       contentType == "manual" => {
