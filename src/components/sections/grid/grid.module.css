@@ -11,6 +11,10 @@
 
   align-self: stretch;
   gap: 1.5rem var(--Spacing-M);
+
+  & h3 {
+    color: var(--Teal, #018852);
+  }
 }
 
 .list {
