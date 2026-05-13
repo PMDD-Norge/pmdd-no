@@ -14,7 +14,7 @@ interface HeroProps {
 
 const Hero = ({ hero, isLanding = false }: HeroProps) => {
   return (
-    <div className="sectionWrapperRow">
+    <div className="sectionWrapperColumn">
       <div className={styles.hero}>
         <div
           className={`${styles.content} ${isLanding && hero.image?.asset ? "" : styles.imagePositionAlwaysLeftOnMobile}`}
@@ -58,19 +58,19 @@ const Hero = ({ hero, isLanding = false }: HeroProps) => {
                 ))}
               </ul>
             )}
-            {(hero.infoMessage?.tittel || hero.infoMessage?.tekst) && (
-              <div className={styles.infoMessage}>
-                {hero.infoMessage.tittel && (
-                  <Text type="h4">{hero.infoMessage.tittel}</Text>
-                )}
-                {hero.infoMessage.tekst && (
-                  <RichText value={hero.infoMessage.tekst} />
-                )}
-              </div>
-            )}
           </div>
         </div>
       </div>
+      {(hero.infoMessage?.tittel || hero.infoMessage?.tekst) && (
+        <div className={styles.infoMessage}>
+          {hero.infoMessage.tittel && (
+            <Text type="h4">{hero.infoMessage.tittel}</Text>
+          )}
+          {hero.infoMessage.tekst && (
+            <RichText value={hero.infoMessage.tekst} />
+          )}
+        </div>
+      )}
     </div>
   );
 };
