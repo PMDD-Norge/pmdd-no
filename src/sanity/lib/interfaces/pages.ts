@@ -47,7 +47,8 @@ export interface LogoSaladObject extends SanityBase {
 
 export interface ArticleObject extends SanityBase {
   tag?: string;
-  title: string;
+  title?: string;
+  tittelNivaa?: "h2" | "h3";
   richText?: PortableTextBlock[];
   callToActions?: SanityLink[];
   mediaType?: "image" | "iframe";

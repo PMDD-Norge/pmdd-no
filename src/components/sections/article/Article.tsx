@@ -64,8 +64,12 @@ const Article = ({ article }: { article: ArticleObject }) => {
         {renderMedia()}
         <div className={styles.content}>
           <div>
-            <Text type="caption">{article.tag}</Text>
-            <Text type="h2">{getDisplayText(article.title)}</Text>
+            {article.tag && <Text type="caption">{article.tag}</Text>}
+            {article.title && (
+              <Text type={article.tittelNivaa ?? "h2"}>
+                {getDisplayText(article.title)}
+              </Text>
+            )}
           </div>
           {article.richText && <RichText value={article.richText} />}
           {callToActions && (

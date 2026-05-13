@@ -282,6 +282,7 @@ const SECTION_TYPE_PROJECTIONS = `
   _type == "articleSection" => {
     tag,
     title,
+    tittelNivaa,
     richText,
     callToActions[]${LINK_FRAGMENT},
     mediaType,
