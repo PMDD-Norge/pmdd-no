@@ -39,9 +39,9 @@ const Hero = ({ hero, isLanding = false }: HeroProps) => {
                 <Text type="bodyLarge">{getDisplayText(hero.body)}</Text>
               )}
             </div>
-            {isLanding && (
+            {hero.callToActions && hero.callToActions.length > 0 && (
               <ul className={styles.cta}>
-                {hero.callToActions?.map((cta: SanityLink, index) => (
+                {hero.callToActions.map((cta: SanityLink, index) => (
                   <li key={cta._key || `cta-${index}`}>
                     <LinkButton
                       link={cta}
