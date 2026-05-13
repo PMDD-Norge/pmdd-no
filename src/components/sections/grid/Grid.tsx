@@ -339,6 +339,11 @@ const GridElement = ({
       {content && Array.isArray(content) && content.length > 0 && (
         <PortableText value={content} components={myPortableTextComponents} />
       )}
+      {isWriter && "email" in item && item.email && (
+        <Text type="small">
+          <a href={`mailto:${item.email as string}`}>{item.email as string}</a>
+        </Text>
+      )}
       {facebookLink && (
         <div>
           <CustomLink link={facebookLink} />
