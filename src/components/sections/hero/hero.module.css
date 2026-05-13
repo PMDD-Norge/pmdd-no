@@ -50,6 +50,25 @@
   align-self: stretch;
 }
 
+.infoMessage {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: var(--Spacing-M, 1rem) var(--Spacing-L, 1.5rem);
+  gap: var(--Spacing-S, 0.75rem);
+  background-color: var(--Background-offshade, #daf2e8);
+  border-radius: 6px;
+  align-self: stretch;
+
+  & h4 {
+    color: var(--Teal, #018852);
+  }
+
+  @media (min-width: 640px) {
+    padding: 1.5rem 3rem;
+  }
+}
+
 .cta {
   display: flex;
   flex-direction: column;

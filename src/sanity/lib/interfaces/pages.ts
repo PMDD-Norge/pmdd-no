@@ -39,6 +39,10 @@ export interface HeroObject extends SanityBase {
   title: string;
   body: string;
   callToActions?: SanityLink[];
+  infoMessage?: {
+    tittel?: string;
+    tekst?: PortableTextBlock[];
+  };
 }
 
 export interface LogoSaladObject extends SanityBase {

@@ -2,6 +2,7 @@ import { HeroObject } from "@/sanity/lib/interfaces/pages";
 import styles from "./hero.module.css";
 import SanityNextImage from "@/components/image/sanityImage";
 import Text from "@/components/text/Text";
+import { RichText } from "@/components/richText/RichText";
 import { SanityLink } from "@/sanity/lib/interfaces/siteSettings";
 import LinkButton from "@/components/linkButton/LinkButton";
 import { getDisplayText } from "@/utils/textUtils";
@@ -56,6 +57,16 @@ const Hero = ({ hero, isLanding = false }: HeroProps) => {
                   </li>
                 ))}
               </ul>
+            )}
+            {(hero.infoMessage?.tittel || hero.infoMessage?.tekst) && (
+              <div className={styles.infoMessage}>
+                {hero.infoMessage.tittel && (
+                  <Text type="h4">{hero.infoMessage.tittel}</Text>
+                )}
+                {hero.infoMessage.tekst && (
+                  <RichText value={hero.infoMessage.tekst} />
+                )}
+              </div>
             )}
           </div>
         </div>

@@ -22,7 +22,11 @@ const SECTION_TYPE_PROJECTIONS = `
     body,
     image${IMAGE_FRAGMENT},
     callToActions[]${LINK_FRAGMENT},
-    imagePosition
+    imagePosition,
+    infoMessage{
+      tittel,
+      tekst
+    }
   },
 
   // Grid section (with dynamic content types)
