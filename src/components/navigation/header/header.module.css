@@ -15,7 +15,7 @@
 .isOpen {
   height: 100vh;
   flex-direction: column;
-  @media (max-width: 1024px) {
+  @media (max-width: 1330px) {
     & > header {
       flex: 1;
       display: flex;
@@ -76,7 +76,7 @@
   align-items: center;
   gap: 1.5rem;
 
-  @media (min-width: 1060px) {
+  @media (min-width: 1330px) {
     display: none;
   }
 }
@@ -85,7 +85,7 @@
   composes: list;
   display: none;
 
-  @media (min-width: 1060px) {
+  @media (min-width: 1330px) {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -232,7 +232,7 @@
   overflow-y: auto; /* Allow scrolling within the menu, not the body */
   transition: opacity 0.15s ease-out; /* Smooth opacity transitions */
 
-  @media (min-width: 1024px) {
+  @media (min-width: 1330px) {
     display: none;
   }
 }
@@ -255,7 +255,7 @@
   background-color: transparent;
   border: none;
 
-  @media (min-width: 1060px) {
+  @media (min-width: 1330px) {
     display: none;
   }
 }
