@@ -62,7 +62,7 @@ export async function Information({
         )}
       </div>
       <div className="darkBackground">
-        <div className="sectionWrapperColumn">
+        <div className={`sectionWrapperColumn ${styles.maxWidth}`}>
           <CategoryNavigation
             categories={categoriesToShow}
             selectedCategory={selectedCategoryName}
