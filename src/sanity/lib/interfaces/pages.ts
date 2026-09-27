@@ -207,6 +207,7 @@ export type Category = {
   _id: string;
   _type: string;
   name: string;
+  slug?: Slug;
 };
 
 export interface HightlightsDocument extends SanityBase {

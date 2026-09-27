@@ -1,5 +1,5 @@
 .footer {
-  background: var(--Teal, #018852);
+  background: var(--Dark-blue);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -15,7 +15,7 @@
   align-items: flex-start;
   gap: 1.5rem;
 
-  color: var(--primary-white, #fff);
+  color: var(--White);
 
   @media (min-width: 1024px) {
     padding: 7.5rem 9rem;
@@ -31,6 +31,18 @@
   @media (min-width: 640px) {
     font-size: 1.125rem !important;
   }
+}
+
+.nav,
+.nav p,
+.nav a,
+.nav h1,
+.nav h2,
+.nav h3,
+.nav h4,
+.nav li,
+.nav span {
+  color: var(--White) !important;
 }
 
 .column {

@@ -81,7 +81,7 @@
 
 .primary {
   background: var(--Teal);
-  color: var(--white);
+  color: var(--White);
   border-color: var(--Teal);
 
   &:hover:not(:disabled) {
@@ -95,12 +95,12 @@
   }
 
   &::after {
-    background-color: var(--Background-main);
+    background-color: var(--LightBlue);
   }
 }
 
 .secondary {
-  background: var(--white);
+  background: var(--White);
   color: var(--Teal);
   border-color: var(--Teal);
 

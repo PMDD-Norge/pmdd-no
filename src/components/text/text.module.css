@@ -1,12 +1,17 @@
-.display,
-.h1,
-.h2 {
+.display {
   color: var(--Teal);
   font-family: var(--font-pollerOne);
   line-height: 110%;
   @media (min-width: 1024px) {
     line-height: normal;
   }
+}
+
+.h1,
+.h2 {
+  color: var(--Teal);
+  font-family: var(--font-nunito);
+  font-weight: 900;
 }
 
 .h4,
@@ -16,7 +21,7 @@
 .small,
 .caption,
 .list {
-  color: var(--body-text);
+  color: var(--Dark-Navy);
   font-family: var(--font-nunito);
 }
 
@@ -56,10 +61,10 @@
 }
 
 .h3 {
-  color: var(--Body-text, #0E3424);
+  color: var(--Dark-Navy, #0e3424);
   font-family: var(--font-nunito);
   font-size: 1.25rem;
-  font-weight: 700;
+  font-weight: 900;
   letter-spacing: 0.02rem;
   @media (min-width: 640px) {
     font-size: 1.5rem;

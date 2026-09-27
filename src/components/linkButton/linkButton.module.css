@@ -55,7 +55,7 @@
 }
 
 .primary {
-  color: var(--white);
+  color: var(--White);
   background: var(--Teal);
   border: 2px solid var(--Teal);
 
@@ -70,12 +70,12 @@
   }
 
   &::after {
-    background-color: var(--Background-main);
+    background-color: var(--LightBlue);
   }
 }
 
 .secondary {
-  background: var(--white);
+  background: var(--White);
 
   color: var(--Teal);
   border: 2px solid var(--Teal);

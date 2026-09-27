@@ -1,9 +1,12 @@
+"use client";
+
 import { Category } from "@/sanity/lib/interfaces/pages";
 import styles from "./categoryNavigation.module.css";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useTransition } from "react";
 import Text from "@/components/text/Text";
 
-const CategoryNavigation = async ({
+const CategoryNavigation = ({
   categories,
   selectedCategory: selectedCategoryName,
   slug,
@@ -12,39 +15,46 @@ const CategoryNavigation = async ({
   selectedCategory?: string | null;
   slug: string;
 }) => {
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+
+  if (categories.length <= 1) {
+    return <div className={styles.wrapper} />;
+  }
+
   return (
-    <div className={styles.wrapper}>
-      {categories.length > 2 && (
-        <>
-          <Text type="h3">Filtrer etter kategori</Text>
-          <nav className={styles.tabList}>
-            {categories?.map((category, index) => {
-              const isSelected = !selectedCategoryName
-                ? index === 0
-                : selectedCategoryName === category.name;
+    <div className={styles.filtrering} data-pending={isPending || undefined}>
+      <Text type="h4">Sorter artikkler etter kategori</Text>
+      <nav className={styles.tabList}>
+        {categories.map((category, index) => {
+          const isSelected = !selectedCategoryName
+            ? index === 0
+            : selectedCategoryName === category.name;
 
-              // If it's "All" category, don't add the category parameter
-              const href =
-                category._id === "all"
-                  ? `/${slug}`
-                  : `/${slug}?category=${category.name}`;
+          const href =
+            category._id === "all"
+              ? `/${slug}`
+              : `/${slug}?category=${encodeURIComponent(category._id)}`;
 
-              return (
-                <Link
-                  key={category._id}
-                  href={href}
-                  className={`${styles.tab} ${
-                    isSelected ? styles.selected : ""
-                  }`}
-                  aria-current={isSelected ? "page" : undefined}
-                >
-                  {category.name}
-                </Link>
-              );
-            })}
-          </nav>
-        </>
-      )}
+          return (
+            <button
+              key={category._id}
+              type="button"
+              onClick={() => {
+                if (isSelected) return;
+                startTransition(() => {
+                  router.push(href, { scroll: false });
+                });
+              }}
+              className={`${styles.tab} ${isSelected ? styles.selected : ""}`}
+              aria-current={isSelected ? "page" : undefined}
+              disabled={isPending}
+            >
+              {category.name}
+            </button>
+          );
+        })}
+      </nav>
     </div>
   );
 };

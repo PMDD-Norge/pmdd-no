@@ -20,9 +20,13 @@ const EVENT_FIELDS = `
   }
 `;
 
-// Get all events
+// Get all upcoming/ongoing events (excludes past events)
 export const ALL_EVENTS_QUERY = `
-*[_type == "event" && !(_id in path("drafts.**"))] | order(startDate desc) {
+*[
+  _type == "event" &&
+  !(_id in path("drafts.**")) &&
+  coalesce(endDate, startDate) >= now()
+] | order(startDate asc) {
   ${EVENT_FIELDS},
   richText,
   registrationLink{

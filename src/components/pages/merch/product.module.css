@@ -33,7 +33,7 @@
   aspect-ratio: 1 / 1;
   border-radius: 1.25rem;
   overflow: hidden;
-  background: var(--Background-offshade);
+  background: var(--LightBlue);
 }
 
 .mainImage {
@@ -51,26 +51,50 @@
 /* Animasjon kun for brukere som ikke har bedt om redusert bevegelse */
 @media (prefers-reduced-motion: no-preference) {
   @keyframes slideInFromRight {
-    from { transform: translateX(100%); }
-    to   { transform: translateX(0); }
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(0);
+    }
   }
   @keyframes slideInFromLeft {
-    from { transform: translateX(-100%); }
-    to   { transform: translateX(0); }
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(0);
+    }
   }
   @keyframes slideOutToLeft {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-100%); }
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-100%);
+    }
   }
   @keyframes slideOutToRight {
-    from { transform: translateX(0); }
-    to   { transform: translateX(100%); }
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(100%);
+    }
   }
 
-  .slideFromRight    { animation: slideInFromRight 0.35s ease-in-out; }
-  .slideFromLeft     { animation: slideInFromLeft  0.35s ease-in-out; }
-  .slideOutToLeft    { animation: slideOutToLeft   0.35s ease-in-out; }
-  .slideOutToRight   { animation: slideOutToRight  0.35s ease-in-out; }
+  .slideFromRight {
+    animation: slideInFromRight 0.35s ease-in-out;
+  }
+  .slideFromLeft {
+    animation: slideInFromLeft 0.35s ease-in-out;
+  }
+  .slideOutToLeft {
+    animation: slideOutToLeft 0.35s ease-in-out;
+  }
+  .slideOutToRight {
+    animation: slideOutToRight 0.35s ease-in-out;
+  }
 }
 
 /* ── Karusellkontroller ── */
@@ -88,7 +112,7 @@
 
 .carouselButton {
   pointer-events: all;
-  background: var(--Background-offshade, #e3f6f0);
+  background: var(--LightBlue, #e3f6f0);
   border: none;
   border-radius: 50%;
   width: 1.875rem;
@@ -101,11 +125,13 @@
   padding: 0;
   cursor: pointer;
   color: var(--ButtonHover, #0a79a1);
-  transition: background 0.15s ease, color 0.15s ease;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
 
   &:hover:not(:disabled) {
     background: var(--Teal);
-    color: var(--white);
+    color: var(--White);
   }
 
   &:disabled {
@@ -198,18 +224,31 @@
   font-family: var(--font-nunito);
   font-size: 0.9375rem;
   line-height: 140%;
-  color: var(--Body-text);
+  color: var(--Dark-Navy);
 
-  @media (min-width: 640px) { font-size: 1.0625rem; }
-  @media (min-width: 1024px) { font-size: 1.1875rem; }
+  @media (min-width: 640px) {
+    font-size: 1.0625rem;
+  }
+  @media (min-width: 1024px) {
+    font-size: 1.1875rem;
+  }
 }
 
 /* :global trengs fordi elementene ikke er CSS Module-scoped */
-.description :global(p) { margin: 0; }
-.description :global(p + p) { margin-top: 0.75rem; }
-.description :global(strong) { font-weight: 700; }
+.description :global(p) {
+  margin: 0;
+}
+.description :global(p + p) {
+  margin-top: 0.75rem;
+}
+.description :global(strong) {
+  font-weight: 700;
+}
 .description :global(ul),
-.description :global(ol) { padding-left: 1.25rem; margin: 0; }
+.description :global(ol) {
+  padding-left: 1.25rem;
+  margin: 0;
+}
 
 /* ── Spesifikasjoner ── */
 
@@ -220,26 +259,28 @@
   font-size: 0.9375rem;
   line-height: 140%;
 
-  @media (min-width: 640px) { font-size: 1.0625rem; }
+  @media (min-width: 640px) {
+    font-size: 1.0625rem;
+  }
 }
 
 .specsKey {
   text-align: left;
   font-weight: 600;
   padding: 0.4rem 0.75rem 0.4rem 0;
-  color: var(--Body-text);
+  color: var(--Dark-Navy);
   text-transform: capitalize;
   white-space: nowrap;
   vertical-align: top;
-  border-bottom: 1px solid var(--Background-offshade);
+  border-bottom: 1px solid var(--LightBlue);
   width: 40%;
 }
 
 .specsValue {
   padding: 0.4rem 0 0.4rem 0.75rem;
-  color: var(--Body-text);
+  color: var(--Dark-Navy);
   vertical-align: top;
-  border-bottom: 1px solid var(--Background-offshade);
+  border-bottom: 1px solid var(--LightBlue);
 }
 
 /* ── Størrelse / variant ── */
@@ -269,8 +310,8 @@
   gap: 0.5rem;
   border-radius: 0.625rem;
   border: 1.5px solid var(--Teal);
-  background: var(--Background-offshade);
-  color: var(--Body-text);
+  background: var(--LightBlue);
+  color: var(--Dark-Navy);
   cursor: pointer;
 
   /* Body-tekststil */
@@ -292,7 +333,7 @@
 
   &:hover:not(:disabled) {
     background-color: var(--Teal);
-    color: var(--white);
+    color: var(--White);
   }
 
   &:focus-visible {
@@ -303,7 +344,7 @@
 
 .sizeButtonActive {
   background: var(--Teal);
-  color: var(--white);
+  color: var(--White);
   font-weight: 600;
   /* border beholdes som --Teal — ingen layout-shift */
 }
@@ -333,7 +374,7 @@
   align-self: stretch;
   border-radius: 0.625rem;
   border: 1.5px solid var(--ButtonHover, #0a79a1);
-  background: var(--Background-main, #eff8f6);
+  background: var(--LightBlue, #eff8f6);
 }
 
 .quantityButton {
@@ -344,7 +385,7 @@
   cursor: pointer;
 
   &:hover {
-    background-color: var(--Background-offshade);
+    background-color: var(--LightBlue);
   }
 
   &:focus-visible {
@@ -359,7 +400,7 @@
   font-family: var(--font-nunito);
   font-size: 1.0625rem;
   font-weight: bold;
-  color: var(--Body-text);
+  color: var(--Dark-Navy);
 
   @media (min-width: 1024px) {
     font-size: 1.5rem;
@@ -370,7 +411,7 @@
 
 .errorMessage {
   margin: 0;
-  color: var(--Body-text);
+  color: var(--Dark-Navy);
   font-size: 0.875rem;
   font-weight: bold;
 }

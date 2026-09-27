@@ -21,6 +21,7 @@ interface ContentSectionProps {
   categories?: Category[];
   layout?: string;
   slug: string;
+  selectedCategorySlug?: string;
 }
 
 /**
@@ -35,6 +36,7 @@ export default async function ContentSection({
   showFilters,
   categories,
   slug,
+  selectedCategorySlug,
 }: ContentSectionProps) {
   // For blog-post and news with filters, use special handling
   if ((type === "blog-post" || type === "news") && showFilters && categories) {
@@ -47,19 +49,29 @@ export default async function ContentSection({
       ...(categories || []),
     ];
 
+    const selectedCategory = selectedCategorySlug
+      ? categories.find((c) => c._id === selectedCategorySlug)
+      : undefined;
+
+    const filteredItems = selectedCategory
+      ? (items as PostDocument[]).filter((post) =>
+          post.categories?.some((cat) => cat._id === selectedCategorySlug)
+        )
+      : (items as PostDocument[]);
+
     return (
       <div className="darkBackground">
         <div className="sectionWrapperColumn">
           <CategoryNavigation
             categories={categoriesToShow}
-            selectedCategory={undefined}
+            selectedCategory={selectedCategory?.name}
             slug={slug}
           />
           <section aria-live="polite" role="region">
             <PostPreviewGrid
               title={title || ""}
-              posts={items as PostDocument[]}
-              numberOfPosts={items.length}
+              posts={filteredItems}
+              numberOfPosts={filteredItems.length}
               initialLoading={false}
               slug={slug}
               currentPage={1}

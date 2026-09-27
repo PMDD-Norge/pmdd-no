@@ -38,7 +38,7 @@ const isLink = (item: SanityLink | RichTextObject): item is SanityLink => {
 };
 
 const isRichText = (
-  item: SanityLink | RichTextObject
+  item: SanityLink | RichTextObject,
 ): item is RichTextObject => {
   return item._type === "richTextObject";
 };
@@ -73,19 +73,25 @@ const ContentSections = ({
       <div key={`${sectionTitle}-${index}`} className={styles.column}>
         <Text type="h4">{sectionTitle}</Text>
         <ul className={styles.list}>
-          {linksAndContent && linksAndContent.length > 0 && linksAndContent.map((item) => (
-            <li key={item._key}>{renderContentItem(item)}</li>
-          ))}
+          {linksAndContent &&
+            linksAndContent.length > 0 &&
+            linksAndContent.map((item) => (
+              <li key={item._key}>{renderContentItem(item)}</li>
+            ))}
         </ul>
       </div>
     );
   });
 };
 
-const SocialMediaSection = ({ navigationData }: { navigationData: Navigation | undefined }) => {
+const SocialMediaSection = ({
+  navigationData,
+}: {
+  navigationData: Navigation | undefined;
+}) => {
   const socialMediaSections = filterSectionsByType(
     navigationData,
-    "socialMedia"
+    "socialMedia",
   );
 
   if (!socialMediaSections || socialMediaSections.length === 0) {
@@ -116,7 +122,7 @@ const SocialMediaSection = ({ navigationData }: { navigationData: Navigation | u
 
 const filterSectionsByType = (
   data: Navigation | undefined,
-  type: "content" | "socialMedia"
+  type: "content" | "socialMedia",
 ) => data?.footer?.filter((section: Section) => section.sectionType === type);
 
 export default Footer;

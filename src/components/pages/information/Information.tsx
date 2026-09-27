@@ -1,5 +1,4 @@
 import styles from "./information.module.css";
-import PostPreviewGrid from "./components/postPreviewGrid/PostPreviewGrid";
 import CategoryNavigation from "./components/categoryNavigation/CategoryNavigation";
 import PMDDErrorMessage from "./components/customErrorMessage/PMDDErrorMessage";
 import {
@@ -10,11 +9,13 @@ import {
 import Text from "@/components/text/Text";
 import { RichText } from "@/components/richText/RichText";
 import Contact from "@/components/sections/contact/Contact";
+import Link from "next/link";
+import { truncateText } from "@/utils/textUtils";
 
 interface InformationProps {
   information: InformationDocument;
   categories: Category[];
-  initialPosts: PostDocument[];
+  posts: PostDocument[];
   slug: string;
   postCount: number;
   currentPage: number;
@@ -23,14 +24,12 @@ interface InformationProps {
 
 export async function Information({
   information,
-  initialPosts,
+  posts: initialPosts,
   slug,
   categories,
-  postCount,
-  currentPage,
   selectedCategoryName,
 }: InformationProps) {
-  const { title, richText, contactSection, infoMessage } = information;
+  const { title, richText, contactSection } = information;
 
   const categoriesToShow = [
     {
@@ -41,46 +40,64 @@ export async function Information({
     ...(categories || []),
   ];
 
-  const readMoreTitle = selectedCategoryName
-    ? `${categories.find((c) => c._id === selectedCategoryName)?.name} ${information.allPostsLabel}`
-    : `All ${information.allPostsLabel}`;
-
   if (!initialPosts) {
     return <PMDDErrorMessage />;
   }
 
+  const sortedPosts = [...initialPosts].sort((a, b) => {
+    const aDate =
+      (a as PostDocument & { publishedAt?: string }).publishedAt ??
+      a._createdAt ??
+      "";
+    const bDate =
+      (b as PostDocument & { publishedAt?: string }).publishedAt ??
+      b._createdAt ??
+      "";
+    return bDate.localeCompare(aDate);
+  });
+
   return (
     <>
-      <div className={`sectionWrapperColumn ${styles.maxWidth}`}>
-        {title && <Text type="h1">{title}</Text>}
-        {richText && <RichText value={richText} />}
-        {(infoMessage?.tittel || infoMessage?.tekst) && (
-          <div className={styles.message}>
-            {infoMessage.tittel && <Text type="h4">{infoMessage.tittel}</Text>}
-            {infoMessage.tekst && <RichText value={infoMessage.tekst} />}
-          </div>
-        )}
-      </div>
-      <div className="darkBackground">
-        <div className={`sectionWrapperColumn ${styles.maxWidth}`}>
-          <CategoryNavigation
-            categories={categoriesToShow}
-            selectedCategory={selectedCategoryName}
-            slug={slug}
-          />
-          <section aria-live="polite" role="region">
-            <PostPreviewGrid
-              title={readMoreTitle}
-              posts={initialPosts}
-              numberOfPosts={postCount}
-              initialLoading={false}
-              slug={slug}
-              currentPage={currentPage}
-            />
-          </section>
+      <div className={`sectionWrapperColumn ${styles.informasjonsInnhold}`}>
+        <div className={styles.informasjonsHero}>
+          {title && <Text type="h1">{title}</Text>}
+          {richText && <RichText value={richText} paragraphType="bodyLarge" />}
         </div>
+        <CategoryNavigation
+          categories={categoriesToShow}
+          selectedCategory={selectedCategoryName}
+          slug={slug}
+        />
+        <ul
+          className={styles.artikler}
+          aria-label={title}
+          aria-live="polite"
+          role="region"
+        >
+          {sortedPosts?.map(
+            ({ _id, title: postTitle, lead, slug: postSlug }) => (
+              <li key={_id}>
+                <Link
+                  href={`/${slug}/${postSlug.current}`}
+                  className={styles.artikkel}
+                  aria-label={postTitle ? `Les meir: ${postTitle}` : undefined}
+                >
+                  {postTitle && (
+                    <Text type="h4" as="h3">
+                      {postTitle}
+                    </Text>
+                  )}
+                  {lead && <Text>{truncateText(lead, 150)}</Text>}
+                  <span className={styles.lesMer} aria-hidden="true">
+                    Les mer
+                  </span>
+                </Link>
+              </li>
+            ),
+          )}
+        </ul>
+        {contactSection && <Contact contact={contactSection} />}
       </div>
-      {contactSection && <Contact contact={contactSection} />}
     </>
   );
 }

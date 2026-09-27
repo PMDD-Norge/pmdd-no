@@ -18,7 +18,7 @@
   ); /* Single column by default */
 
   @media (min-width: 640px) {
-    gap: 1.5rem;
+    gap: 2rem;
     grid-template-columns: repeat(auto-fill, 1fr); /* Up to two columns */
   }
 

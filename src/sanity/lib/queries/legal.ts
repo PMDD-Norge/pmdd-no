@@ -7,6 +7,7 @@ export const LEGAL_DOCUMENT_BY_SLUG_QUERY = `
 *[_type == "legalDocument" && slug.current == $slug][0] {
   _id,
   _type,
+  _updatedAt,
   title,
   slug,
   richText,

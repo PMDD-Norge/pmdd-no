@@ -4,8 +4,8 @@ import React from "react";
 import textStyles from "../text/text.module.css";
 import styles from "./richtext.module.css";
 import SanityImage from "../image/sanityImage";
-import Text from "../text/Text";
-import { isExternalLink, shouldOpenInNewTab } from "@/utils/linkUtils";
+import Text, { TextType } from "../text/Text";
+import { isExternalLink } from "@/utils/linkUtils";
 import { generateHashFromHeading } from "@/utils/textUtils";
 
 const extractTextFromBlock = (value: PortableTextBlock): string => {
@@ -33,12 +33,20 @@ const isImageBlock = (
   );
 };
 
-const richTextComponents: Partial<PortableTextReactComponents> = {
+const buildRichTextComponents = (
+  paragraphType: TextType,
+  smallerHeadings: boolean
+): Partial<PortableTextReactComponents> => ({
   block: {
     h2: ({ children, value }) => {
       const id = generateHashFromHeading(extractTextFromBlock(value));
       return (
-        <Text type="h2" id={id} className={styles.heading}>
+        <Text
+          type={smallerHeadings ? "h3" : "h2"}
+          as="h2"
+          id={id}
+          className={styles.heading}
+        >
           {children}
         </Text>
       );
@@ -46,13 +54,18 @@ const richTextComponents: Partial<PortableTextReactComponents> = {
     h3: ({ children, value }) => {
       const id = generateHashFromHeading(extractTextFromBlock(value));
       return (
-        <Text type="h3" id={id} className={styles.subheading}>
+        <Text
+          type={smallerHeadings ? "h4" : "h3"}
+          as="h3"
+          id={id}
+          className={styles.subheading}
+        >
           {children}
         </Text>
       );
     },
     normal: ({ children }) => (
-      <Text type="body" className={styles.paragraph}>
+      <Text type={paragraphType} className={styles.paragraph}>
         {children}
       </Text>
     ),
@@ -78,7 +91,7 @@ const richTextComponents: Partial<PortableTextReactComponents> = {
     link: ({ value, children }) => {
       const { href, blank } = value;
       const isExternal = isExternalLink(href);
-      const openInNewTab = shouldOpenInNewTab(href, blank);
+      const openInNewTab = blank === true;
 
       return (
         <a
@@ -95,7 +108,7 @@ const richTextComponents: Partial<PortableTextReactComponents> = {
     em: ({ children }) => <em>{children}</em>,
     code: ({ children }) => <code>{children}</code>,
   },
-};
+});
 
 interface Subsection {
   header: PortableTextBlock;
@@ -111,10 +124,31 @@ interface Section {
 interface RichTextProps {
   value: PortableTextBlock[] | null | undefined;
   className?: string;
+  paragraphType?: TextType;
+  smallerHeadings?: boolean;
+  flat?: boolean;
 }
 
-export const RichText = ({ value }: RichTextProps) => {
+export const RichText = ({
+  value,
+  paragraphType = "body",
+  smallerHeadings = false,
+  flat = false,
+}: RichTextProps) => {
   if (!value || !Array.isArray(value)) return null;
+
+  const richTextComponents = buildRichTextComponents(
+    paragraphType,
+    smallerHeadings
+  );
+
+  if (flat) {
+    return (
+      <div className={styles.section}>
+        <PortableText value={value} components={richTextComponents} />
+      </div>
+    );
+  }
 
   // Group blocks into sections and subsections
   const sections: Section[] = [];
@@ -184,28 +218,25 @@ export const RichText = ({ value }: RichTextProps) => {
         }
       }
     } else {
-      // Handle non-block content (images, etc.) by creating new section for images
-      if (block._type === "image") {
-        const imageSection = {
+      // Non-block content (images, etc.) is treated like any other content block
+      // so it stays in the correct position relative to surrounding text.
+      if (currentSubsection) {
+        currentSubsection.content.push(block);
+      } else if (currentSection) {
+        currentSection.content.push(block);
+      } else {
+        currentSection = {
           header: {
             _type: "block",
             style: "normal",
             children: [{ _type: "span", text: "" }],
-            _key: `image-section-${
-              block._key || Math.random().toString(36).substr(2, 9)
-            }`, // Generate unique key
+            _key: `initial-${block._key || Math.random().toString(36).slice(2, 11)}`,
             markDefs: [],
           },
           content: [block],
           subsections: [],
         };
-        sections.push(imageSection);
-        // Reset current section and subsection to continue with the previous context
-        currentSection = sections[sections.length - 2] || null;
-      } else if (currentSubsection) {
-        currentSubsection.content.push(block);
-      } else if (currentSection) {
-        currentSection.content.push(block);
+        sections.push(currentSection);
       }
     }
   });

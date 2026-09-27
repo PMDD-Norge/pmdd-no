@@ -1,38 +1,24 @@
 import { LegalDocument } from "@/sanity/lib/interfaces/admin";
 import styles from "./legal.module.css";
 import Text from "@/components/text/Text";
-import QuickNavigation from "@/components/navigation/quickNavigation/QuickNavigation";
 import { RichText } from "@/components/richText/RichText";
-import { extractH2TextsFromPortableText } from "@/utils/textUtils";
 
-const Legal = ({
-  document,
-  slug,
-}: {
-  document: LegalDocument;
-  slug: string;
-}) => {
-  const hasQuickNav =
-    extractH2TextsFromPortableText(document.richText).length > 0;
-
+const Legal = ({ document }: { document: LegalDocument; slug: string }) => {
+  const formattedDate = document._updatedAt
+    ? new Date(document._updatedAt).toLocaleDateString("nb-NO", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    : null;
   return (
-    <div
-      className={`${styles.wrapper} ${!hasQuickNav ? styles.noQuickNav : ""}`}
-    >
-      <div className={styles.hero}>
-        <Text type="h1">{document.title}</Text>
-      </div>
-      <div className={styles.body}>
-        {hasQuickNav && (
-          <QuickNavigation
-            richText={document.richText}
-            isMainLayout={false}
-            currentSlug={slug}
-          />
-        )}
-        <div className={styles.document}>
-          <RichText value={document.richText} />
+    <div className={styles.background} data-theme="article">
+      <div className={`sectionWrapperColumn ${styles.legal}`}>
+        <div>
+          <Text type="h1">{document.title}</Text>
+          <Text type="label">Oppdatert: {formattedDate}</Text>
         </div>
+        <RichText value={document.richText} smallerHeadings />
       </div>
     </div>
   );

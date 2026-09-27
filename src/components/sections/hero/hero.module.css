@@ -69,7 +69,7 @@
   align-items: flex-start;
   padding: var(--Spacing-M, 1rem) var(--Spacing-L, 1.5rem);
   gap: var(--Spacing-S, 0.75rem);
-  background-color: var(--Background-offshade, #daf2e8);
+  background-color: var(--LightBlue, #daf2e8);
   border-radius: 6px;
   align-self: stretch;
 

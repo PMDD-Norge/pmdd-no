@@ -64,3 +64,6 @@ export {
 
 // Blomst queries
 export { GODKJENTE_BLOMSTER_QUERY } from './blomst';
+
+// GuriAppen queries
+export { GURI_APPEN_QUERY } from './guriAppen';

@@ -11,7 +11,7 @@
   right: 0;
   height: 100dvh;
   width: min(28rem, 100vw);
-  background: var(--Background-main);
+  background: var(--LightBlue);
   z-index: 101;
   display: flex;
   flex-direction: column;
@@ -22,12 +22,18 @@
 }
 
 @keyframes slideIn {
-  from { transform: translateX(100%); }
-  to   { transform: translateX(0); }
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .drawer { animation: none; }
+  .drawer {
+    animation: none;
+  }
 }
 
 /* ── Topplinje ── */
@@ -50,7 +56,9 @@
   align-items: center;
   border-radius: 4px;
 
-  &:hover { color: var(--ButtonHover); }
+  &:hover {
+    color: var(--ButtonHover);
+  }
 
   &:focus-visible {
     outline: 2px solid var(--focus-color);
@@ -75,9 +83,11 @@
   gap: var(--Spacing-M);
   align-items: center;
   padding: var(--Spacing-M) 0;
-  border-bottom: 1px solid var(--Background-offshade);
+  border-bottom: 1px solid var(--LightBlue);
 
-  &:first-child { border-top: 1px solid var(--Background-offshade); }
+  &:first-child {
+    border-top: 1px solid var(--LightBlue);
+  }
 }
 
 .itemImage {
@@ -87,7 +97,7 @@
   flex-shrink: 0;
   border-radius: 0.5rem;
   overflow: hidden;
-  background: var(--Background-offshade);
+  background: var(--LightBlue);
 }
 
 .itemDetails {
@@ -108,9 +118,14 @@
   padding: 0.25rem;
   flex-shrink: 0;
 
-  &:hover { color: var(--ButtonHover); }
+  &:hover {
+    color: var(--ButtonHover);
+  }
 
-  &:disabled { opacity: 0.5; cursor: not-allowed; }
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 
   &:focus-visible {
     outline: 2px solid var(--focus-color);
@@ -141,9 +156,14 @@
   flex-shrink: 0;
   padding: 0;
 
-  &:hover { border-color: var(--Teal); }
+  &:hover {
+    border-color: var(--Teal);
+  }
 
-  &:disabled { opacity: 0.4; cursor: not-allowed; }
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
 
   &:focus-visible {
     outline: 2px solid var(--focus-color);
@@ -166,7 +186,7 @@
   flex-direction: column;
   gap: var(--Spacing-M);
   padding: var(--Spacing-L);
-  border-top: 2px solid var(--Background-offshade);
+  border-top: 2px solid var(--LightBlue);
   flex-shrink: 0;
 }
 

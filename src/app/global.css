@@ -1,6 +1,6 @@
 html {
   scroll-behavior: smooth;
-  background-color: var(--Background-main);
+  background-color: var(--LightBlue);
   font-display: swap; /* Ensures text appears immediately */
 }
 
@@ -11,19 +11,22 @@ html {
 }
 
 :root {
-  /* new colors */
-  --Background-main: #eff8f6;
-  --Background-offshade: #e3f6f0;
-
   --Teal: #1c6580;
-  --CottonBall: #CBECFC;
-  --IndianSaffron: #fcc743;
+  --Dark-blue: #007ba5;
+  --Clear-Blue: #99d3f6;
+  --Light-clear-blue: #ccecfc;
+  --LightBlue: #e6f3fb;
+  --Dark-Navy: #001821;
+  --Very-dark-grey: #5f5e5e;
+  --Dark: grey: #d9d9d9;
+  --Grey: #f9f8f5;
+  --Light-grey: #f9f8f5;
+  --White: #ffffff;
+  --White_faded90: rgba(255, 255, 255, 0.9);
+
+  --CottonBall: #cbecfc;
   --ButtonHover: #0a79a1;
   --ButtonPressed: #5298d0;
-
-  --Body-text: #021922;
-  --white: #ffffff;
-
   --focus-color: #8c3d9f;
 
   /* breakpoints */
@@ -64,7 +67,7 @@ body {
   margin: 0;
   padding: 0;
   width: 100vw;
-  background-color: var(--Background-main);
+  background-color: var(--LightBlue);
 }
 
 main {
@@ -115,17 +118,15 @@ section[data-section-type="sectionGroup"] .sectionWrapperRow {
   padding: 0;
 }
 
-
 /*  APPARANCE  */
 
 .lightBackground {
-  background: var(--Background-main, #eff8f6);
+  background: var(--LightBlue, #eff8f6);
 }
 
 .darkBackground {
-  background: var(--Background-offshade, #daf2e8);
+  background: var(--LightBlue, #daf2e8);
 }
-
 
 .sectionWrapperColumn {
   max-width: 1000px;
@@ -134,7 +135,7 @@ section[data-section-type="sectionGroup"] .sectionWrapperRow {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--Spacing-M);
+  gap: var(--Spacing-L);
 
   @media (min-width: 1024px) {
     padding: 7.5rem 12rem;
@@ -142,7 +143,7 @@ section[data-section-type="sectionGroup"] .sectionWrapperRow {
   }
   @media (min-width: 640px) {
     padding: 6rem;
-    gap: var(--Spacing-L);
+    gap: var(--Spacing-XL);
   }
 }
 
@@ -227,7 +228,7 @@ section[data-section-type="sectionGroup"] .sectionWrapperRow {
   align-items: center;
   gap: 0.5rem;
   align-self: stretch;
-  background: var(--Background-offshade, #daf2e8);
+  background: var(--LightBlue, #daf2e8);
 
   text-decoration: none;
   font-family: var(--font-nunito);

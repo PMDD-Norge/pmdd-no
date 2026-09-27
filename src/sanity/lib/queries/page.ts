@@ -200,10 +200,14 @@ const SECTION_TYPE_PROJECTIONS = `
       },
 
       // Auto-populated walking tours
-      // Combined activities: events + walking tours, sorted by date
+      // Combined activities: events + walking tours, sorted by date (upcoming only)
       contentType == "activities" => {
         "items": (
-          *[_type == "event" && !(_id in path("drafts.**"))] {
+          *[
+            _type == "event" &&
+            !(_id in path("drafts.**")) &&
+            coalesce(endDate, startDate) >= now()
+          ] {
             _id, _type, title,
             "date": coalesce(startDate, _createdAt),
             startDate, endDate, location,
@@ -211,7 +215,11 @@ const SECTION_TYPE_PROJECTIONS = `
             image${IMAGE_SIMPLE_FRAGMENT},
             slug, link${LINK_FRAGMENT}
           } +
-          *[_type == "walkingTour" && !(_id in path("drafts.**"))] {
+          *[
+            _type == "walkingTour" &&
+            !(_id in path("drafts.**")) &&
+            dateTime >= now()
+          ] {
             _id, _type, title,
             "date": dateTime,
             dateTime, location, description,
@@ -222,7 +230,11 @@ const SECTION_TYPE_PROJECTIONS = `
       },
 
       contentType == "walking-tour" => {
-        "items": *[_type == "walkingTour" && !(_id in path("drafts.**"))] | order(dateTime asc) {
+        "items": *[
+          _type == "walkingTour" &&
+          !(_id in path("drafts.**")) &&
+          dateTime >= now()
+        ] | order(dateTime asc) {
           _id,
           _type,
           title,

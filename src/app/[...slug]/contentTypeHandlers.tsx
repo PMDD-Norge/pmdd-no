@@ -30,6 +30,7 @@ import { Information } from "@/components/pages/information/Information";
 import { Highlights } from "@/components/pages/highlights/Highlights";
 import EventPage from "@/components/pages/event/EventPage";
 import ArticlePage from "@/components/pages/article/ArticlePage";
+import Legal from "@/components/pages/legal/Legal";
 import AvailablePositionPage from "@/components/pages/availablePosition/AvailablePositionPage";
 import ProductPage from "@/components/pages/merch/ProductPage";
 import { getProductByHandle, getMerchProducts } from "@/utils/shopify";
@@ -47,7 +48,10 @@ export interface SearchParams {
 /**
  * Helper: Calculate pagination offsets
  */
-function getPaginationOffsets(page: number, postsPerPage: number = PAGINATION.POSTS_PER_PAGE) {
+function getPaginationOffsets(
+  page: number,
+  postsPerPage: number = PAGINATION.POSTS_PER_PAGE,
+) {
   const start = (page - 1) * postsPerPage;
   const end = start + postsPerPage;
   return { start, end };
@@ -59,7 +63,7 @@ function getPaginationOffsets(page: number, postsPerPage: number = PAGINATION.PO
 async function fetchArticlesWithCategories(
   articleType: string,
   page: number,
-  category?: string
+  category?: string,
 ) {
   const { start, end } = getPaginationOffsets(page);
 
@@ -120,12 +124,12 @@ export async function handlePageType(
   slug: string[],
   language: string,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _searchParams?: SearchParams
+  _searchParams?: SearchParams,
 ): Promise<ReactElement> {
   const result = await getDocumentWithLandingCheck(
     QueryType.Page,
     slug,
-    language
+    language,
   );
   const document = result.data;
   const landingPageId = result.landingPageId;
@@ -154,12 +158,12 @@ export async function handleArticleType(
   slug: string[],
   language: string,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _searchParams?: SearchParams
+  _searchParams?: SearchParams,
 ): Promise<ReactElement> {
   const { data: article } = await getDocumentBySlug(
     QueryType.Article,
     slug,
-    language
+    language,
   );
 
   if (!article) {
@@ -173,7 +177,9 @@ export async function handleArticleType(
     case "blog-post":
     case "news":
     default:
-      return <ArticlePage article={article} currentSlug={slug[slug.length - 1]} />;
+      return (
+        <ArticlePage article={article} currentSlug={slug[slug.length - 1]} />
+      );
   }
 }
 
@@ -184,12 +190,12 @@ export async function handleArticleType(
 export async function handleCollectionHubType(
   slug: string[],
   language: string,
-  searchParams: SearchParams
+  searchParams: SearchParams,
 ): Promise<ReactElement> {
   const result = await getDocumentWithLandingCheck(
     QueryType.CollectionHub,
     slug,
-    language
+    language,
   );
   const hub = result.data;
 
@@ -201,8 +207,10 @@ export async function handleCollectionHubType(
   if (hub.contentTypes && hub.contentTypes.length > 0) {
     // New dynamic structure
     const HubHeader = (await import("@/components/hub/HubHeader")).default;
-    const ContentSection = (await import("@/components/hub/ContentSection")).default;
-    const Contact = (await import("@/components/sections/contact/Contact")).default;
+    const ContentSection = (await import("@/components/hub/ContentSection"))
+      .default;
+    const Contact = (await import("@/components/sections/contact/Contact"))
+      .default;
 
     return (
       <>
@@ -212,46 +220,53 @@ export async function handleCollectionHubType(
           image={hub.image}
         />
 
-        {hub.contentTypes.map((section: {
-          _key: string;
-          sectionTitle?: string;
-          description?: string;
-          items?: Array<EventDocument | AvailablePositionDocument | GridItem>;
-          type: string;
-          showFilters?: boolean;
-          categories?: Category[];
-          layout?: string;
-          maxItems?: number;
-        }) => {
-          // Limit items based on maxItems field
-          const limitedItems = section.maxItems
-            ? (section.items || []).slice(0, section.maxItems)
-            : (section.items || []);
+        {hub.contentTypes.map(
+          (section: {
+            _key: string;
+            sectionTitle?: string;
+            description?: string;
+            items?: Array<EventDocument | AvailablePositionDocument | GridItem>;
+            type: string;
+            showFilters?: boolean;
+            categories?: Category[];
+            layout?: string;
+            maxItems?: number;
+          }) => {
+            // Limit items based on maxItems field
+            const limitedItems = section.maxItems
+              ? (section.items || []).slice(0, section.maxItems)
+              : section.items || [];
 
-          return (
-            <ContentSection
-              key={section._key}
-              title={section.sectionTitle}
-              description={section.description}
-              items={limitedItems}
-              type={section.type}
-              showFilters={section.showFilters}
-              categories={section.categories}
-              layout={section.layout}
-              slug={slug[slug.length - 1]}
-            />
-          );
-        })}
-
-        {hub.contactSection && (
-          <Contact contact={hub.contactSection} />
+            return (
+              <ContentSection
+                key={section._key}
+                title={section.sectionTitle}
+                description={section.description}
+                items={limitedItems}
+                type={section.type}
+                showFilters={section.showFilters}
+                categories={section.categories}
+                layout={section.layout}
+                slug={slug[slug.length - 1]}
+                selectedCategorySlug={searchParams?.category}
+              />
+            );
+          },
         )}
+
+        {hub.contactSection && <Contact contact={hub.contactSection} />}
       </>
     );
   }
 
   // Legacy handling for old hub types without contentTypes
-  const hubType = hub.type || (hub._type === "information" ? "blog" : hub._type === "highlights" ? "highlights" : "blog");
+  const hubType =
+    hub.type ||
+    (hub._type === "information"
+      ? "blog"
+      : hub._type === "highlights"
+        ? "highlights"
+        : "blog");
 
   switch (hubType) {
     case "blog":
@@ -264,17 +279,14 @@ export async function handleCollectionHubType(
         await fetchArticlesWithCategories(articleType, page, category);
 
       const selectedCategoryName = category
-        ? categories?.find(
-            (cat: Category & { slug: { current: string } }) =>
-              cat.slug.current === category
-          )?.name
+        ? categories?.find((cat: Category) => cat._id === category)?.name
         : undefined;
 
       return (
         <Information
           information={hub}
           categories={categories || []}
-          initialPosts={articles || []}
+          posts={articles || []}
           slug={slug[slug.length - 1]}
           postCount={postCount || 0}
           currentPage={page}
@@ -296,7 +308,8 @@ export async function handleCollectionHubType(
     }
 
     case "nettbutikk": {
-      const MerchPage = (await import("@/components/pages/merch/MerchPage")).default;
+      const MerchPage = (await import("@/components/pages/merch/MerchPage"))
+        .default;
       const products = await getMerchProducts();
 
       return (
@@ -310,7 +323,9 @@ export async function handleCollectionHubType(
     }
 
     case "minnehagen": {
-      const MinnehagenPage = (await import("@/components/pages/minnehagen/MinnehagenPage")).default;
+      const MinnehagenPage = (
+        await import("@/components/pages/minnehagen/MinnehagenPage")
+      ).default;
       return <MinnehagenPage document={hub} />;
     }
 
@@ -327,12 +342,12 @@ export async function handleEventType(
   slug: string[],
   language: string,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _searchParams?: SearchParams
+  _searchParams?: SearchParams,
 ): Promise<ReactElement> {
   const { data: event } = await getDocumentBySlug(
     QueryType.Event,
     slug,
-    language
+    language,
   );
 
   if (!event) {
@@ -349,12 +364,12 @@ export async function handleAvailablePositionType(
   slug: string[],
   language: string,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _searchParams?: SearchParams
+  _searchParams?: SearchParams,
 ): Promise<ReactElement> {
   const { data: position } = await getDocumentBySlug(
     QueryType.AvailablePosition,
     slug,
-    language
+    language,
   );
 
   if (!position) {
@@ -371,25 +386,19 @@ export async function handleLegalDocumentType(
   slug: string[],
   language: string,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _searchParams?: SearchParams
+  _searchParams?: SearchParams,
 ): Promise<ReactElement> {
   const { data: legalDoc } = await getDocumentBySlug(
     QueryType.LegalDocument,
     slug,
-    language
+    language,
   );
 
   if (!legalDoc) {
     return <PMDDErrorMessage />;
   }
 
-  return (
-    <ArticlePage
-      article={legalDoc}
-      currentSlug={slug[slug.length - 1]}
-      showQuickNavigation={false}
-    />
-  );
+  return <Legal document={legalDoc} slug={slug[slug.length - 1]} />;
 }
 
 /**
@@ -401,7 +410,7 @@ export async function handleMerchType(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _language: string,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _searchParams?: SearchParams
+  _searchParams?: SearchParams,
 ): Promise<ReactElement> {
   const handle = slug[slug.length - 1];
   const product = await getProductByHandle(handle);

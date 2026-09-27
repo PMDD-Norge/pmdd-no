@@ -1,5 +1,5 @@
 .seksjon {
-  background: var(--Background-offshade);
+  background: var(--LightBlue);
   width: 100%;
   padding: var(--Spacing-XXL) 0;
 }
@@ -48,7 +48,6 @@
   text-align: center;
   padding: var(--Spacing-XS) var(--Spacing-XXS);
 }
-
 
 .beskrivelse {
   max-width: var(--max-content-width-small);

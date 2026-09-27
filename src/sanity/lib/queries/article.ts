@@ -7,6 +7,7 @@
 const ARTICLE_FIELDS = `
   _id,
   _type,
+  _createdAt,
   type,
   title,
   slug,
@@ -30,7 +31,7 @@ const ARTICLE_FIELDS = `
     _id,
     name,
     slug,
-    role,
+    "role": occupation,
     image
   }
 `;
@@ -84,13 +85,13 @@ export const FEATURED_ARTICLES_QUERY = `
 }
 `;
 
-// Get paginated articles with optional category filter
+// Get paginated articles with optional category filter (by category _id)
 export const PAGINATED_ARTICLES_QUERY = `
 *[
   _type == "article" &&
   type == $type &&
   !(_id in path("drafts.**")) &&
-  (!defined($category) || $category in categories[]->slug.current)
+  (!defined($category) || $category in categories[]._ref)
 ] | order(publishedAt desc) [$start...$end] {
   ${ARTICLE_FIELDS}
 }
@@ -102,7 +103,7 @@ count(*[
   _type == "article" &&
   type == $type &&
   !(_id in path("drafts.**")) &&
-  (!defined($category) || $category in categories[]->slug.current)
+  (!defined($category) || $category in categories[]._ref)
 ])
 `;
 

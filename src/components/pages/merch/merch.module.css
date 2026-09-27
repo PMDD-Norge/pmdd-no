@@ -38,7 +38,7 @@
   align-items: flex-end;
   gap: var(--Spacing-XXS);
   border-radius: 1.25rem;
-  background: var(--Background-main, #eff8f6);
+  background: var(--LightBlue, #eff8f6);
   overflow: hidden;
   height: 100%;
 }

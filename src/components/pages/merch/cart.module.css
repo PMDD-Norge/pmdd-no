@@ -37,10 +37,10 @@
   gap: var(--Spacing-M);
   align-items: center;
   padding: var(--Spacing-L) 0;
-  border-bottom: 1px solid var(--Background-offshade);
+  border-bottom: 1px solid var(--LightBlue);
 
   &:first-child {
-    border-top: 1px solid var(--Background-offshade);
+    border-top: 1px solid var(--LightBlue);
   }
 }
 
@@ -51,7 +51,7 @@
   flex-shrink: 0;
   border-radius: 0.5rem;
   overflow: hidden;
-  background: var(--Background-offshade);
+  background: var(--LightBlue);
 }
 
 .itemDetails {
@@ -111,9 +111,14 @@
   flex-shrink: 0;
   padding: 0;
 
-  &:hover { border-color: var(--Teal); }
+  &:hover {
+    border-color: var(--Teal);
+  }
 
-  &:disabled { opacity: 0.4; cursor: not-allowed; }
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
 
   &:focus-visible {
     outline: 2px solid var(--focus-color);
