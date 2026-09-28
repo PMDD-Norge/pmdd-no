@@ -12,341 +12,96 @@
  * ---------------------------------------------------------------------------------
  */
 
+export declare const internalGroqTypeReferenceTo: unique symbol
+
 // Source: schema.json
-export type GridList = {
-  _type: 'gridList'
+export type SanityImageAssetReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+}
+
+export type SeoImage = {
+  asset?: SanityImageAssetReference
+  media?: unknown // Unable to locate the referenced type "media" in schema
+  hotspot?: SanityImageHotspot
+  crop?: SanityImageCrop
+  _type: 'image'
+}
+
+export type Layout = {
+  imagePosition?: 'left' | 'right'
+}
+
+export type PageReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'page'
+}
+
+export type CollectionHubReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'collectionHub'
+}
+
+export type LegalDocumentReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'legalDocument'
+}
+
+export type ArticleReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'article'
+}
+
+export type InformasjonsartikkelReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'informasjonsartikkel'
+}
+
+export type InformasjonsdokumentReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'informasjonsdokument'
+}
+
+export type EventReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'event'
+}
+
+export type ResourceReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'resource'
+}
+
+export type GridItemLink = {
   title?: string
-  contentType?: 'manual' | 'writer' | 'event' | 'job-position' | 'blog-post' | 'news'
-  items?: Array<{
-    title?: string
-    richText?: Array<
-      | {
-          children?: Array<{
-            marks?: Array<string>
-            text?: string
-            _type: 'span'
-            _key: string
-          }>
-          style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
-          listItem?: 'bullet' | 'number'
-          markDefs?: Array<{
-            href?: string
-            _type: 'link'
-            _key: string
-          }>
-          level?: number
-          _type: 'block'
-          _key: string
-        }
-      | {
-          asset?: {
-            _ref: string
-            _type: 'reference'
-            _weak?: boolean
-            [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-          }
-          media?: unknown
-          hotspot?: SanityImageHotspot
-          crop?: SanityImageCrop
-          _type: 'image'
-          _key: string
-        }
-    >
-    link?: {
-      title?: string
-      type?: string
-      internalLink?:
-        | {
-            _ref: string
-            _type: 'reference'
-            _weak?: boolean
-            [internalGroqTypeReferenceTo]?: 'page'
-          }
-        | {
-            _ref: string
-            _type: 'reference'
-            _weak?: boolean
-            [internalGroqTypeReferenceTo]?: 'collectionHub'
-          }
-        | {
-            _ref: string
-            _type: 'reference'
-            _weak?: boolean
-            [internalGroqTypeReferenceTo]?: 'legalDocument'
-          }
-        | {
-            _ref: string
-            _type: 'reference'
-            _weak?: boolean
-            [internalGroqTypeReferenceTo]?: 'article'
-          }
-        | {
-            _ref: string
-            _type: 'reference'
-            _weak?: boolean
-            [internalGroqTypeReferenceTo]?: 'event'
-          }
-        | {
-            _ref: string
-            _type: 'reference'
-            _weak?: boolean
-            [internalGroqTypeReferenceTo]?: 'resource'
-          }
-      url?: string
-      email?: string
-      phone?: string
-      anchor?: string
-      newTab?: boolean
-    }
-    image?: {
-      asset?: {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-      }
-      media?: unknown
-      hotspot?: SanityImageHotspot
-      crop?: SanityImageCrop
-      title?: string
-      description?: string
-      altText?: string
-      credits?: string
-      _type: 'image'
-    }
-    _type: 'gridItem'
-    _key: string
-  }>
-  maxItems?: number
-  ctaLink?: {
-    title?: string
-    type?: string
-    internalLink?:
-      | {
-          _ref: string
-          _type: 'reference'
-          _weak?: boolean
-          [internalGroqTypeReferenceTo]?: 'page'
-        }
-      | {
-          _ref: string
-          _type: 'reference'
-          _weak?: boolean
-          [internalGroqTypeReferenceTo]?: 'collectionHub'
-        }
-      | {
-          _ref: string
-          _type: 'reference'
-          _weak?: boolean
-          [internalGroqTypeReferenceTo]?: 'legalDocument'
-        }
-      | {
-          _ref: string
-          _type: 'reference'
-          _weak?: boolean
-          [internalGroqTypeReferenceTo]?: 'article'
-        }
-      | {
-          _ref: string
-          _type: 'reference'
-          _weak?: boolean
-          [internalGroqTypeReferenceTo]?: 'event'
-        }
-      | {
-          _ref: string
-          _type: 'reference'
-          _weak?: boolean
-          [internalGroqTypeReferenceTo]?: 'resource'
-        }
-    url?: string
-    email?: string
-    phone?: string
-    anchor?: string
-    newTab?: boolean
-  }
-}
-
-export type SanityImageCrop = {
-  _type: 'sanity.imageCrop'
-  top?: number
-  bottom?: number
-  left?: number
-  right?: number
-}
-
-export type SanityImageHotspot = {
-  _type: 'sanity.imageHotspot'
-  x?: number
-  y?: number
-  height?: number
-  width?: number
-}
-
-export type GridItem = {
-  _type: 'gridItem'
-  title?: string
-  richText?: Array<
-    | {
-        children?: Array<{
-          marks?: Array<string>
-          text?: string
-          _type: 'span'
-          _key: string
-        }>
-        style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
-        listItem?: 'bullet' | 'number'
-        markDefs?: Array<{
-          href?: string
-          _type: 'link'
-          _key: string
-        }>
-        level?: number
-        _type: 'block'
-        _key: string
-      }
-    | {
-        asset?: {
-          _ref: string
-          _type: 'reference'
-          _weak?: boolean
-          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-        }
-        media?: unknown
-        hotspot?: SanityImageHotspot
-        crop?: SanityImageCrop
-        _type: 'image'
-        _key: string
-      }
-  >
-  link?: {
-    title?: string
-    type?: string
-    internalLink?:
-      | {
-          _ref: string
-          _type: 'reference'
-          _weak?: boolean
-          [internalGroqTypeReferenceTo]?: 'page'
-        }
-      | {
-          _ref: string
-          _type: 'reference'
-          _weak?: boolean
-          [internalGroqTypeReferenceTo]?: 'collectionHub'
-        }
-      | {
-          _ref: string
-          _type: 'reference'
-          _weak?: boolean
-          [internalGroqTypeReferenceTo]?: 'legalDocument'
-        }
-      | {
-          _ref: string
-          _type: 'reference'
-          _weak?: boolean
-          [internalGroqTypeReferenceTo]?: 'article'
-        }
-      | {
-          _ref: string
-          _type: 'reference'
-          _weak?: boolean
-          [internalGroqTypeReferenceTo]?: 'event'
-        }
-      | {
-          _ref: string
-          _type: 'reference'
-          _weak?: boolean
-          [internalGroqTypeReferenceTo]?: 'resource'
-        }
-    url?: string
-    email?: string
-    phone?: string
-    anchor?: string
-    newTab?: boolean
-  }
-  image?: {
-    asset?: {
-      _ref: string
-      _type: 'reference'
-      _weak?: boolean
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-    }
-    media?: unknown
-    hotspot?: SanityImageHotspot
-    crop?: SanityImageCrop
-    title?: string
-    description?: string
-    altText?: string
-    credits?: string
-    _type: 'image'
-  }
-}
-
-export type Redirect = {
-  _id: string
-  _type: 'redirect'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  fromPath?: string
-  toPath?: string
-  redirectType?: '301' | '302'
-  isActive?: boolean
-  description?: string
-}
-
-export type GroupedResources = {
-  _type: 'groupedResources'
-  optionalTitle?: string
-  links?: Array<
-    {
-      _key: string
-    } & LinkWithDescription
-  >
-}
-
-export type LinkWithDescription = {
-  _type: 'linkWithDescription'
-  title?: string
-  description?: string
   type?: string
   internalLink?:
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'page'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'collectionHub'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'legalDocument'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'article'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'event'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'resource'
-      }
+    | PageReference
+    | CollectionHubReference
+    | LegalDocumentReference
+    | ArticleReference
+    | InformasjonsartikkelReference
+    | InformasjonsdokumentReference
+    | EventReference
+    | ResourceReference
   url?: string
   email?: string
   phone?: string
@@ -354,432 +109,207 @@ export type LinkWithDescription = {
   newTab?: boolean
 }
 
-export type Theme = 'light' | 'dark'
+export type CtaLink = {
+  title?: string
+  type?: string
+  internalLink?:
+    | PageReference
+    | CollectionHubReference
+    | LegalDocumentReference
+    | ArticleReference
+    | InformasjonsartikkelReference
+    | InformasjonsdokumentReference
+    | EventReference
+    | ResourceReference
+  url?: string
+  email?: string
+  phone?: string
+  anchor?: string
+  newTab?: boolean
+}
 
-export type Appearance = {
-  _type: 'appearance'
+export type AppearanceImage = {
+  asset?: SanityImageAssetReference
+  media?: unknown // Unable to locate the referenced type "media1" in schema
+  hotspot?: SanityImageHotspot
+  crop?: SanityImageCrop
+  title?: string
+  description?: string
+  altText?: string
+  credits?: string
+  _type: 'image'
+}
+
+export type ContactSectionAppearance = {
   theme?: 'light' | 'dark'
   linkType?: 'link' | 'linkButton'
-  image?: {
-    asset?: {
-      _ref: string
-      _type: 'reference'
-      _weak?: boolean
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-    }
-    media?: unknown
-    hotspot?: SanityImageHotspot
-    crop?: SanityImageCrop
-    title?: string
-    description?: string
-    altText?: string
-    credits?: string
-    _type: 'image'
-  }
-  layout?: {
-    imagePosition?: 'left' | 'right'
-  }
 }
 
-export type Category = {
-  _id: string
-  _type: 'category'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  name?: string
+export type Appearance1 = {
+  theme?: 'light' | 'dark'
 }
 
-export type Writer = {
-  _id: string
-  _type: 'writer'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  name?: string
-  occupation?: string
-  image?: {
-    asset?: {
-      _ref: string
-      _type: 'reference'
-      _weak?: boolean
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-    }
-    media?: unknown
-    hotspot?: SanityImageHotspot
-    crop?: SanityImageCrop
-    title?: string
-    description?: string
-    altText?: string
-    credits?: string
-    _type: 'image'
-  }
-}
-
-export type RichText = Array<
-  | {
-      children?: Array<{
-        marks?: Array<string>
-        text?: string
-        _type: 'span'
-        _key: string
-      }>
-      style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
-      listItem?: 'bullet' | 'number'
-      markDefs?: Array<{
-        href?: string
-        _type: 'link'
-        _key: string
-      }>
-      level?: number
-      _type: 'block'
-      _key: string
-    }
-  | {
-      asset?: {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-      }
-      media?: unknown
-      hotspot?: SanityImageHotspot
-      crop?: SanityImageCrop
-      _type: 'image'
-      _key: string
-    }
->
-
-export type CompanyInfo = {
-  _id: string
-  _type: 'companyInfo'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  name?: string
-  organizationNumber?: string
-  phone?: string
-  email?: string
-  address?: {
-    street?: string
-    city?: string
-    postalCode?: string
-    country?: string
-  }
-}
-
-export type CallToActionField = {
-  _type: 'callToActionField'
-  title?: string
-  type?: string
-  internalLink?:
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'page'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'collectionHub'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'legalDocument'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'article'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'event'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'resource'
-      }
-  url?: string
-  email?: string
-  phone?: string
-  anchor?: string
-  newTab?: boolean
-}
-
-export type FooterSection = {
-  _type: 'footerSection'
-  sectionTitle?: string
-  sectionType?: 'content' | 'socialMedia'
-  linksAndContent?: Array<
-    | ({
-        _key: string
-      } & Link)
-    | {
-        richText?: Array<
-          | {
-              children?: Array<{
-                marks?: Array<string>
-                text?: string
-                _type: 'span'
-                _key: string
-              }>
-              style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
-              listItem?: 'bullet' | 'number'
-              markDefs?: Array<{
-                href?: string
-                _type: 'link'
-                _key: string
-              }>
-              level?: number
-              _type: 'block'
-              _key: string
-            }
-          | {
-              asset?: {
-                _ref: string
-                _type: 'reference'
-                _weak?: boolean
-                [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-              }
-              media?: unknown
-              hotspot?: SanityImageHotspot
-              crop?: SanityImageCrop
-              _type: 'image'
-              _key: string
-            }
-        >
-        _type: 'richTextObject'
-        _key: string
-      }
-  >
-  socialMediaLinks?: {
-    _ref: string
-    _type: 'reference'
-    _weak?: boolean
-    [internalGroqTypeReferenceTo]?: 'soMeLinks'
-  }
-}
-
-export type SocialMediaLinkID = {
-  _type: 'socialMediaLinkID'
-  socialMediaUrl?: string
-  socialMediaPlatform?: string
-}
-
-export type Link = {
-  _type: 'link'
-  title?: string
-  type?: string
-  internalLink?:
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'page'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'collectionHub'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'legalDocument'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'article'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'event'
-      }
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'resource'
-      }
-  url?: string
-  email?: string
-  phone?: string
-  anchor?: string
-  newTab?: boolean
-}
-
-export type SoMeLinks = {
-  _id: string
-  _type: 'soMeLinks'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  soMeLinkArray?: Array<
-    {
-      _key: string
-    } & SocialMediaLinkID
-  >
-}
-
-export type SeoFallback = {
-  _id: string
-  _type: 'seoFallback'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
+export type HeroImage = {
+  asset?: SanityImageAssetReference
+  media?: unknown // Unable to locate the referenced type "hero.image.media" in schema
+  hotspot?: SanityImageHotspot
+  crop?: SanityImageCrop
   title?: string
   description?: string
-  keywords?: string
-  image?: {
-    asset?: {
-      _ref: string
-      _type: 'reference'
-      _weak?: boolean
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-    }
-    media?: unknown
-    hotspot?: SanityImageHotspot
-    crop?: SanityImageCrop
-    _type: 'image'
-  }
+  altText?: string
+  credits?: string
+  _type: 'image'
 }
 
-export type NavigationManager = {
-  _id: string
-  _type: 'navigationManager'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  landingPage?: {
-    _ref: string
-    _type: 'reference'
-    _weak?: boolean
-    [internalGroqTypeReferenceTo]?: 'page'
-  }
-  mainMenu?: Array<
-    | ({
-        _key: string
-      } & Link)
-    | ({
-        _key: string
-      } & CallToActionField)
-  >
-  sidebarMenu?: Array<
-    | ({
-        _key: string
-      } & Link)
-    | ({
-        _key: string
-      } & CallToActionField)
-  >
-  footerSections?: Array<
-    {
+export type InfoMessage = {
+  tittel?: string
+  tekst?: Array<{
+    children?: Array<{
+      marks?: Array<string>
+      text?: string
+      _type: 'span'
       _key: string
-    } & FooterSection
-  >
+    }>
+    style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
+    listItem?: 'bullet' | 'number'
+    markDefs?: Array<{
+      href?: string
+      _type: 'link'
+      _key: string
+    }>
+    level?: number
+    _type: 'block'
+    _key: string
+  }>
 }
 
-export type Page = {
-  _id: string
-  _type: 'page'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  pageName?: string
-  slug?: Slug
-  seo?: {
-    title?: string
-    description?: string
-    keywords?: string
-    image?: {
-      asset?: {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-      }
-      media?: unknown
-      hotspot?: SanityImageHotspot
-      crop?: SanityImageCrop
-      _type: 'image'
-    }
-  }
+export type CtaSectionAppearance = {
+  theme?: 'light' | 'dark'
+  linkType?: 'link' | 'linkButton'
+  image?: AppearanceImage
+  layout?: Layout
+}
+
+export type ArticleSectionImage = {
+  asset?: SanityImageAssetReference
+  media?: unknown // Unable to locate the referenced type "articleSection.image.media" in schema
+  hotspot?: SanityImageHotspot
+  crop?: SanityImageCrop
+  title?: string
+  description?: string
+  altText?: string
+  credits?: string
+  _type: 'image'
+}
+
+export type ArticleSectionAppearance = {
+  theme?: 'light' | 'dark'
+  linkType?: 'link' | 'linkButton'
+  layout?: Layout
+}
+
+export type CalloutAppearance = {
+  theme?: 'light' | 'dark'
+}
+
+export type ImageSectionImage = {
+  asset?: SanityImageAssetReference
+  media?: unknown // Unable to locate the referenced type "imageSection.image.media" in schema
+  hotspot?: SanityImageHotspot
+  crop?: SanityImageCrop
+  title?: string
+  description?: string
+  altText?: string
+  credits?: string
+  _type: 'image'
+}
+
+export type GridAppearance = {
+  theme?: 'light' | 'dark'
+}
+
+export type FeaturesLink = {
+  title?: string
+  type?: string
+  internalLink?:
+    | PageReference
+    | CollectionHubReference
+    | LegalDocumentReference
+    | ArticleReference
+    | InformasjonsartikkelReference
+    | InformasjonsdokumentReference
+    | EventReference
+    | ResourceReference
+  url?: string
+  email?: string
+  phone?: string
+  anchor?: string
+  newTab?: boolean
+}
+
+export type FeaturesAppearance = {
+  theme?: 'light' | 'dark'
+  linkType?: 'link' | 'linkButton'
+  image?: AppearanceImage
+}
+
+export type ResourcesAppearance = {
+  theme?: 'light' | 'dark'
+}
+
+export type TestimonialsLink = {
+  title?: string
+  type?: string
+  internalLink?:
+    | PageReference
+    | CollectionHubReference
+    | LegalDocumentReference
+    | ArticleReference
+    | InformasjonsartikkelReference
+    | InformasjonsdokumentReference
+    | EventReference
+    | ResourceReference
+  url?: string
+  email?: string
+  phone?: string
+  anchor?: string
+  newTab?: boolean
+}
+
+export type TestimonyImage = {
+  asset?: SanityImageAssetReference
+  media?: unknown // Unable to locate the referenced type "testimony.image.media" in schema
+  hotspot?: SanityImageHotspot
+  crop?: SanityImageCrop
+  title?: string
+  description?: string
+  altText?: string
+  credits?: string
+  _type: 'image'
+}
+
+export type SectionGroup = {
+  _type: 'sectionGroup'
+  title?: string
+  appearance?: Appearance1
   sections?: Array<
     | {
         title?: string
         body?: string
-        image?: {
-          asset?: {
-            _ref: string
-            _type: 'reference'
-            _weak?: boolean
-            [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-          }
-          media?: unknown
-          hotspot?: SanityImageHotspot
-          crop?: SanityImageCrop
-          title?: string
-          description?: string
-          altText?: string
-          credits?: string
-          _type: 'image'
-        }
+        image?: HeroImage
+        infoMessage?: InfoMessage
         callToActions?: Array<{
           title?: string
           type?: string
           internalLink?:
-            | {
-                _ref: string
-                _type: 'reference'
-                _weak?: boolean
-                [internalGroqTypeReferenceTo]?: 'page'
-              }
-            | {
-                _ref: string
-                _type: 'reference'
-                _weak?: boolean
-                [internalGroqTypeReferenceTo]?: 'collectionHub'
-              }
-            | {
-                _ref: string
-                _type: 'reference'
-                _weak?: boolean
-                [internalGroqTypeReferenceTo]?: 'legalDocument'
-              }
-            | {
-                _ref: string
-                _type: 'reference'
-                _weak?: boolean
-                [internalGroqTypeReferenceTo]?: 'article'
-              }
-            | {
-                _ref: string
-                _type: 'reference'
-                _weak?: boolean
-                [internalGroqTypeReferenceTo]?: 'event'
-              }
-            | {
-                _ref: string
-                _type: 'reference'
-                _weak?: boolean
-                [internalGroqTypeReferenceTo]?: 'resource'
-              }
+            | PageReference
+            | CollectionHubReference
+            | LegalDocumentReference
+            | ArticleReference
+            | InformasjonsartikkelReference
+            | InformasjonsdokumentReference
+            | EventReference
+            | ResourceReference
           url?: string
           email?: string
           phone?: string
@@ -812,12 +342,7 @@ export type Page = {
               _key: string
             }
           | {
-              asset?: {
-                _ref: string
-                _type: 'reference'
-                _weak?: boolean
-                [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-              }
+              asset?: SanityImageAssetReference
               media?: unknown
               hotspot?: SanityImageHotspot
               crop?: SanityImageCrop
@@ -829,42 +354,14 @@ export type Page = {
           title?: string
           type?: string
           internalLink?:
-            | {
-                _ref: string
-                _type: 'reference'
-                _weak?: boolean
-                [internalGroqTypeReferenceTo]?: 'page'
-              }
-            | {
-                _ref: string
-                _type: 'reference'
-                _weak?: boolean
-                [internalGroqTypeReferenceTo]?: 'collectionHub'
-              }
-            | {
-                _ref: string
-                _type: 'reference'
-                _weak?: boolean
-                [internalGroqTypeReferenceTo]?: 'legalDocument'
-              }
-            | {
-                _ref: string
-                _type: 'reference'
-                _weak?: boolean
-                [internalGroqTypeReferenceTo]?: 'article'
-              }
-            | {
-                _ref: string
-                _type: 'reference'
-                _weak?: boolean
-                [internalGroqTypeReferenceTo]?: 'event'
-              }
-            | {
-                _ref: string
-                _type: 'reference'
-                _weak?: boolean
-                [internalGroqTypeReferenceTo]?: 'resource'
-              }
+            | PageReference
+            | CollectionHubReference
+            | LegalDocumentReference
+            | ArticleReference
+            | InformasjonsartikkelReference
+            | InformasjonsdokumentReference
+            | EventReference
+            | ResourceReference
           url?: string
           email?: string
           phone?: string
@@ -872,29 +369,7 @@ export type Page = {
           newTab?: boolean
           _key: string
         }>
-        appearance?: {
-          theme?: 'light' | 'dark'
-          linkType?: 'link' | 'linkButton'
-          image?: {
-            asset?: {
-              _ref: string
-              _type: 'reference'
-              _weak?: boolean
-              [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-            }
-            media?: unknown
-            hotspot?: SanityImageHotspot
-            crop?: SanityImageCrop
-            title?: string
-            description?: string
-            altText?: string
-            credits?: string
-            _type: 'image'
-          }
-          layout?: {
-            imagePosition?: 'left' | 'right'
-          }
-        }
+        appearance?: CtaSectionAppearance
         _type: 'ctaSection'
         _key: string
       }
@@ -920,12 +395,7 @@ export type Page = {
               _key: string
             }
           | {
-              asset?: {
-                _ref: string
-                _type: 'reference'
-                _weak?: boolean
-                [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-              }
+              asset?: SanityImageAssetReference
               media?: unknown
               hotspot?: SanityImageHotspot
               crop?: SanityImageCrop
@@ -937,42 +407,14 @@ export type Page = {
           title?: string
           type?: string
           internalLink?:
-            | {
-                _ref: string
-                _type: 'reference'
-                _weak?: boolean
-                [internalGroqTypeReferenceTo]?: 'page'
-              }
-            | {
-                _ref: string
-                _type: 'reference'
-                _weak?: boolean
-                [internalGroqTypeReferenceTo]?: 'collectionHub'
-              }
-            | {
-                _ref: string
-                _type: 'reference'
-                _weak?: boolean
-                [internalGroqTypeReferenceTo]?: 'legalDocument'
-              }
-            | {
-                _ref: string
-                _type: 'reference'
-                _weak?: boolean
-                [internalGroqTypeReferenceTo]?: 'article'
-              }
-            | {
-                _ref: string
-                _type: 'reference'
-                _weak?: boolean
-                [internalGroqTypeReferenceTo]?: 'event'
-              }
-            | {
-                _ref: string
-                _type: 'reference'
-                _weak?: boolean
-                [internalGroqTypeReferenceTo]?: 'resource'
-              }
+            | PageReference
+            | CollectionHubReference
+            | LegalDocumentReference
+            | ArticleReference
+            | InformasjonsartikkelReference
+            | InformasjonsdokumentReference
+            | EventReference
+            | ResourceReference
           url?: string
           email?: string
           phone?: string
@@ -980,15 +422,13 @@ export type Page = {
           newTab?: boolean
           _key: string
         }>
-        appearance?: {
-          theme?: 'light' | 'dark'
-          linkType?: 'link' | 'linkButton'
-        }
+        appearance?: ContactSectionAppearance
         _type: 'contactSection'
         _key: string
       }
     | {
         title?: string
+        tittelNivaa?: 'h2' | 'h3'
         tag?: string
         richText?: Array<
           | {
@@ -1010,12 +450,7 @@ export type Page = {
               _key: string
             }
           | {
-              asset?: {
-                _ref: string
-                _type: 'reference'
-                _weak?: boolean
-                [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-              }
+              asset?: SanityImageAssetReference
               media?: unknown
               hotspot?: SanityImageHotspot
               crop?: SanityImageCrop
@@ -1024,35 +459,14 @@ export type Page = {
             }
         >
         mediaType?: 'image' | 'iframe'
-        image?: {
-          asset?: {
-            _ref: string
-            _type: 'reference'
-            _weak?: boolean
-            [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-          }
-          media?: unknown
-          hotspot?: SanityImageHotspot
-          crop?: SanityImageCrop
-          title?: string
-          description?: string
-          altText?: string
-          credits?: string
-          _type: 'image'
-        }
+        image?: ArticleSectionImage
         iframeUrl?: string
         callToActions?: Array<
           {
             _key: string
           } & Link
         >
-        appearance?: {
-          theme?: 'light' | 'dark'
-          linkType?: 'link' | 'linkButton'
-          layout?: {
-            imagePosition?: 'left' | 'right'
-          }
-        }
+        appearance?: ArticleSectionAppearance
         _type: 'articleSection'
         _key: string
       }
@@ -1077,12 +491,7 @@ export type Page = {
               _key: string
             }
           | {
-              asset?: {
-                _ref: string
-                _type: 'reference'
-                _weak?: boolean
-                [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-              }
+              asset?: SanityImageAssetReference
               media?: unknown
               hotspot?: SanityImageHotspot
               crop?: SanityImageCrop
@@ -1090,9 +499,7 @@ export type Page = {
               _key: string
             }
         >
-        appearance?: {
-          theme?: 'light' | 'dark'
-        }
+        appearance?: CalloutAppearance
         _type: 'callout'
         _key: string
       }
@@ -1117,12 +524,7 @@ export type Page = {
               _key: string
             }
           | {
-              asset?: {
-                _ref: string
-                _type: 'reference'
-                _weak?: boolean
-                [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-              }
+              asset?: SanityImageAssetReference
               media?: unknown
               hotspot?: SanityImageHotspot
               crop?: SanityImageCrop
@@ -1135,27 +537,13 @@ export type Page = {
       }
     | {
         title?: string
-        image?: {
-          asset?: {
-            _ref: string
-            _type: 'reference'
-            _weak?: boolean
-            [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-          }
-          media?: unknown
-          hotspot?: SanityImageHotspot
-          crop?: SanityImageCrop
-          title?: string
-          description?: string
-          altText?: string
-          credits?: string
-          _type: 'image'
-        }
+        image?: ImageSectionImage
         _type: 'imageSection'
         _key: string
       }
     | {
         title?: string
+        tittelNivaa?: 'h2' | 'h3'
         richText?: Array<
           | {
               children?: Array<{
@@ -1176,12 +564,7 @@ export type Page = {
               _key: string
             }
           | {
-              asset?: {
-                _ref: string
-                _type: 'reference'
-                _weak?: boolean
-                [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-              }
+              asset?: SanityImageAssetReference
               media?: unknown
               hotspot?: SanityImageHotspot
               crop?: SanityImageCrop
@@ -1189,162 +572,12 @@ export type Page = {
               _key: string
             }
         >
-        lists?: Array<{
-          title?: string
-          contentType?: 'manual' | 'writer' | 'event' | 'job-position' | 'blog-post' | 'news'
-          items?: Array<{
-            title?: string
-            richText?: Array<
-              | {
-                  children?: Array<{
-                    marks?: Array<string>
-                    text?: string
-                    _type: 'span'
-                    _key: string
-                  }>
-                  style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
-                  listItem?: 'bullet' | 'number'
-                  markDefs?: Array<{
-                    href?: string
-                    _type: 'link'
-                    _key: string
-                  }>
-                  level?: number
-                  _type: 'block'
-                  _key: string
-                }
-              | {
-                  asset?: {
-                    _ref: string
-                    _type: 'reference'
-                    _weak?: boolean
-                    [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-                  }
-                  media?: unknown
-                  hotspot?: SanityImageHotspot
-                  crop?: SanityImageCrop
-                  _type: 'image'
-                  _key: string
-                }
-            >
-            link?: {
-              title?: string
-              type?: string
-              internalLink?:
-                | {
-                    _ref: string
-                    _type: 'reference'
-                    _weak?: boolean
-                    [internalGroqTypeReferenceTo]?: 'page'
-                  }
-                | {
-                    _ref: string
-                    _type: 'reference'
-                    _weak?: boolean
-                    [internalGroqTypeReferenceTo]?: 'collectionHub'
-                  }
-                | {
-                    _ref: string
-                    _type: 'reference'
-                    _weak?: boolean
-                    [internalGroqTypeReferenceTo]?: 'legalDocument'
-                  }
-                | {
-                    _ref: string
-                    _type: 'reference'
-                    _weak?: boolean
-                    [internalGroqTypeReferenceTo]?: 'article'
-                  }
-                | {
-                    _ref: string
-                    _type: 'reference'
-                    _weak?: boolean
-                    [internalGroqTypeReferenceTo]?: 'event'
-                  }
-                | {
-                    _ref: string
-                    _type: 'reference'
-                    _weak?: boolean
-                    [internalGroqTypeReferenceTo]?: 'resource'
-                  }
-              url?: string
-              email?: string
-              phone?: string
-              anchor?: string
-              newTab?: boolean
-            }
-            image?: {
-              asset?: {
-                _ref: string
-                _type: 'reference'
-                _weak?: boolean
-                [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-              }
-              media?: unknown
-              hotspot?: SanityImageHotspot
-              crop?: SanityImageCrop
-              title?: string
-              description?: string
-              altText?: string
-              credits?: string
-              _type: 'image'
-            }
-            _type: 'gridItem'
+        lists?: Array<
+          {
             _key: string
-          }>
-          maxItems?: number
-          ctaLink?: {
-            title?: string
-            type?: string
-            internalLink?:
-              | {
-                  _ref: string
-                  _type: 'reference'
-                  _weak?: boolean
-                  [internalGroqTypeReferenceTo]?: 'page'
-                }
-              | {
-                  _ref: string
-                  _type: 'reference'
-                  _weak?: boolean
-                  [internalGroqTypeReferenceTo]?: 'collectionHub'
-                }
-              | {
-                  _ref: string
-                  _type: 'reference'
-                  _weak?: boolean
-                  [internalGroqTypeReferenceTo]?: 'legalDocument'
-                }
-              | {
-                  _ref: string
-                  _type: 'reference'
-                  _weak?: boolean
-                  [internalGroqTypeReferenceTo]?: 'article'
-                }
-              | {
-                  _ref: string
-                  _type: 'reference'
-                  _weak?: boolean
-                  [internalGroqTypeReferenceTo]?: 'event'
-                }
-              | {
-                  _ref: string
-                  _type: 'reference'
-                  _weak?: boolean
-                  [internalGroqTypeReferenceTo]?: 'resource'
-                }
-            url?: string
-            email?: string
-            phone?: string
-            anchor?: string
-            newTab?: boolean
-          }
-          _type: 'gridList'
-          _key: string
-        }>
-        appearance?: {
-          theme?: 'light' | 'dark'
-        }
+          } & GridList
+        >
+        appearance?: GridAppearance
         _type: 'grid'
         _key: string
       }
@@ -1370,12 +603,7 @@ export type Page = {
               _key: string
             }
           | {
-              asset?: {
-                _ref: string
-                _type: 'reference'
-                _weak?: boolean
-                [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-              }
+              asset?: SanityImageAssetReference
               media?: unknown
               hotspot?: SanityImageHotspot
               crop?: SanityImageCrop
@@ -1383,52 +611,7 @@ export type Page = {
               _key: string
             }
         >
-        link?: {
-          title?: string
-          type?: string
-          internalLink?:
-            | {
-                _ref: string
-                _type: 'reference'
-                _weak?: boolean
-                [internalGroqTypeReferenceTo]?: 'page'
-              }
-            | {
-                _ref: string
-                _type: 'reference'
-                _weak?: boolean
-                [internalGroqTypeReferenceTo]?: 'collectionHub'
-              }
-            | {
-                _ref: string
-                _type: 'reference'
-                _weak?: boolean
-                [internalGroqTypeReferenceTo]?: 'legalDocument'
-              }
-            | {
-                _ref: string
-                _type: 'reference'
-                _weak?: boolean
-                [internalGroqTypeReferenceTo]?: 'article'
-              }
-            | {
-                _ref: string
-                _type: 'reference'
-                _weak?: boolean
-                [internalGroqTypeReferenceTo]?: 'event'
-              }
-            | {
-                _ref: string
-                _type: 'reference'
-                _weak?: boolean
-                [internalGroqTypeReferenceTo]?: 'resource'
-              }
-          url?: string
-          email?: string
-          phone?: string
-          anchor?: string
-          newTab?: boolean
-        }
+        link?: FeaturesLink
         list?: Array<{
           title?: string
           richText?: Array<
@@ -1451,12 +634,7 @@ export type Page = {
                 _key: string
               }
             | {
-                asset?: {
-                  _ref: string
-                  _type: 'reference'
-                  _weak?: boolean
-                  [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-                }
+                asset?: SanityImageAssetReference
                 media?: unknown
                 hotspot?: SanityImageHotspot
                 crop?: SanityImageCrop
@@ -1467,26 +645,7 @@ export type Page = {
           _type: 'feature'
           _key: string
         }>
-        appearance?: {
-          theme?: 'light' | 'dark'
-          linkType?: 'link' | 'linkButton'
-          image?: {
-            asset?: {
-              _ref: string
-              _type: 'reference'
-              _weak?: boolean
-              [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-            }
-            media?: unknown
-            hotspot?: SanityImageHotspot
-            crop?: SanityImageCrop
-            title?: string
-            description?: string
-            altText?: string
-            credits?: string
-            _type: 'image'
-          }
-        }
+        appearance?: FeaturesAppearance
         _type: 'features'
         _key: string
       }
@@ -1512,12 +671,7 @@ export type Page = {
               _key: string
             }
           | {
-              asset?: {
-                _ref: string
-                _type: 'reference'
-                _weak?: boolean
-                [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-              }
+              asset?: SanityImageAssetReference
               media?: unknown
               hotspot?: SanityImageHotspot
               crop?: SanityImageCrop
@@ -1530,20 +684,13 @@ export type Page = {
             _key: string
           } & GroupedResources
         >
-        appearance?: {
-          theme?: 'light' | 'dark'
-        }
+        appearance?: ResourcesAppearance
         _type: 'resources'
         _key: string
       }
     | {
         logos?: Array<{
-          asset?: {
-            _ref: string
-            _type: 'reference'
-            _weak?: boolean
-            [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-          }
+          asset?: SanityImageAssetReference
           media?: unknown
           hotspot?: SanityImageHotspot
           crop?: SanityImageCrop
@@ -1579,12 +726,7 @@ export type Page = {
               _key: string
             }
           | {
-              asset?: {
-                _ref: string
-                _type: 'reference'
-                _weak?: boolean
-                [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-              }
+              asset?: SanityImageAssetReference
               media?: unknown
               hotspot?: SanityImageHotspot
               crop?: SanityImageCrop
@@ -1592,52 +734,7 @@ export type Page = {
               _key: string
             }
         >
-        link?: {
-          title?: string
-          type?: string
-          internalLink?:
-            | {
-                _ref: string
-                _type: 'reference'
-                _weak?: boolean
-                [internalGroqTypeReferenceTo]?: 'page'
-              }
-            | {
-                _ref: string
-                _type: 'reference'
-                _weak?: boolean
-                [internalGroqTypeReferenceTo]?: 'collectionHub'
-              }
-            | {
-                _ref: string
-                _type: 'reference'
-                _weak?: boolean
-                [internalGroqTypeReferenceTo]?: 'legalDocument'
-              }
-            | {
-                _ref: string
-                _type: 'reference'
-                _weak?: boolean
-                [internalGroqTypeReferenceTo]?: 'article'
-              }
-            | {
-                _ref: string
-                _type: 'reference'
-                _weak?: boolean
-                [internalGroqTypeReferenceTo]?: 'event'
-              }
-            | {
-                _ref: string
-                _type: 'reference'
-                _weak?: boolean
-                [internalGroqTypeReferenceTo]?: 'resource'
-              }
-          url?: string
-          email?: string
-          phone?: string
-          anchor?: string
-          newTab?: boolean
-        }
+        link?: TestimonialsLink
         list?: Array<{
           richText?: Array<
             | {
@@ -1659,12 +756,7 @@ export type Page = {
                 _key: string
               }
             | {
-                asset?: {
-                  _ref: string
-                  _type: 'reference'
-                  _weak?: boolean
-                  [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-                }
+                asset?: SanityImageAssetReference
                 media?: unknown
                 hotspot?: SanityImageHotspot
                 crop?: SanityImageCrop
@@ -1674,26 +766,1538 @@ export type Page = {
           >
           name?: string
           company?: string
-          image?: {
-            asset?: {
-              _ref: string
-              _type: 'reference'
-              _weak?: boolean
-              [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-            }
-            media?: unknown
-            hotspot?: SanityImageHotspot
-            crop?: SanityImageCrop
-            title?: string
-            description?: string
-            altText?: string
-            credits?: string
-            _type: 'image'
-          }
+          image?: TestimonyImage
           _type: 'testimony'
           _key: string
         }>
         _type: 'testimonials'
+        _key: string
+      }
+  >
+}
+
+export type GridList = {
+  _type: 'gridList'
+  title?: string
+  columns?: 3 | 4
+  kolonnerMobil?: 1 | 2
+  contentType?:
+    | 'manual'
+    | 'writer'
+    | 'writer-styret'
+    | 'writer-raadgivere'
+    | 'writer-frivillige'
+    | 'event'
+    | 'activities'
+    | 'job-position'
+    | 'blog-post'
+    | 'news'
+    | 'walking-tour'
+    | 'turvenn'
+  items?: Array<
+    {
+      _key: string
+    } & GridItem
+  >
+  maxItems?: number
+  ctaLink?: CtaLink
+  bunnTekst?: Array<{
+    children?: Array<{
+      marks?: Array<string>
+      text?: string
+      _type: 'span'
+      _key: string
+    }>
+    style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
+    listItem?: 'bullet' | 'number'
+    markDefs?: Array<{
+      href?: string
+      _type: 'link'
+      _key: string
+    }>
+    level?: number
+    _type: 'block'
+    _key: string
+  }>
+}
+
+export type GridItem = {
+  _type: 'gridItem'
+  title?: string
+  richText?: Array<
+    | {
+        children?: Array<{
+          marks?: Array<string>
+          text?: string
+          _type: 'span'
+          _key: string
+        }>
+        style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+        listItem?: 'bullet' | 'number'
+        markDefs?: Array<{
+          href?: string
+          _type: 'link'
+          _key: string
+        }>
+        level?: number
+        _type: 'block'
+        _key: string
+      }
+    | {
+        asset?: SanityImageAssetReference
+        media?: unknown
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        _type: 'image'
+        _key: string
+      }
+  >
+  link?: GridItemLink
+  image?: AppearanceImage
+}
+
+export type GuriAppen = {
+  _id: string
+  _type: 'guriAppen'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title?: string
+  ingress?: string
+  heroImage?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    title?: string
+    description?: string
+    altText?: string
+    credits?: string
+    _type: 'image'
+  }
+  googlePlayUrl?: string
+  appStoreUrl?: string
+  about?: Array<
+    | {
+        children?: Array<{
+          marks?: Array<string>
+          text?: string
+          _type: 'span'
+          _key: string
+        }>
+        style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+        listItem?: 'bullet' | 'number'
+        markDefs?: Array<{
+          href?: string
+          _type: 'link'
+          _key: string
+        }>
+        level?: number
+        _type: 'block'
+        _key: string
+      }
+    | {
+        asset?: SanityImageAssetReference
+        media?: unknown
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        _type: 'image'
+        _key: string
+      }
+  >
+  argumentsTitle?: string
+  arguments?: Array<{
+    title?: string
+    text?: Array<
+      | {
+          children?: Array<{
+            marks?: Array<string>
+            text?: string
+            _type: 'span'
+            _key: string
+          }>
+          style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+          listItem?: 'bullet' | 'number'
+          markDefs?: Array<{
+            href?: string
+            _type: 'link'
+            _key: string
+          }>
+          level?: number
+          _type: 'block'
+          _key: string
+        }
+      | {
+          asset?: SanityImageAssetReference
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+          _key: string
+        }
+    >
+    image?: {
+      asset?: SanityImageAssetReference
+      media?: unknown
+      hotspot?: SanityImageHotspot
+      crop?: SanityImageCrop
+      title?: string
+      description?: string
+      altText?: string
+      credits?: string
+      _type: 'image'
+    }
+    _type: 'argument'
+    _key: string
+  }>
+  footerSection?: {
+    image?: {
+      asset?: SanityImageAssetReference
+      media?: unknown
+      hotspot?: SanityImageHotspot
+      crop?: SanityImageCrop
+      title?: string
+      description?: string
+      altText?: string
+      credits?: string
+      _type: 'image'
+    }
+    title?: string
+    screenshots?: Array<{
+      asset?: SanityImageAssetReference
+      media?: unknown
+      hotspot?: SanityImageHotspot
+      crop?: SanityImageCrop
+      title?: string
+      description?: string
+      altText?: string
+      credits?: string
+      _type: 'image'
+      _key: string
+    }>
+  }
+}
+
+export type SanityImageCrop = {
+  _type: 'sanity.imageCrop'
+  top?: number
+  bottom?: number
+  left?: number
+  right?: number
+}
+
+export type SanityImageHotspot = {
+  _type: 'sanity.imageHotspot'
+  x?: number
+  y?: number
+  height?: number
+  width?: number
+}
+
+export type Blomst = {
+  _id: string
+  _type: 'blomst'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  godkjent?: boolean
+  blomstType?: 'snoklokke' | 'alperose' | 'dahlia' | 'krokus' | 'prestekrage' | 'forglemmegei'
+  tilMinneOm?: string
+  hilsen?: string
+  navn?: string
+  plantetDato?: string
+  vippsOrderId?: string
+  donertBeloep?: number
+}
+
+export type Redirect = {
+  _id: string
+  _type: 'redirect'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  fromPath?: string
+  toPath?: string
+  redirectType?: '301' | '302'
+  isActive?: boolean
+  description?: string
+}
+
+export type TurvennReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'turvenn'
+}
+
+export type WalkingTour = {
+  _id: string
+  _type: 'walkingTour'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title?: string
+  dateTime?: string
+  location?: string
+  turvenn?: TurvennReference
+  description?: string
+  wheelchairFriendly?: boolean
+  strollerFriendly?: boolean
+  bringFood?: boolean
+  facebookUrl?: string
+}
+
+export type Turvenn = {
+  _id: string
+  _type: 'turvenn'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  name?: string
+  city?: string
+  image?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    title?: string
+    description?: string
+    altText?: string
+    credits?: string
+    _type: 'image'
+  }
+}
+
+export type GroupedResources = {
+  _type: 'groupedResources'
+  optionalTitle?: string
+  links?: Array<
+    {
+      _key: string
+    } & LinkWithDescription
+  >
+}
+
+export type LinkWithDescription = {
+  _type: 'linkWithDescription'
+  title?: string
+  description?: string
+  type?: string
+  internalLink?:
+    | PageReference
+    | CollectionHubReference
+    | LegalDocumentReference
+    | ArticleReference
+    | InformasjonsartikkelReference
+    | InformasjonsdokumentReference
+    | EventReference
+    | ResourceReference
+  url?: string
+  email?: string
+  phone?: string
+  anchor?: string
+  newTab?: boolean
+}
+
+export type Theme = 'light' | 'dark'
+
+export type Appearance = {
+  _type: 'appearance'
+  theme?: 'light' | 'dark'
+  linkType?: 'link' | 'linkButton'
+  image?: AppearanceImage
+  layout?: Layout
+}
+
+export type Category = {
+  _id: string
+  _type: 'category'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  name?: string
+}
+
+export type RichText = Array<
+  | {
+      children?: Array<{
+        marks?: Array<string>
+        text?: string
+        _type: 'span'
+        _key: string
+      }>
+      style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+      listItem?: 'bullet' | 'number'
+      markDefs?: Array<{
+        href?: string
+        _type: 'link'
+        _key: string
+      }>
+      level?: number
+      _type: 'block'
+      _key: string
+    }
+  | {
+      asset?: SanityImageAssetReference
+      media?: unknown
+      hotspot?: SanityImageHotspot
+      crop?: SanityImageCrop
+      _type: 'image'
+      _key: string
+    }
+>
+
+export type CompanyInfo = {
+  _id: string
+  _type: 'companyInfo'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  name?: string
+  organizationNumber?: string
+  phone?: string
+  email?: string
+  address?: {
+    street?: string
+    city?: string
+    postalCode?: string
+    country?: string
+  }
+}
+
+export type CallToActionField = {
+  _type: 'callToActionField'
+  title?: string
+  type?: string
+  internalLink?:
+    | PageReference
+    | CollectionHubReference
+    | LegalDocumentReference
+    | ArticleReference
+    | InformasjonsartikkelReference
+    | InformasjonsdokumentReference
+    | EventReference
+    | ResourceReference
+  url?: string
+  email?: string
+  phone?: string
+  anchor?: string
+  newTab?: boolean
+}
+
+export type SoMeLinksReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'soMeLinks'
+}
+
+export type FooterSection = {
+  _type: 'footerSection'
+  sectionTitle?: string
+  sectionType?: 'content' | 'socialMedia'
+  linksAndContent?: Array<
+    | ({
+        _key: string
+      } & Link)
+    | {
+        richText?: Array<
+          | {
+              children?: Array<{
+                marks?: Array<string>
+                text?: string
+                _type: 'span'
+                _key: string
+              }>
+              style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+              listItem?: 'bullet' | 'number'
+              markDefs?: Array<{
+                href?: string
+                _type: 'link'
+                _key: string
+              }>
+              level?: number
+              _type: 'block'
+              _key: string
+            }
+          | {
+              asset?: SanityImageAssetReference
+              media?: unknown
+              hotspot?: SanityImageHotspot
+              crop?: SanityImageCrop
+              _type: 'image'
+              _key: string
+            }
+        >
+        _type: 'richTextObject'
+        _key: string
+      }
+  >
+  socialMediaLinks?: SoMeLinksReference
+}
+
+export type SocialMediaLinkID = {
+  _type: 'socialMediaLinkID'
+  socialMediaUrl?: string
+  socialMediaPlatform?: string
+}
+
+export type Link = {
+  _type: 'link'
+  title?: string
+  type?: string
+  internalLink?:
+    | PageReference
+    | CollectionHubReference
+    | LegalDocumentReference
+    | ArticleReference
+    | InformasjonsartikkelReference
+    | InformasjonsdokumentReference
+    | EventReference
+    | ResourceReference
+  url?: string
+  email?: string
+  phone?: string
+  anchor?: string
+  newTab?: boolean
+}
+
+export type SoMeLinks = {
+  _id: string
+  _type: 'soMeLinks'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  soMeLinkArray?: Array<
+    {
+      _key: string
+    } & SocialMediaLinkID
+  >
+}
+
+export type SeoFallback = {
+  _id: string
+  _type: 'seoFallback'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title?: string
+  description?: string
+  keywords?: string
+  image?: SeoImage
+}
+
+export type NavigationManager = {
+  _id: string
+  _type: 'navigationManager'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  landingPage?: PageReference
+  mainMenu?: Array<
+    | ({
+        _key: string
+      } & Link)
+    | ({
+        _key: string
+      } & CallToActionField)
+  >
+  sidebarMenu?: Array<
+    | ({
+        _key: string
+      } & Link)
+    | ({
+        _key: string
+      } & CallToActionField)
+  >
+  footerSections?: Array<
+    {
+      _key: string
+    } & FooterSection
+  >
+}
+
+export type Page = {
+  _id: string
+  _type: 'page'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  pageName?: string
+  slug?: Slug
+  seo?: {
+    title?: string
+    description?: string
+    keywords?: string
+    image?: SeoImage
+  }
+  sections?: Array<
+    | {
+        title?: string
+        body?: string
+        image?: HeroImage
+        infoMessage?: InfoMessage
+        callToActions?: Array<{
+          title?: string
+          type?: string
+          internalLink?:
+            | PageReference
+            | CollectionHubReference
+            | LegalDocumentReference
+            | ArticleReference
+            | InformasjonsartikkelReference
+            | InformasjonsdokumentReference
+            | EventReference
+            | ResourceReference
+          url?: string
+          email?: string
+          phone?: string
+          anchor?: string
+          newTab?: boolean
+          _key: string
+        }>
+        _type: 'hero'
+        _key: string
+      }
+    | {
+        title?: string
+        richText?: Array<
+          | {
+              children?: Array<{
+                marks?: Array<string>
+                text?: string
+                _type: 'span'
+                _key: string
+              }>
+              style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+              listItem?: 'bullet' | 'number'
+              markDefs?: Array<{
+                href?: string
+                _type: 'link'
+                _key: string
+              }>
+              level?: number
+              _type: 'block'
+              _key: string
+            }
+          | {
+              asset?: SanityImageAssetReference
+              media?: unknown
+              hotspot?: SanityImageHotspot
+              crop?: SanityImageCrop
+              _type: 'image'
+              _key: string
+            }
+        >
+        callToActions?: Array<{
+          title?: string
+          type?: string
+          internalLink?:
+            | PageReference
+            | CollectionHubReference
+            | LegalDocumentReference
+            | ArticleReference
+            | InformasjonsartikkelReference
+            | InformasjonsdokumentReference
+            | EventReference
+            | ResourceReference
+          url?: string
+          email?: string
+          phone?: string
+          anchor?: string
+          newTab?: boolean
+          _key: string
+        }>
+        appearance?: CtaSectionAppearance
+        _type: 'ctaSection'
+        _key: string
+      }
+    | {
+        title?: string
+        richText?: Array<
+          | {
+              children?: Array<{
+                marks?: Array<string>
+                text?: string
+                _type: 'span'
+                _key: string
+              }>
+              style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+              listItem?: 'bullet' | 'number'
+              markDefs?: Array<{
+                href?: string
+                _type: 'link'
+                _key: string
+              }>
+              level?: number
+              _type: 'block'
+              _key: string
+            }
+          | {
+              asset?: SanityImageAssetReference
+              media?: unknown
+              hotspot?: SanityImageHotspot
+              crop?: SanityImageCrop
+              _type: 'image'
+              _key: string
+            }
+        >
+        callToActions?: Array<{
+          title?: string
+          type?: string
+          internalLink?:
+            | PageReference
+            | CollectionHubReference
+            | LegalDocumentReference
+            | ArticleReference
+            | InformasjonsartikkelReference
+            | InformasjonsdokumentReference
+            | EventReference
+            | ResourceReference
+          url?: string
+          email?: string
+          phone?: string
+          anchor?: string
+          newTab?: boolean
+          _key: string
+        }>
+        appearance?: ContactSectionAppearance
+        _type: 'contactSection'
+        _key: string
+      }
+    | {
+        title?: string
+        tittelNivaa?: 'h2' | 'h3'
+        tag?: string
+        richText?: Array<
+          | {
+              children?: Array<{
+                marks?: Array<string>
+                text?: string
+                _type: 'span'
+                _key: string
+              }>
+              style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+              listItem?: 'bullet' | 'number'
+              markDefs?: Array<{
+                href?: string
+                _type: 'link'
+                _key: string
+              }>
+              level?: number
+              _type: 'block'
+              _key: string
+            }
+          | {
+              asset?: SanityImageAssetReference
+              media?: unknown
+              hotspot?: SanityImageHotspot
+              crop?: SanityImageCrop
+              _type: 'image'
+              _key: string
+            }
+        >
+        mediaType?: 'image' | 'iframe'
+        image?: ArticleSectionImage
+        iframeUrl?: string
+        callToActions?: Array<
+          {
+            _key: string
+          } & Link
+        >
+        appearance?: ArticleSectionAppearance
+        _type: 'articleSection'
+        _key: string
+      }
+    | {
+        richText?: Array<
+          | {
+              children?: Array<{
+                marks?: Array<string>
+                text?: string
+                _type: 'span'
+                _key: string
+              }>
+              style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+              listItem?: 'bullet' | 'number'
+              markDefs?: Array<{
+                href?: string
+                _type: 'link'
+                _key: string
+              }>
+              level?: number
+              _type: 'block'
+              _key: string
+            }
+          | {
+              asset?: SanityImageAssetReference
+              media?: unknown
+              hotspot?: SanityImageHotspot
+              crop?: SanityImageCrop
+              _type: 'image'
+              _key: string
+            }
+        >
+        appearance?: CalloutAppearance
+        _type: 'callout'
+        _key: string
+      }
+    | {
+        richText?: Array<
+          | {
+              children?: Array<{
+                marks?: Array<string>
+                text?: string
+                _type: 'span'
+                _key: string
+              }>
+              style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+              listItem?: 'bullet' | 'number'
+              markDefs?: Array<{
+                href?: string
+                _type: 'link'
+                _key: string
+              }>
+              level?: number
+              _type: 'block'
+              _key: string
+            }
+          | {
+              asset?: SanityImageAssetReference
+              media?: unknown
+              hotspot?: SanityImageHotspot
+              crop?: SanityImageCrop
+              _type: 'image'
+              _key: string
+            }
+        >
+        _type: 'quote'
+        _key: string
+      }
+    | {
+        title?: string
+        image?: ImageSectionImage
+        _type: 'imageSection'
+        _key: string
+      }
+    | {
+        title?: string
+        tittelNivaa?: 'h2' | 'h3'
+        richText?: Array<
+          | {
+              children?: Array<{
+                marks?: Array<string>
+                text?: string
+                _type: 'span'
+                _key: string
+              }>
+              style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+              listItem?: 'bullet' | 'number'
+              markDefs?: Array<{
+                href?: string
+                _type: 'link'
+                _key: string
+              }>
+              level?: number
+              _type: 'block'
+              _key: string
+            }
+          | {
+              asset?: SanityImageAssetReference
+              media?: unknown
+              hotspot?: SanityImageHotspot
+              crop?: SanityImageCrop
+              _type: 'image'
+              _key: string
+            }
+        >
+        lists?: Array<
+          {
+            _key: string
+          } & GridList
+        >
+        appearance?: GridAppearance
+        _type: 'grid'
+        _key: string
+      }
+    | {
+        title?: string
+        richText?: Array<
+          | {
+              children?: Array<{
+                marks?: Array<string>
+                text?: string
+                _type: 'span'
+                _key: string
+              }>
+              style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+              listItem?: 'bullet' | 'number'
+              markDefs?: Array<{
+                href?: string
+                _type: 'link'
+                _key: string
+              }>
+              level?: number
+              _type: 'block'
+              _key: string
+            }
+          | {
+              asset?: SanityImageAssetReference
+              media?: unknown
+              hotspot?: SanityImageHotspot
+              crop?: SanityImageCrop
+              _type: 'image'
+              _key: string
+            }
+        >
+        link?: FeaturesLink
+        list?: Array<{
+          title?: string
+          richText?: Array<
+            | {
+                children?: Array<{
+                  marks?: Array<string>
+                  text?: string
+                  _type: 'span'
+                  _key: string
+                }>
+                style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+                listItem?: 'bullet' | 'number'
+                markDefs?: Array<{
+                  href?: string
+                  _type: 'link'
+                  _key: string
+                }>
+                level?: number
+                _type: 'block'
+                _key: string
+              }
+            | {
+                asset?: SanityImageAssetReference
+                media?: unknown
+                hotspot?: SanityImageHotspot
+                crop?: SanityImageCrop
+                _type: 'image'
+                _key: string
+              }
+          >
+          _type: 'feature'
+          _key: string
+        }>
+        appearance?: FeaturesAppearance
+        _type: 'features'
+        _key: string
+      }
+    | {
+        title?: string
+        richText?: Array<
+          | {
+              children?: Array<{
+                marks?: Array<string>
+                text?: string
+                _type: 'span'
+                _key: string
+              }>
+              style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+              listItem?: 'bullet' | 'number'
+              markDefs?: Array<{
+                href?: string
+                _type: 'link'
+                _key: string
+              }>
+              level?: number
+              _type: 'block'
+              _key: string
+            }
+          | {
+              asset?: SanityImageAssetReference
+              media?: unknown
+              hotspot?: SanityImageHotspot
+              crop?: SanityImageCrop
+              _type: 'image'
+              _key: string
+            }
+        >
+        groupedLinks?: Array<
+          {
+            _key: string
+          } & GroupedResources
+        >
+        appearance?: ResourcesAppearance
+        _type: 'resources'
+        _key: string
+      }
+    | {
+        logos?: Array<{
+          asset?: SanityImageAssetReference
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          title?: string
+          description?: string
+          altText?: string
+          credits?: string
+          _type: 'image'
+          _key: string
+        }>
+        _type: 'logoSalad'
+        _key: string
+      }
+    | {
+        title?: string
+        richText?: Array<
+          | {
+              children?: Array<{
+                marks?: Array<string>
+                text?: string
+                _type: 'span'
+                _key: string
+              }>
+              style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+              listItem?: 'bullet' | 'number'
+              markDefs?: Array<{
+                href?: string
+                _type: 'link'
+                _key: string
+              }>
+              level?: number
+              _type: 'block'
+              _key: string
+            }
+          | {
+              asset?: SanityImageAssetReference
+              media?: unknown
+              hotspot?: SanityImageHotspot
+              crop?: SanityImageCrop
+              _type: 'image'
+              _key: string
+            }
+        >
+        link?: TestimonialsLink
+        list?: Array<{
+          richText?: Array<
+            | {
+                children?: Array<{
+                  marks?: Array<string>
+                  text?: string
+                  _type: 'span'
+                  _key: string
+                }>
+                style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+                listItem?: 'bullet' | 'number'
+                markDefs?: Array<{
+                  href?: string
+                  _type: 'link'
+                  _key: string
+                }>
+                level?: number
+                _type: 'block'
+                _key: string
+              }
+            | {
+                asset?: SanityImageAssetReference
+                media?: unknown
+                hotspot?: SanityImageHotspot
+                crop?: SanityImageCrop
+                _type: 'image'
+                _key: string
+              }
+          >
+          name?: string
+          company?: string
+          image?: TestimonyImage
+          _type: 'testimony'
+          _key: string
+        }>
+        _type: 'testimonials'
+        _key: string
+      }
+    | {
+        title?: string
+        appearance?: Appearance1
+        sections?: Array<
+          | {
+              title?: string
+              body?: string
+              image?: HeroImage
+              infoMessage?: InfoMessage
+              callToActions?: Array<{
+                title?: string
+                type?: string
+                internalLink?:
+                  | PageReference
+                  | CollectionHubReference
+                  | LegalDocumentReference
+                  | ArticleReference
+                  | InformasjonsartikkelReference
+                  | InformasjonsdokumentReference
+                  | EventReference
+                  | ResourceReference
+                url?: string
+                email?: string
+                phone?: string
+                anchor?: string
+                newTab?: boolean
+                _key: string
+              }>
+              _type: 'hero'
+              _key: string
+            }
+          | {
+              title?: string
+              richText?: Array<
+                | {
+                    children?: Array<{
+                      marks?: Array<string>
+                      text?: string
+                      _type: 'span'
+                      _key: string
+                    }>
+                    style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+                    listItem?: 'bullet' | 'number'
+                    markDefs?: Array<{
+                      href?: string
+                      _type: 'link'
+                      _key: string
+                    }>
+                    level?: number
+                    _type: 'block'
+                    _key: string
+                  }
+                | {
+                    asset?: SanityImageAssetReference
+                    media?: unknown
+                    hotspot?: SanityImageHotspot
+                    crop?: SanityImageCrop
+                    _type: 'image'
+                    _key: string
+                  }
+              >
+              callToActions?: Array<{
+                title?: string
+                type?: string
+                internalLink?:
+                  | PageReference
+                  | CollectionHubReference
+                  | LegalDocumentReference
+                  | ArticleReference
+                  | InformasjonsartikkelReference
+                  | InformasjonsdokumentReference
+                  | EventReference
+                  | ResourceReference
+                url?: string
+                email?: string
+                phone?: string
+                anchor?: string
+                newTab?: boolean
+                _key: string
+              }>
+              appearance?: CtaSectionAppearance
+              _type: 'ctaSection'
+              _key: string
+            }
+          | {
+              title?: string
+              richText?: Array<
+                | {
+                    children?: Array<{
+                      marks?: Array<string>
+                      text?: string
+                      _type: 'span'
+                      _key: string
+                    }>
+                    style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+                    listItem?: 'bullet' | 'number'
+                    markDefs?: Array<{
+                      href?: string
+                      _type: 'link'
+                      _key: string
+                    }>
+                    level?: number
+                    _type: 'block'
+                    _key: string
+                  }
+                | {
+                    asset?: SanityImageAssetReference
+                    media?: unknown
+                    hotspot?: SanityImageHotspot
+                    crop?: SanityImageCrop
+                    _type: 'image'
+                    _key: string
+                  }
+              >
+              callToActions?: Array<{
+                title?: string
+                type?: string
+                internalLink?:
+                  | PageReference
+                  | CollectionHubReference
+                  | LegalDocumentReference
+                  | ArticleReference
+                  | InformasjonsartikkelReference
+                  | InformasjonsdokumentReference
+                  | EventReference
+                  | ResourceReference
+                url?: string
+                email?: string
+                phone?: string
+                anchor?: string
+                newTab?: boolean
+                _key: string
+              }>
+              appearance?: ContactSectionAppearance
+              _type: 'contactSection'
+              _key: string
+            }
+          | {
+              title?: string
+              tittelNivaa?: 'h2' | 'h3'
+              tag?: string
+              richText?: Array<
+                | {
+                    children?: Array<{
+                      marks?: Array<string>
+                      text?: string
+                      _type: 'span'
+                      _key: string
+                    }>
+                    style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+                    listItem?: 'bullet' | 'number'
+                    markDefs?: Array<{
+                      href?: string
+                      _type: 'link'
+                      _key: string
+                    }>
+                    level?: number
+                    _type: 'block'
+                    _key: string
+                  }
+                | {
+                    asset?: SanityImageAssetReference
+                    media?: unknown
+                    hotspot?: SanityImageHotspot
+                    crop?: SanityImageCrop
+                    _type: 'image'
+                    _key: string
+                  }
+              >
+              mediaType?: 'image' | 'iframe'
+              image?: ArticleSectionImage
+              iframeUrl?: string
+              callToActions?: Array<
+                {
+                  _key: string
+                } & Link
+              >
+              appearance?: ArticleSectionAppearance
+              _type: 'articleSection'
+              _key: string
+            }
+          | {
+              richText?: Array<
+                | {
+                    children?: Array<{
+                      marks?: Array<string>
+                      text?: string
+                      _type: 'span'
+                      _key: string
+                    }>
+                    style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+                    listItem?: 'bullet' | 'number'
+                    markDefs?: Array<{
+                      href?: string
+                      _type: 'link'
+                      _key: string
+                    }>
+                    level?: number
+                    _type: 'block'
+                    _key: string
+                  }
+                | {
+                    asset?: SanityImageAssetReference
+                    media?: unknown
+                    hotspot?: SanityImageHotspot
+                    crop?: SanityImageCrop
+                    _type: 'image'
+                    _key: string
+                  }
+              >
+              appearance?: CalloutAppearance
+              _type: 'callout'
+              _key: string
+            }
+          | {
+              richText?: Array<
+                | {
+                    children?: Array<{
+                      marks?: Array<string>
+                      text?: string
+                      _type: 'span'
+                      _key: string
+                    }>
+                    style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+                    listItem?: 'bullet' | 'number'
+                    markDefs?: Array<{
+                      href?: string
+                      _type: 'link'
+                      _key: string
+                    }>
+                    level?: number
+                    _type: 'block'
+                    _key: string
+                  }
+                | {
+                    asset?: SanityImageAssetReference
+                    media?: unknown
+                    hotspot?: SanityImageHotspot
+                    crop?: SanityImageCrop
+                    _type: 'image'
+                    _key: string
+                  }
+              >
+              _type: 'quote'
+              _key: string
+            }
+          | {
+              title?: string
+              image?: ImageSectionImage
+              _type: 'imageSection'
+              _key: string
+            }
+          | {
+              title?: string
+              tittelNivaa?: 'h2' | 'h3'
+              richText?: Array<
+                | {
+                    children?: Array<{
+                      marks?: Array<string>
+                      text?: string
+                      _type: 'span'
+                      _key: string
+                    }>
+                    style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+                    listItem?: 'bullet' | 'number'
+                    markDefs?: Array<{
+                      href?: string
+                      _type: 'link'
+                      _key: string
+                    }>
+                    level?: number
+                    _type: 'block'
+                    _key: string
+                  }
+                | {
+                    asset?: SanityImageAssetReference
+                    media?: unknown
+                    hotspot?: SanityImageHotspot
+                    crop?: SanityImageCrop
+                    _type: 'image'
+                    _key: string
+                  }
+              >
+              lists?: Array<
+                {
+                  _key: string
+                } & GridList
+              >
+              appearance?: GridAppearance
+              _type: 'grid'
+              _key: string
+            }
+          | {
+              title?: string
+              richText?: Array<
+                | {
+                    children?: Array<{
+                      marks?: Array<string>
+                      text?: string
+                      _type: 'span'
+                      _key: string
+                    }>
+                    style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+                    listItem?: 'bullet' | 'number'
+                    markDefs?: Array<{
+                      href?: string
+                      _type: 'link'
+                      _key: string
+                    }>
+                    level?: number
+                    _type: 'block'
+                    _key: string
+                  }
+                | {
+                    asset?: SanityImageAssetReference
+                    media?: unknown
+                    hotspot?: SanityImageHotspot
+                    crop?: SanityImageCrop
+                    _type: 'image'
+                    _key: string
+                  }
+              >
+              link?: FeaturesLink
+              list?: Array<{
+                title?: string
+                richText?: Array<
+                  | {
+                      children?: Array<{
+                        marks?: Array<string>
+                        text?: string
+                        _type: 'span'
+                        _key: string
+                      }>
+                      style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+                      listItem?: 'bullet' | 'number'
+                      markDefs?: Array<{
+                        href?: string
+                        _type: 'link'
+                        _key: string
+                      }>
+                      level?: number
+                      _type: 'block'
+                      _key: string
+                    }
+                  | {
+                      asset?: SanityImageAssetReference
+                      media?: unknown
+                      hotspot?: SanityImageHotspot
+                      crop?: SanityImageCrop
+                      _type: 'image'
+                      _key: string
+                    }
+                >
+                _type: 'feature'
+                _key: string
+              }>
+              appearance?: FeaturesAppearance
+              _type: 'features'
+              _key: string
+            }
+          | {
+              title?: string
+              richText?: Array<
+                | {
+                    children?: Array<{
+                      marks?: Array<string>
+                      text?: string
+                      _type: 'span'
+                      _key: string
+                    }>
+                    style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+                    listItem?: 'bullet' | 'number'
+                    markDefs?: Array<{
+                      href?: string
+                      _type: 'link'
+                      _key: string
+                    }>
+                    level?: number
+                    _type: 'block'
+                    _key: string
+                  }
+                | {
+                    asset?: SanityImageAssetReference
+                    media?: unknown
+                    hotspot?: SanityImageHotspot
+                    crop?: SanityImageCrop
+                    _type: 'image'
+                    _key: string
+                  }
+              >
+              groupedLinks?: Array<
+                {
+                  _key: string
+                } & GroupedResources
+              >
+              appearance?: ResourcesAppearance
+              _type: 'resources'
+              _key: string
+            }
+          | {
+              logos?: Array<{
+                asset?: SanityImageAssetReference
+                media?: unknown
+                hotspot?: SanityImageHotspot
+                crop?: SanityImageCrop
+                title?: string
+                description?: string
+                altText?: string
+                credits?: string
+                _type: 'image'
+                _key: string
+              }>
+              _type: 'logoSalad'
+              _key: string
+            }
+          | {
+              title?: string
+              richText?: Array<
+                | {
+                    children?: Array<{
+                      marks?: Array<string>
+                      text?: string
+                      _type: 'span'
+                      _key: string
+                    }>
+                    style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+                    listItem?: 'bullet' | 'number'
+                    markDefs?: Array<{
+                      href?: string
+                      _type: 'link'
+                      _key: string
+                    }>
+                    level?: number
+                    _type: 'block'
+                    _key: string
+                  }
+                | {
+                    asset?: SanityImageAssetReference
+                    media?: unknown
+                    hotspot?: SanityImageHotspot
+                    crop?: SanityImageCrop
+                    _type: 'image'
+                    _key: string
+                  }
+              >
+              link?: TestimonialsLink
+              list?: Array<{
+                richText?: Array<
+                  | {
+                      children?: Array<{
+                        marks?: Array<string>
+                        text?: string
+                        _type: 'span'
+                        _key: string
+                      }>
+                      style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+                      listItem?: 'bullet' | 'number'
+                      markDefs?: Array<{
+                        href?: string
+                        _type: 'link'
+                        _key: string
+                      }>
+                      level?: number
+                      _type: 'block'
+                      _key: string
+                    }
+                  | {
+                      asset?: SanityImageAssetReference
+                      media?: unknown
+                      hotspot?: SanityImageHotspot
+                      crop?: SanityImageCrop
+                      _type: 'image'
+                      _key: string
+                    }
+                >
+                name?: string
+                company?: string
+                image?: TestimonyImage
+                _type: 'testimony'
+                _key: string
+              }>
+              _type: 'testimonials'
+              _key: string
+            }
+        >
+        _type: 'sectionGroup'
         _key: string
       }
   >
@@ -1705,7 +2309,7 @@ export type CollectionHub = {
   _createdAt: string
   _updatedAt: string
   _rev: string
-  type?: 'blog' | 'highlights' | 'news' | 'resources'
+  type?: 'blog' | 'highlights' | 'news' | 'resources' | 'nettbutikk' | 'minnehagen'
   page?: string
   slug?: Slug
   title?: string
@@ -1729,12 +2333,7 @@ export type CollectionHub = {
         _key: string
       }
     | {
-        asset?: {
-          _ref: string
-          _type: 'reference'
-          _weak?: boolean
-          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-        }
+        asset?: SanityImageAssetReference
         media?: unknown
         hotspot?: SanityImageHotspot
         crop?: SanityImageCrop
@@ -1743,12 +2342,7 @@ export type CollectionHub = {
       }
   >
   heroImage?: {
-    asset?: {
-      _ref: string
-      _type: 'reference'
-      _weak?: boolean
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-    }
+    asset?: SanityImageAssetReference
     media?: unknown
     hotspot?: SanityImageHotspot
     crop?: SanityImageCrop
@@ -1780,12 +2374,7 @@ export type CollectionHub = {
           _key: string
         }
       | {
-          asset?: {
-            _ref: string
-            _type: 'reference'
-            _weak?: boolean
-            [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-          }
+          asset?: SanityImageAssetReference
           media?: unknown
           hotspot?: SanityImageHotspot
           crop?: SanityImageCrop
@@ -1797,42 +2386,14 @@ export type CollectionHub = {
       title?: string
       type?: string
       internalLink?:
-        | {
-            _ref: string
-            _type: 'reference'
-            _weak?: boolean
-            [internalGroqTypeReferenceTo]?: 'page'
-          }
-        | {
-            _ref: string
-            _type: 'reference'
-            _weak?: boolean
-            [internalGroqTypeReferenceTo]?: 'collectionHub'
-          }
-        | {
-            _ref: string
-            _type: 'reference'
-            _weak?: boolean
-            [internalGroqTypeReferenceTo]?: 'legalDocument'
-          }
-        | {
-            _ref: string
-            _type: 'reference'
-            _weak?: boolean
-            [internalGroqTypeReferenceTo]?: 'article'
-          }
-        | {
-            _ref: string
-            _type: 'reference'
-            _weak?: boolean
-            [internalGroqTypeReferenceTo]?: 'event'
-          }
-        | {
-            _ref: string
-            _type: 'reference'
-            _weak?: boolean
-            [internalGroqTypeReferenceTo]?: 'resource'
-          }
+        | PageReference
+        | CollectionHubReference
+        | LegalDocumentReference
+        | ArticleReference
+        | InformasjonsartikkelReference
+        | InformasjonsdokumentReference
+        | EventReference
+        | ResourceReference
       url?: string
       email?: string
       phone?: string
@@ -1840,12 +2401,61 @@ export type CollectionHub = {
       newTab?: boolean
       _key: string
     }>
-    appearance?: {
-      theme?: 'light' | 'dark'
-      linkType?: 'link' | 'linkButton'
-    }
+    appearance?: ContactSectionAppearance
+  }
+  infoMessage?: {
+    tittel?: string
+    tekst?: Array<{
+      children?: Array<{
+        marks?: Array<string>
+        text?: string
+        _type: 'span'
+        _key: string
+      }>
+      style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
+      listItem?: 'bullet' | 'number'
+      markDefs?: Array<{
+        href?: string
+        _type: 'link'
+        _key: string
+      }>
+      level?: number
+      _type: 'block'
+      _key: string
+    }>
   }
   allPostsLabel?: string
+  vippsDonasjoner?: {
+    aktivert?: boolean
+    tittel?: string
+    beskrivelse?: string
+    vippsNummer?: string
+    innsamlingslenke?: string
+    forslagteBeloep?: Array<{
+      beloep?: number
+      etikett?: string
+      _key: string
+    }>
+    takkeTekst?: string
+  }
+  callToAction?: {
+    title?: string
+    type?: string
+    internalLink?:
+      | PageReference
+      | CollectionHubReference
+      | LegalDocumentReference
+      | ArticleReference
+      | InformasjonsartikkelReference
+      | InformasjonsdokumentReference
+      | EventReference
+      | ResourceReference
+    url?: string
+    email?: string
+    phone?: string
+    anchor?: string
+    newTab?: boolean
+  }
   eventsSection?: {
     title?: string
     richText?: Array<
@@ -1868,12 +2478,7 @@ export type CollectionHub = {
           _key: string
         }
       | {
-          asset?: {
-            _ref: string
-            _type: 'reference'
-            _weak?: boolean
-            [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-          }
+          asset?: SanityImageAssetReference
           media?: unknown
           hotspot?: SanityImageHotspot
           crop?: SanityImageCrop
@@ -1904,12 +2509,7 @@ export type CollectionHub = {
           _key: string
         }
       | {
-          asset?: {
-            _ref: string
-            _type: 'reference'
-            _weak?: boolean
-            [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-          }
+          asset?: SanityImageAssetReference
           media?: unknown
           hotspot?: SanityImageHotspot
           crop?: SanityImageCrop
@@ -1922,24 +2522,13 @@ export type CollectionHub = {
     title?: string
     description?: string
     keywords?: string
-    image?: {
-      asset?: {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-      }
-      media?: unknown
-      hotspot?: SanityImageHotspot
-      crop?: SanityImageCrop
-      _type: 'image'
-    }
+    image?: SeoImage
   }
 }
 
-export type Event = {
+export type Informasjonsdokument = {
   _id: string
-  _type: 'event'
+  _type: 'informasjonsdokument'
   _createdAt: string
   _updatedAt: string
   _rev: string
@@ -1964,12 +2553,142 @@ export type Event = {
         _key: string
       }
     | {
-        asset?: {
-          _ref: string
-          _type: 'reference'
-          _weak?: boolean
-          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+        asset?: SanityImageAssetReference
+        media?: unknown
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        _type: 'image'
+        _key: string
+      }
+  >
+  infoMessage?: {
+    tittel?: string
+    tekst?: Array<{
+      children?: Array<{
+        marks?: Array<string>
+        text?: string
+        _type: 'span'
+        _key: string
+      }>
+      style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
+      listItem?: 'bullet' | 'number'
+      markDefs?: Array<{
+        href?: string
+        _type: 'link'
+        _key: string
+      }>
+      level?: number
+      _type: 'block'
+      _key: string
+    }>
+  }
+  contactSection?: {
+    title?: string
+    richText?: Array<
+      | {
+          children?: Array<{
+            marks?: Array<string>
+            text?: string
+            _type: 'span'
+            _key: string
+          }>
+          style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+          listItem?: 'bullet' | 'number'
+          markDefs?: Array<{
+            href?: string
+            _type: 'link'
+            _key: string
+          }>
+          level?: number
+          _type: 'block'
+          _key: string
         }
+      | {
+          asset?: SanityImageAssetReference
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+          _key: string
+        }
+    >
+    callToActions?: Array<{
+      title?: string
+      type?: string
+      internalLink?:
+        | PageReference
+        | CollectionHubReference
+        | LegalDocumentReference
+        | ArticleReference
+        | InformasjonsartikkelReference
+        | InformasjonsdokumentReference
+        | EventReference
+        | ResourceReference
+      url?: string
+      email?: string
+      phone?: string
+      anchor?: string
+      newTab?: boolean
+      _key: string
+    }>
+    appearance?: ContactSectionAppearance
+  }
+  slug?: Slug
+  allPostsLabel?: string
+  heroImage?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    title?: string
+    description?: string
+    altText?: string
+    credits?: string
+    _type: 'image'
+  }
+  seo?: {
+    title?: string
+    description?: string
+    keywords?: string
+    image?: SeoImage
+  }
+}
+
+export type Slug = {
+  _type: 'slug'
+  current?: string
+  source?: string
+}
+
+export type Event = {
+  _id: string
+  _type: 'event'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  orderRank?: string
+  title?: string
+  richText?: Array<
+    | {
+        children?: Array<{
+          marks?: Array<string>
+          text?: string
+          _type: 'span'
+          _key: string
+        }>
+        style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+        listItem?: 'bullet' | 'number'
+        markDefs?: Array<{
+          href?: string
+          _type: 'link'
+          _key: string
+        }>
+        level?: number
+        _type: 'block'
+        _key: string
+      }
+    | {
+        asset?: SanityImageAssetReference
         media?: unknown
         hotspot?: SanityImageHotspot
         crop?: SanityImageCrop
@@ -1981,42 +2700,14 @@ export type Event = {
     title?: string
     type?: string
     internalLink?:
-      | {
-          _ref: string
-          _type: 'reference'
-          _weak?: boolean
-          [internalGroqTypeReferenceTo]?: 'page'
-        }
-      | {
-          _ref: string
-          _type: 'reference'
-          _weak?: boolean
-          [internalGroqTypeReferenceTo]?: 'collectionHub'
-        }
-      | {
-          _ref: string
-          _type: 'reference'
-          _weak?: boolean
-          [internalGroqTypeReferenceTo]?: 'legalDocument'
-        }
-      | {
-          _ref: string
-          _type: 'reference'
-          _weak?: boolean
-          [internalGroqTypeReferenceTo]?: 'article'
-        }
-      | {
-          _ref: string
-          _type: 'reference'
-          _weak?: boolean
-          [internalGroqTypeReferenceTo]?: 'event'
-        }
-      | {
-          _ref: string
-          _type: 'reference'
-          _weak?: boolean
-          [internalGroqTypeReferenceTo]?: 'resource'
-        }
+      | PageReference
+      | CollectionHubReference
+      | LegalDocumentReference
+      | ArticleReference
+      | InformasjonsartikkelReference
+      | InformasjonsdokumentReference
+      | EventReference
+      | ResourceReference
     url?: string
     email?: string
     phone?: string
@@ -2024,12 +2715,7 @@ export type Event = {
     newTab?: boolean
   }
   image?: {
-    asset?: {
-      _ref: string
-      _type: 'reference'
-      _weak?: boolean
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-    }
+    asset?: SanityImageAssetReference
     media?: unknown
     hotspot?: SanityImageHotspot
     crop?: SanityImageCrop
@@ -2039,6 +2725,13 @@ export type Event = {
     credits?: string
     _type: 'image'
   }
+}
+
+export type CategoryReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'category'
 }
 
 export type Resource = {
@@ -2060,13 +2753,11 @@ export type Resource = {
     | 'guide'
     | 'research'
   externalUrl?: string
-  categories?: Array<{
-    _ref: string
-    _type: 'reference'
-    _weak?: boolean
-    _key: string
-    [internalGroqTypeReferenceTo]?: 'category'
-  }>
+  categories?: Array<
+    {
+      _key: string
+    } & CategoryReference
+  >
   richText?: Array<
     | {
         children?: Array<{
@@ -2087,12 +2778,7 @@ export type Resource = {
         _key: string
       }
     | {
-        asset?: {
-          _ref: string
-          _type: 'reference'
-          _weak?: boolean
-          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-        }
+        asset?: SanityImageAssetReference
         media?: unknown
         hotspot?: SanityImageHotspot
         crop?: SanityImageCrop
@@ -2101,12 +2787,7 @@ export type Resource = {
       }
   >
   thumbnail?: {
-    asset?: {
-      _ref: string
-      _type: 'reference'
-      _weak?: boolean
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-    }
+    asset?: SanityImageAssetReference
     media?: unknown
     hotspot?: SanityImageHotspot
     crop?: SanityImageCrop
@@ -2119,29 +2800,20 @@ export type Resource = {
   featured?: boolean
 }
 
-export type Slug = {
-  _type: 'slug'
-  current?: string
-  source?: string
+export type WriterReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'writer'
 }
 
-export type Article = {
+export type Informasjonsartikkel = {
   _id: string
-  _type: 'article'
+  _type: 'informasjonsartikkel'
   _createdAt: string
   _updatedAt: string
   _rev: string
-  type?: 'blog-post' | 'job-position' | 'news'
   title?: string
-  slug?: Slug
-  tag?: string
-  categories?: Array<{
-    _ref: string
-    _type: 'reference'
-    _weak?: boolean
-    _key: string
-    [internalGroqTypeReferenceTo]?: 'category'
-  }>
   lead?: string
   richText?: Array<
     | {
@@ -2163,12 +2835,7 @@ export type Article = {
         _key: string
       }
     | {
-        asset?: {
-          _ref: string
-          _type: 'reference'
-          _weak?: boolean
-          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-        }
+        asset?: SanityImageAssetReference
         media?: unknown
         hotspot?: SanityImageHotspot
         crop?: SanityImageCrop
@@ -2176,13 +2843,16 @@ export type Article = {
         _key: string
       }
   >
+  slug?: Slug
+  publishedAt?: string
+  categories?: Array<
+    {
+      _key: string
+    } & CategoryReference
+  >
+  skribent?: WriterReference
   featuredImage?: {
-    asset?: {
-      _ref: string
-      _type: 'reference'
-      _weak?: boolean
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-    }
+    asset?: SanityImageAssetReference
     media?: unknown
     hotspot?: SanityImageHotspot
     crop?: SanityImageCrop
@@ -2196,18 +2866,94 @@ export type Article = {
     title?: string
     description?: string
     keywords?: string
-    image?: {
-      asset?: {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    image?: SeoImage
+  }
+}
+
+export type Writer = {
+  _id: string
+  _type: 'writer'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  orderRank?: string
+  name?: string
+  gruppe?: 'styret' | 'raadgivere' | 'frivillige' | 'skribenter'
+  occupation?: string
+  email?: string
+  image?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    title?: string
+    description?: string
+    altText?: string
+    credits?: string
+    _type: 'image'
+  }
+}
+
+export type Article = {
+  _id: string
+  _type: 'article'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  type?: 'blog-post' | 'job-position' | 'news'
+  title?: string
+  slug?: Slug
+  tag?: string
+  categories?: Array<
+    {
+      _key: string
+    } & CategoryReference
+  >
+  lead?: string
+  richText?: Array<
+    | {
+        children?: Array<{
+          marks?: Array<string>
+          text?: string
+          _type: 'span'
+          _key: string
+        }>
+        style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+        listItem?: 'bullet' | 'number'
+        markDefs?: Array<{
+          href?: string
+          _type: 'link'
+          _key: string
+        }>
+        level?: number
+        _type: 'block'
+        _key: string
       }
-      media?: unknown
-      hotspot?: SanityImageHotspot
-      crop?: SanityImageCrop
-      _type: 'image'
-    }
+    | {
+        asset?: SanityImageAssetReference
+        media?: unknown
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        _type: 'image'
+        _key: string
+      }
+  >
+  featuredImage?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    title?: string
+    description?: string
+    altText?: string
+    credits?: string
+    _type: 'image'
+  }
+  seo?: {
+    title?: string
+    description?: string
+    keywords?: string
+    image?: SeoImage
   }
 }
 
@@ -2239,12 +2985,7 @@ export type LegalDocument = {
         _key: string
       }
     | {
-        asset?: {
-          _ref: string
-          _type: 'reference'
-          _weak?: boolean
-          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-        }
+        asset?: SanityImageAssetReference
         media?: unknown
         hotspot?: SanityImageHotspot
         crop?: SanityImageCrop
@@ -2261,36 +3002,21 @@ export type BrandAssets = {
   _updatedAt: string
   _rev: string
   primaryLogo?: {
-    asset?: {
-      _ref: string
-      _type: 'reference'
-      _weak?: boolean
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-    }
+    asset?: SanityImageAssetReference
     media?: unknown
     hotspot?: SanityImageHotspot
     crop?: SanityImageCrop
     _type: 'image'
   }
   secondaryLogo?: {
-    asset?: {
-      _ref: string
-      _type: 'reference'
-      _weak?: boolean
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-    }
+    asset?: SanityImageAssetReference
     media?: unknown
     hotspot?: SanityImageHotspot
     crop?: SanityImageCrop
     _type: 'image'
   }
   favicon?: {
-    asset?: {
-      _ref: string
-      _type: 'reference'
-      _weak?: boolean
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-    }
+    asset?: SanityImageAssetReference
     media?: unknown
     hotspot?: SanityImageHotspot
     crop?: SanityImageCrop
@@ -2331,6 +3057,7 @@ export type SanityImageMetadata = {
   palette?: SanityImagePalette
   lqip?: string
   blurHash?: string
+  thumbHash?: string
   hasAlpha?: boolean
   isOpaque?: boolean
 }
@@ -2395,20 +3122,55 @@ export type Geopoint = {
 }
 
 export type AllSanitySchemaTypes =
+  | SanityImageAssetReference
+  | SeoImage
+  | Layout
+  | PageReference
+  | CollectionHubReference
+  | LegalDocumentReference
+  | ArticleReference
+  | InformasjonsartikkelReference
+  | InformasjonsdokumentReference
+  | EventReference
+  | ResourceReference
+  | GridItemLink
+  | CtaLink
+  | AppearanceImage
+  | ContactSectionAppearance
+  | Appearance1
+  | HeroImage
+  | InfoMessage
+  | CtaSectionAppearance
+  | ArticleSectionImage
+  | ArticleSectionAppearance
+  | CalloutAppearance
+  | ImageSectionImage
+  | GridAppearance
+  | FeaturesLink
+  | FeaturesAppearance
+  | ResourcesAppearance
+  | TestimonialsLink
+  | TestimonyImage
+  | SectionGroup
   | GridList
+  | GridItem
+  | GuriAppen
   | SanityImageCrop
   | SanityImageHotspot
-  | GridItem
+  | Blomst
   | Redirect
+  | TurvennReference
+  | WalkingTour
+  | Turvenn
   | GroupedResources
   | LinkWithDescription
   | Theme
   | Appearance
   | Category
-  | Writer
   | RichText
   | CompanyInfo
   | CallToActionField
+  | SoMeLinksReference
   | FooterSection
   | SocialMediaLinkID
   | Link
@@ -2417,9 +3179,14 @@ export type AllSanitySchemaTypes =
   | NavigationManager
   | Page
   | CollectionHub
-  | Event
-  | Resource
+  | Informasjonsdokument
   | Slug
+  | Event
+  | CategoryReference
+  | Resource
+  | WriterReference
+  | Informasjonsartikkel
+  | Writer
   | Article
   | LegalDocument
   | BrandAssets
@@ -2431,4 +3198,3 @@ export type AllSanitySchemaTypes =
   | SanityAssetSourceData
   | SanityImageAsset
   | Geopoint
-export declare const internalGroqTypeReferenceTo: unique symbol

@@ -8,6 +8,8 @@ import {
 import { DEFAULT_LANGUAGE } from "@/constants";
 import { generatePageMetadata, getLastSlug } from "@/utils/metadata";
 import { logger, logError } from "@/utils/logger";
+import { permanentRedirect } from "next/navigation";
+import { getDocumentPath, harSeksjonsprefiks } from "@/utils/documentUrl";
 
 export const revalidate = 86400; // ISR: 24 hours - regenerate daily
 export const dynamicParams = true; // Enable ISR for new pages
@@ -46,11 +48,23 @@ export default async function DynamicPage({ params, searchParams }: PageProps) {
     return <PMDDErrorMessage />;
   }
 
+  // Dokumenttyper som hører under en seksjon har sin egen rute
+  // (f.eks. /informasjon/<slug>). Havner en forespørsel likevel her, kommer den
+  // fra en gammel toppnivå-URL – send den videre til den kanoniske adressen så
+  // samme innhold ikke svarer på to steder.
+  if (harSeksjonsprefiks(docType)) {
+    permanentRedirect(getDocumentPath(docType, slug[slug.length - 1]));
+  }
+
   // Map legacy document types to current types
   // "information" and "highlights" were legacy types, now they're all collectionHub
   const legacyTypeMap: Record<string, ContentType> = {
     information: "collectionHub",
     highlights: "collectionHub",
+    // Artikler på informasjonssiden har egen dokumenttype, men rendres som artikkel
+    informasjonsartikkel: "article",
+    // Informasjonssiden har egen dokumenttype, men rendres av hub-handleren
+    informasjonsdokument: "collectionHub",
   };
 
   const mappedType = (legacyTypeMap[docType] || docType) as ContentType;

@@ -1,10 +1,13 @@
 import { client } from "@/sanity/lib/client";
 import { MetadataRoute } from "next";
 import { logError } from '@/utils/logger';
+import { getDocumentPath } from '@/utils/documentUrl';
 
 // Content types from Sanity schema (updated)
 const CONTENT_TYPES = {
   article: "article",
+  informasjonsartikkel: "informasjonsartikkel",
+  informasjonsdokument: "informasjonsdokument",
   page: "page",
   event: "event",
   collectionHub: "collectionHub",
@@ -15,6 +18,8 @@ type ContentType = (typeof CONTENT_TYPES)[keyof typeof CONTENT_TYPES];
 // SEO priorities for different content types
 const PRIORITIES: Record<ContentType, number> = {
   [CONTENT_TYPES.article]: 0.8,
+  [CONTENT_TYPES.informasjonsartikkel]: 0.8,
+  [CONTENT_TYPES.informasjonsdokument]: 0.7,
   [CONTENT_TYPES.page]: 0.7,
   [CONTENT_TYPES.event]: 0.75,
   [CONTENT_TYPES.collectionHub]: 0.7,
@@ -30,7 +35,14 @@ interface SanityDocument {
 }
 
 async function getAllContent() {
-  const query = `*[_type in ["article", "page", "event", "collectionHub"] && defined(slug.current)] {
+  const query = `*[_type in [
+    "article",
+    "informasjonsartikkel",
+    "informasjonsdokument",
+    "page",
+    "event",
+    "collectionHub"
+  ] && defined(slug.current)] {
     _type,
     _id,
     _updatedAt,
@@ -63,7 +75,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     documents.forEach((doc) => {
       if (doc.slug?.current) {
         routes.push({
-          url: `${baseUrl}/${doc.slug.current}`,
+          url: `${baseUrl}${getDocumentPath(doc._type, doc.slug.current)}`,
           lastModified: new Date(doc._updatedAt),
           changeFrequency: "weekly",
           priority: PRIORITIES[doc._type],

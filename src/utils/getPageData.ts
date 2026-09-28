@@ -12,11 +12,13 @@ type QueryParams = Record<string, string | string[] | number | boolean | null | 
 
 export const cachedSanityFetch = async (
   query: string,
-  params: QueryParams | Promise<QueryParams>
+  params: QueryParams | Promise<QueryParams>,
+  tags?: string[]
 ) => {
   const response = await sanityFetch({
     query,
     params,
+    ...(tags ? { tags } : {}),
   });
 
   return response;
@@ -29,23 +31,25 @@ export const fetchInformationData = async (
 ) => {
   const POSTS_PER_PAGE = 12;
   const start = (page - 1) * POSTS_PER_PAGE;
-  const end = start + POSTS_PER_PAGE - 1;
+  const end = start + POSTS_PER_PAGE;
 
   try {
     const [postsCount, posts, categories] = await Promise.all([
-      cachedSanityFetch(COUNT_ARTICLES_QUERY, {
-        type: "blog-post",
-        category: category || undefined,
-      }),
-      cachedSanityFetch(PAGINATED_ARTICLES_QUERY, {
-        type: "blog-post",
-        category: category || undefined,
-        start,
-        end,
-      }),
-      cachedSanityFetch(COLLECTION_CATEGORIES_QUERY, {
-        articleType: "blog-post",
-      }),
+      cachedSanityFetch(
+        COUNT_ARTICLES_QUERY,
+        { type: "blog-post", category: category || null },
+        ["informasjon"]
+      ),
+      cachedSanityFetch(
+        PAGINATED_ARTICLES_QUERY,
+        { type: "blog-post", category: category || null, start, end },
+        ["informasjon"]
+      ),
+      cachedSanityFetch(
+        COLLECTION_CATEGORIES_QUERY,
+        { articleType: "blog-post" },
+        ["informasjon"]
+      ),
     ]);
 
     if (!posts?.data || !postsCount?.data) return null;

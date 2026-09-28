@@ -1,0 +1,232 @@
+.fjernBottomPadding {
+  padding-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+}
+
+@media (min-width: 640px) {
+  .fjernBottomPadding {
+    gap: 5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .fjernBottomPadding {
+    gap: 7.5rem;
+  }
+}
+
+.guriHero {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 896px;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  overflow: hidden;
+}
+
+@media (min-width: 640px) {
+  .guriHero {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 3.25rem;
+  }
+}
+
+@media (min-width: 1040px) {
+  .guriHero {
+    gap: 3.5rem;
+  }
+}
+
+.guriHeroBilde {
+  width: 100% !important;
+  height: auto !important;
+  max-width: 400px !important;
+  margin: auto !important;
+}
+
+@media (min-width: 640px) {
+  .guriHeroBilde {
+    width: auto !important;
+    height: 100% !important;
+    max-width: 50% !important;
+    max-height: 482px !important;
+    flex-shrink: 1 !important;
+  }
+}
+
+.guriHeroTekst {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 0.75rem;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+
+  & .tittel {
+    font-family: var(--font-pollerOne);
+  }
+
+  @media (min-width: 640px) {
+    flex: 1 1 0;
+    min-width: 0;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    & h1 {
+      font-size: 3.25rem;
+    }
+  }
+}
+
+.guriBody {
+  display: flex;
+  max-width: 50rem;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+}
+
+@media (min-width: 640px) {
+  .guriBody {
+    gap: 5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .guriBody {
+    gap: 7.5rem;
+  }
+}
+
+.guriOmAppen {
+  display: flex;
+  padding: 1.5rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+  align-self: stretch;
+  border-radius: 1.25rem;
+  background: var(--White_faded90, rgba(255, 255, 255, 0.9));
+}
+
+@media (min-width: 640px) {
+  .guriOmAppen {
+    padding: 2.5rem 3.875rem;
+    gap: 7.5rem;
+  }
+}
+
+.guriArgumenter {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: var(--Spacing-L, 2rem);
+  align-self: stretch;
+  & ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--Spacing-XL, 2.5rem);
+  }
+}
+
+@media (min-width: 640px) {
+  .guriArgumenter {
+    gap: var(--Spacing-XXL, 3.5rem);
+  }
+  .guriArgumenter ul {
+    gap: var(--Spacing-XXL, 3.5rem);
+  }
+}
+
+.guriArgument {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: var(--Spacing-M, 1.5rem);
+}
+
+@media (min-width: 640px) {
+  .guriArgument {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 4.25rem;
+  }
+
+  .guriArgument:nth-child(odd) {
+    flex-direction: row-reverse;
+  }
+}
+
+.guriArgumentTekst {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--Spacing-XS, 0.5rem);
+}
+
+.guriArgumentBilde {
+  flex: 1;
+}
+
+.guriFooter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--Spacing-XXL, 3.5rem);
+  align-self: stretch;
+  text-align: center;
+}
+
+.guriFooterBilde {
+  width: auto !important;
+  height: 100% !important;
+  max-height: 116px !important;
+}
+
+.guriSkjermbilder {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  justify-content: center;
+  align-items: flex-start;
+  gap: var(--Spacing-XS, 0.5rem);
+  align-self: stretch;
+  margin-bottom: -8.5px;
+}
+
+@media (min-width: 640px) {
+  .guriSkjermbilder {
+    gap: var(--Spacing-L, 2rem);
+    margin-bottom: -14px;
+  }
+}
+
+.guriSkjermbilde {
+  min-width: 0 !important;
+  max-width: 12rem !important;
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 604 / 1099 !important;
+  object-fit: cover !important;
+  object-position: top !important;
+  display: block !important;
+  justify-self: center;
+}

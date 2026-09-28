@@ -38,7 +38,6 @@
   font-style: normal;
   font-weight: 600;
   line-height: 1;
-
   white-space: nowrap;
 
   border-radius: 0.25rem;
@@ -54,7 +53,7 @@
 }
 
 .selected {
-  color: var(--LightBlue, #eff8f6);
+  color: var(--White);
   border: 2px solid var(--Teal, #006783);
   background: var(--Teal, #006783);
   cursor: default;

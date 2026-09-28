@@ -1,5 +1,6 @@
 import { LinkType, SanityLink } from "@/sanity/lib/interfaces/siteSettings";
 import { logger } from './logger';
+import { getDocumentPath } from './documentUrl';
 
 const hash = "#";
 
@@ -41,8 +42,10 @@ export const getHref = (link: SanityLink): string => {
           // Root page - just add anchor if present
           link = `/${formatAnchor(anchor)}`;
         } else {
-          // Regular page - add path, query params, and anchor
-          link = `/${path}${query ? `?${query}` : ""}${formatAnchor(anchor)}`;
+          // Dokumenttypen avgjør om lenken hører under en seksjon, slik at
+          // f.eks. artikler alltid peker på /informasjon/<slug>.
+          const basePath = getDocumentPath(internalLink?._type, path);
+          link = `${basePath}${query ? `?${query}` : ""}${formatAnchor(anchor)}`;
         }
 
         return link;

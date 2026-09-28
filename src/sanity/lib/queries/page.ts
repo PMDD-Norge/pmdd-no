@@ -124,10 +124,10 @@ const SECTION_TYPE_PROJECTIONS = `
 
       // Auto-populated blog posts
       contentType == "blog-post" => {
-        "items": *[_type == "article" && type == "blog-post"] | order(publishedAt desc) [0...6] {
+        "items": *[_type == "informasjonsartikkel"] | order(coalesce(publishedAt, _createdAt) desc) [0...6] {
           _id,
           _type,
-          type,
+          "type": "blog-post",
           title,
           lead,
           excerpt,
@@ -141,7 +141,7 @@ const SECTION_TYPE_PROJECTIONS = `
 
       // Auto-populated news
       contentType == "news" => {
-        "items": *[_type == "article" && type == "news"] | order(publishedAt desc) [0...6] {
+        "items": *[_type == "article" && type == "news"] | order(coalesce(publishedAt, _createdAt) desc) [0...6] {
           _id,
           _type,
           type,
@@ -157,7 +157,7 @@ const SECTION_TYPE_PROJECTIONS = `
 
       // Auto-populated job positions
       contentType == "job-position" => {
-        "items": *[_type == "article" && type == "job-position"] | order(publishedAt desc) [0...6] {
+        "items": *[_type == "article" && type == "job-position"] | order(coalesce(publishedAt, _createdAt) desc) [0...6] {
           _id,
           _type,
           type,

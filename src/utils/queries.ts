@@ -38,8 +38,17 @@ const Queries: Record<QueryType, string> = {
 
 export async function getDocumentTypeBySlug(slug: string[], language: string) {
   const slugToUse = slug.length > 1 ? slug[slug.length - 1] : slug[0];
+  // Flere dokumenter kan dele samme slug: legacy-typer som aldri ble ryddet bort
+  // (information/highlights), og dokumenter som er i ferd med å bli erstattet av
+  // en nyere type. Uten en eksplisitt prioritering blir [0] vilkårlig, og siden
+  // kan rendre feil innhold mellom to forespørsler. Lavest tall vinner.
   return sanityFetch({
-    query: `*[defined(slug) && slug.current == $slug][0]._type`,
+    query: `*[defined(slug) && slug.current == $slug] | order(select(
+      _type in ["information", "highlights"] => 3,
+      _type == "collectionHub" => 2,
+      _type == "article" => 1,
+      0
+    ) asc)[0]._type`,
     params: { slug: slugToUse, language },
   });
 }

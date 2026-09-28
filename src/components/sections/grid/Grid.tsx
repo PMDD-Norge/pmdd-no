@@ -123,7 +123,10 @@ const getRouteForType = (
   const documentType = "_type" in item ? item._type : "";
 
   // Handle articles - they have a sub-type that determines their hub
-  if (documentType === "article" && "type" in item) {
+  if (
+    (documentType === "article" || documentType === "informasjonsartikkel") &&
+    "type" in item
+  ) {
     const articleItem = item as ArticleWithType;
     const articleType = articleItem.type;
 

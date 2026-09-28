@@ -1,6 +1,6 @@
 import { sanityFetch } from "@/sanity/lib/live";
 import { GURI_APPEN_QUERY } from "@/sanity/lib/queries";
-import GuriAppen from "@/components/pages/guriAppen/GuriAppen";
+import GuriAppen from "@/components/pages/guri-appen/guri-appen";
 import PMDDErrorMessage from "@/components/pages/information/components/customErrorMessage/PMDDErrorMessage";
 import { generatePageMetadata } from "@/utils/metadata";
 

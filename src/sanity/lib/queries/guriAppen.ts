@@ -29,10 +29,8 @@ export const GURI_APPEN_QUERY = `
     "image": image{${IMAGE_FIELDS}}
   },
   footerSection{
-    title,
     "image": image{${IMAGE_FIELDS}},
-    googlePlayUrl,
-    appStoreUrl,
+    text,
     "screenshots": screenshots[]{${IMAGE_FIELDS}}
   }
 }

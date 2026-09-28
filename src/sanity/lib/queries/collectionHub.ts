@@ -5,7 +5,12 @@
 
 // Get collection hub by slug (supports both new collectionHub and legacy information/highlights types)
 export const COLLECTION_HUB_BY_SLUG_QUERY = `
-*[(_type == "collectionHub" || _type == "information" || _type == "highlights") && slug.current == $slug][0] {
+*[(_type == "collectionHub" || _type == "informasjonsdokument" || _type == "information" || _type == "highlights") && slug.current == $slug]
+| order(select(
+  _type in ["information", "highlights"] => 2,
+  _type == "collectionHub" => 1,
+  0
+) asc)[0] {
   _id,
   _type,
   type,
@@ -56,10 +61,10 @@ export const COLLECTION_HUB_BY_SLUG_QUERY = `
     },
 
     type == "blog-post" => {
-      "items": *[_type == "article" && type == "blog-post" && !(_id in path("drafts.**"))] | order(publishedAt desc) [0...20] {
+      "items": *[_type == "informasjonsartikkel" && !(_id in path("drafts.**"))] | order(coalesce(publishedAt, _createdAt) desc) [0...20] {
         _id,
         _type,
-        type,
+        "type": "blog-post",
         title,
         slug,
         lead,
@@ -69,7 +74,7 @@ export const COLLECTION_HUB_BY_SLUG_QUERY = `
           hotspot
         },
         publishedAt,
-        "author": author->{
+        "author": skribent->{
           name,
           slug,
           image{
@@ -84,17 +89,17 @@ export const COLLECTION_HUB_BY_SLUG_QUERY = `
         }
       },
       ^.showFilters == true => {
-        "categories": *[_type == "category" && count(*[_type == "article" && type == "blog-post" && references(^._id)]) > 0] | order(name asc) {
+        "categories": *[_type == "category" && count(*[_type == "informasjonsartikkel" && references(^._id)]) > 0] | order(name asc) {
           _id,
           name,
           slug,
-          "count": count(*[_type == "article" && type == "blog-post" && references(^._id)])
+          "count": count(*[_type == "informasjonsartikkel" && references(^._id)])
         }
       }
     },
 
     type == "news" => {
-      "items": *[_type == "article" && type == "news" && !(_id in path("drafts.**"))] | order(publishedAt desc) [0...20] {
+      "items": *[_type == "article" && type == "news" && !(_id in path("drafts.**"))] | order(coalesce(publishedAt, _createdAt) desc) [0...20] {
         _id,
         _type,
         type,
@@ -124,7 +129,7 @@ export const COLLECTION_HUB_BY_SLUG_QUERY = `
     },
 
     type == "job-position" => {
-      "items": *[_type == "article" && type == "job-position" && !(_id in path("drafts.**"))] | order(publishedAt desc) [0...20] {
+      "items": *[_type == "article" && type == "job-position" && !(_id in path("drafts.**"))] | order(coalesce(publishedAt, _createdAt) desc) [0...20] {
         _id,
         _type,
         title,
@@ -269,11 +274,19 @@ export const COLLECTION_HUB_WITH_ARTICLES_QUERY = COLLECTION_HUB_BY_SLUG_QUERY;
 
 // Get categories for a collection type
 export const COLLECTION_CATEGORIES_QUERY = `
-*[_type == "category" && count(*[_type == "article" && type == $articleType && references(^._id)]) > 0] | order(name asc) {
+*[_type == "category" && count(*[
+  (($articleType == "blog-post" && _type == "informasjonsartikkel") ||
+   ($articleType != "blog-post" && _type == "article" && type == $articleType)) &&
+  references(^._id)
+]) > 0] | order(name asc) {
   _id,
   name,
   slug,
   description,
-  "count": count(*[_type == "article" && type == $articleType && references(^._id)])
+  "count": count(*[
+    (($articleType == "blog-post" && _type == "informasjonsartikkel") ||
+     ($articleType != "blog-post" && _type == "article" && type == $articleType)) &&
+    references(^._id)
+  ])
 }
 `;

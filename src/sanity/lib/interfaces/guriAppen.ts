@@ -10,10 +10,8 @@ export interface GuriAppenArgument {
 }
 
 export interface GuriAppenFooterSection {
-  title?: string;
+  text?: PortableTextBlock[];
   image?: SanityImageData;
-  googlePlayUrl?: string;
-  appStoreUrl?: string;
   screenshots?: SanityImageData[];
 }
 
