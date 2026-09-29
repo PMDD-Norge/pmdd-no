@@ -28,6 +28,12 @@ export const GURI_APPEN_QUERY = `
     text,
     "image": image{${IMAGE_FIELDS}}
   },
+  seo{
+    title,
+    description,
+    keywords,
+    image{asset->}
+  },
   footerSection{
     "image": image{${IMAGE_FIELDS}},
     text,

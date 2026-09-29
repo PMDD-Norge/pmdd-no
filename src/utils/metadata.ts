@@ -92,7 +92,28 @@ export async function fetchSEOData(slug?: string): Promise<{
  */
 export async function generatePageMetadata(slug?: string): Promise<Metadata> {
   const { seo, brandAssets } = await fetchSEOData(slug);
+  return buildMetadata(seo, brandAssets);
+}
 
+/**
+ * Generates metadata from a document's own seo object.
+ *
+ * Bruk denne for sider som ikke slås opp via slug – f.eks. singletons med egen
+ * rute, der `fetchSEOData` ikke finner dokumentet. Faller tilbake på
+ * standardverdiene i seoFallback når feltet er tomt.
+ */
+export async function generateMetadataFromSeo(
+  documentSeo: SEOData | null | undefined
+): Promise<Metadata> {
+  const { seo: fallbackSeo, brandAssets } = await fetchSEOData();
+  const harVerdi = documentSeo?.title || documentSeo?.description || documentSeo?.image;
+  return buildMetadata(harVerdi ? documentSeo! : fallbackSeo, brandAssets);
+}
+
+function buildMetadata(
+  seo: SEOData | null | undefined,
+  brandAssets: BrandAssets | null
+): Metadata {
   // Generate favicon URL
   const favicon = brandAssets?.favicon;
   const faviconUrl = favicon ? urlFor(favicon).url() : "";
