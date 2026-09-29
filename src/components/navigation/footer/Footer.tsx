@@ -25,8 +25,8 @@ const Footer = ({ navigationData }: FooterProps) => {
   return (
     <footer className={styles.footer}>
       <nav className={styles.nav}>
-        <SocialMediaSection navigationData={navigationData} />
         <ContentSections navigationData={navigationData} />
+        <SocialMediaSection navigationData={navigationData} />
       </nav>
     </footer>
   );
