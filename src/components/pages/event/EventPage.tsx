@@ -1,14 +1,12 @@
 import { EventDocument } from "@/sanity/lib/interfaces/pages";
 import styles from "./event.module.css";
 import Text from "@/components/text/Text";
-import QuickNavigation from "@/components/navigation/quickNavigation/QuickNavigation";
 import { RichText } from "@/components/richText/RichText";
 import SanityNextImage from "@/components/image/sanityImage";
 import CustomLink from "@/components/link/CustomLink";
 
 const EventPage = async ({
   event,
-  currentSlug,
 }: {
   event: EventDocument;
   currentSlug: string;
@@ -17,7 +15,8 @@ const EventPage = async ({
     return null;
   }
 
-  const { title, richText, body, image, link, startDate, endDate, location } = event;
+  const { title, richText, body, image, link, startDate, endDate, location } =
+    event;
   const content = richText || body;
 
   return (
@@ -35,11 +34,12 @@ const EventPage = async ({
                   month: "long",
                   day: "numeric",
                 })}
-                {endDate && ` - ${new Date(endDate).toLocaleDateString("nb-NO", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}`}
+                {endDate &&
+                  ` - ${new Date(endDate).toLocaleDateString("nb-NO", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}`}
               </Text>
             )}
             {location && <Text type="bodyLarge">{location}</Text>}
@@ -50,13 +50,6 @@ const EventPage = async ({
           <div className={styles.headerImage}>
             <SanityNextImage image={image} />
           </div>
-        )}
-
-        {content && (
-          <QuickNavigation
-            richText={content}
-            currentSlug={currentSlug}
-          />
         )}
       </div>
 

@@ -29,7 +29,6 @@ interface ArticlePageProps {
     }>;
   };
   currentSlug: string;
-  showQuickNavigation?: boolean;
 }
 
 const ArticlePage = async ({ article }: ArticlePageProps) => {
