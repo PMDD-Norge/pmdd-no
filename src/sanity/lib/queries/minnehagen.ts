@@ -10,12 +10,40 @@ export const MINNEHAGEN_BY_SLUG_QUERY = `
   slug,
   title,
   richText,
-  heroImage{
+  "image": heroImage{
     asset->,
     altText,
     hotspot,
     title,
     description
+  },
+  contactSection{
+    _type,
+    _key,
+    title,
+    "richText": coalesce(body, richText),
+    callToActions[]{
+      _key,
+      _type,
+      title,
+      type,
+      "internalLink": internalLink->{
+        _type,
+        title,
+        slug{
+          current
+        }
+      },
+      url,
+      email,
+      phone,
+      anchor,
+      newTab
+    },
+    appearance{
+      theme,
+      linkType
+    }
   },
   vippsDonasjoner{
     aktivert,

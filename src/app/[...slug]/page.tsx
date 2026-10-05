@@ -56,18 +56,7 @@ export default async function DynamicPage({ params, searchParams }: PageProps) {
     permanentRedirect(getDocumentPath(docType, slug[slug.length - 1]));
   }
 
-  // Map legacy document types to current types
-  // "information" and "highlights" were legacy types, now they're all collectionHub
-  const legacyTypeMap: Record<string, ContentType> = {
-    information: "collectionHub",
-    highlights: "collectionHub",
-    // Artikler på informasjonssiden har egen dokumenttype, men rendres som artikkel
-    informasjonsartikkel: "article",
-    // Informasjonssiden har egen dokumenttype, men rendres av hub-handleren
-    informasjonsdokument: "collectionHub",
-  };
-
-  const mappedType = (legacyTypeMap[docType] || docType) as ContentType;
+  const mappedType = (docType === "informasjonsartikkel" ? "article" : docType) as ContentType;
 
   // Get the appropriate handler from the registry
   const handler = contentTypeHandlers[mappedType];

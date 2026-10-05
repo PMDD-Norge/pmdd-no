@@ -33,6 +33,7 @@ export const LINK_FRAGMENT = `{
   _key,
   _type,
   title,
+  description,
   type,
   "internalLink": internalLink->{
     _type,

@@ -13,6 +13,7 @@ import { getThemeClassFromAppearance } from "@/utils/themeUtils";
 import { LinkType, SanityLink } from "@/sanity/lib/interfaces/siteSettings";
 
 import {
+  AktivitetDocument,
   AvailablePositionDocument,
   EventDocument,
   GridItem,
@@ -99,16 +100,17 @@ const GridListSection = ({ list }: { list: GridList }) => {
   );
 };
 
+type GridElementItem =
+  | EventDocument
+  | AvailablePositionDocument
+  | GridItem
+  | WalkingTourDocument
+  | TurVennDocument
+  | AktivitetDocument;
+
 // Helper function to determine the correct route path based on document type
 // Documents should route through their hub pages
-const getRouteForType = (
-  item:
-    | EventDocument
-    | AvailablePositionDocument
-    | GridItem
-    | WalkingTourDocument
-    | TurVennDocument,
-): string => {
+const getRouteForType = (item: GridElementItem): string => {
   // Safety check: ensure item is an object
   if (!item || typeof item !== "object") {
     return "";
@@ -164,14 +166,7 @@ const getRouteForType = (
 };
 
 // Helper function to create internal link for auto-populated items
-const createInternalLink = (
-  item:
-    | EventDocument
-    | AvailablePositionDocument
-    | GridItem
-    | WalkingTourDocument
-    | TurVennDocument,
-): SanityLink | undefined => {
+const createInternalLink = (item: GridElementItem): SanityLink | undefined => {
   // If item already has a link, use it (works for GridItem, EventDocument, etc.)
   if ("link" in item && item.link) {
     return item.link;
@@ -205,16 +200,7 @@ const createInternalLink = (
   return undefined;
 };
 
-const GridElement = ({
-  item,
-}: {
-  item:
-    | EventDocument
-    | AvailablePositionDocument
-    | GridItem
-    | WalkingTourDocument
-    | TurVennDocument;
-}) => {
+const GridElement = ({ item }: { item: GridElementItem }) => {
   const itemAny = item as unknown as Record<string, unknown>;
 
   // Check document type
@@ -222,6 +208,9 @@ const GridElement = ({
   const isWriter = "_type" in item && item._type === "writer";
   const isWalkingTour = "_type" in item && item._type === "walkingTour";
   const isTurVenn = "_type" in item && item._type === "turvenn";
+  const isWriterTurvenn =
+    isWriter && "gruppe" in item && item.gruppe === "turvenn";
+  const isAktivitet = "_type" in item && item._type === "aktivitet";
 
   // Get title - writers and turvenn use 'name' field
   const itemTitle: string | undefined =
@@ -275,6 +264,10 @@ const GridElement = ({
   const turvennName: string | null =
     walkingTourTurvenn?.name ?? null;
 
+  // Aktivitet's own "lenke" (f.eks. påmelding eller mer info)
+  const aktivitetLink: SanityLink | undefined =
+    isAktivitet && "detaljer" in item ? item.detaljer?.lenke : undefined;
+
   const image = "image" in item && item.image ? item.image : undefined;
 
   return (
@@ -286,9 +279,35 @@ const GridElement = ({
       )}
       {itemTitle && <Text type="h4">{getDisplayText(itemTitle)}</Text>}
 
-      {/* City for turvenn */}
-      {isTurVenn && "city" in item && !!item.city && (
+      {/* City for turvenn (legacy "turvenn" type and writer gruppe "turvenn") */}
+      {(isTurVenn || isWriterTurvenn) && "city" in item && !!item.city && (
         <Text type="small">{item.city as string}</Text>
+      )}
+
+      {/* Aktivitet-specific fields: dato, tid, sted, pris */}
+      {isAktivitet && "detaljer" in item && item.detaljer && (
+        <>
+          {item.detaljer.dato && (
+            <Text type="small" className={styles.eventDate}>
+              {new Date(item.detaljer.dato).toLocaleDateString("nb-NO", {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                timeZone: "Europe/Oslo",
+              })}
+              {item.detaljer.tid && ` · ${item.detaljer.tid}`}
+            </Text>
+          )}
+          {item.detaljer.sted && (
+            <Text type="small" className={styles.eventLocation}>
+              {item.detaljer.sted}
+            </Text>
+          )}
+          {item.detaljer.pris && (
+            <Text type="small">{item.detaljer.pris}</Text>
+          )}
+        </>
       )}
 
       {/* Event-specific fields: date and location */}
@@ -356,7 +375,12 @@ const GridElement = ({
           <CustomLink link={facebookLink} />
         </div>
       )}
-      {!facebookLink && link?.title && (
+      {!facebookLink && aktivitetLink?.title && (
+        <div>
+          <CustomLink link={aktivitetLink} />
+        </div>
+      )}
+      {!facebookLink && !aktivitetLink?.title && link?.title && (
         <div>
           <CustomLink link={link} />
         </div>

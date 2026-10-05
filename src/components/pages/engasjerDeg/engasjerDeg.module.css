@@ -1,0 +1,122 @@
+.pageContainer {
+  gap: var(--Spacing-XXL, 3.5rem);
+  max-width: 56rem;
+}
+
+.hero,
+.seksjon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero {
+  gap: var(--Spacing-L, 2rem);
+  flex-direction: column-reverse;
+}
+
+.seksjon {
+  gap: var(--Spacing-M, 1.5rem);
+}
+
+.heroBilde {
+  width: 100% !important;
+  height: auto !important;
+  max-width: 400px !important;
+  margin: auto !important;
+}
+
+.heroTextWrapper,
+.seksjonTekstWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  align-self: stretch;
+  min-width: 0;
+}
+
+.heroTextWrapper {
+  gap: var(--Spacing-S, 1rem);
+}
+
+.seksjonTekstWrapper {
+  width: 100%;
+  gap: var(--Spacing-M, 1.5rem);
+}
+
+@media (min-width: 640px) {
+  .hero,
+  .seksjon {
+    flex-direction: row;
+  }
+
+  .hero {
+    gap: var(--Spacing-XXL, 3.5rem);
+  }
+
+  .seksjon {
+    gap: var(--Spacing-L, 2rem);
+  }
+
+  .heroBilde {
+    width: auto !important;
+    max-width: 40% !important;
+    flex-shrink: 1;
+  }
+
+  .seksjonTekstWrapper {
+    flex: 2;
+  }
+}
+
+.lenker {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--Spacing-XS, 0.5rem);
+}
+
+/* LinkButton skal følge innholdets bredde, ikke fylle raden */
+.lenker a {
+  width: fit-content;
+}
+
+.stillinger {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--Spacing-L);
+  align-self: stretch;
+}
+
+@media (min-width: 640px) {
+  .stillinger {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.stilling {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--Spacing-S, 1rem);
+}
+
+.stillingTextWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--Spacing-XS, 0.5rem);
+  align-self: stretch;
+}
+
+.cta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--Spacing-S, 1rem);
+  align-self: stretch;
+}

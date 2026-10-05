@@ -10,6 +10,7 @@ export {
   PAGINATED_ARTICLES_QUERY,
   COUNT_ARTICLES_QUERY,
   ARTICLE_SLUGS_QUERY,
+  COLLECTION_CATEGORIES_QUERY,
 } from './article';
 
 // Page queries
@@ -19,14 +20,6 @@ export {
   LANDING_PAGE_ID_QUERY,
   LANDING_PAGE_QUERY,
 } from './page';
-
-// Collection Hub queries
-export {
-  COLLECTION_HUB_BY_SLUG_QUERY,
-  COLLECTION_HUB_BY_TYPE_QUERY,
-  COLLECTION_HUB_WITH_ARTICLES_QUERY,
-  COLLECTION_CATEGORIES_QUERY,
-} from './collectionHub';
 
 // Navigation queries
 export {
@@ -61,6 +54,33 @@ export {
   MINNEHAGEN_BY_SLUG_QUERY,
   MINNEHAGEN_SLUGS_QUERY,
 } from './minnehagen';
+
+// Støtte og hjelp queries
+export {
+  STOTTE_OG_HJELP_BY_SLUG_QUERY,
+  STOTTE_OG_HJELP_SLUGS_QUERY,
+} from './stotteOgHjelp';
+
+// Engasjer deg queries
+export {
+  ENGASJER_DEG_BY_SLUG_QUERY,
+  ENGASJER_DEG_SLUGS_QUERY,
+} from './engasjerDeg';
+
+// Aktuelt queries
+export {
+  AKTUELT_BY_SLUG_QUERY,
+  AKTUELT_SLUGS_QUERY,
+} from './aktuelt';
+
+// Aktivitet queries
+export { ALL_AKTIVITETER_QUERY } from './aktivitet';
+
+// Nettbutikk queries
+export {
+  NETTBUTIKK_BY_SLUG_QUERY,
+  NETTBUTIKK_SLUGS_QUERY,
+} from './nettbutikk';
 
 // Blomst queries
 export { GODKJENTE_BLOMSTER_QUERY } from './blomst';

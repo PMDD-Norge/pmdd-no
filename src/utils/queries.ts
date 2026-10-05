@@ -2,26 +2,33 @@ import { sanityFetch } from "@/sanity/lib/live";
 import {
   ARTICLE_BY_SLUG_QUERY,
   PAGE_BY_SLUG_QUERY,
-  COLLECTION_HUB_BY_SLUG_QUERY,
   LANDING_PAGE_ID_QUERY,
   LEGAL_DOCUMENT_BY_SLUG_QUERY,
+  MINNEHAGEN_BY_SLUG_QUERY,
+  STOTTE_OG_HJELP_BY_SLUG_QUERY,
+  ENGASJER_DEG_BY_SLUG_QUERY,
+  AKTUELT_BY_SLUG_QUERY,
+  NETTBUTIKK_BY_SLUG_QUERY,
 } from "@/sanity/lib/queries";
 
 // Using const enum with explicit string values
 export const enum QueryType {
   Page = "page",
   Article = "article",
-  CollectionHub = "collectionHub",
   Event = "event",
   AvailablePosition = "availablePosition",
   LegalDocument = "legalDocument",
+  Minnehagen = "minnehagen",
+  StotteOgHjelp = "stotteOgHjelp",
+  EngasjerDeg = "engasjerDeg",
+  Aktuelt = "aktuelt",
+  Nettbutikk = "nettbutikk",
 }
 
 // Map query types to their respective queries
 const Queries: Record<QueryType, string> = {
   [QueryType.Page]: PAGE_BY_SLUG_QUERY,
   [QueryType.Article]: ARTICLE_BY_SLUG_QUERY,
-  [QueryType.CollectionHub]: COLLECTION_HUB_BY_SLUG_QUERY,
   [QueryType.Event]: `*[_type == "event" && slug.current == $slug][0]`,
   [QueryType.AvailablePosition]: `*[_type == "availablePosition" && slug.current == $slug][0] {
     _id,
@@ -34,18 +41,22 @@ const Queries: Record<QueryType, string> = {
     image{asset->, altText, hotspot}
   }`,
   [QueryType.LegalDocument]: LEGAL_DOCUMENT_BY_SLUG_QUERY,
+  [QueryType.Minnehagen]: MINNEHAGEN_BY_SLUG_QUERY,
+  [QueryType.StotteOgHjelp]: STOTTE_OG_HJELP_BY_SLUG_QUERY,
+  [QueryType.EngasjerDeg]: ENGASJER_DEG_BY_SLUG_QUERY,
+  [QueryType.Aktuelt]: AKTUELT_BY_SLUG_QUERY,
+  [QueryType.Nettbutikk]: NETTBUTIKK_BY_SLUG_QUERY,
 };
 
 export async function getDocumentTypeBySlug(slug: string[], language: string) {
   const slugToUse = slug.length > 1 ? slug[slug.length - 1] : slug[0];
-  // Flere dokumenter kan dele samme slug: legacy-typer som aldri ble ryddet bort
-  // (information/highlights), og dokumenter som er i ferd med å bli erstattet av
-  // en nyere type. Uten en eksplisitt prioritering blir [0] vilkårlig, og siden
-  // kan rendre feil innhold mellom to forespørsler. Lavest tall vinner.
+  // Gamle dokumenttyper (collectionHub, information, highlights) kan fortsatt
+  // ligge i Sanity med samme slug som det nye dokumentet som erstatter dem.
+  // De har ingen handler lenger, så de utelates fra oppslaget.
   return sanityFetch({
-    query: `*[defined(slug) && slug.current == $slug] | order(select(
-      _type in ["information", "highlights"] => 3,
-      _type == "collectionHub" => 2,
+    query: `*[defined(slug) && slug.current == $slug
+      && !(_type in ["collectionHub", "information", "highlights"])
+    ] | order(select(
       _type == "article" => 1,
       0
     ) asc)[0]._type`,

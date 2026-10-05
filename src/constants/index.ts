@@ -46,7 +46,6 @@ export const CONTENT_TYPES = {
   PAGE: "page",
   ARTICLE: "article",
   EVENT: "event",
-  COLLECTION_HUB: "collectionHub",
   AVAILABLE_POSITION: "availablePosition",
   LEGAL_DOCUMENT: "legalDocument",
   INFORMATION: "information",

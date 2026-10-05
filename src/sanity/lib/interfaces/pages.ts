@@ -138,7 +138,7 @@ export interface GridList extends SanityBase {
   title: string;
   columns?: 3 | 4;
   kolonnerMobil?: 1 | 2;
-  contentType?: "manual" | "event" | "availablePosition" | "post" | "blog-post" | "news" | "job-position" | "resource" | "writer" | "writer-styret" | "writer-raadgivere" | "writer-frivillige" | "walking-tour" | "turvenn" | "activities";
+  contentType?: "manual" | "event" | "availablePosition" | "post" | "blog-post" | "news" | "job-position" | "resource" | "writer" | "writer-styret" | "writer-raadgivere" | "writer-frivillige" | "writer-turvenn" | "walking-tour" | "turvenn" | "activities" | "aktivitet" | "aktivitet-gaatur" | "aktivitet-kurs" | "aktivitet-event" | "aktivitet-fritekst";
   items?: GridItem[];
   maxItems?: number;
   internalLink?: SanityLink;
@@ -299,4 +299,99 @@ export interface MinnehagenDocument extends SanityBase {
   heroImage?: SanityImageData;
   callToAction?: SanityLink;
   vippsDonasjoner?: VippsDonasjoner;
+}
+
+export interface StotteOgHjelpSeksjon {
+  tittel?: string;
+  richText?: PortableTextBlock[];
+  lenker?: SanityLink[];
+  lenke?: SanityLink;
+  bilde?: SanityImageData;
+}
+
+export interface StotteOgHjelpDocument extends SanityBase {
+  pageName: string;
+  slug: Slug;
+  title?: string;
+  ingress?: string;
+  heroImage?: SanityImageData;
+  fellesskap?: StotteOgHjelpSeksjon;
+  likepersoner?: StotteOgHjelpSeksjon;
+  gaaturer?: StotteOgHjelpSeksjon;
+  minnehagen?: StotteOgHjelpSeksjon;
+}
+
+export interface EngasjerDegSeksjon {
+  tittel?: string;
+  richText?: PortableTextBlock[];
+  lenker?: SanityLink[];
+  lenke?: SanityLink;
+}
+
+export interface EngasjerDegLedigeVerv {
+  tittel?: string;
+  richText?: PortableTextBlock[];
+  callToAction?: SanityLink;
+}
+
+export interface EngasjerDegDocument extends SanityBase {
+  pageName: string;
+  slug: Slug;
+  title?: string;
+  ingress?: string;
+  heroImage?: SanityImageData;
+  likepersoner?: EngasjerDegSeksjon;
+  turvenner?: EngasjerDegSeksjon;
+  ledigeVerv?: EngasjerDegLedigeVerv;
+}
+
+export type AktivitetType = "gaatur" | "kurs" | "event" | "fritekst";
+
+export interface AktivitetPerson {
+  _id: string;
+  name: string;
+  city?: string;
+  gruppe?: string;
+  occupation?: string;
+  image?: SanityImageData;
+}
+
+export interface AktivitetDocument extends SanityBase {
+  type: AktivitetType;
+  title: string;
+  ingress?: string;
+  detaljer?: {
+    dato?: string;
+    tid?: string;
+    sted?: string;
+    pris?: string;
+    lenke?: SanityLink;
+    wheelchairFriendly?: boolean;
+    strollerFriendly?: boolean;
+    bringFood?: boolean;
+  };
+  involverte?: {
+    tittel?: string;
+    personer?: AktivitetPerson[];
+  };
+}
+
+export interface AktueltDocument extends SanityBase {
+  pageName: string;
+  slug: Slug;
+  title?: string;
+  ingress?: string;
+  alleTyperLabel?: string;
+  cta?: {
+    tittel?: string;
+    richText?: PortableTextBlock[];
+    lenke?: SanityLink;
+  };
+}
+
+export interface NettbutikkDocument extends SanityBase {
+  pageName: string;
+  slug: Slug;
+  title?: string;
+  richText?: PortableTextBlock[];
 }

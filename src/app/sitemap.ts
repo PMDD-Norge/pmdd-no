@@ -8,9 +8,13 @@ const CONTENT_TYPES = {
   article: "article",
   informasjonsartikkel: "informasjonsartikkel",
   informasjonsdokument: "informasjonsdokument",
+  minnehagen: "minnehagen",
+  stotteOgHjelp: "stotteOgHjelp",
+  engasjerDeg: "engasjerDeg",
+  aktuelt: "aktuelt",
+  nettbutikk: "nettbutikk",
   page: "page",
   event: "event",
-  collectionHub: "collectionHub",
 } as const;
 
 type ContentType = (typeof CONTENT_TYPES)[keyof typeof CONTENT_TYPES];
@@ -20,9 +24,13 @@ const PRIORITIES: Record<ContentType, number> = {
   [CONTENT_TYPES.article]: 0.8,
   [CONTENT_TYPES.informasjonsartikkel]: 0.8,
   [CONTENT_TYPES.informasjonsdokument]: 0.7,
+  [CONTENT_TYPES.minnehagen]: 0.7,
+  [CONTENT_TYPES.stotteOgHjelp]: 0.7,
+  [CONTENT_TYPES.engasjerDeg]: 0.7,
+  [CONTENT_TYPES.aktuelt]: 0.75,
+  [CONTENT_TYPES.nettbutikk]: 0.7,
   [CONTENT_TYPES.page]: 0.7,
   [CONTENT_TYPES.event]: 0.75,
-  [CONTENT_TYPES.collectionHub]: 0.7,
 };
 
 interface SanityDocument {
@@ -39,9 +47,13 @@ async function getAllContent() {
     "article",
     "informasjonsartikkel",
     "informasjonsdokument",
+    "minnehagen",
+    "stotteOgHjelp",
+    "engasjerDeg",
+    "aktuelt",
+    "nettbutikk",
     "page",
-    "event",
-    "collectionHub"
+    "event"
   ] && defined(slug.current)] {
     _type,
     _id,

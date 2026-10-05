@@ -117,3 +117,22 @@ export const ARTICLE_SLUGS_QUERY = `
   "type": coalesce(type, "blog-post")
 }
 `;
+
+// Get categories for a collection type
+export const COLLECTION_CATEGORIES_QUERY = `
+*[_type == "category" && count(*[
+  (($articleType == "blog-post" && _type == "informasjonsartikkel") ||
+   ($articleType != "blog-post" && _type == "article" && type == $articleType)) &&
+  references(^._id)
+]) > 0] | order(name asc) {
+  _id,
+  name,
+  slug,
+  description,
+  "count": count(*[
+    (($articleType == "blog-post" && _type == "informasjonsartikkel") ||
+     ($articleType != "blog-post" && _type == "article" && type == $articleType)) &&
+    references(^._id)
+  ])
+}
+`;

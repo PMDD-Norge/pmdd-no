@@ -856,6 +856,296 @@ export type GridItem = {
   image?: AppearanceImage
 }
 
+export type Forskningsartikkel = {
+  _id: string
+  _type: 'forskningsartikkel'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title?: string
+  kortBio?: string
+  link?: string
+  laast?: boolean
+}
+
+export type SanityFileAssetReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'sanity.fileAsset'
+}
+
+export type Informasjonsmateriell = {
+  _id: string
+  _type: 'informasjonsmateriell'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  filer?: Array<{
+    tittel?: string
+    fil?: {
+      asset?: SanityFileAssetReference
+      media?: unknown
+      _type: 'file'
+    }
+    coverBilde?: {
+      asset?: SanityImageAssetReference
+      media?: unknown
+      hotspot?: SanityImageHotspot
+      crop?: SanityImageCrop
+      title?: string
+      description?: string
+      altText?: string
+      credits?: string
+      _type: 'image'
+    }
+    _type: 'materiellfil'
+    _key: string
+  }>
+}
+
+export type SanityImageCrop = {
+  _type: 'sanity.imageCrop'
+  top?: number
+  bottom?: number
+  left?: number
+  right?: number
+}
+
+export type SanityImageHotspot = {
+  _type: 'sanity.imageHotspot'
+  x?: number
+  y?: number
+  height?: number
+  width?: number
+}
+
+export type Ressursdokument = {
+  _id: string
+  _type: 'ressursdokument'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title?: string
+  ingress?: string
+  richText?: Array<
+    | {
+        children?: Array<{
+          marks?: Array<string>
+          text?: string
+          _type: 'span'
+          _key: string
+        }>
+        style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+        listItem?: 'bullet' | 'number'
+        markDefs?: Array<{
+          href?: string
+          _type: 'link'
+          _key: string
+        }>
+        level?: number
+        _type: 'block'
+        _key: string
+      }
+    | {
+        asset?: SanityImageAssetReference
+        media?: unknown
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        _type: 'image'
+        _key: string
+      }
+  >
+  materiellTittel?: string
+  artikkelListe?: {
+    tittel?: string
+    undertittelAapne?: string
+    undertittelLaaste?: string
+  }
+  cta?: {
+    tittel?: string
+    richText?: Array<
+      | {
+          children?: Array<{
+            marks?: Array<string>
+            text?: string
+            _type: 'span'
+            _key: string
+          }>
+          style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+          listItem?: 'bullet' | 'number'
+          markDefs?: Array<{
+            href?: string
+            _type: 'link'
+            _key: string
+          }>
+          level?: number
+          _type: 'block'
+          _key: string
+        }
+      | {
+          asset?: SanityImageAssetReference
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+          _key: string
+        }
+    >
+    epost?: string
+  }
+  seo?: {
+    title?: string
+    description?: string
+    keywords?: string
+    image?: SeoImage
+  }
+}
+
+export type Minnehagen = {
+  _id: string
+  _type: 'minnehagen'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  pageName?: string
+  slug?: Slug
+  title?: string
+  richText?: Array<
+    | {
+        children?: Array<{
+          marks?: Array<string>
+          text?: string
+          _type: 'span'
+          _key: string
+        }>
+        style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+        listItem?: 'bullet' | 'number'
+        markDefs?: Array<{
+          href?: string
+          _type: 'link'
+          _key: string
+        }>
+        level?: number
+        _type: 'block'
+        _key: string
+      }
+    | {
+        asset?: SanityImageAssetReference
+        media?: unknown
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        _type: 'image'
+        _key: string
+      }
+  >
+  heroImage?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    title?: string
+    description?: string
+    altText?: string
+    credits?: string
+    _type: 'image'
+  }
+  vippsDonasjoner?: {
+    aktivert?: boolean
+    tittel?: string
+    beskrivelse?: string
+    vippsNummer?: string
+    innsamlingslenke?: string
+    forslagteBeloep?: Array<{
+      beloep?: number
+      etikett?: string
+      _key: string
+    }>
+    takkeTekst?: string
+  }
+  contactSection?: {
+    title?: string
+    richText?: Array<
+      | {
+          children?: Array<{
+            marks?: Array<string>
+            text?: string
+            _type: 'span'
+            _key: string
+          }>
+          style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+          listItem?: 'bullet' | 'number'
+          markDefs?: Array<{
+            href?: string
+            _type: 'link'
+            _key: string
+          }>
+          level?: number
+          _type: 'block'
+          _key: string
+        }
+      | {
+          asset?: SanityImageAssetReference
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+          _key: string
+        }
+    >
+    callToActions?: Array<{
+      title?: string
+      type?: string
+      internalLink?:
+        | PageReference
+        | CollectionHubReference
+        | LegalDocumentReference
+        | ArticleReference
+        | InformasjonsartikkelReference
+        | InformasjonsdokumentReference
+        | EventReference
+        | ResourceReference
+      url?: string
+      email?: string
+      phone?: string
+      anchor?: string
+      newTab?: boolean
+      _key: string
+    }>
+    appearance?: ContactSectionAppearance
+  }
+  callToAction?: {
+    title?: string
+    type?: string
+    internalLink?:
+      | PageReference
+      | CollectionHubReference
+      | LegalDocumentReference
+      | ArticleReference
+      | InformasjonsartikkelReference
+      | InformasjonsdokumentReference
+      | EventReference
+      | ResourceReference
+    url?: string
+    email?: string
+    phone?: string
+    anchor?: string
+    newTab?: boolean
+  }
+  seo?: {
+    title?: string
+    description?: string
+    keywords?: string
+    image?: SeoImage
+  }
+}
+
+export type Slug = {
+  _type: 'slug'
+  current?: string
+  source?: string
+}
+
 export type GuriAppen = {
   _id: string
   _type: 'guriAppen'
@@ -951,6 +1241,34 @@ export type GuriAppen = {
     _key: string
   }>
   footerSection?: {
+    text?: Array<
+      | {
+          children?: Array<{
+            marks?: Array<string>
+            text?: string
+            _type: 'span'
+            _key: string
+          }>
+          style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+          listItem?: 'bullet' | 'number'
+          markDefs?: Array<{
+            href?: string
+            _type: 'link'
+            _key: string
+          }>
+          level?: number
+          _type: 'block'
+          _key: string
+        }
+      | {
+          asset?: SanityImageAssetReference
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+          _key: string
+        }
+    >
     image?: {
       asset?: SanityImageAssetReference
       media?: unknown
@@ -962,7 +1280,6 @@ export type GuriAppen = {
       credits?: string
       _type: 'image'
     }
-    title?: string
     screenshots?: Array<{
       asset?: SanityImageAssetReference
       media?: unknown
@@ -976,22 +1293,12 @@ export type GuriAppen = {
       _key: string
     }>
   }
-}
-
-export type SanityImageCrop = {
-  _type: 'sanity.imageCrop'
-  top?: number
-  bottom?: number
-  left?: number
-  right?: number
-}
-
-export type SanityImageHotspot = {
-  _type: 'sanity.imageHotspot'
-  x?: number
-  y?: number
-  height?: number
-  width?: number
+  seo?: {
+    title?: string
+    description?: string
+    keywords?: string
+    image?: SeoImage
+  }
 }
 
 export type Blomst = {
@@ -2654,12 +2961,6 @@ export type Informasjonsdokument = {
   }
 }
 
-export type Slug = {
-  _type: 'slug'
-  current?: string
-  source?: string
-}
-
 export type Event = {
   _id: string
   _type: 'event'
@@ -3154,9 +3455,15 @@ export type AllSanitySchemaTypes =
   | SectionGroup
   | GridList
   | GridItem
-  | GuriAppen
+  | Forskningsartikkel
+  | SanityFileAssetReference
+  | Informasjonsmateriell
   | SanityImageCrop
   | SanityImageHotspot
+  | Ressursdokument
+  | Minnehagen
+  | Slug
+  | GuriAppen
   | Blomst
   | Redirect
   | TurvennReference
@@ -3180,7 +3487,6 @@ export type AllSanitySchemaTypes =
   | Page
   | CollectionHub
   | Informasjonsdokument
-  | Slug
   | Event
   | CategoryReference
   | Resource

@@ -8,9 +8,7 @@ import { PAGINATION } from "@/constants";
 import { sanityFetch } from "@/sanity/lib/live";
 import {
   PAGINATED_ARTICLES_QUERY,
-  COUNT_ARTICLES_QUERY,
-  COLLECTION_CATEGORIES_QUERY,
-  ALL_EVENTS_QUERY,
+  ALL_AKTIVITETER_QUERY,
 } from "@/sanity/lib/queries";
 import {
   getDocumentBySlug,
@@ -19,15 +17,9 @@ import {
 } from "@/utils/queries";
 import {
   Section,
-  Category,
-  EventDocument,
-  AvailablePositionDocument,
-  GridItem,
 } from "@/sanity/lib/interfaces/pages";
 import SectionRenderer from "@/utils/renderSection";
 import PMDDErrorMessage from "@/components/pages/information/components/customErrorMessage/PMDDErrorMessage";
-import { Information } from "@/components/pages/information/Information";
-import { Highlights } from "@/components/pages/highlights/Highlights";
 import EventPage from "@/components/pages/event/EventPage";
 import ArticlePage from "@/components/pages/article/ArticlePage";
 import Legal from "@/components/pages/legal/Legal";
@@ -43,78 +35,6 @@ export interface SearchParams {
   type?: string;
   page?: string;
   category?: string;
-}
-
-/**
- * Helper: Calculate pagination offsets
- */
-function getPaginationOffsets(
-  page: number,
-  postsPerPage: number = PAGINATION.POSTS_PER_PAGE,
-) {
-  const start = (page - 1) * postsPerPage;
-  const end = start + postsPerPage;
-  return { start, end };
-}
-
-/**
- * Helper: Fetch articles with categories and count
- */
-async function fetchArticlesWithCategories(
-  articleType: string,
-  page: number,
-  category?: string,
-) {
-  const { start, end } = getPaginationOffsets(page);
-
-  const [{ data: categories }, { data: articles }, { data: postCount }] =
-    await Promise.all([
-      sanityFetch({
-        query: COLLECTION_CATEGORIES_QUERY,
-        params: { articleType },
-      }),
-      sanityFetch({
-        query: PAGINATED_ARTICLES_QUERY,
-        params: {
-          type: articleType,
-          start,
-          end,
-          category: category || null,
-        },
-      }),
-      sanityFetch({
-        query: COUNT_ARTICLES_QUERY,
-        params: {
-          type: articleType,
-          category: category || null,
-        },
-      }),
-    ]);
-
-  return { categories, articles, postCount };
-}
-
-/**
- * Helper: Fetch events and positions
- */
-async function fetchEventsAndPositions() {
-  const [{ data: events }, { data: positions }] = await Promise.all([
-    sanityFetch({
-      query: ALL_EVENTS_QUERY,
-      params: {},
-    }),
-    sanityFetch({
-      query: PAGINATED_ARTICLES_QUERY,
-      params: {
-        type: "job-position",
-        start: 0,
-        end: PAGINATION.MAX_JOB_POSITIONS,
-        category: null,
-      },
-    }),
-  ]);
-
-  return { events, positions };
 }
 
 /**
@@ -184,158 +104,6 @@ export async function handleArticleType(
 }
 
 /**
- * Handler for "collectionHub" document type
- * Now uses dynamic contentTypes array for flexible content rendering
- */
-export async function handleCollectionHubType(
-  slug: string[],
-  language: string,
-  searchParams: SearchParams,
-): Promise<ReactElement> {
-  const result = await getDocumentWithLandingCheck(
-    QueryType.CollectionHub,
-    slug,
-    language,
-  );
-  const hub = result.data;
-
-  if (!hub) {
-    return <PMDDErrorMessage />;
-  }
-
-  // Check if hub uses new contentTypes structure
-  if (hub.contentTypes && hub.contentTypes.length > 0) {
-    // New dynamic structure
-    const HubHeader = (await import("@/components/hub/HubHeader")).default;
-    const ContentSection = (await import("@/components/hub/ContentSection"))
-      .default;
-    const Contact = (await import("@/components/sections/contact/Contact"))
-      .default;
-
-    return (
-      <>
-        <HubHeader
-          title={hub.title}
-          description={hub.body || hub.richText}
-          image={hub.image}
-        />
-
-        {hub.contentTypes.map(
-          (section: {
-            _key: string;
-            sectionTitle?: string;
-            description?: string;
-            items?: Array<EventDocument | AvailablePositionDocument | GridItem>;
-            type: string;
-            showFilters?: boolean;
-            categories?: Category[];
-            layout?: string;
-            maxItems?: number;
-          }) => {
-            // Limit items based on maxItems field
-            const limitedItems = section.maxItems
-              ? (section.items || []).slice(0, section.maxItems)
-              : section.items || [];
-
-            return (
-              <ContentSection
-                key={section._key}
-                title={section.sectionTitle}
-                description={section.description}
-                items={limitedItems}
-                type={section.type}
-                showFilters={section.showFilters}
-                categories={section.categories}
-                layout={section.layout}
-                slug={slug[slug.length - 1]}
-                selectedCategorySlug={searchParams?.category}
-              />
-            );
-          },
-        )}
-
-        {hub.contactSection && <Contact contact={hub.contactSection} />}
-      </>
-    );
-  }
-
-  // Legacy handling for old hub types without contentTypes
-  const hubType =
-    hub.type ||
-    (hub._type === "information"
-      ? "blog"
-      : hub._type === "highlights"
-        ? "highlights"
-        : "blog");
-
-  switch (hubType) {
-    case "blog":
-    case "news": {
-      const page = parseInt(searchParams.page || "1", 10);
-      const category = searchParams.category;
-      const articleType = hubType === "blog" ? "blog-post" : "news";
-
-      const { categories, articles, postCount } =
-        await fetchArticlesWithCategories(articleType, page, category);
-
-      const selectedCategoryName = category
-        ? categories?.find((cat: Category) => cat._id === category)?.name
-        : undefined;
-
-      return (
-        <Information
-          information={hub}
-          categories={categories || []}
-          posts={articles || []}
-          slug={slug[slug.length - 1]}
-          postCount={postCount || 0}
-          currentPage={page}
-          selectedCategoryName={selectedCategoryName}
-        />
-      );
-    }
-
-    case "highlights": {
-      const { events, positions } = await fetchEventsAndPositions();
-
-      return (
-        <Highlights
-          highlights={hub}
-          events={events || []}
-          availablePositions={positions || []}
-        />
-      );
-    }
-
-    case "nettbutikk": {
-      const MerchPage = (await import("@/components/pages/merch/MerchPage"))
-        .default;
-      const products = await getMerchProducts();
-
-      return (
-        <MerchPage
-          products={products}
-          title={hub.title}
-          richText={hub.richText || hub.body}
-          hubSlug={slug[slug.length - 1]}
-        />
-      );
-    }
-
-    case "minnehagen": {
-      const MinnehagenPage = (
-        await import("@/components/pages/minnehagen/MinnehagenPage")
-      ).default;
-      return <MinnehagenPage document={hub} />;
-    }
-
-    default: {
-      return <PMDDErrorMessage />;
-    }
-  }
-}
-
-/**
  * Handler for "event" document type
  */
 export async function handleEventType(
@@ -377,6 +145,150 @@ export async function handleAvailablePositionType(
   }
 
   return <AvailablePositionPage document={position} />;
+}
+
+/**
+ * Handler for "minnehagen" document type.
+ *
+ * Minnehagen er en egen dokumenttype.
+ */
+export async function handleMinnehagenType(
+  slug: string[],
+  language: string,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _searchParams?: SearchParams,
+): Promise<ReactElement> {
+  const { data: minnehagen } = await getDocumentBySlug(
+    QueryType.Minnehagen,
+    slug,
+    language,
+  );
+
+  if (!minnehagen) {
+    return <PMDDErrorMessage />;
+  }
+
+  const MinnehagenPage = (
+    await import("@/components/pages/minnehagen/MinnehagenPage")
+  ).default;
+
+  return <MinnehagenPage document={minnehagen} />;
+}
+
+/**
+ * Handler for "stotteOgHjelp" document type
+ */
+export async function handleStotteOgHjelpType(
+  slug: string[],
+  language: string,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _searchParams?: SearchParams,
+): Promise<ReactElement> {
+  const { data: stotteOgHjelp } = await getDocumentBySlug(
+    QueryType.StotteOgHjelp,
+    slug,
+    language,
+  );
+
+  if (!stotteOgHjelp) {
+    return <PMDDErrorMessage />;
+  }
+
+  const StotteOgHjelpPage = (
+    await import("@/components/pages/stotteOgHjelp/StotteOgHjelpPage")
+  ).default;
+
+  return <StotteOgHjelpPage document={stotteOgHjelp} />;
+}
+
+/**
+ * Handler for "engasjerDeg" document type
+ */
+export async function handleEngasjerDegType(
+  slug: string[],
+  language: string,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _searchParams?: SearchParams,
+): Promise<ReactElement> {
+  const [{ data: engasjerDeg }, { data: stillinger }] = await Promise.all([
+    getDocumentBySlug(QueryType.EngasjerDeg, slug, language),
+    sanityFetch({
+      query: PAGINATED_ARTICLES_QUERY,
+      params: {
+        type: "job-position",
+        start: 0,
+        end: PAGINATION.MAX_JOB_POSITIONS,
+        category: null,
+      },
+    }),
+  ]);
+
+  if (!engasjerDeg) {
+    return <PMDDErrorMessage />;
+  }
+
+  const EngasjerDegPage = (
+    await import("@/components/pages/engasjerDeg/EngasjerDegPage")
+  ).default;
+
+  return (
+    <EngasjerDegPage document={engasjerDeg} stillinger={stillinger || []} />
+  );
+}
+
+/**
+ * Handler for "aktuelt" document type
+ */
+export async function handleAktueltType(
+  slug: string[],
+  language: string,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _searchParams?: SearchParams,
+): Promise<ReactElement> {
+  const [{ data: aktuelt }, { data: aktiviteter }] = await Promise.all([
+    getDocumentBySlug(QueryType.Aktuelt, slug, language),
+    sanityFetch({ query: ALL_AKTIVITETER_QUERY, params: {} }),
+  ]);
+
+  if (!aktuelt) {
+    return <PMDDErrorMessage />;
+  }
+
+  const AktueltPage = (await import("@/components/pages/aktuelt/AktueltPage"))
+    .default;
+
+  return <AktueltPage document={aktuelt} aktiviteter={aktiviteter || []} />;
+}
+
+/**
+ * Handler for "nettbutikk" document type
+ */
+export async function handleNettbutikkType(
+  slug: string[],
+  language: string,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _searchParams?: SearchParams,
+): Promise<ReactElement> {
+  const [{ data: nettbutikk }, products] = await Promise.all([
+    getDocumentBySlug(QueryType.Nettbutikk, slug, language),
+    getMerchProducts(),
+  ]);
+
+  if (!nettbutikk) {
+    return <PMDDErrorMessage />;
+  }
+
+  const MerchPage = (await import("@/components/pages/merch/MerchPage"))
+    .default;
+
+  return (
+    <MerchPage
+      products={products}
+      title={nettbutikk.title}
+      richText={nettbutikk.richText}
+      hubSlug={slug[slug.length - 1]}
+    />
+  );
 }
 
 /**
@@ -425,18 +337,19 @@ export async function handleMerchType(
 /**
  * Content type handler registry
  * Maps document types to their handler functions
- *
- * Note: "information" and "highlights" were removed as they are not separate document types.
- * These are now handled by collectionHub with type field ('blog', 'highlights', etc.)
  */
 export const contentTypeHandlers = {
   page: handlePageType,
   article: handleArticleType,
-  collectionHub: handleCollectionHubType,
   event: handleEventType,
   availablePosition: handleAvailablePositionType,
   legalDocument: handleLegalDocumentType,
   merch: handleMerchType,
+  minnehagen: handleMinnehagenType,
+  stotteOgHjelp: handleStotteOgHjelpType,
+  engasjerDeg: handleEngasjerDegType,
+  aktuelt: handleAktueltType,
+  nettbutikk: handleNettbutikkType,
 } as const;
 
 /**

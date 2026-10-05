@@ -1,0 +1,130 @@
+import {
+  EngasjerDegDocument,
+  EngasjerDegSeksjon,
+} from "@/sanity/lib/interfaces/pages";
+import styles from "./engasjerDeg.module.css";
+import Text from "@/components/text/Text";
+import { RichText } from "@/components/richText/RichText";
+import SanityNextImage from "@/components/image/sanityImage";
+import { truncateText } from "@/utils/textUtils";
+import LinkButton from "@/components/linkButton/LinkButton";
+import CustomLink from "@/components/link/CustomLink";
+import { LinkType, SanityLink } from "@/sanity/lib/interfaces/siteSettings";
+
+interface LedigVervArtikkel {
+  _id: string;
+  title: string;
+  lead?: string;
+  slug: { current: string };
+}
+
+const tilStillingslenke = (stilling: LedigVervArtikkel): SanityLink => ({
+  _key: stilling._id,
+  _type: "link",
+  title: "Les mer",
+  type: LinkType.Internal,
+  internalLink: {
+    _ref: stilling._id,
+    _type: "article",
+    slug: stilling.slug,
+  },
+});
+
+const Seksjon = ({ seksjon }: { seksjon?: EngasjerDegSeksjon }) => {
+  if (!seksjon) return null;
+  const { tittel, richText, lenke, lenker } = seksjon;
+  const alleLenker = [...(lenke ? [lenke] : []), ...(lenker ?? [])];
+  if (!tittel && !richText && alleLenker.length === 0) return null;
+
+  return (
+    <section className={styles.seksjon}>
+      <div className={styles.seksjonTekstWrapper}>
+        {tittel && <Text type="h2">{tittel}</Text>}
+        {richText && <RichText value={richText} />}
+        {alleLenker.length > 0 && (
+          <div className={styles.lenker}>
+            {alleLenker.map((link, i) => (
+              <LinkButton type="secondary" key={link._key ?? i} link={link} />
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  );
+};
+
+const LedigeVerv = ({
+  seksjon,
+  stillinger,
+}: {
+  seksjon?: EngasjerDegDocument["ledigeVerv"];
+  stillinger: LedigVervArtikkel[];
+}) => {
+  if (!seksjon && stillinger.length === 0) return null;
+  const { tittel, richText, callToAction } = seksjon ?? {};
+
+  return (
+    <section className={styles.seksjon}>
+      <div className={styles.seksjonTekstWrapper}>
+        {tittel && <Text type="h2">{tittel}</Text>}
+        {richText && <RichText value={richText} />}
+        {stillinger.length > 0 && (
+          <ul className={styles.stillinger}>
+            {stillinger.map((stilling) => (
+              <li key={stilling._id} className={styles.stilling}>
+                <div className={styles.stillingTextWrapper}>
+                  <Text type="h4" as="h3">
+                    {stilling.title}
+                  </Text>
+                  {stilling.lead && (
+                    <Text>{truncateText(stilling.lead, 200)}</Text>
+                  )}
+                </div>
+                <CustomLink link={tilStillingslenke(stilling)} />
+              </li>
+            ))}
+          </ul>
+        )}
+        {callToAction?.title && (
+          <div className={styles.cta}>
+            {callToAction.description && (
+              <Text type="bodyLarge">{callToAction.description}</Text>
+            )}
+            <LinkButton link={callToAction} type="secondary" />
+          </div>
+        )}
+      </div>
+    </section>
+  );
+};
+
+const EngasjerDegPage = ({
+  document,
+  stillinger,
+}: {
+  document: EngasjerDegDocument;
+  stillinger: LedigVervArtikkel[];
+}) => {
+  const { title, ingress, heroImage, likepersoner, turvenner, ledigeVerv } =
+    document;
+
+  return (
+    <div className={`sectionWrapperColumn ${styles.pageContainer}`}>
+      <div className={styles.hero}>
+        <div className={styles.heroTextWrapper}>
+          {title && <Text type="h1">{title}</Text>}
+          {ingress && <Text type="bodyLarge">{ingress}</Text>}
+        </div>
+        {heroImage?.asset && (
+          <SanityNextImage image={heroImage} className={styles.heroBilde} />
+        )}
+      </div>
+
+      <Seksjon seksjon={likepersoner} />
+      <Seksjon seksjon={turvenner} />
+      <LedigeVerv seksjon={ledigeVerv} stillinger={stillinger} />
+    </div>
+  );
+};
+
+export default EngasjerDegPage;

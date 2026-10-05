@@ -49,13 +49,13 @@ html {
   --Spacing-XXL: 48px;
 
   @media (max-width: 767px) {
-    --Spacing-XXS: 4px;
-    --Spacing-XS: 8px;
-    --Spacing-S: 16px;
-    --Spacing-M: 24px;
-    --Spacing-L: 32px;
-    --Spacing-XL: 48px;
-    --Spacing-XXL: 56px;
+    --Spacing-XXS: 2px;
+    --Spacing-XS: 4px;
+    --Spacing-S: 8px;
+    --Spacing-M: 12px;
+    --Spacing-L: 16px;
+    --Spacing-XL: 24px;
+    --Spacing-XXL: 32px;
   }
 
   /* Ensure text wraps within its container */
