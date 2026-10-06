@@ -1,14 +1,3 @@
-/* Fjerner fontens ekstra luft over og under overskrifter, slik at avstand
-   styres av margin/gap alene. Støttes i Chrome, Edge og Safari; Firefox
-   ignorerer regelen og viser overskriftene som før. */
-.display,
-.h1,
-.h2,
-.h3,
-.h4 {
-  text-box: trim-both cap alphabetic;
-}
-
 .display,
 .h1 {
   color: var(--Teal);

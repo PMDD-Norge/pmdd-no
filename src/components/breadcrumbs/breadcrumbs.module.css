@@ -1,0 +1,54 @@
+.nav {
+  align-self: stretch;
+  min-width: 0;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--Spacing-XXS, 0.25rem) var(--Spacing-XS, 0.5rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--font-nunito);
+  font-size: 0.875rem;
+  line-height: 140%;
+  color: var(--Dark-Navy, #0e3424);
+
+  @media (min-width: 1024px) {
+    font-size: 1rem;
+  }
+}
+
+.item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--Spacing-XS, 0.5rem);
+  min-width: 0;
+}
+
+/* Skilletegn mellom leddene */
+.item + .item::before {
+  content: "/";
+  opacity: 0.5;
+}
+
+.item > span {
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.link {
+  color: var(--Teal, #018852);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--focus-color);
+    border-radius: 4px;
+  }
+}

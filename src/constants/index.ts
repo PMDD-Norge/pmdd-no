@@ -48,8 +48,6 @@ export const CONTENT_TYPES = {
   EVENT: "event",
   AVAILABLE_POSITION: "availablePosition",
   LEGAL_DOCUMENT: "legalDocument",
-  INFORMATION: "information",
-  HIGHLIGHTS: "highlights",
 } as const;
 
 /**

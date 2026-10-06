@@ -39,13 +39,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1200px;
+  /* Bredere enn innholdet på sidene, så logo, meny og knapper får plass
+     uten at logoen presses sammen. */
+  max-width: var(--max-content-width-large, 1400px);
   width: 100%;
   margin: 0 auto;
   position: relative;
   z-index: 10000; /* Make sure it's above the mobile menu */
   @media (min-width: 647px) {
-    gap: 3.5rem;
+    gap: 2rem;
   }
 }
 
@@ -112,10 +114,6 @@
   composes: listDesktop;
   flex: 2;
   gap: 2rem;
-
-  @media (min-width: 1200px) {
-    gap: 3rem;
-  }
 }
 
 .desktopCtas {

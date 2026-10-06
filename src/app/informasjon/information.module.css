@@ -1,8 +1,5 @@
 .informasjonsInnhold {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--Spacing-XXL, 3.5rem);
+  gap: var(--Spacing-XXXL, 3rem);
 }
 
 .informasjonsHero {

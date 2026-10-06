@@ -3,6 +3,8 @@ import Text from "@/components/text/Text";
 import { RichText } from "@/components/richText/RichText";
 import { PortableTextBlock } from "next-sanity";
 import { SanityImageData } from "@/sanity/lib/interfaces/media";
+import Breadcrumbs from "@/components/breadcrumbs/Breadcrumbs";
+import { overordnetForArtikkel } from "@/utils/breadcrumbs";
 
 interface ArticlePageProps {
   article: {
@@ -44,8 +46,14 @@ const ArticlePage = async ({ article }: ArticlePageProps) => {
   const description = excerpt || lead;
 
   return (
-    <div className={styles.background} data-theme="article">
+    <div>
       <div className={`sectionWrapperColumn ${styles.artikkel}`}>
+        <Breadcrumbs
+          items={[
+            overordnetForArtikkel(article._type, article.type),
+            { label: title },
+          ]}
+        />
         <div className={styles.artikkelHero}>
           {title && <Text type="h1">{title}</Text>}
           {description && <Text type="bodyLarge">{description}</Text>}

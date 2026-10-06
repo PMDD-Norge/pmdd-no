@@ -52,7 +52,7 @@ export default async function MinnehagenPage() {
       <div className={`sectionWrapperColumn ${styles.hero}`}>
         {image?.asset && (
           <div className={styles.heroImage}>
-            <SanityNextImage image={image} />
+            <SanityNextImage image={image} priority />
           </div>
         )}
         <div className={styles.intro}>

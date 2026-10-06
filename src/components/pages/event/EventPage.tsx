@@ -4,6 +4,8 @@ import Text from "@/components/text/Text";
 import { RichText } from "@/components/richText/RichText";
 import SanityNextImage from "@/components/image/sanityImage";
 import CustomLink from "@/components/link/CustomLink";
+import Breadcrumbs from "@/components/breadcrumbs/Breadcrumbs";
+import { OVERORDNEDE_SIDER } from "@/utils/breadcrumbs";
 
 const EventPage = async ({
   event,
@@ -22,6 +24,9 @@ const EventPage = async ({
   return (
     <>
       <div className={`sectionWrapperColumn ${styles.hero}`}>
+        <Breadcrumbs
+          items={[OVERORDNEDE_SIDER.aktuelt, { label: title ?? "Event" }]}
+        />
         {title && <Text type="h1">{title}</Text>}
 
         {(startDate || endDate || location) && (
@@ -48,7 +53,7 @@ const EventPage = async ({
 
         {image?.asset?._ref && (
           <div className={styles.headerImage}>
-            <SanityNextImage image={image} />
+            <SanityNextImage image={image} priority />
           </div>
         )}
       </div>

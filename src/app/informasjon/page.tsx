@@ -5,6 +5,7 @@ import { fetchInformationData } from "@/utils/getPageData";
 import { generatePageMetadata } from "@/utils/metadata";
 import { truncateText } from "@/utils/textUtils";
 import type { Category, PostDocument } from "@/sanity/lib/interfaces/pages";
+import type { SanityLink } from "@/sanity/lib/interfaces/siteSettings";
 import Text from "@/components/text/Text";
 import { RichText } from "@/components/richText/RichText";
 import CategoryNavigation from "@/components/pages/information/components/categoryNavigation/CategoryNavigation";
@@ -119,7 +120,7 @@ export default async function InformasjonPage({
           <RichText value={contactSection.richText} />
         )}
         <ul className={styles.list}>
-          {contactSection.callToActions?.map((cta, index) => (
+          {contactSection.callToActions?.map((cta: SanityLink, index: number) => (
             <li key={`cta-${index}`}>
               <LinkButton link={cta} type="secondary" />
             </li>

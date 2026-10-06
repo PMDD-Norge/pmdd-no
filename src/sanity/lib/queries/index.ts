@@ -82,6 +82,18 @@ export {
   NETTBUTIKK_SLUGS_QUERY,
 } from './nettbutikk';
 
+// Bli medlem queries
+export {
+  BLI_MEDLEM_BY_SLUG_QUERY,
+  BLI_MEDLEM_SLUGS_QUERY,
+} from './bliMedlem';
+
+// Om foreningen queries
+export {
+  OM_FORENINGEN_BY_SLUG_QUERY,
+  OM_FORENINGEN_SLUGS_QUERY,
+} from './omForeningen';
+
 // Blomst queries
 export { GODKJENTE_BLOMSTER_QUERY } from './blomst';
 

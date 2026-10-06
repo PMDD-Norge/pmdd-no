@@ -2,6 +2,8 @@ import { LegalDocument } from "@/sanity/lib/interfaces/admin";
 import styles from "./legal.module.css";
 import Text from "@/components/text/Text";
 import { RichText } from "@/components/richText/RichText";
+import Breadcrumbs from "@/components/breadcrumbs/Breadcrumbs";
+import { OVERORDNEDE_SIDER } from "@/utils/breadcrumbs";
 
 const Legal = ({ document }: { document: LegalDocument; slug: string }) => {
   const formattedDate = document._updatedAt
@@ -14,6 +16,9 @@ const Legal = ({ document }: { document: LegalDocument; slug: string }) => {
   return (
     <div className={styles.background} data-theme="article">
       <div className={`sectionWrapperColumn ${styles.legal}`}>
+        <Breadcrumbs
+          items={[OVERORDNEDE_SIDER.omForeningen, { label: document.title }]}
+        />
         <div>
           <Text type="h1">{document.title}</Text>
           <Text type="label">Oppdatert: {formattedDate}</Text>

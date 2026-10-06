@@ -1,0 +1,79 @@
+.pageContainer {
+  gap: var(--Spacing-XXXL);
+  max-width: 56rem;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  gap: var(--Spacing-L);
+}
+
+.pageContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--Spacing-XXL);
+}
+
+.seksjon {
+  display: flex;
+  flex-direction: column;
+  gap: var(--Spacing-L, 2rem);
+}
+
+.personSeksjon {
+  display: flex;
+  flex-direction: column;
+  gap: var(--Spacing-M, 1.5rem);
+}
+
+.personListe {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+  gap: var(--Spacing-M, 1.5rem);
+}
+
+.personKort {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--Spacing-2XS, 0.25rem);
+}
+
+.personBilde {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.oppfordring {
+  display: flex;
+  flex-direction: column;
+  gap: var(--Spacing-M, 1.5rem);
+}
+
+.lenker {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: var(--Spacing-S, 1rem);
+}
+
+/* LinkButton skal følge innholdets bredde, ikke fylle raden */
+.lenker a {
+  width: fit-content;
+}
+
+.dokumentListe {
+  display: flex;
+  flex-direction: column;
+  gap: var(--Spacing-XS, 0.5rem);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}

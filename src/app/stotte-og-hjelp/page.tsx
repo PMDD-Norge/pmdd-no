@@ -80,7 +80,11 @@ export default async function StotteOgHjelpPage() {
           {ingress && <Text type="bodyLarge">{ingress}</Text>}
         </div>
         {heroImage?.asset && (
-          <SanityNextImage image={heroImage} className={styles.heroBilde} />
+          <SanityNextImage
+            image={heroImage}
+            priority
+            className={styles.heroBilde}
+          />
         )}
       </div>
 

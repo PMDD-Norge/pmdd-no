@@ -26,7 +26,7 @@
 .pageContent {
   display: flex;
   flex-direction: column;
-  gap: var(--Spacing-XXL);
+  gap: var(--Spacing-XXXL);
 }
 
 .seksjon {
@@ -59,55 +59,3 @@
   width: fit-content;
 }
 
-.stillinger {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--Spacing-L);
-  align-self: stretch;
-}
-
-.stillingSeksjonText {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--Spacing-L);
-  align-self: stretch;
-}
-
-@media (min-width: 1200px) {
-  .stillinger {
-    display: inline-grid;
-    row-gap: var(--Spacing-XL, 3rem);
-    column-gap: var(--Spacing-L, 32px);
-    align-self: stretch;
-    grid-template-rows: repeat(2, fit-content(100%));
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    grid-auto-flow: row;
-  }
-}
-
-.stilling {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--Spacing-S, 1rem);
-}
-
-.stillingTextWrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--Spacing-M);
-  align-self: stretch;
-}
-
-.cta {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--Spacing-S, 1rem);
-  align-self: stretch;
-}

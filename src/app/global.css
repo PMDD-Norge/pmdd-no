@@ -47,6 +47,7 @@ html {
   --Spacing-L: 24px;
   --Spacing-XL: 32px;
   --Spacing-XXL: 48px;
+  --Spacing-XXXL: 80px;
 
   @media (max-width: 767px) {
     --Spacing-XXS: 2px;
@@ -56,6 +57,7 @@ html {
     --Spacing-L: 16px;
     --Spacing-XL: 24px;
     --Spacing-XXL: 32px;
+    --Spacing-XXXL: 48px;
   }
 
   /* Ensure text wraps within its container */

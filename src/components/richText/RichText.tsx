@@ -64,6 +64,14 @@ const buildRichTextComponents = (
         </Text>
       );
     },
+    h4: ({ children, value }) => {
+      const id = generateHashFromHeading(extractTextFromBlock(value));
+      return (
+        <Text type="h4" as="h4" id={id}>
+          {children}
+        </Text>
+      );
+    },
     normal: ({ children }) => (
       <Text type={paragraphType} className={styles.paragraph}>
         {children}

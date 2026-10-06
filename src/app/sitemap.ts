@@ -13,6 +13,8 @@ const CONTENT_TYPES = {
   engasjerDeg: "engasjerDeg",
   aktuelt: "aktuelt",
   nettbutikk: "nettbutikk",
+  bliMedlem: "bliMedlem",
+  omForeningen: "omForeningen",
   page: "page",
   event: "event",
 } as const;
@@ -29,6 +31,8 @@ const PRIORITIES: Record<ContentType, number> = {
   [CONTENT_TYPES.engasjerDeg]: 0.7,
   [CONTENT_TYPES.aktuelt]: 0.75,
   [CONTENT_TYPES.nettbutikk]: 0.7,
+  [CONTENT_TYPES.bliMedlem]: 0.7,
+  [CONTENT_TYPES.omForeningen]: 0.7,
   [CONTENT_TYPES.page]: 0.7,
   [CONTENT_TYPES.event]: 0.75,
 };
@@ -52,6 +56,8 @@ async function getAllContent() {
     "engasjerDeg",
     "aktuelt",
     "nettbutikk",
+    "bliMedlem",
+    "omForeningen",
     "page",
     "event"
   ] && defined(slug.current)] {

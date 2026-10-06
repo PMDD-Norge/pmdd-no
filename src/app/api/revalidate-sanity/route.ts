@@ -23,9 +23,6 @@ export async function POST(request: NextRequest) {
       case 'page':
         revalidateTag('pages')
         break
-      case 'information':
-        revalidateTag('information')
-        break
       case 'informasjonsdokument':
       case 'informasjonsartikkel':
       case 'category':

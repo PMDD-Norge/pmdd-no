@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { getProductByHandle } from '@/utils/shopify';
 import ProductPage from '@/components/pages/merch/ProductPage';
+import Breadcrumbs from '@/components/breadcrumbs/Breadcrumbs';
+import { OVERORDNEDE_SIDER } from '@/utils/breadcrumbs';
 import PMDDErrorMessage from '@/components/pages/information/components/customErrorMessage/PMDDErrorMessage';
 import { logError } from '@/utils/logger';
 
@@ -25,7 +27,16 @@ export default async function Page({ params }: PageProps) {
   try {
     const product = await getProductByHandle(handle);
     if (!product) return <PMDDErrorMessage />;
-    return <ProductPage product={product} />;
+    return (
+      <>
+        <div className="sectionWrapperColumn">
+          <Breadcrumbs
+            items={[OVERORDNEDE_SIDER.nettbutikk, { label: product.title }]}
+          />
+        </div>
+        <ProductPage product={product} />
+      </>
+    );
   } catch (error) {
     logError(error, { message: 'Failed to fetch Shopify product', handle });
     return <PMDDErrorMessage />;

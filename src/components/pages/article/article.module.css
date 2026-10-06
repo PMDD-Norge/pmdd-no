@@ -1,7 +1,3 @@
-.background {
-  background: var(--Light-grey, #f9f8f5);
-}
-
 .artikkel {
   max-width: 56rem;
   display: flex;

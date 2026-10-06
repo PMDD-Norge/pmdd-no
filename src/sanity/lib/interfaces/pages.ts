@@ -395,3 +395,68 @@ export interface NettbutikkDocument extends SanityBase {
   title?: string;
   richText?: PortableTextBlock[];
 }
+
+export interface BliMedlemSeksjon {
+  tittel?: string;
+  richText?: PortableTextBlock[];
+  lenke?: SanityLink;
+  iframeUrl?: string;
+}
+
+export interface BliMedlemDocument extends SanityBase {
+  pageName: string;
+  slug: Slug;
+  title?: string;
+  ingress?: string;
+  heroImage?: SanityImageData;
+  betydningAvMedlemskap?: BliMedlemSeksjon;
+  medlemskapstyper?: BliMedlemSeksjon;
+  andreMaaterAaBidraPaa?: BliMedlemSeksjon;
+}
+
+export interface OmForeningenPerson {
+  _id: string;
+  name: string;
+  occupation?: string;
+  email?: string;
+  image?: SanityImageData;
+}
+
+export interface OmForeningenPersonSeksjon {
+  _key: string;
+  tittel?: string;
+  body?: PortableTextBlock[];
+  folk?: OmForeningenPerson[];
+}
+
+export interface OmForeningenOppfordring {
+  tittel?: string;
+  richText?: PortableTextBlock[];
+  lenker?: SanityLink[];
+}
+
+export interface OmForeningenStyrendeDokument {
+  _id: string;
+  title: string;
+  slug: Slug;
+}
+
+export interface OmForeningenDocument extends SanityBase {
+  pageName: string;
+  slug: Slug;
+  title?: string;
+  ingress?: string;
+  richText?: PortableTextBlock[];
+  heroImage?: SanityImageData;
+  organisasjonenVaar?: {
+    tittel?: string;
+    richText?: PortableTextBlock[];
+    seksjoner?: OmForeningenPersonSeksjon[];
+    oppfordring?: OmForeningenOppfordring;
+  };
+  styrendeDokumenter?: {
+    tittel?: string;
+    richText?: PortableTextBlock[];
+    dokumenter?: OmForeningenStyrendeDokument[];
+  };
+}
