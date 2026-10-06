@@ -4,12 +4,6 @@
  * Reduces duplication and makes the page.tsx file more maintainable
  */
 
-import { PAGINATION } from "@/constants";
-import { sanityFetch } from "@/sanity/lib/live";
-import {
-  PAGINATED_ARTICLES_QUERY,
-  ALL_AKTIVITETER_QUERY,
-} from "@/sanity/lib/queries";
 import {
   getDocumentBySlug,
   getDocumentWithLandingCheck,
@@ -148,119 +142,6 @@ export async function handleAvailablePositionType(
 }
 
 /**
- * Handler for "minnehagen" document type.
- *
- * Minnehagen er en egen dokumenttype.
- */
-export async function handleMinnehagenType(
-  slug: string[],
-  language: string,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _searchParams?: SearchParams,
-): Promise<ReactElement> {
-  const { data: minnehagen } = await getDocumentBySlug(
-    QueryType.Minnehagen,
-    slug,
-    language,
-  );
-
-  if (!minnehagen) {
-    return <PMDDErrorMessage />;
-  }
-
-  const MinnehagenPage = (
-    await import("@/components/pages/minnehagen/MinnehagenPage")
-  ).default;
-
-  return <MinnehagenPage document={minnehagen} />;
-}
-
-/**
- * Handler for "stotteOgHjelp" document type
- */
-export async function handleStotteOgHjelpType(
-  slug: string[],
-  language: string,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _searchParams?: SearchParams,
-): Promise<ReactElement> {
-  const { data: stotteOgHjelp } = await getDocumentBySlug(
-    QueryType.StotteOgHjelp,
-    slug,
-    language,
-  );
-
-  if (!stotteOgHjelp) {
-    return <PMDDErrorMessage />;
-  }
-
-  const StotteOgHjelpPage = (
-    await import("@/components/pages/stotteOgHjelp/StotteOgHjelpPage")
-  ).default;
-
-  return <StotteOgHjelpPage document={stotteOgHjelp} />;
-}
-
-/**
- * Handler for "engasjerDeg" document type
- */
-export async function handleEngasjerDegType(
-  slug: string[],
-  language: string,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _searchParams?: SearchParams,
-): Promise<ReactElement> {
-  const [{ data: engasjerDeg }, { data: stillinger }] = await Promise.all([
-    getDocumentBySlug(QueryType.EngasjerDeg, slug, language),
-    sanityFetch({
-      query: PAGINATED_ARTICLES_QUERY,
-      params: {
-        type: "job-position",
-        start: 0,
-        end: PAGINATION.MAX_JOB_POSITIONS,
-        category: null,
-      },
-    }),
-  ]);
-
-  if (!engasjerDeg) {
-    return <PMDDErrorMessage />;
-  }
-
-  const EngasjerDegPage = (
-    await import("@/components/pages/engasjerDeg/EngasjerDegPage")
-  ).default;
-
-  return (
-    <EngasjerDegPage document={engasjerDeg} stillinger={stillinger || []} />
-  );
-}
-
-/**
- * Handler for "aktuelt" document type
- */
-export async function handleAktueltType(
-  slug: string[],
-  language: string,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _searchParams?: SearchParams,
-): Promise<ReactElement> {
-  const [{ data: aktuelt }, { data: aktiviteter }] = await Promise.all([
-    getDocumentBySlug(QueryType.Aktuelt, slug, language),
-    sanityFetch({ query: ALL_AKTIVITETER_QUERY, params: {} }),
-  ]);
-
-  if (!aktuelt) {
-    return <PMDDErrorMessage />;
-  }
-
-  const AktueltPage = (await import("@/components/pages/aktuelt/AktueltPage"))
-    .default;
-
-  return <AktueltPage document={aktuelt} aktiviteter={aktiviteter || []} />;
-}
-
-/**
  * Handler for "nettbutikk" document type
  */
 export async function handleNettbutikkType(
@@ -345,10 +226,6 @@ export const contentTypeHandlers = {
   availablePosition: handleAvailablePositionType,
   legalDocument: handleLegalDocumentType,
   merch: handleMerchType,
-  minnehagen: handleMinnehagenType,
-  stotteOgHjelp: handleStotteOgHjelpType,
-  engasjerDeg: handleEngasjerDegType,
-  aktuelt: handleAktueltType,
   nettbutikk: handleNettbutikkType,
 } as const;
 

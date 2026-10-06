@@ -3,21 +3,11 @@
   max-width: 56rem;
 }
 
-.hero,
-.seksjon {
+.hero {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-
-.hero {
-  gap: var(--Spacing-L, 2rem);
-  flex-direction: column-reverse;
-}
-
-.seksjon {
-  gap: var(--Spacing-M, 1.5rem);
+  gap: var(--Spacing-XXL, 3.5rem);
 }
 
 .heroBilde {
@@ -27,54 +17,41 @@
   margin: auto !important;
 }
 
-.heroTextWrapper,
-.seksjonTekstWrapper {
+.heroTextWrapper {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  align-self: stretch;
-  min-width: 0;
+  gap: var(--Spacing-L);
 }
 
-.heroTextWrapper {
-  gap: var(--Spacing-S, 1rem);
+.pageContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--Spacing-XXL);
 }
 
-.seksjonTekstWrapper {
-  width: 100%;
+.seksjon {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
   gap: var(--Spacing-M, 1.5rem);
 }
 
-@media (min-width: 640px) {
-  .hero,
-  .seksjon {
-    flex-direction: row;
-  }
+.seksjonTekstWrapper {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 2;
+  gap: var(--Spacing-M, 1.5rem);
+}
 
-  .hero {
-    gap: var(--Spacing-XXL, 3.5rem);
-  }
-
-  .seksjon {
-    gap: var(--Spacing-L, 2rem);
-  }
-
-  .heroBilde {
-    width: auto !important;
-    max-width: 40% !important;
-    flex-shrink: 1;
-  }
-
-  .seksjonTekstWrapper {
-    flex: 2;
-  }
+.seksjonBilde {
+  flex: 1;
 }
 
 .lenker {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--Spacing-XS, 0.5rem);
+  display: grid;
+  gap: var(--Spacing-S, 1rem);
 }
 
 /* LinkButton skal følge innholdets bredde, ikke fylle raden */
@@ -92,9 +69,23 @@
   align-self: stretch;
 }
 
-@media (min-width: 640px) {
+.stillingSeksjonText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--Spacing-L);
+  align-self: stretch;
+}
+
+@media (min-width: 1200px) {
   .stillinger {
+    display: inline-grid;
+    row-gap: var(--Spacing-XL, 3rem);
+    column-gap: var(--Spacing-L, 32px);
+    align-self: stretch;
+    grid-template-rows: repeat(2, fit-content(100%));
     grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-auto-flow: row;
   }
 }
 
@@ -109,7 +100,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--Spacing-XS, 0.5rem);
+  gap: var(--Spacing-M);
   align-self: stretch;
 }
 

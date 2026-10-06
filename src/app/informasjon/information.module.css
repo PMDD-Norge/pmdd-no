@@ -1,9 +1,8 @@
 .informasjonsInnhold {
   display: flex;
-  max-width: 62.5rem;
   flex-direction: column;
-  gap: 3rem;
-  align-self: stretch;
+  align-items: center;
+  gap: var(--Spacing-XXL, 3.5rem);
 }
 
 .informasjonsHero {
@@ -11,6 +10,14 @@
   flex-direction: column;
   align-items: flex-start;
   gap: var(--Spacing-S, 0.75rem);
+  align-self: stretch;
+}
+
+.informasjonArtiklerSeksjon {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--Spacing-XL, 3rem);
   align-self: stretch;
 }
 
@@ -89,5 +96,20 @@
   .lesMer::after {
     width: 1.5rem;
     height: 1.5rem;
+  }
+}
+
+.kontaktOsswrapper {
+  max-width: 50rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: var(--Spacing-S, 1rem);
+  flex: 1 0 0;
+  & ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
   }
 }

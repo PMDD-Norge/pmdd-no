@@ -15,6 +15,7 @@
   justify-content: center;
   align-items: center;
   align-self: stretch;
+  padding: 5rem 0;
 }
 
 .content {
@@ -49,7 +50,7 @@
   flex-direction: column;
   align-self: stretch;
   justify-content: center;
-  gap: 1.5rem;
+  gap: var(--Spacing-XL);
   @media (min-width: 640px) {
     flex: 2;
   }

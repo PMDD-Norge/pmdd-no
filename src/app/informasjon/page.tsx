@@ -7,10 +7,10 @@ import { truncateText } from "@/utils/textUtils";
 import type { Category, PostDocument } from "@/sanity/lib/interfaces/pages";
 import Text from "@/components/text/Text";
 import { RichText } from "@/components/richText/RichText";
-import Contact from "@/components/sections/contact/Contact";
 import CategoryNavigation from "@/components/pages/information/components/categoryNavigation/CategoryNavigation";
 import PMDDErrorMessage from "@/components/pages/information/components/customErrorMessage/PMDDErrorMessage";
 import styles from "./information.module.css";
+import LinkButton from "@/components/linkButton/LinkButton";
 
 const SLUG = "informasjon";
 
@@ -76,40 +76,56 @@ export default async function InformasjonPage({
         {richText && <RichText value={richText} paragraphType="bodyLarge" />}
       </div>
 
-      <CategoryNavigation
-        categories={categoriesToShow}
-        selectedCategory={selectedCategoryName}
-        slug={SLUG}
-      />
+      <div className={styles.informasjonArtiklerSeksjon}>
+        <CategoryNavigation
+          categories={categoriesToShow}
+          selectedCategory={selectedCategoryName}
+          slug={SLUG}
+        />
 
-      <ul
-        className={styles.artikler}
-        aria-label={title}
-        aria-live="polite"
-        role="region"
-      >
-        {sortedPosts.map(({ _id, title: postTitle, lead, slug: postSlug }) => (
-          <li key={_id}>
-            <Link
-              href={`/${SLUG}/${postSlug.current}`}
-              className={styles.artikkel}
-              aria-label={postTitle ? `Les meir: ${postTitle}` : undefined}
-            >
-              {postTitle && (
-                <Text type="h4" as="h3">
-                  {postTitle}
-                </Text>
-              )}
-              {lead && <Text>{truncateText(lead, 150)}</Text>}
-              <span className={styles.lesMer} aria-hidden="true">
-                Les mer
-              </span>
-            </Link>
-          </li>
-        ))}
-      </ul>
+        <ul
+          className={styles.artikler}
+          aria-label={title}
+          aria-live="polite"
+          role="region"
+        >
+          {sortedPosts.map(
+            ({ _id, title: postTitle, lead, slug: postSlug }) => (
+              <li key={_id}>
+                <Link
+                  href={`/${SLUG}/${postSlug.current}`}
+                  className={styles.artikkel}
+                  aria-label={postTitle ? `Les meir: ${postTitle}` : undefined}
+                >
+                  {postTitle && (
+                    <Text type="h4" as="h3">
+                      {postTitle}
+                    </Text>
+                  )}
+                  {lead && <Text>{truncateText(lead, 150)}</Text>}
+                  <span className={styles.lesMer} aria-hidden="true">
+                    Les mer
+                  </span>
+                </Link>
+              </li>
+            ),
+          )}
+        </ul>
+      </div>
 
-      {contactSection && <Contact contact={contactSection} />}
+      <div className={styles.kontaktOsswrapper}>
+        <Text type="h3">{contactSection.title}</Text>
+        {contactSection.richText && (
+          <RichText value={contactSection.richText} />
+        )}
+        <ul className={styles.list}>
+          {contactSection.callToActions?.map((cta, index) => (
+            <li key={`cta-${index}`}>
+              <LinkButton link={cta} type="secondary" />
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

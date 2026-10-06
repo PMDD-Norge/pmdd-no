@@ -71,3 +71,17 @@
 }
 
 /* Internal links have no additional styling beyond the base styles */
+
+/* Underoverskrifter (h3) i rik tekst skal være tydelig mindre enn h2.
+   Dobbel klasse gir høyere spesifisitet enn Text-klassen uavhengig av CSS-rekkefølge. */
+.subheading.subheading {
+  font-size: 1.125rem;
+
+  @media (min-width: 640px) {
+    font-size: 1.25rem;
+  }
+
+  @media (min-width: 1024px) {
+    font-size: 1.5rem;
+  }
+}

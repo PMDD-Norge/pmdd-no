@@ -31,7 +31,11 @@ const Header = ({ navigation, assets }: HeaderProps) => {
             {assets?.primaryLogo && (
               <div className={styles.logo}>
                 <Link href="/" aria-label="Hjem">
-                  <SanityNextImage image={assets?.primaryLogo} priority />
+                  <SanityNextImage
+                    image={assets?.primaryLogo}
+                    priority
+                    sizes="(max-width: 1040px) 240px, 310px"
+                  />
                 </Link>
               </div>
             )}

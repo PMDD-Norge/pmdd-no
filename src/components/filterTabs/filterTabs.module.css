@@ -1,7 +1,7 @@
 .filtrering {
   display: flex;
   flex-direction: column;
-  gap: var(--Spacing-S, 1rem);
+  gap: var(--Spacing-M);
   min-width: 0;
   max-width: 100%;
 }
@@ -13,7 +13,7 @@
 
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.25rem;
   min-width: 0;
   max-width: 100%;
   flex-wrap: nowrap;
@@ -34,10 +34,10 @@
   padding: 0.375rem 0.625rem;
 
   font-family: var(--font-nunito);
-  font-size: 1;
+  font-size: 1.1875;
   font-style: normal;
-  font-weight: 600;
-  line-height: 1;
+  font-weight: 400;
+  line-height: 130%;
   white-space: nowrap;
 
   border-radius: 0.25rem;

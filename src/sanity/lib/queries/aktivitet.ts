@@ -33,9 +33,11 @@ const AKTIVITET_FIELDS = `
   }
 `;
 
-// Alle aktiviteter, sortert på dato (de uten dato havner sist)
+// Kommende aktiviteter (dato i dag eller senere, regnet ut med now() i UTC),
+// sortert på dato. Aktiviteter uten dato vises alltid og havner sist.
 export const ALL_AKTIVITETER_QUERY = `
-*[_type == "aktivitet" && !(_id in path("drafts.**"))] | order(coalesce(detaljer.dato, "9999-12-31") asc) {
+*[_type == "aktivitet" && !(_id in path("drafts.**"))
+  && (!defined(detaljer.dato) || detaljer.dato >= string::split(string(now()), "T")[0])] | order(coalesce(detaljer.dato, "9999-12-31") asc) {
   ${AKTIVITET_FIELDS}
 }
 `;

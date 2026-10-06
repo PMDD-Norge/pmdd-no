@@ -1,0 +1,60 @@
+.pageContainer {
+  gap: var(--Spacing-XXL, 3.5rem);
+  max-width: 56rem;
+}
+
+.hero {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--Spacing-XXL, 3.5rem);
+}
+
+.heroBilde {
+  width: 100% !important;
+  height: auto !important;
+  max-width: 400px !important;
+  margin: auto !important;
+}
+
+.heroTextWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--Spacing-L);
+}
+
+.pageContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--Spacing-XXL);
+}
+
+.seksjon {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: var(--Spacing-M, 1.5rem);
+}
+
+.seksjonTekstWrapper {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 2;
+  gap: var(--Spacing-M, 1.5rem);
+}
+
+.seksjonBilde {
+  flex: 1;
+}
+
+.lenker {
+  display: grid;
+  gap: var(--Spacing-S, 1rem);
+}
+
+/* LinkButton skal følge innholdets bredde, ikke fylle raden */
+.lenker a {
+  width: fit-content;
+}

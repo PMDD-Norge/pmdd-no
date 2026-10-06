@@ -4,10 +4,6 @@ import {
   PAGE_BY_SLUG_QUERY,
   LANDING_PAGE_ID_QUERY,
   LEGAL_DOCUMENT_BY_SLUG_QUERY,
-  MINNEHAGEN_BY_SLUG_QUERY,
-  STOTTE_OG_HJELP_BY_SLUG_QUERY,
-  ENGASJER_DEG_BY_SLUG_QUERY,
-  AKTUELT_BY_SLUG_QUERY,
   NETTBUTIKK_BY_SLUG_QUERY,
 } from "@/sanity/lib/queries";
 
@@ -18,10 +14,6 @@ export const enum QueryType {
   Event = "event",
   AvailablePosition = "availablePosition",
   LegalDocument = "legalDocument",
-  Minnehagen = "minnehagen",
-  StotteOgHjelp = "stotteOgHjelp",
-  EngasjerDeg = "engasjerDeg",
-  Aktuelt = "aktuelt",
   Nettbutikk = "nettbutikk",
 }
 
@@ -41,10 +33,6 @@ const Queries: Record<QueryType, string> = {
     image{asset->, altText, hotspot}
   }`,
   [QueryType.LegalDocument]: LEGAL_DOCUMENT_BY_SLUG_QUERY,
-  [QueryType.Minnehagen]: MINNEHAGEN_BY_SLUG_QUERY,
-  [QueryType.StotteOgHjelp]: STOTTE_OG_HJELP_BY_SLUG_QUERY,
-  [QueryType.EngasjerDeg]: ENGASJER_DEG_BY_SLUG_QUERY,
-  [QueryType.Aktuelt]: AKTUELT_BY_SLUG_QUERY,
   [QueryType.Nettbutikk]: NETTBUTIKK_BY_SLUG_QUERY,
 };
 
