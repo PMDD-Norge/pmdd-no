@@ -58,14 +58,6 @@
   gap: var(--Spacing-S, 1rem);
 }
 
-.kortTekstWrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--Spacing-XS, 0.5rem);
-  align-self: stretch;
-}
-
 .detaljerSeksjon {
   display: flex;
   flex-direction: column;

@@ -1,0 +1,8 @@
+.tekst {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--Spacing-XS, 0.5rem);
+  align-self: stretch;
+  min-width: 0;
+}

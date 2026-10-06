@@ -1,3 +1,6 @@
+import { sanityFetch } from "@/sanity/lib/live";
+import { AKTIVITET_ID_TITLE_QUERY } from "@/sanity/lib/queries";
+
 /**
  * Aktiviteter har ikke slug-felt i Sanity; adressen (/aktuelt/<slug>) lages
  * fra tittelen. To aktiviteter med samme tittel får slugen utvidet med de
@@ -35,4 +38,20 @@ export const lagAktivitetSlugs = (
       antall.get(baser[i])! > 1 ? `${baser[i]}-${a._id.slice(-6)}` : baser[i],
     ]),
   );
+};
+
+/**
+ * Legger på slug (se lagAktivitetSlugs) på aktiviteter hentet fra en
+ * delmengde, f.eks. en grid som bare viser gåturer. Slugen regnes ut over alle
+ * aktivitetene, så den blir den samme som på /aktuelt.
+ */
+export const medAktivitetSlugs = async <T extends { _id?: string }>(
+  aktiviteter: T[],
+): Promise<(T & { slug: string })[]> => {
+  const { data } = await sanityFetch({
+    query: AKTIVITET_ID_TITLE_QUERY,
+    params: {},
+  });
+  const slugs = lagAktivitetSlugs((data || []) as MedIdOgTittel[]);
+  return aktiviteter.map((a) => ({ ...a, slug: slugs.get(a._id ?? "") ?? "" }));
 };

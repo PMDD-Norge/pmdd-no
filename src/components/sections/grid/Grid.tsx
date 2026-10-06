@@ -14,6 +14,7 @@ import { LinkType, SanityLink } from "@/sanity/lib/interfaces/siteSettings";
 
 import {
   AktivitetDocument,
+  AktivitetMedSlug,
   AvailablePositionDocument,
   EventDocument,
   GridItem,
@@ -23,6 +24,9 @@ import {
   WalkingTourDocument,
 } from "@/sanity/lib/interfaces/pages";
 import LinkButton from "@/components/linkButton/LinkButton";
+import AktivitetKort from "@/components/aktivitet/AktivitetKort";
+import { medAktivitetSlugs } from "@/utils/aktivitetSlug";
+import { kommendeAktiviteter } from "@/utils/aktivitetUtils";
 
 // Interface for articles with type field
 interface ArticleWithType {
@@ -64,12 +68,21 @@ export const Grid = async (props: Props) => {
   );
 };
 
-const GridListSection = ({ list }: { list: GridList }) => {
+const GridListSection = async ({ list }: { list: GridList }) => {
+  // Aktiviteter vises som på /aktuelt: bare kommende, sortert på dato, med
+  // samme kort og lenke til aktivitetens side
+  const erAktivitetsliste = list.contentType?.startsWith("aktivitet") ?? false;
+  const items = erAktivitetsliste
+    ? await medAktivitetSlugs(
+        kommendeAktiviteter((list.items || []) as unknown as AktivitetDocument[]),
+      )
+    : list.items;
+
   // For manual grids, show all items. For other types, apply maxItems limit (0 = show all)
   const shouldApplyLimit = list.contentType !== "manual" && !!list.maxItems;
-  const displayItems = shouldApplyLimit
-    ? list.items?.slice(0, list.maxItems) || []
-    : list.items || [];
+  const displayItems = (
+    shouldApplyLimit ? items?.slice(0, list.maxItems) || [] : items || []
+  ) as GridElementItem[];
   const itemCount = displayItems.length;
   const columns = list.columns ?? 3;
   const kolonnerMobil = list.kolonnerMobil ?? 2;
@@ -82,7 +95,10 @@ const GridListSection = ({ list }: { list: GridList }) => {
         style={{ "--columns": columns, "--columns-mobile": kolonnerMobil } as React.CSSProperties}
       >
         {displayItems.map((item) => (
-          <GridElement key={item._key || item._id} item={item} />
+          <GridElement
+            key={("_key" in item && item._key) || item._id}
+            item={item}
+          />
         ))}
       </ul>
       {list.bunnTekst && list.bunnTekst.length > 0 && (
@@ -203,12 +219,19 @@ const createInternalLink = (item: GridElementItem): SanityLink | undefined => {
 const GridElement = ({ item }: { item: GridElementItem }) => {
   const itemAny = item as unknown as Record<string, unknown>;
 
+  if ("_type" in item && item._type === "aktivitet" && "slug" in itemAny) {
+    return (
+      <li className={styles.listItem}>
+        <AktivitetKort aktivitet={item as unknown as AktivitetMedSlug} />
+      </li>
+    );
+  }
+
   // Check document type
   const isEvent = "_type" in item && item._type === "event";
   const isFrivillig = "_type" in item && item._type === "frivillig";
   const isWalkingTour = "_type" in item && item._type === "walkingTour";
   const isTurVenn = "_type" in item && item._type === "turvenn";
-  const isAktivitet = "_type" in item && item._type === "aktivitet";
 
   // Get title - frivillige and turvenn use 'name' field
   const itemTitle: string | undefined =
@@ -262,10 +285,6 @@ const GridElement = ({ item }: { item: GridElementItem }) => {
   const turvennName: string | null =
     walkingTourTurvenn?.name ?? null;
 
-  // Aktivitet's own "lenke" (f.eks. påmelding eller mer info)
-  const aktivitetLink: SanityLink | undefined =
-    isAktivitet && "detaljer" in item ? item.detaljer?.lenke : undefined;
-
   const image = "image" in item && item.image ? item.image : undefined;
 
   return (
@@ -280,32 +299,6 @@ const GridElement = ({ item }: { item: GridElementItem }) => {
       {/* By vises for turvenner (frivillige med city satt, og gammel "turvenn"-type) */}
       {(isTurVenn || isFrivillig) && "city" in item && !!item.city && (
         <Text type="small">{item.city as string}</Text>
-      )}
-
-      {/* Aktivitet-specific fields: dato, tid, sted, pris */}
-      {isAktivitet && "detaljer" in item && item.detaljer && (
-        <>
-          {item.detaljer.dato && (
-            <Text type="small" className={styles.eventDate}>
-              {new Date(item.detaljer.dato).toLocaleDateString("nb-NO", {
-                weekday: "long",
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-                timeZone: "Europe/Oslo",
-              })}
-              {item.detaljer.tid && ` · ${item.detaljer.tid}`}
-            </Text>
-          )}
-          {item.detaljer.sted && (
-            <Text type="small" className={styles.eventLocation}>
-              {item.detaljer.sted}
-            </Text>
-          )}
-          {item.detaljer.pris && (
-            <Text type="small">{item.detaljer.pris}</Text>
-          )}
-        </>
       )}
 
       {/* Event-specific fields: date and location */}
@@ -376,12 +369,7 @@ const GridElement = ({ item }: { item: GridElementItem }) => {
           <CustomLink link={facebookLink} />
         </div>
       )}
-      {!facebookLink && aktivitetLink?.title && (
-        <div>
-          <CustomLink link={aktivitetLink} />
-        </div>
-      )}
-      {!facebookLink && !aktivitetLink?.title && link?.title && (
+      {!facebookLink && link?.title && (
         <div>
           <CustomLink link={link} />
         </div>

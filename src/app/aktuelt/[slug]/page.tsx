@@ -13,7 +13,11 @@ import LinkButton from "@/components/linkButton/LinkButton";
 import SanityNextImage from "@/components/image/sanityImage";
 import { lagAktivitetSlugs } from "@/utils/aktivitetSlug";
 import { OVERORDNEDE_SIDER } from "@/utils/breadcrumbs";
-import { INVOLVERTE_TITTEL, TYPE_LABELS, formatDato } from "../aktivitetUtils";
+import {
+  INVOLVERTE_TITTEL,
+  TYPE_LABELS,
+  formatDato,
+} from "@/utils/aktivitetUtils";
 import styles from "../aktuelt.module.css";
 
 export const revalidate = 3600;
