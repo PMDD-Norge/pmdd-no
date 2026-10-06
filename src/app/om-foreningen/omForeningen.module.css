@@ -1,27 +1,32 @@
 .pageContainer {
+  min-width: 0;
   gap: var(--Spacing-XXXL);
   max-width: 56rem;
 }
 
 .hero {
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: var(--Spacing-L);
 }
 
 .pageContent {
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: var(--Spacing-XXL);
 }
 
 .seksjon {
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: var(--Spacing-L, 2rem);
 }
 
 .personSeksjon {
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: var(--Spacing-M, 1.5rem);
@@ -52,6 +57,7 @@
 }
 
 .oppfordring {
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: var(--Spacing-M, 1.5rem);

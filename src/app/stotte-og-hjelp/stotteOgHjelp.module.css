@@ -1,52 +1,95 @@
 .pageContainer {
   gap: var(--Spacing-XXL, 3.5rem);
   max-width: 56rem;
+  min-width: 0;
 }
 
+/* Mobil først: bildet over teksten, én kolonne. Rad fra 640px. */
 .hero {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: var(--Spacing-XXL, 3.5rem);
+  flex-direction: column-reverse;
+  align-items: stretch;
+  gap: var(--Spacing-L);
+  min-width: 0;
 }
 
 .heroBilde {
   width: 100% !important;
   height: auto !important;
-  max-width: 400px !important;
-  margin: auto !important;
+  max-width: 16rem !important;
+  margin: 0 auto !important;
 }
 
 .heroTextWrapper {
   display: flex;
   flex-direction: column;
-  gap: var(--Spacing-L);
+  gap: var(--Spacing-M);
+  min-width: 0;
 }
 
 .pageContent {
   display: flex;
   flex-direction: column;
-  gap: var(--Spacing-XXXL);
+  gap: var(--Spacing-XXL);
+  min-width: 0;
+}
+
+@media (min-width: 640px) {
+  .hero {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: var(--Spacing-XXL, 3.5rem);
+  }
+
+  /* Bildet får en fast andel, så teksten ikke presses sammen */
+  .heroBilde {
+    width: 40% !important;
+    flex-shrink: 0;
+    max-width: 400px !important;
+    margin: auto !important;
+  }
+
+  .heroTextWrapper {
+    flex: 1;
+  }
 }
 
 .seksjon {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  align-items: stretch;
   gap: var(--Spacing-M, 1.5rem);
+  min-width: 0;
 }
 
 .seksjonTekstWrapper {
   display: flex;
   flex-direction: column;
   min-width: 0;
-  flex: 2;
   gap: var(--Spacing-M, 1.5rem);
 }
 
 .seksjonBilde {
-  flex: 1;
+  width: 100%;
+  max-width: 10rem;
+}
+
+@media (min-width: 640px) {
+  .seksjon {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .seksjonTekstWrapper {
+    flex: 2;
+  }
+
+  .seksjonBilde {
+    flex: 1;
+    max-width: none;
+  }
 }
 
 .lenker {
