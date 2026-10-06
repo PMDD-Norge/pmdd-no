@@ -3,6 +3,8 @@
  * These fragments can be embedded in larger queries using string interpolation
  */
 
+import { SLUG_PROJEKSJON } from "./slugs";
+
 /**
  * Standard image projection with all common fields
  */
@@ -38,9 +40,7 @@ export const LINK_FRAGMENT = `{
   "internalLink": internalLink->{
     _type,
     title,
-    slug{
-      current
-    }
+    ${SLUG_PROJEKSJON}
   },
   url,
   email,

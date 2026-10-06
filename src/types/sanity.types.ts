@@ -24,7 +24,7 @@ export type SanityImageAssetReference = {
 
 export type SeoImage = {
   asset?: SanityImageAssetReference
-  media?: unknown // Unable to locate the referenced type "media" in schema
+  media?: unknown // Unable to locate the referenced type "image.media" in schema
   hotspot?: SanityImageHotspot
   crop?: SanityImageCrop
   _type: 'image'
@@ -34,18 +34,11 @@ export type Layout = {
   imagePosition?: 'left' | 'right'
 }
 
-export type PageReference = {
+export type HjemReference = {
   _ref: string
   _type: 'reference'
   _weak?: boolean
-  [internalGroqTypeReferenceTo]?: 'page'
-}
-
-export type CollectionHubReference = {
-  _ref: string
-  _type: 'reference'
-  _weak?: boolean
-  [internalGroqTypeReferenceTo]?: 'collectionHub'
+  [internalGroqTypeReferenceTo]?: 'hjem'
 }
 
 export type LegalDocumentReference = {
@@ -76,11 +69,11 @@ export type InformasjonsdokumentReference = {
   [internalGroqTypeReferenceTo]?: 'informasjonsdokument'
 }
 
-export type EventReference = {
+export type AktivitetReference = {
   _ref: string
   _type: 'reference'
   _weak?: boolean
-  [internalGroqTypeReferenceTo]?: 'event'
+  [internalGroqTypeReferenceTo]?: 'aktivitet'
 }
 
 export type ResourceReference = {
@@ -90,18 +83,73 @@ export type ResourceReference = {
   [internalGroqTypeReferenceTo]?: 'resource'
 }
 
+export type MinnehagenReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'minnehagen'
+}
+
+export type StotteOgHjelpReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'stotteOgHjelp'
+}
+
+export type EngasjerDegReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'engasjerDeg'
+}
+
+export type AktueltReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'aktuelt'
+}
+
+export type NettbutikkReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'nettbutikk'
+}
+
+export type BliMedlemReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'bliMedlem'
+}
+
+export type OmForeningenReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'omForeningen'
+}
+
 export type GridItemLink = {
   title?: string
   type?: string
   internalLink?:
-    | PageReference
-    | CollectionHubReference
+    | HjemReference
     | LegalDocumentReference
     | ArticleReference
     | InformasjonsartikkelReference
     | InformasjonsdokumentReference
-    | EventReference
+    | AktivitetReference
     | ResourceReference
+    | MinnehagenReference
+    | StotteOgHjelpReference
+    | EngasjerDegReference
+    | AktueltReference
+    | NettbutikkReference
+    | BliMedlemReference
+    | OmForeningenReference
   url?: string
   email?: string
   phone?: string
@@ -113,14 +161,20 @@ export type CtaLink = {
   title?: string
   type?: string
   internalLink?:
-    | PageReference
-    | CollectionHubReference
+    | HjemReference
     | LegalDocumentReference
     | ArticleReference
     | InformasjonsartikkelReference
     | InformasjonsdokumentReference
-    | EventReference
+    | AktivitetReference
     | ResourceReference
+    | MinnehagenReference
+    | StotteOgHjelpReference
+    | EngasjerDegReference
+    | AktueltReference
+    | NettbutikkReference
+    | BliMedlemReference
+    | OmForeningenReference
   url?: string
   email?: string
   phone?: string
@@ -232,14 +286,20 @@ export type FeaturesLink = {
   title?: string
   type?: string
   internalLink?:
-    | PageReference
-    | CollectionHubReference
+    | HjemReference
     | LegalDocumentReference
     | ArticleReference
     | InformasjonsartikkelReference
     | InformasjonsdokumentReference
-    | EventReference
+    | AktivitetReference
     | ResourceReference
+    | MinnehagenReference
+    | StotteOgHjelpReference
+    | EngasjerDegReference
+    | AktueltReference
+    | NettbutikkReference
+    | BliMedlemReference
+    | OmForeningenReference
   url?: string
   email?: string
   phone?: string
@@ -261,14 +321,20 @@ export type TestimonialsLink = {
   title?: string
   type?: string
   internalLink?:
-    | PageReference
-    | CollectionHubReference
+    | HjemReference
     | LegalDocumentReference
     | ArticleReference
     | InformasjonsartikkelReference
     | InformasjonsdokumentReference
-    | EventReference
+    | AktivitetReference
     | ResourceReference
+    | MinnehagenReference
+    | StotteOgHjelpReference
+    | EngasjerDegReference
+    | AktueltReference
+    | NettbutikkReference
+    | BliMedlemReference
+    | OmForeningenReference
   url?: string
   email?: string
   phone?: string
@@ -300,16 +366,23 @@ export type SectionGroup = {
         infoMessage?: InfoMessage
         callToActions?: Array<{
           title?: string
+          description?: string
           type?: string
           internalLink?:
-            | PageReference
-            | CollectionHubReference
+            | HjemReference
             | LegalDocumentReference
             | ArticleReference
             | InformasjonsartikkelReference
             | InformasjonsdokumentReference
-            | EventReference
+            | AktivitetReference
             | ResourceReference
+            | MinnehagenReference
+            | StotteOgHjelpReference
+            | EngasjerDegReference
+            | AktueltReference
+            | NettbutikkReference
+            | BliMedlemReference
+            | OmForeningenReference
           url?: string
           email?: string
           phone?: string
@@ -352,16 +425,23 @@ export type SectionGroup = {
         >
         callToActions?: Array<{
           title?: string
+          description?: string
           type?: string
           internalLink?:
-            | PageReference
-            | CollectionHubReference
+            | HjemReference
             | LegalDocumentReference
             | ArticleReference
             | InformasjonsartikkelReference
             | InformasjonsdokumentReference
-            | EventReference
+            | AktivitetReference
             | ResourceReference
+            | MinnehagenReference
+            | StotteOgHjelpReference
+            | EngasjerDegReference
+            | AktueltReference
+            | NettbutikkReference
+            | BliMedlemReference
+            | OmForeningenReference
           url?: string
           email?: string
           phone?: string
@@ -405,16 +485,23 @@ export type SectionGroup = {
         >
         callToActions?: Array<{
           title?: string
+          description?: string
           type?: string
           internalLink?:
-            | PageReference
-            | CollectionHubReference
+            | HjemReference
             | LegalDocumentReference
             | ArticleReference
             | InformasjonsartikkelReference
             | InformasjonsdokumentReference
-            | EventReference
+            | AktivitetReference
             | ResourceReference
+            | MinnehagenReference
+            | StotteOgHjelpReference
+            | EngasjerDegReference
+            | AktueltReference
+            | NettbutikkReference
+            | BliMedlemReference
+            | OmForeningenReference
           url?: string
           email?: string
           phone?: string
@@ -783,17 +870,19 @@ export type GridList = {
   kolonnerMobil?: 1 | 2
   contentType?:
     | 'manual'
-    | 'writer'
-    | 'writer-styret'
-    | 'writer-raadgivere'
-    | 'writer-frivillige'
-    | 'event'
-    | 'activities'
+    | 'frivillig'
+    | 'frivillig-frivillig'
+    | 'frivillig-styret'
+    | 'frivillig-raadgiver'
+    | 'frivillig-skribent'
+    | 'aktivitet'
+    | 'aktivitet-gaatur'
+    | 'aktivitet-kurs'
+    | 'aktivitet-event'
+    | 'aktivitet-fritekst'
     | 'job-position'
     | 'blog-post'
     | 'news'
-    | 'walking-tour'
-    | 'turvenn'
   items?: Array<
     {
       _key: string
@@ -1002,150 +1091,6 @@ export type Ressursdokument = {
   }
 }
 
-export type Minnehagen = {
-  _id: string
-  _type: 'minnehagen'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  pageName?: string
-  slug?: Slug
-  title?: string
-  richText?: Array<
-    | {
-        children?: Array<{
-          marks?: Array<string>
-          text?: string
-          _type: 'span'
-          _key: string
-        }>
-        style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
-        listItem?: 'bullet' | 'number'
-        markDefs?: Array<{
-          href?: string
-          _type: 'link'
-          _key: string
-        }>
-        level?: number
-        _type: 'block'
-        _key: string
-      }
-    | {
-        asset?: SanityImageAssetReference
-        media?: unknown
-        hotspot?: SanityImageHotspot
-        crop?: SanityImageCrop
-        _type: 'image'
-        _key: string
-      }
-  >
-  heroImage?: {
-    asset?: SanityImageAssetReference
-    media?: unknown
-    hotspot?: SanityImageHotspot
-    crop?: SanityImageCrop
-    title?: string
-    description?: string
-    altText?: string
-    credits?: string
-    _type: 'image'
-  }
-  vippsDonasjoner?: {
-    aktivert?: boolean
-    tittel?: string
-    beskrivelse?: string
-    vippsNummer?: string
-    innsamlingslenke?: string
-    forslagteBeloep?: Array<{
-      beloep?: number
-      etikett?: string
-      _key: string
-    }>
-    takkeTekst?: string
-  }
-  contactSection?: {
-    title?: string
-    richText?: Array<
-      | {
-          children?: Array<{
-            marks?: Array<string>
-            text?: string
-            _type: 'span'
-            _key: string
-          }>
-          style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
-          listItem?: 'bullet' | 'number'
-          markDefs?: Array<{
-            href?: string
-            _type: 'link'
-            _key: string
-          }>
-          level?: number
-          _type: 'block'
-          _key: string
-        }
-      | {
-          asset?: SanityImageAssetReference
-          media?: unknown
-          hotspot?: SanityImageHotspot
-          crop?: SanityImageCrop
-          _type: 'image'
-          _key: string
-        }
-    >
-    callToActions?: Array<{
-      title?: string
-      type?: string
-      internalLink?:
-        | PageReference
-        | CollectionHubReference
-        | LegalDocumentReference
-        | ArticleReference
-        | InformasjonsartikkelReference
-        | InformasjonsdokumentReference
-        | EventReference
-        | ResourceReference
-      url?: string
-      email?: string
-      phone?: string
-      anchor?: string
-      newTab?: boolean
-      _key: string
-    }>
-    appearance?: ContactSectionAppearance
-  }
-  callToAction?: {
-    title?: string
-    type?: string
-    internalLink?:
-      | PageReference
-      | CollectionHubReference
-      | LegalDocumentReference
-      | ArticleReference
-      | InformasjonsartikkelReference
-      | InformasjonsdokumentReference
-      | EventReference
-      | ResourceReference
-    url?: string
-    email?: string
-    phone?: string
-    anchor?: string
-    newTab?: boolean
-  }
-  seo?: {
-    title?: string
-    description?: string
-    keywords?: string
-    image?: SeoImage
-  }
-}
-
-export type Slug = {
-  _type: 'slug'
-  current?: string
-  source?: string
-}
-
 export type GuriAppen = {
   _id: string
   _type: 'guriAppen'
@@ -1317,64 +1262,6 @@ export type Blomst = {
   donertBeloep?: number
 }
 
-export type Redirect = {
-  _id: string
-  _type: 'redirect'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  fromPath?: string
-  toPath?: string
-  redirectType?: '301' | '302'
-  isActive?: boolean
-  description?: string
-}
-
-export type TurvennReference = {
-  _ref: string
-  _type: 'reference'
-  _weak?: boolean
-  [internalGroqTypeReferenceTo]?: 'turvenn'
-}
-
-export type WalkingTour = {
-  _id: string
-  _type: 'walkingTour'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  title?: string
-  dateTime?: string
-  location?: string
-  turvenn?: TurvennReference
-  description?: string
-  wheelchairFriendly?: boolean
-  strollerFriendly?: boolean
-  bringFood?: boolean
-  facebookUrl?: string
-}
-
-export type Turvenn = {
-  _id: string
-  _type: 'turvenn'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  name?: string
-  city?: string
-  image?: {
-    asset?: SanityImageAssetReference
-    media?: unknown
-    hotspot?: SanityImageHotspot
-    crop?: SanityImageCrop
-    title?: string
-    description?: string
-    altText?: string
-    credits?: string
-    _type: 'image'
-  }
-}
-
 export type GroupedResources = {
   _type: 'groupedResources'
   optionalTitle?: string
@@ -1391,14 +1278,20 @@ export type LinkWithDescription = {
   description?: string
   type?: string
   internalLink?:
-    | PageReference
-    | CollectionHubReference
+    | HjemReference
     | LegalDocumentReference
     | ArticleReference
     | InformasjonsartikkelReference
     | InformasjonsdokumentReference
-    | EventReference
+    | AktivitetReference
     | ResourceReference
+    | MinnehagenReference
+    | StotteOgHjelpReference
+    | EngasjerDegReference
+    | AktueltReference
+    | NettbutikkReference
+    | BliMedlemReference
+    | OmForeningenReference
   url?: string
   email?: string
   phone?: string
@@ -1475,16 +1368,23 @@ export type CompanyInfo = {
 export type CallToActionField = {
   _type: 'callToActionField'
   title?: string
+  description?: string
   type?: string
   internalLink?:
-    | PageReference
-    | CollectionHubReference
+    | HjemReference
     | LegalDocumentReference
     | ArticleReference
     | InformasjonsartikkelReference
     | InformasjonsdokumentReference
-    | EventReference
+    | AktivitetReference
     | ResourceReference
+    | MinnehagenReference
+    | StotteOgHjelpReference
+    | EngasjerDegReference
+    | AktueltReference
+    | NettbutikkReference
+    | BliMedlemReference
+    | OmForeningenReference
   url?: string
   email?: string
   phone?: string
@@ -1554,14 +1454,20 @@ export type Link = {
   title?: string
   type?: string
   internalLink?:
-    | PageReference
-    | CollectionHubReference
+    | HjemReference
     | LegalDocumentReference
     | ArticleReference
     | InformasjonsartikkelReference
     | InformasjonsdokumentReference
-    | EventReference
+    | AktivitetReference
     | ResourceReference
+    | MinnehagenReference
+    | StotteOgHjelpReference
+    | EngasjerDegReference
+    | AktueltReference
+    | NettbutikkReference
+    | BliMedlemReference
+    | OmForeningenReference
   url?: string
   email?: string
   phone?: string
@@ -1569,69 +1475,13 @@ export type Link = {
   newTab?: boolean
 }
 
-export type SoMeLinks = {
+export type Hjem = {
   _id: string
-  _type: 'soMeLinks'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  soMeLinkArray?: Array<
-    {
-      _key: string
-    } & SocialMediaLinkID
-  >
-}
-
-export type SeoFallback = {
-  _id: string
-  _type: 'seoFallback'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  title?: string
-  description?: string
-  keywords?: string
-  image?: SeoImage
-}
-
-export type NavigationManager = {
-  _id: string
-  _type: 'navigationManager'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  landingPage?: PageReference
-  mainMenu?: Array<
-    | ({
-        _key: string
-      } & Link)
-    | ({
-        _key: string
-      } & CallToActionField)
-  >
-  sidebarMenu?: Array<
-    | ({
-        _key: string
-      } & Link)
-    | ({
-        _key: string
-      } & CallToActionField)
-  >
-  footerSections?: Array<
-    {
-      _key: string
-    } & FooterSection
-  >
-}
-
-export type Page = {
-  _id: string
-  _type: 'page'
+  _type: 'hjem'
   _createdAt: string
   _updatedAt: string
   _rev: string
   pageName?: string
-  slug?: Slug
   seo?: {
     title?: string
     description?: string
@@ -1646,16 +1496,23 @@ export type Page = {
         infoMessage?: InfoMessage
         callToActions?: Array<{
           title?: string
+          description?: string
           type?: string
           internalLink?:
-            | PageReference
-            | CollectionHubReference
+            | HjemReference
             | LegalDocumentReference
             | ArticleReference
             | InformasjonsartikkelReference
             | InformasjonsdokumentReference
-            | EventReference
+            | AktivitetReference
             | ResourceReference
+            | MinnehagenReference
+            | StotteOgHjelpReference
+            | EngasjerDegReference
+            | AktueltReference
+            | NettbutikkReference
+            | BliMedlemReference
+            | OmForeningenReference
           url?: string
           email?: string
           phone?: string
@@ -1698,16 +1555,23 @@ export type Page = {
         >
         callToActions?: Array<{
           title?: string
+          description?: string
           type?: string
           internalLink?:
-            | PageReference
-            | CollectionHubReference
+            | HjemReference
             | LegalDocumentReference
             | ArticleReference
             | InformasjonsartikkelReference
             | InformasjonsdokumentReference
-            | EventReference
+            | AktivitetReference
             | ResourceReference
+            | MinnehagenReference
+            | StotteOgHjelpReference
+            | EngasjerDegReference
+            | AktueltReference
+            | NettbutikkReference
+            | BliMedlemReference
+            | OmForeningenReference
           url?: string
           email?: string
           phone?: string
@@ -1751,16 +1615,23 @@ export type Page = {
         >
         callToActions?: Array<{
           title?: string
+          description?: string
           type?: string
           internalLink?:
-            | PageReference
-            | CollectionHubReference
+            | HjemReference
             | LegalDocumentReference
             | ArticleReference
             | InformasjonsartikkelReference
             | InformasjonsdokumentReference
-            | EventReference
+            | AktivitetReference
             | ResourceReference
+            | MinnehagenReference
+            | StotteOgHjelpReference
+            | EngasjerDegReference
+            | AktueltReference
+            | NettbutikkReference
+            | BliMedlemReference
+            | OmForeningenReference
           url?: string
           email?: string
           phone?: string
@@ -2130,16 +2001,23 @@ export type Page = {
               infoMessage?: InfoMessage
               callToActions?: Array<{
                 title?: string
+                description?: string
                 type?: string
                 internalLink?:
-                  | PageReference
-                  | CollectionHubReference
+                  | HjemReference
                   | LegalDocumentReference
                   | ArticleReference
                   | InformasjonsartikkelReference
                   | InformasjonsdokumentReference
-                  | EventReference
+                  | AktivitetReference
                   | ResourceReference
+                  | MinnehagenReference
+                  | StotteOgHjelpReference
+                  | EngasjerDegReference
+                  | AktueltReference
+                  | NettbutikkReference
+                  | BliMedlemReference
+                  | OmForeningenReference
                 url?: string
                 email?: string
                 phone?: string
@@ -2182,16 +2060,23 @@ export type Page = {
               >
               callToActions?: Array<{
                 title?: string
+                description?: string
                 type?: string
                 internalLink?:
-                  | PageReference
-                  | CollectionHubReference
+                  | HjemReference
                   | LegalDocumentReference
                   | ArticleReference
                   | InformasjonsartikkelReference
                   | InformasjonsdokumentReference
-                  | EventReference
+                  | AktivitetReference
                   | ResourceReference
+                  | MinnehagenReference
+                  | StotteOgHjelpReference
+                  | EngasjerDegReference
+                  | AktueltReference
+                  | NettbutikkReference
+                  | BliMedlemReference
+                  | OmForeningenReference
                 url?: string
                 email?: string
                 phone?: string
@@ -2235,16 +2120,23 @@ export type Page = {
               >
               callToActions?: Array<{
                 title?: string
+                description?: string
                 type?: string
                 internalLink?:
-                  | PageReference
-                  | CollectionHubReference
+                  | HjemReference
                   | LegalDocumentReference
                   | ArticleReference
                   | InformasjonsartikkelReference
                   | InformasjonsdokumentReference
-                  | EventReference
+                  | AktivitetReference
                   | ResourceReference
+                  | MinnehagenReference
+                  | StotteOgHjelpReference
+                  | EngasjerDegReference
+                  | AktueltReference
+                  | NettbutikkReference
+                  | BliMedlemReference
+                  | OmForeningenReference
                 url?: string
                 email?: string
                 phone?: string
@@ -2610,229 +2502,6 @@ export type Page = {
   >
 }
 
-export type CollectionHub = {
-  _id: string
-  _type: 'collectionHub'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  type?: 'blog' | 'highlights' | 'news' | 'resources' | 'nettbutikk' | 'minnehagen'
-  page?: string
-  slug?: Slug
-  title?: string
-  richText?: Array<
-    | {
-        children?: Array<{
-          marks?: Array<string>
-          text?: string
-          _type: 'span'
-          _key: string
-        }>
-        style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
-        listItem?: 'bullet' | 'number'
-        markDefs?: Array<{
-          href?: string
-          _type: 'link'
-          _key: string
-        }>
-        level?: number
-        _type: 'block'
-        _key: string
-      }
-    | {
-        asset?: SanityImageAssetReference
-        media?: unknown
-        hotspot?: SanityImageHotspot
-        crop?: SanityImageCrop
-        _type: 'image'
-        _key: string
-      }
-  >
-  heroImage?: {
-    asset?: SanityImageAssetReference
-    media?: unknown
-    hotspot?: SanityImageHotspot
-    crop?: SanityImageCrop
-    title?: string
-    description?: string
-    altText?: string
-    credits?: string
-    _type: 'image'
-  }
-  contactSection?: {
-    title?: string
-    richText?: Array<
-      | {
-          children?: Array<{
-            marks?: Array<string>
-            text?: string
-            _type: 'span'
-            _key: string
-          }>
-          style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
-          listItem?: 'bullet' | 'number'
-          markDefs?: Array<{
-            href?: string
-            _type: 'link'
-            _key: string
-          }>
-          level?: number
-          _type: 'block'
-          _key: string
-        }
-      | {
-          asset?: SanityImageAssetReference
-          media?: unknown
-          hotspot?: SanityImageHotspot
-          crop?: SanityImageCrop
-          _type: 'image'
-          _key: string
-        }
-    >
-    callToActions?: Array<{
-      title?: string
-      type?: string
-      internalLink?:
-        | PageReference
-        | CollectionHubReference
-        | LegalDocumentReference
-        | ArticleReference
-        | InformasjonsartikkelReference
-        | InformasjonsdokumentReference
-        | EventReference
-        | ResourceReference
-      url?: string
-      email?: string
-      phone?: string
-      anchor?: string
-      newTab?: boolean
-      _key: string
-    }>
-    appearance?: ContactSectionAppearance
-  }
-  infoMessage?: {
-    tittel?: string
-    tekst?: Array<{
-      children?: Array<{
-        marks?: Array<string>
-        text?: string
-        _type: 'span'
-        _key: string
-      }>
-      style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
-      listItem?: 'bullet' | 'number'
-      markDefs?: Array<{
-        href?: string
-        _type: 'link'
-        _key: string
-      }>
-      level?: number
-      _type: 'block'
-      _key: string
-    }>
-  }
-  allPostsLabel?: string
-  vippsDonasjoner?: {
-    aktivert?: boolean
-    tittel?: string
-    beskrivelse?: string
-    vippsNummer?: string
-    innsamlingslenke?: string
-    forslagteBeloep?: Array<{
-      beloep?: number
-      etikett?: string
-      _key: string
-    }>
-    takkeTekst?: string
-  }
-  callToAction?: {
-    title?: string
-    type?: string
-    internalLink?:
-      | PageReference
-      | CollectionHubReference
-      | LegalDocumentReference
-      | ArticleReference
-      | InformasjonsartikkelReference
-      | InformasjonsdokumentReference
-      | EventReference
-      | ResourceReference
-    url?: string
-    email?: string
-    phone?: string
-    anchor?: string
-    newTab?: boolean
-  }
-  eventsSection?: {
-    title?: string
-    richText?: Array<
-      | {
-          children?: Array<{
-            marks?: Array<string>
-            text?: string
-            _type: 'span'
-            _key: string
-          }>
-          style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
-          listItem?: 'bullet' | 'number'
-          markDefs?: Array<{
-            href?: string
-            _type: 'link'
-            _key: string
-          }>
-          level?: number
-          _type: 'block'
-          _key: string
-        }
-      | {
-          asset?: SanityImageAssetReference
-          media?: unknown
-          hotspot?: SanityImageHotspot
-          crop?: SanityImageCrop
-          _type: 'image'
-          _key: string
-        }
-    >
-  }
-  availablePositionsSection?: {
-    title?: string
-    richText?: Array<
-      | {
-          children?: Array<{
-            marks?: Array<string>
-            text?: string
-            _type: 'span'
-            _key: string
-          }>
-          style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
-          listItem?: 'bullet' | 'number'
-          markDefs?: Array<{
-            href?: string
-            _type: 'link'
-            _key: string
-          }>
-          level?: number
-          _type: 'block'
-          _key: string
-        }
-      | {
-          asset?: SanityImageAssetReference
-          media?: unknown
-          hotspot?: SanityImageHotspot
-          crop?: SanityImageCrop
-          _type: 'image'
-          _key: string
-        }
-    >
-  }
-  seo?: {
-    title?: string
-    description?: string
-    keywords?: string
-    image?: SeoImage
-  }
-}
-
 export type Informasjonsdokument = {
   _id: string
   _type: 'informasjonsdokument'
@@ -2921,16 +2590,23 @@ export type Informasjonsdokument = {
     >
     callToActions?: Array<{
       title?: string
+      description?: string
       type?: string
       internalLink?:
-        | PageReference
-        | CollectionHubReference
+        | HjemReference
         | LegalDocumentReference
         | ArticleReference
         | InformasjonsartikkelReference
         | InformasjonsdokumentReference
-        | EventReference
+        | AktivitetReference
         | ResourceReference
+        | MinnehagenReference
+        | StotteOgHjelpReference
+        | EngasjerDegReference
+        | AktueltReference
+        | NettbutikkReference
+        | BliMedlemReference
+        | OmForeningenReference
       url?: string
       email?: string
       phone?: string
@@ -2961,13 +2637,20 @@ export type Informasjonsdokument = {
   }
 }
 
-export type Event = {
+export type Slug = {
+  _type: 'slug'
+  current?: string
+  source?: string
+}
+
+export type Minnehagen = {
   _id: string
-  _type: 'event'
+  _type: 'minnehagen'
   _createdAt: string
   _updatedAt: string
   _rev: string
-  orderRank?: string
+  pageName?: string
+  slug?: Slug
   title?: string
   richText?: Array<
     | {
@@ -2997,25 +2680,7 @@ export type Event = {
         _key: string
       }
   >
-  link?: {
-    title?: string
-    type?: string
-    internalLink?:
-      | PageReference
-      | CollectionHubReference
-      | LegalDocumentReference
-      | ArticleReference
-      | InformasjonsartikkelReference
-      | InformasjonsdokumentReference
-      | EventReference
-      | ResourceReference
-    url?: string
-    email?: string
-    phone?: string
-    anchor?: string
-    newTab?: boolean
-  }
-  image?: {
+  heroImage?: {
     asset?: SanityImageAssetReference
     media?: unknown
     hotspot?: SanityImageHotspot
@@ -3025,6 +2690,852 @@ export type Event = {
     altText?: string
     credits?: string
     _type: 'image'
+  }
+  vippsDonasjoner?: {
+    aktivert?: boolean
+    tittel?: string
+    beskrivelse?: string
+    vippsNummer?: string
+    innsamlingslenke?: string
+    forslagteBeloep?: Array<{
+      beloep?: number
+      etikett?: string
+      _key: string
+    }>
+    takkeTekst?: string
+  }
+  contactSection?: {
+    title?: string
+    richText?: Array<
+      | {
+          children?: Array<{
+            marks?: Array<string>
+            text?: string
+            _type: 'span'
+            _key: string
+          }>
+          style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+          listItem?: 'bullet' | 'number'
+          markDefs?: Array<{
+            href?: string
+            _type: 'link'
+            _key: string
+          }>
+          level?: number
+          _type: 'block'
+          _key: string
+        }
+      | {
+          asset?: SanityImageAssetReference
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+          _key: string
+        }
+    >
+    callToActions?: Array<{
+      title?: string
+      description?: string
+      type?: string
+      internalLink?:
+        | HjemReference
+        | LegalDocumentReference
+        | ArticleReference
+        | InformasjonsartikkelReference
+        | InformasjonsdokumentReference
+        | AktivitetReference
+        | ResourceReference
+        | MinnehagenReference
+        | StotteOgHjelpReference
+        | EngasjerDegReference
+        | AktueltReference
+        | NettbutikkReference
+        | BliMedlemReference
+        | OmForeningenReference
+      url?: string
+      email?: string
+      phone?: string
+      anchor?: string
+      newTab?: boolean
+      _key: string
+    }>
+    appearance?: ContactSectionAppearance
+  }
+  callToAction?: {
+    title?: string
+    description?: string
+    type?: string
+    internalLink?:
+      | HjemReference
+      | LegalDocumentReference
+      | ArticleReference
+      | InformasjonsartikkelReference
+      | InformasjonsdokumentReference
+      | AktivitetReference
+      | ResourceReference
+      | MinnehagenReference
+      | StotteOgHjelpReference
+      | EngasjerDegReference
+      | AktueltReference
+      | NettbutikkReference
+      | BliMedlemReference
+      | OmForeningenReference
+    url?: string
+    email?: string
+    phone?: string
+    anchor?: string
+    newTab?: boolean
+  }
+  seo?: {
+    title?: string
+    description?: string
+    keywords?: string
+    image?: SeoImage
+  }
+}
+
+export type EngasjerDeg = {
+  _id: string
+  _type: 'engasjerDeg'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  pageName?: string
+  slug?: Slug
+  title?: string
+  ingress?: string
+  heroImage?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    title?: string
+    description?: string
+    altText?: string
+    credits?: string
+    _type: 'image'
+  }
+  likepersoner?: {
+    tittel?: string
+    richText?: Array<
+      | {
+          children?: Array<{
+            marks?: Array<string>
+            text?: string
+            _type: 'span'
+            _key: string
+          }>
+          style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+          listItem?: 'bullet' | 'number'
+          markDefs?: Array<{
+            href?: string
+            _type: 'link'
+            _key: string
+          }>
+          level?: number
+          _type: 'block'
+          _key: string
+        }
+      | {
+          asset?: SanityImageAssetReference
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+          _key: string
+        }
+    >
+    lenke?: Link
+  }
+  turvenner?: {
+    tittel?: string
+    richText?: Array<
+      | {
+          children?: Array<{
+            marks?: Array<string>
+            text?: string
+            _type: 'span'
+            _key: string
+          }>
+          style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+          listItem?: 'bullet' | 'number'
+          markDefs?: Array<{
+            href?: string
+            _type: 'link'
+            _key: string
+          }>
+          level?: number
+          _type: 'block'
+          _key: string
+        }
+      | {
+          asset?: SanityImageAssetReference
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+          _key: string
+        }
+    >
+    lenker?: Array<
+      {
+        _key: string
+      } & Link
+    >
+  }
+  ledigeVerv?: {
+    tittel?: string
+    richText?: Array<
+      | {
+          children?: Array<{
+            marks?: Array<string>
+            text?: string
+            _type: 'span'
+            _key: string
+          }>
+          style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+          listItem?: 'bullet' | 'number'
+          markDefs?: Array<{
+            href?: string
+            _type: 'link'
+            _key: string
+          }>
+          level?: number
+          _type: 'block'
+          _key: string
+        }
+      | {
+          asset?: SanityImageAssetReference
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+          _key: string
+        }
+    >
+    callToAction?: {
+      title?: string
+      description?: string
+      type?: string
+      internalLink?:
+        | HjemReference
+        | LegalDocumentReference
+        | ArticleReference
+        | InformasjonsartikkelReference
+        | InformasjonsdokumentReference
+        | AktivitetReference
+        | ResourceReference
+        | MinnehagenReference
+        | StotteOgHjelpReference
+        | EngasjerDegReference
+        | AktueltReference
+        | NettbutikkReference
+        | BliMedlemReference
+        | OmForeningenReference
+      url?: string
+      email?: string
+      phone?: string
+      anchor?: string
+      newTab?: boolean
+    }
+  }
+  seo?: {
+    title?: string
+    description?: string
+    keywords?: string
+    image?: SeoImage
+  }
+}
+
+export type FrivilligReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'frivillig'
+}
+
+export type OmForeningen = {
+  _id: string
+  _type: 'omForeningen'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  pageName?: string
+  slug?: Slug
+  title?: string
+  ingress?: string
+  richText?: Array<
+    | {
+        children?: Array<{
+          marks?: Array<string>
+          text?: string
+          _type: 'span'
+          _key: string
+        }>
+        style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+        listItem?: 'bullet' | 'number'
+        markDefs?: Array<{
+          href?: string
+          _type: 'link'
+          _key: string
+        }>
+        level?: number
+        _type: 'block'
+        _key: string
+      }
+    | {
+        asset?: SanityImageAssetReference
+        media?: unknown
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        _type: 'image'
+        _key: string
+      }
+  >
+  heroImage?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    title?: string
+    description?: string
+    altText?: string
+    credits?: string
+    _type: 'image'
+  }
+  organisasjonenVaar?: {
+    tittel?: string
+    richText?: Array<
+      | {
+          children?: Array<{
+            marks?: Array<string>
+            text?: string
+            _type: 'span'
+            _key: string
+          }>
+          style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+          listItem?: 'bullet' | 'number'
+          markDefs?: Array<{
+            href?: string
+            _type: 'link'
+            _key: string
+          }>
+          level?: number
+          _type: 'block'
+          _key: string
+        }
+      | {
+          asset?: SanityImageAssetReference
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+          _key: string
+        }
+    >
+    seksjoner?: Array<{
+      tittel?: string
+      body?: Array<{
+        children?: Array<{
+          marks?: Array<string>
+          text?: string
+          _type: 'span'
+          _key: string
+        }>
+        style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
+        listItem?: 'bullet' | 'number'
+        markDefs?: Array<{
+          href?: string
+          _type: 'link'
+          _key: string
+        }>
+        level?: number
+        _type: 'block'
+        _key: string
+      }>
+      folk?: Array<
+        {
+          _key: string
+        } & FrivilligReference
+      >
+      _type: 'personSeksjon'
+      _key: string
+    }>
+    oppfordring?: {
+      tittel?: string
+      richText?: Array<
+        | {
+            children?: Array<{
+              marks?: Array<string>
+              text?: string
+              _type: 'span'
+              _key: string
+            }>
+            style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+            listItem?: 'bullet' | 'number'
+            markDefs?: Array<{
+              href?: string
+              _type: 'link'
+              _key: string
+            }>
+            level?: number
+            _type: 'block'
+            _key: string
+          }
+        | {
+            asset?: SanityImageAssetReference
+            media?: unknown
+            hotspot?: SanityImageHotspot
+            crop?: SanityImageCrop
+            _type: 'image'
+            _key: string
+          }
+      >
+      lenker?: Array<
+        {
+          _key: string
+        } & Link
+      >
+    }
+  }
+  styrendeDokumenter?: {
+    tittel?: string
+    richText?: Array<
+      | {
+          children?: Array<{
+            marks?: Array<string>
+            text?: string
+            _type: 'span'
+            _key: string
+          }>
+          style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+          listItem?: 'bullet' | 'number'
+          markDefs?: Array<{
+            href?: string
+            _type: 'link'
+            _key: string
+          }>
+          level?: number
+          _type: 'block'
+          _key: string
+        }
+      | {
+          asset?: SanityImageAssetReference
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+          _key: string
+        }
+    >
+    dokumenter?: Array<
+      {
+        _key: string
+      } & LegalDocumentReference
+    >
+  }
+  seo?: {
+    title?: string
+    description?: string
+    keywords?: string
+    image?: SeoImage
+  }
+}
+
+export type BliMedlem = {
+  _id: string
+  _type: 'bliMedlem'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  pageName?: string
+  slug?: Slug
+  title?: string
+  ingress?: string
+  heroImage?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    title?: string
+    description?: string
+    altText?: string
+    credits?: string
+    _type: 'image'
+  }
+  betydningAvMedlemskap?: {
+    tittel?: string
+    richText?: Array<
+      | {
+          children?: Array<{
+            marks?: Array<string>
+            text?: string
+            _type: 'span'
+            _key: string
+          }>
+          style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+          listItem?: 'bullet' | 'number'
+          markDefs?: Array<{
+            href?: string
+            _type: 'link'
+            _key: string
+          }>
+          level?: number
+          _type: 'block'
+          _key: string
+        }
+      | {
+          asset?: SanityImageAssetReference
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+          _key: string
+        }
+    >
+    lenke?: Link
+  }
+  medlemskapstyper?: {
+    tittel?: string
+    richText?: Array<
+      | {
+          children?: Array<{
+            marks?: Array<string>
+            text?: string
+            _type: 'span'
+            _key: string
+          }>
+          style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+          listItem?: 'bullet' | 'number'
+          markDefs?: Array<{
+            href?: string
+            _type: 'link'
+            _key: string
+          }>
+          level?: number
+          _type: 'block'
+          _key: string
+        }
+      | {
+          asset?: SanityImageAssetReference
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+          _key: string
+        }
+    >
+    iframeUrl?: string
+  }
+  andreMaaterAaBidraPaa?: {
+    tittel?: string
+    richText?: Array<
+      | {
+          children?: Array<{
+            marks?: Array<string>
+            text?: string
+            _type: 'span'
+            _key: string
+          }>
+          style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+          listItem?: 'bullet' | 'number'
+          markDefs?: Array<{
+            href?: string
+            _type: 'link'
+            _key: string
+          }>
+          level?: number
+          _type: 'block'
+          _key: string
+        }
+      | {
+          asset?: SanityImageAssetReference
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+          _key: string
+        }
+    >
+  }
+  seo?: {
+    title?: string
+    description?: string
+    keywords?: string
+    image?: SeoImage
+  }
+}
+
+export type Nettbutikk = {
+  _id: string
+  _type: 'nettbutikk'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  pageName?: string
+  slug?: Slug
+  title?: string
+  richText?: Array<
+    | {
+        children?: Array<{
+          marks?: Array<string>
+          text?: string
+          _type: 'span'
+          _key: string
+        }>
+        style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+        listItem?: 'bullet' | 'number'
+        markDefs?: Array<{
+          href?: string
+          _type: 'link'
+          _key: string
+        }>
+        level?: number
+        _type: 'block'
+        _key: string
+      }
+    | {
+        asset?: SanityImageAssetReference
+        media?: unknown
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        _type: 'image'
+        _key: string
+      }
+  >
+  seo?: {
+    title?: string
+    description?: string
+    keywords?: string
+    image?: SeoImage
+  }
+}
+
+export type Aktuelt = {
+  _id: string
+  _type: 'aktuelt'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  pageName?: string
+  slug?: Slug
+  title?: string
+  ingress?: string
+  alleTyperLabel?: string
+  cta?: {
+    tittel?: string
+    richText?: Array<
+      | {
+          children?: Array<{
+            marks?: Array<string>
+            text?: string
+            _type: 'span'
+            _key: string
+          }>
+          style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+          listItem?: 'bullet' | 'number'
+          markDefs?: Array<{
+            href?: string
+            _type: 'link'
+            _key: string
+          }>
+          level?: number
+          _type: 'block'
+          _key: string
+        }
+      | {
+          asset?: SanityImageAssetReference
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+          _key: string
+        }
+    >
+    lenke?: Link
+  }
+  seo?: {
+    title?: string
+    description?: string
+    keywords?: string
+    image?: SeoImage
+  }
+}
+
+export type StotteOgHjelp = {
+  _id: string
+  _type: 'stotteOgHjelp'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  pageName?: string
+  slug?: Slug
+  title?: string
+  ingress?: string
+  heroImage?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    title?: string
+    description?: string
+    altText?: string
+    credits?: string
+    _type: 'image'
+  }
+  fellesskap?: {
+    tittel?: string
+    richText?: Array<
+      | {
+          children?: Array<{
+            marks?: Array<string>
+            text?: string
+            _type: 'span'
+            _key: string
+          }>
+          style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+          listItem?: 'bullet' | 'number'
+          markDefs?: Array<{
+            href?: string
+            _type: 'link'
+            _key: string
+          }>
+          level?: number
+          _type: 'block'
+          _key: string
+        }
+      | {
+          asset?: SanityImageAssetReference
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+          _key: string
+        }
+    >
+    lenker?: Array<
+      {
+        _key: string
+      } & Link
+    >
+  }
+  likepersoner?: {
+    tittel?: string
+    richText?: Array<
+      | {
+          children?: Array<{
+            marks?: Array<string>
+            text?: string
+            _type: 'span'
+            _key: string
+          }>
+          style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+          listItem?: 'bullet' | 'number'
+          markDefs?: Array<{
+            href?: string
+            _type: 'link'
+            _key: string
+          }>
+          level?: number
+          _type: 'block'
+          _key: string
+        }
+      | {
+          asset?: SanityImageAssetReference
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+          _key: string
+        }
+    >
+    lenke?: Link
+  }
+  gaaturer?: {
+    tittel?: string
+    richText?: Array<
+      | {
+          children?: Array<{
+            marks?: Array<string>
+            text?: string
+            _type: 'span'
+            _key: string
+          }>
+          style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+          listItem?: 'bullet' | 'number'
+          markDefs?: Array<{
+            href?: string
+            _type: 'link'
+            _key: string
+          }>
+          level?: number
+          _type: 'block'
+          _key: string
+        }
+      | {
+          asset?: SanityImageAssetReference
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+          _key: string
+        }
+    >
+    lenker?: Array<
+      {
+        _key: string
+      } & Link
+    >
+  }
+  minnehagen?: {
+    tittel?: string
+    richText?: Array<
+      | {
+          children?: Array<{
+            marks?: Array<string>
+            text?: string
+            _type: 'span'
+            _key: string
+          }>
+          style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+          listItem?: 'bullet' | 'number'
+          markDefs?: Array<{
+            href?: string
+            _type: 'link'
+            _key: string
+          }>
+          level?: number
+          _type: 'block'
+          _key: string
+        }
+      | {
+          asset?: SanityImageAssetReference
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+          _key: string
+        }
+    >
+    bilde?: {
+      asset?: SanityImageAssetReference
+      media?: unknown
+      hotspot?: SanityImageHotspot
+      crop?: SanityImageCrop
+      title?: string
+      description?: string
+      altText?: string
+      credits?: string
+      _type: 'image'
+    }
+    lenke?: Link
+  }
+  seo?: {
+    title?: string
+    description?: string
+    keywords?: string
+    image?: SeoImage
   }
 }
 
@@ -3101,11 +3612,62 @@ export type Resource = {
   featured?: boolean
 }
 
-export type WriterReference = {
-  _ref: string
-  _type: 'reference'
-  _weak?: boolean
-  [internalGroqTypeReferenceTo]?: 'writer'
+export type Aktivitet = {
+  _id: string
+  _type: 'aktivitet'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  orderRank?: string
+  type?: 'gaatur' | 'kurs' | 'event' | 'fritekst'
+  title?: string
+  ingress?: string
+  richText?: Array<
+    | {
+        children?: Array<{
+          marks?: Array<string>
+          text?: string
+          _type: 'span'
+          _key: string
+        }>
+        style?: 'normal' | 'h2' | 'h3' | 'h4' | 'blockquote'
+        listItem?: 'bullet' | 'number'
+        markDefs?: Array<{
+          href?: string
+          _type: 'link'
+          _key: string
+        }>
+        level?: number
+        _type: 'block'
+        _key: string
+      }
+    | {
+        asset?: SanityImageAssetReference
+        media?: unknown
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        _type: 'image'
+        _key: string
+      }
+  >
+  detaljer?: {
+    dato?: string
+    tid?: string
+    sted?: string
+    pris?: string
+    lenke?: Link
+    wheelchairFriendly?: boolean
+    strollerFriendly?: boolean
+    bringFood?: boolean
+  }
+  involverte?: {
+    tittel?: string
+    personer?: Array<
+      {
+        _key: string
+      } & FrivilligReference
+    >
+  }
 }
 
 export type Informasjonsartikkel = {
@@ -3144,14 +3706,13 @@ export type Informasjonsartikkel = {
         _key: string
       }
   >
-  slug?: Slug
   publishedAt?: string
   categories?: Array<
     {
       _key: string
     } & CategoryReference
   >
-  skribent?: WriterReference
+  skribent?: FrivilligReference
   featuredImage?: {
     asset?: SanityImageAssetReference
     media?: unknown
@@ -3171,16 +3732,18 @@ export type Informasjonsartikkel = {
   }
 }
 
-export type Writer = {
+export type Frivillig = {
   _id: string
-  _type: 'writer'
+  _type: 'frivillig'
   _createdAt: string
   _updatedAt: string
   _rev: string
   orderRank?: string
   name?: string
-  gruppe?: 'styret' | 'raadgivere' | 'frivillige' | 'skribenter'
+  roller?: Array<string>
   occupation?: string
+  city?: string
+  bio?: string
   email?: string
   image?: {
     asset?: SanityImageAssetReference
@@ -3293,6 +3856,60 @@ export type LegalDocument = {
         _type: 'image'
         _key: string
       }
+  >
+}
+
+export type SoMeLinks = {
+  _id: string
+  _type: 'soMeLinks'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  soMeLinkArray?: Array<
+    {
+      _key: string
+    } & SocialMediaLinkID
+  >
+}
+
+export type SeoFallback = {
+  _id: string
+  _type: 'seoFallback'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title?: string
+  description?: string
+  keywords?: string
+  image?: SeoImage
+}
+
+export type NavigationManager = {
+  _id: string
+  _type: 'navigationManager'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  mainMenu?: Array<
+    | ({
+        _key: string
+      } & Link)
+    | ({
+        _key: string
+      } & CallToActionField)
+  >
+  sidebarMenu?: Array<
+    | ({
+        _key: string
+      } & Link)
+    | ({
+        _key: string
+      } & CallToActionField)
+  >
+  footerSections?: Array<
+    {
+      _key: string
+    } & FooterSection
   >
 }
 
@@ -3426,14 +4043,20 @@ export type AllSanitySchemaTypes =
   | SanityImageAssetReference
   | SeoImage
   | Layout
-  | PageReference
-  | CollectionHubReference
+  | HjemReference
   | LegalDocumentReference
   | ArticleReference
   | InformasjonsartikkelReference
   | InformasjonsdokumentReference
-  | EventReference
+  | AktivitetReference
   | ResourceReference
+  | MinnehagenReference
+  | StotteOgHjelpReference
+  | EngasjerDegReference
+  | AktueltReference
+  | NettbutikkReference
+  | BliMedlemReference
+  | OmForeningenReference
   | GridItemLink
   | CtaLink
   | AppearanceImage
@@ -3461,14 +4084,8 @@ export type AllSanitySchemaTypes =
   | SanityImageCrop
   | SanityImageHotspot
   | Ressursdokument
-  | Minnehagen
-  | Slug
   | GuriAppen
   | Blomst
-  | Redirect
-  | TurvennReference
-  | WalkingTour
-  | Turvenn
   | GroupedResources
   | LinkWithDescription
   | Theme
@@ -3481,20 +4098,27 @@ export type AllSanitySchemaTypes =
   | FooterSection
   | SocialMediaLinkID
   | Link
+  | Hjem
+  | Informasjonsdokument
+  | Slug
+  | Minnehagen
+  | EngasjerDeg
+  | FrivilligReference
+  | OmForeningen
+  | BliMedlem
+  | Nettbutikk
+  | Aktuelt
+  | StotteOgHjelp
+  | CategoryReference
+  | Resource
+  | Aktivitet
+  | Informasjonsartikkel
+  | Frivillig
+  | Article
+  | LegalDocument
   | SoMeLinks
   | SeoFallback
   | NavigationManager
-  | Page
-  | CollectionHub
-  | Informasjonsdokument
-  | Event
-  | CategoryReference
-  | Resource
-  | WriterReference
-  | Informasjonsartikkel
-  | Writer
-  | Article
-  | LegalDocument
   | BrandAssets
   | SanityImagePaletteSwatch
   | SanityImagePalette

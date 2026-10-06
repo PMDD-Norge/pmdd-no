@@ -15,9 +15,6 @@ export {
 
 // Page queries
 export {
-  PAGE_BY_SLUG_QUERY,
-  PAGE_SLUGS_QUERY,
-  LANDING_PAGE_ID_QUERY,
   LANDING_PAGE_QUERY,
 } from './page';
 
@@ -74,7 +71,11 @@ export {
 } from './aktuelt';
 
 // Aktivitet queries
-export { ALL_AKTIVITETER_QUERY } from './aktivitet';
+export {
+  ALL_AKTIVITETER_QUERY,
+  AKTIVITET_BY_ID_QUERY,
+  AKTIVITET_ID_TITLE_QUERY,
+} from './aktivitet';
 
 // Nettbutikk queries
 export {

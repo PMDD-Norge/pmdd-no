@@ -1,5 +1,6 @@
 .pageContainer {
   gap: var(--Spacing-XXL, 3.5rem);
+  min-width: 0;
 }
 
 .hero {
@@ -36,13 +37,21 @@
   align-self: stretch;
 }
 
+/* Mobil: én kolonne, to fra 640px og tre fra 1024px */
 @media (min-width: 640px) {
+  .liste {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
   .liste {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
 .kort {
+  min-width: 0;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -55,4 +64,101 @@
   align-items: flex-start;
   gap: var(--Spacing-XS, 0.5rem);
   align-self: stretch;
+}
+
+.detaljerSeksjon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: var(--Spacing-XS, 0.5rem);
+  align-self: stretch;
+}
+
+.detaljer {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: var(--Spacing-S, 1rem);
+  align-self: stretch;
+}
+
+.detaljBoks {
+  display: flex;
+  padding: 0.375rem 0.75rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--Spacing-XS, 0.5rem);
+  /* Boksene brekker til ny rad når de ikke får plass til ca. 9rem */
+  flex: 1 1 9rem;
+  min-width: 0;
+  border-radius: 0.25rem;
+  background: var(--White_faded90, rgba(255, 255, 255, 0.9));
+}
+
+.detaljLabel {
+  font-weight: 600;
+}
+
+.detaljVerdi {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.involverte {
+  display: flex;
+  flex-direction: column;
+  gap: var(--Spacing-L, 2rem);
+}
+
+.personer {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--Spacing-L, 2rem);
+}
+
+.person {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--Spacing-S, 1rem);
+}
+
+@media (min-width: 640px) {
+  .person {
+    gap: var(--Spacing-M, 1.5rem);
+  }
+}
+
+/* Rundt bilde med fast størrelse; tomt felt får lys flate som plassholder */
+.personBilde {
+  flex: 0 0 6rem;
+  width: 6rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--White, #fff);
+}
+
+@media (min-width: 640px) {
+  .personBilde {
+    flex-basis: 8rem;
+    width: 8rem;
+  }
+}
+
+.personBilde img {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.personTekst {
+  overflow-wrap: anywhere;
+  display: flex;
+  flex-direction: column;
+  gap: var(--Spacing-XXS, 0.25rem);
+  min-width: 0;
 }

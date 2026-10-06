@@ -9,6 +9,13 @@
  * slik at komponenter og lagret innhold kan bruke samme diskriminator som før.
  */
 
+import {
+  MED_TITTEL_SLUG,
+  SLUG_ER,
+  SLUG_PROJEKSJON,
+  TITTEL_SLUG,
+} from "./slugs";
+
 // Dokumenttypene som utgjør en artikkel, uansett variant
 const ARTICLE_TYPES = `["article", "informasjonsartikkel"]`;
 
@@ -25,7 +32,7 @@ const ARTICLE_FIELDS = `
   _createdAt,
   "type": coalesce(type, "blog-post"),
   title,
-  slug,
+  ${SLUG_PROJEKSJON},
   lead,
   publishedAt,
   "image": featuredImage{
@@ -45,13 +52,17 @@ const ARTICLE_FIELDS = `
     name,
     slug,
     "role": occupation,
-    image
+    image{
+      asset->,
+      altText,
+      hotspot
+    }
   }
 `;
 
 // Get article by slug
 export const ARTICLE_BY_SLUG_QUERY = `
-*[_type in ${ARTICLE_TYPES} && slug.current == $slug]
+*[_type in ${ARTICLE_TYPES} && ${SLUG_ER()}]
 | order(select(_type == "article" => 1, 0) asc)[0] {
   ${ARTICLE_FIELDS},
   richText,
@@ -64,11 +75,11 @@ export const ARTICLE_BY_SLUG_QUERY = `
   },
   "relatedArticles": *[
     _type in ${ARTICLE_TYPES} &&
-    slug.current != $slug &&
+    _id != ^._id &&
     count((categories[]->slug.current)[@ in ^.^.categories[]->slug.current]) > 0
   ] | order(coalesce(publishedAt, _createdAt) desc) [0...3] {
     title,
-    slug,
+    ${SLUG_PROJEKSJON},
     "image": featuredImage{asset->, altText, hotspot},
     publishedAt,
     "type": coalesce(type, "blog-post")
@@ -112,8 +123,8 @@ count(*[
 
 // Get article slugs (for static generation)
 export const ARTICLE_SLUGS_QUERY = `
-*[_type in ${ARTICLE_TYPES} && defined(slug.current)] {
-  "slug": slug.current,
+*[_type in ${ARTICLE_TYPES} && (defined(slug.current) || ${MED_TITTEL_SLUG})] {
+  "slug": select(${MED_TITTEL_SLUG} => ${TITTEL_SLUG}, slug.current),
   "type": coalesce(type, "blog-post")
 }
 `;

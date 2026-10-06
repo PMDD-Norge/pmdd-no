@@ -6,13 +6,8 @@
 
 import {
   getDocumentBySlug,
-  getDocumentWithLandingCheck,
   QueryType,
 } from "@/utils/queries";
-import {
-  Section,
-} from "@/sanity/lib/interfaces/pages";
-import SectionRenderer from "@/utils/renderSection";
 import PMDDErrorMessage from "@/components/pages/information/components/customErrorMessage/PMDDErrorMessage";
 import EventPage from "@/components/pages/event/EventPage";
 import ArticlePage from "@/components/pages/article/ArticlePage";
@@ -29,40 +24,6 @@ export interface SearchParams {
   type?: string;
   page?: string;
   category?: string;
-}
-
-/**
- * Handler for "page" document type
- */
-export async function handlePageType(
-  slug: string[],
-  language: string,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _searchParams?: SearchParams,
-): Promise<ReactElement> {
-  const result = await getDocumentWithLandingCheck(
-    QueryType.Page,
-    slug,
-    language,
-  );
-  const document = result.data;
-  const landingPageId = result.landingPageId;
-
-  if (!document) {
-    return <PMDDErrorMessage />;
-  }
-
-  return (
-    <>
-      {document?.sections?.map((section: Section) => (
-        <SectionRenderer
-          key={section._key}
-          section={section}
-          isLandingPage={document._id === landingPageId}
-        />
-      ))}
-    </>
-  );
 }
 
 /**
@@ -220,7 +181,6 @@ export async function handleMerchType(
  * Maps document types to their handler functions
  */
 export const contentTypeHandlers = {
-  page: handlePageType,
   article: handleArticleType,
   event: handleEventType,
   availablePosition: handleAvailablePositionType,

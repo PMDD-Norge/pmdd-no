@@ -2,6 +2,7 @@
  * GROQ queries for engasjerDeg documents
  */
 
+import { SLUG_PROJEKSJON } from "./slugs";
 import { IMAGE_FRAGMENT, LINK_FRAGMENT, SEO_FRAGMENT } from "./fragments";
 
 export const ENGASJER_DEG_BY_SLUG_QUERY = `
@@ -35,9 +36,7 @@ export const ENGASJER_DEG_BY_SLUG_QUERY = `
       "internalLink": internalLink->{
         _type,
         title,
-        slug{
-          current
-        }
+        ${SLUG_PROJEKSJON}
       },
       url,
       email,

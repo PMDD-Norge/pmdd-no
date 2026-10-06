@@ -2,6 +2,8 @@
  * GROQ queries for event documents
  */
 
+import { SLUG_PROJEKSJON } from "./slugs";
+
 // Common event fields
 const EVENT_FIELDS = `
   _id,
@@ -49,7 +51,7 @@ export const EVENT_BY_SLUG_QUERY = `
     "internalLink": internalLink->{
       _type,
       title,
-      slug
+      ${SLUG_PROJEKSJON}
     },
     url,
     newTab

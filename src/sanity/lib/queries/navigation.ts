@@ -2,6 +2,8 @@
  * GROQ queries for navigation and footer
  */
 
+import { SLUG_PROJEKSJON } from "./slugs";
+
 // Get full navigation including footer
 export const NAVIGATION_QUERY = `
 *[_type == "navigationManager"][0] {
@@ -14,7 +16,7 @@ export const NAVIGATION_QUERY = `
       "internalLink": internalLink->{
         _type,
         title,
-        slug
+        ${SLUG_PROJEKSJON}
       },
       url,
       email,
@@ -29,7 +31,7 @@ export const NAVIGATION_QUERY = `
       "internalLink": internalLink->{
         _type,
         title,
-        slug
+        ${SLUG_PROJEKSJON}
       },
       url,
       email,
@@ -46,7 +48,7 @@ export const NAVIGATION_QUERY = `
       "internalLink": internalLink->{
         _type,
         title,
-        slug
+        ${SLUG_PROJEKSJON}
       },
       url,
       email,
@@ -61,7 +63,7 @@ export const NAVIGATION_QUERY = `
       "internalLink": internalLink->{
         _type,
         title,
-        slug
+        ${SLUG_PROJEKSJON}
       },
       url,
       email,
@@ -84,7 +86,7 @@ export const NAVIGATION_QUERY = `
           "internalLink": internalLink->{
             _type,
             title,
-            slug
+            ${SLUG_PROJEKSJON}
           },
           url,
           email,
@@ -111,9 +113,4 @@ export const NAVIGATION_QUERY = `
     }
   }
 }
-`;
-
-// Get landing page ID
-export const LANDING_PAGE_ID_QUERY = `
-*[_type == "page" && title == "Forside" || title == "Home"][0]._id
 `;

@@ -138,7 +138,7 @@ export interface GridList extends SanityBase {
   title: string;
   columns?: 3 | 4;
   kolonnerMobil?: 1 | 2;
-  contentType?: "manual" | "event" | "availablePosition" | "post" | "blog-post" | "news" | "job-position" | "resource" | "writer" | "writer-styret" | "writer-raadgivere" | "writer-frivillige" | "writer-turvenn" | "walking-tour" | "turvenn" | "activities" | "aktivitet" | "aktivitet-gaatur" | "aktivitet-kurs" | "aktivitet-event" | "aktivitet-fritekst";
+  contentType?: "manual" | "event" | "availablePosition" | "post" | "blog-post" | "news" | "job-position" | "resource" | "frivillig" | "frivillig-styret" | "frivillig-raadgiver" | "frivillig-frivillig" | "frivillig-skribent" | "walking-tour" | "turvenn" | "activities" | "aktivitet" | "aktivitet-gaatur" | "aktivitet-kurs" | "aktivitet-event" | "aktivitet-fritekst";
   items?: GridItem[];
   maxItems?: number;
   internalLink?: SanityLink;
@@ -247,13 +247,19 @@ export interface PostDocument extends SanityBase {
   lead: string;
   image: SanityImageData;
   date: string;
-  author: Writer;
+  author: Frivillig;
 }
 
-export interface Writer extends SanityBase {
+export type FrivilligRolle = "frivillig" | "styret" | "raadgiver" | "skribent";
+
+export interface Frivillig extends SanityBase {
   name: string;
   image: ImageObject;
-  occupation: string;
+  occupation?: string;
+  city?: string;
+  bio?: string;
+  email?: string;
+  roller?: FrivilligRolle[];
 }
 
 export interface EventDocument extends SanityBase {
@@ -351,8 +357,8 @@ export interface AktivitetPerson {
   _id: string;
   name: string;
   city?: string;
-  gruppe?: string;
   occupation?: string;
+  bio?: string;
   image?: SanityImageData;
 }
 
@@ -360,6 +366,7 @@ export interface AktivitetDocument extends SanityBase {
   type: AktivitetType;
   title: string;
   ingress?: string;
+  richText?: PortableTextBlock[];
   detaljer?: {
     dato?: string;
     tid?: string;
@@ -375,6 +382,9 @@ export interface AktivitetDocument extends SanityBase {
     personer?: AktivitetPerson[];
   };
 }
+
+// Aktivitet med slug lagd på frontend fra tittelen (se utils/aktivitetSlug)
+export type AktivitetMedSlug = AktivitetDocument & { slug: string };
 
 export interface AktueltDocument extends SanityBase {
   pageName: string;

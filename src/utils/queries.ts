@@ -1,15 +1,13 @@
 import { sanityFetch } from "@/sanity/lib/live";
 import {
   ARTICLE_BY_SLUG_QUERY,
-  PAGE_BY_SLUG_QUERY,
-  LANDING_PAGE_ID_QUERY,
   LEGAL_DOCUMENT_BY_SLUG_QUERY,
   NETTBUTIKK_BY_SLUG_QUERY,
 } from "@/sanity/lib/queries";
+import { SLUG_ER } from "@/sanity/lib/queries/slugs";
 
 // Using const enum with explicit string values
 export const enum QueryType {
-  Page = "page",
   Article = "article",
   Event = "event",
   AvailablePosition = "availablePosition",
@@ -19,7 +17,6 @@ export const enum QueryType {
 
 // Map query types to their respective queries
 const Queries: Record<QueryType, string> = {
-  [QueryType.Page]: PAGE_BY_SLUG_QUERY,
   [QueryType.Article]: ARTICLE_BY_SLUG_QUERY,
   [QueryType.Event]: `*[_type == "event" && slug.current == $slug][0]`,
   [QueryType.AvailablePosition]: `*[_type == "availablePosition" && slug.current == $slug][0] {
@@ -38,12 +35,12 @@ const Queries: Record<QueryType, string> = {
 
 export async function getDocumentTypeBySlug(slug: string[], language: string) {
   const slugToUse = slug.length > 1 ? slug[slug.length - 1] : slug[0];
-  // Gamle dokumenttyper (collectionHub, information, highlights) kan fortsatt
+  // Gamle dokumenttyper (information, highlights) kan fortsatt
   // ligge i Sanity med samme slug som det nye dokumentet som erstatter dem.
   // De har ingen handler lenger, så de utelates fra oppslaget.
   return sanityFetch({
-    query: `*[defined(slug) && slug.current == $slug
-      && !(_type in ["collectionHub", "information", "highlights"])
+    query: `*[${SLUG_ER()}
+      && !(_type in ["information", "highlights"])
     ] | order(select(
       _type == "article" => 1,
       0
@@ -68,32 +65,4 @@ export async function getDocumentBySlug(
     query: Queries[type],
     params: { slug: slugToUse, language },
   });
-}
-
-export async function getDocumentWithLandingCheck(
-  type: QueryType,
-  slug: string[],
-  language: string
-) {
-  // Get the last element of the array if it exists, otherwise use the first element
-  const slugToUse = slug.length > 1 ? slug[slug.length - 1] : slug[0];
-  // If we don't have a query for this type, return null
-  if (!Queries[type]) {
-    return { data: null, landingPageId: null };
-  }
-
-  const [documentResult, landingPageResult] = await Promise.all([
-    sanityFetch({
-      query: Queries[type],
-      params: { slug: slugToUse, language },
-    }),
-    sanityFetch({
-      query: LANDING_PAGE_ID_QUERY,
-    }),
-  ]);
-
-  return { 
-    data: documentResult.data, 
-    landingPageId: landingPageResult.data 
-  };
 }

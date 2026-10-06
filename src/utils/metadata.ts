@@ -6,6 +6,7 @@
 import { Metadata } from "next";
 import { sanityFetch } from "@/sanity/lib/live";
 import { SEO_FALLBACK_QUERY, BRAND_ASSETS_QUERY } from "@/sanity/lib/queries";
+import { SLUG_ER } from "@/sanity/lib/queries/slugs";
 import { urlFor } from "@/sanity/lib/image";
 
 /**
@@ -39,7 +40,7 @@ export async function fetchSEOData(slug?: string): Promise<{
 }> {
   // Build query based on whether slug is provided
   const pageQuery = slug
-    ? `*[slug.current == $slug][0]{ seo }`
+    ? `*[${SLUG_ER()}][0]{ seo }`
     : null;
 
   const queries = [

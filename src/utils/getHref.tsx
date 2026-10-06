@@ -17,6 +17,11 @@ export const getHref = (link: SanityLink): string => {
 
   switch (type) {
     case LinkType.Internal:
+      // Forsiden (dokumenttypen hjem) har ingen slug og ligger på /
+      if (internalLink?._type === "hjem") {
+        return `/${formatAnchor(anchor)}`;
+      }
+
       // Get the slug from the expanded reference
       const slug = internalLink?.slug?.current;
 

@@ -2,6 +2,8 @@
  * GROQ queries for minnehagen documents
  */
 
+import { SLUG_PROJEKSJON } from "./slugs";
+
 export const MINNEHAGEN_BY_SLUG_QUERY = `
 *[_type == "minnehagen" && slug.current == $slug][0] {
   _id,
@@ -30,9 +32,7 @@ export const MINNEHAGEN_BY_SLUG_QUERY = `
       "internalLink": internalLink->{
         _type,
         title,
-        slug{
-          current
-        }
+        ${SLUG_PROJEKSJON}
       },
       url,
       email,
@@ -63,7 +63,7 @@ export const MINNEHAGEN_BY_SLUG_QUERY = `
     "internalLink": internalLink->{
       _type,
       title,
-      slug
+      ${SLUG_PROJEKSJON}
     },
     url,
     email,

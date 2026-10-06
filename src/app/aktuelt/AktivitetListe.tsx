@@ -1,38 +1,32 @@
 "use client";
 
 import { useState } from "react";
-import {
-  AktivitetDocument,
-  AktivitetType,
-} from "@/sanity/lib/interfaces/pages";
+import { AktivitetMedSlug, AktivitetType } from "@/sanity/lib/interfaces/pages";
+import { TYPE_LABELS, formatDato } from "./aktivitetUtils";
 import styles from "./aktuelt.module.css";
 import Text from "@/components/text/Text";
 import FilterTabs from "@/components/filterTabs/FilterTabs";
 import CustomLink from "@/components/link/CustomLink";
+import { truncateText } from "@/utils/textUtils";
+import { LinkType, SanityLink } from "@/sanity/lib/interfaces/siteSettings";
 
-const TYPE_LABELS: Record<AktivitetType, string> = {
-  gaatur: "Gåtur",
-  kurs: "Kurs",
-  event: "Event",
-  fritekst: "Annet",
-};
-
-const formatDato = (dato?: string) => {
-  if (!dato) return null;
-  return new Date(dato).toLocaleDateString("nb-NO", {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    timeZone: "Europe/Oslo",
-  });
-};
+const tilDetaljlenke = (aktivitet: AktivitetMedSlug): SanityLink => ({
+  _key: aktivitet._id ?? "",
+  _type: "link",
+  title: "Les mer",
+  type: LinkType.Internal,
+  ariaLabel: `Les mer om ${aktivitet.title}`,
+  internalLink: {
+    _ref: `/aktuelt/${aktivitet.slug}`,
+    _type: "aktivitet",
+  },
+});
 
 const AktivitetListe = ({
   aktiviteter,
   alleTyperLabel,
 }: {
-  aktiviteter: AktivitetDocument[];
+  aktiviteter: AktivitetMedSlug[];
   alleTyperLabel: string;
 }) => {
   const [valgtType, setValgtType] = useState<AktivitetType | "alle">("alle");
@@ -71,18 +65,12 @@ const AktivitetListe = ({
                 <Text type="h4" as="h3">
                   {aktivitet.title}
                 </Text>
-                {(dato || aktivitet.detaljer?.tid) && (
-                  <Text type="small">
-                    {[dato, aktivitet.detaljer?.tid]
-                      .filter(Boolean)
-                      .join(" · ")}
-                  </Text>
+                {dato && <Text>{dato}</Text>}
+                {aktivitet.ingress && (
+                  <Text>{truncateText(aktivitet.ingress, 200)}</Text>
                 )}
-                {aktivitet.ingress && <Text>{aktivitet.ingress}</Text>}
               </div>
-              {aktivitet.detaljer?.lenke?.title && (
-                <CustomLink link={aktivitet.detaljer.lenke} />
-              )}
+              <CustomLink link={tilDetaljlenke(aktivitet)} />
             </li>
           );
         })}

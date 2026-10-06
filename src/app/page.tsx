@@ -5,12 +5,13 @@ import {
   LANDING_PAGE_QUERY,
 } from "@/sanity/lib/queries";
 import SectionRenderer from "@/utils/renderSection";
-import { generatePageMetadata } from "@/utils/metadata";
+import { generateMetadataFromSeo } from "@/utils/metadata";
 
 export const revalidate = 43200; // ISR: 12 hours for landing page
 
 export async function generateMetadata() {
-  return generatePageMetadata();
+  const { data } = await sanityFetch({ query: LANDING_PAGE_QUERY, params: {} });
+  return generateMetadataFromSeo(data?.seo);
 }
 
 export default async function Page() {

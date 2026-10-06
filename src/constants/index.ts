@@ -43,7 +43,6 @@ export const LANDING_PAGE_NAMES = ["Forside", "Home", "Hjem"] as const;
  * Maps to Sanity document types
  */
 export const CONTENT_TYPES = {
-  PAGE: "page",
   ARTICLE: "article",
   EVENT: "event",
   AVAILABLE_POSITION: "availablePosition",

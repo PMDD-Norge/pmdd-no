@@ -3,6 +3,7 @@ import Text from "@/components/text/Text";
 import { RichText } from "@/components/richText/RichText";
 import { PortableTextBlock } from "next-sanity";
 import { SanityImageData } from "@/sanity/lib/interfaces/media";
+import SanityNextImage from "@/components/image/sanityImage";
 import Breadcrumbs from "@/components/breadcrumbs/Breadcrumbs";
 import { overordnetForArtikkel } from "@/utils/breadcrumbs";
 
@@ -60,13 +61,20 @@ const ArticlePage = async ({ article }: ArticlePageProps) => {
         </div>
         {content && <RichText value={content} />}
         {author?.name && (
-          <div className={styles.author}>
-            <Text type="body">
-              <b>{author.name}</b>
-            </Text>
-            <Text type="small">{author.name}</Text>
-            {author.role && <Text type="label">{author.role}</Text>}
-          </div>
+          <section className={styles.author}>
+            {author.image?.asset && (
+              <div className={styles.authorBilde}>
+                <SanityNextImage image={author.image} sizes="5rem" />
+              </div>
+            )}
+            <div className={styles.authorTekst}>
+              <Text type="small">Skrevet av</Text>
+              <Text type="body">
+                <b>{author.name}</b>
+              </Text>
+              {author.role && <Text type="small">{author.role}</Text>}
+            </div>
+          </section>
         )}
       </div>
     </div>

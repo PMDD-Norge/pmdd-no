@@ -1,6 +1,9 @@
 import { client } from "@/sanity/lib/client";
 import { MetadataRoute } from "next";
 import { logError } from '@/utils/logger';
+import { MED_TITTEL_SLUG, SLUG_PROJEKSJON } from "@/sanity/lib/queries/slugs";
+import { AKTIVITET_ID_TITLE_QUERY } from "@/sanity/lib/queries";
+import { lagAktivitetSlugs } from "@/utils/aktivitetSlug";
 import { getDocumentPath } from '@/utils/documentUrl';
 
 // Content types from Sanity schema (updated)
@@ -15,7 +18,6 @@ const CONTENT_TYPES = {
   nettbutikk: "nettbutikk",
   bliMedlem: "bliMedlem",
   omForeningen: "omForeningen",
-  page: "page",
   event: "event",
 } as const;
 
@@ -33,7 +35,6 @@ const PRIORITIES: Record<ContentType, number> = {
   [CONTENT_TYPES.nettbutikk]: 0.7,
   [CONTENT_TYPES.bliMedlem]: 0.7,
   [CONTENT_TYPES.omForeningen]: 0.7,
-  [CONTENT_TYPES.page]: 0.7,
   [CONTENT_TYPES.event]: 0.75,
 };
 
@@ -58,13 +59,12 @@ async function getAllContent() {
     "nettbutikk",
     "bliMedlem",
     "omForeningen",
-    "page",
     "event"
-  ] && defined(slug.current)] {
+  ] && (defined(slug.current) || ${MED_TITTEL_SLUG})] {
     _type,
     _id,
     _updatedAt,
-    slug
+    ${SLUG_PROJEKSJON}
   }`;
 
   return await client.fetch<SanityDocument[]>(query);
@@ -78,7 +78,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       : "http://localhost:3000");
 
   try {
-    const documents = await getAllContent();
+    const [documents, aktiviteter] = await Promise.all([
+      getAllContent(),
+      client.fetch<{ _id: string; title: string; _updatedAt: string }[]>(
+        AKTIVITET_ID_TITLE_QUERY,
+      ),
+    ]);
     const routes: MetadataRoute.Sitemap = [];
 
     // Add homepage
@@ -99,6 +104,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           priority: PRIORITIES[doc._type],
         });
       }
+    });
+
+    const aktivitetSlugs = lagAktivitetSlugs(aktiviteter);
+    aktiviteter.forEach((aktivitet) => {
+      routes.push({
+        url: `${baseUrl}/aktuelt/${aktivitetSlugs.get(aktivitet._id)}`,
+        lastModified: new Date(aktivitet._updatedAt),
+        changeFrequency: "weekly",
+        priority: 0.7,
+      });
     });
 
     return routes;

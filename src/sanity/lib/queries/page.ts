@@ -3,6 +3,7 @@
  * Using reusable fragments to reduce duplication from 806 lines to ~300 lines
  */
 
+import { SLUG_PROJEKSJON } from "./slugs";
 import {
   IMAGE_FRAGMENT,
   IMAGE_SIMPLE_FRAGMENT,
@@ -57,60 +58,69 @@ const SECTION_TYPE_PROJECTIONS = `
         }
       },
 
-      // Auto-populated writers (all)
-      contentType == "writer" => {
-        "items": *[_type == "writer"] | order(orderRank) {
+      // Auto-populated frivillige (alle, eller filtrert på rolle)
+      contentType == "frivillig" => {
+        "items": *[_type == "frivillig"] | order(orderRank) {
           _id,
           _type,
           name,
           occupation,
-          email,
-          gruppe,
-          image${IMAGE_SIMPLE_FRAGMENT}
-        }
-      },
-
-      // Auto-populated writers filtered by group
-      contentType == "writer-styret" => {
-        "items": *[_type == "writer" && gruppe == "styret"] | order(orderRank) {
-          _id,
-          _type,
-          name,
-          occupation,
-          email,
-          gruppe,
-          image${IMAGE_SIMPLE_FRAGMENT}
-        }
-      },
-      contentType == "writer-raadgivere" => {
-        "items": *[_type == "writer" && gruppe == "raadgivere"] | order(orderRank) {
-          _id,
-          _type,
-          name,
-          occupation,
-          email,
-          gruppe,
-          image${IMAGE_SIMPLE_FRAGMENT}
-        }
-      },
-      contentType == "writer-frivillige" => {
-        "items": *[_type == "writer" && gruppe == "frivillige"] | order(orderRank) {
-          _id,
-          _type,
-          name,
-          occupation,
-          email,
-          gruppe,
-          image${IMAGE_SIMPLE_FRAGMENT}
-        }
-      },
-      contentType == "writer-turvenn" => {
-        "items": *[_type == "writer" && gruppe == "turvenn"] | order(name asc) {
-          _id,
-          _type,
-          name,
           city,
-          gruppe,
+          bio,
+          email,
+          roller,
+          image${IMAGE_SIMPLE_FRAGMENT}
+        }
+      },
+      contentType == "frivillig-styret" => {
+        "items": *[_type == "frivillig" && "styret" in roller] | order(orderRank) {
+          _id,
+          _type,
+          name,
+          occupation,
+          city,
+          bio,
+          email,
+          roller,
+          image${IMAGE_SIMPLE_FRAGMENT}
+        }
+      },
+      contentType == "frivillig-raadgiver" => {
+        "items": *[_type == "frivillig" && "raadgiver" in roller] | order(orderRank) {
+          _id,
+          _type,
+          name,
+          occupation,
+          city,
+          bio,
+          email,
+          roller,
+          image${IMAGE_SIMPLE_FRAGMENT}
+        }
+      },
+      contentType == "frivillig-frivillig" => {
+        "items": *[_type == "frivillig" && "frivillig" in roller] | order(orderRank) {
+          _id,
+          _type,
+          name,
+          occupation,
+          city,
+          bio,
+          email,
+          roller,
+          image${IMAGE_SIMPLE_FRAGMENT}
+        }
+      },
+      contentType == "frivillig-skribent" => {
+        "items": *[_type == "frivillig" && "skribent" in roller] | order(orderRank) {
+          _id,
+          _type,
+          name,
+          occupation,
+          city,
+          bio,
+          email,
+          roller,
           image${IMAGE_SIMPLE_FRAGMENT}
         }
       },
@@ -143,7 +153,7 @@ const SECTION_TYPE_PROJECTIONS = `
           excerpt,
           richText,
           image${IMAGE_SIMPLE_FRAGMENT},
-          slug,
+          ${SLUG_PROJEKSJON},
           publishedAt,
           "author": author->{name, slug}
         }
@@ -464,43 +474,13 @@ const SECTIONS_PROJECTION = `sections[]{
 }`;
 
 /**
- * Get page by slug with all sections
- */
-export const PAGE_BY_SLUG_QUERY = `
-*[_type == "page" && slug.current == $slug][0] {
-  _id,
-  pageName,
-  slug,
-  ${SECTIONS_PROJECTION},
-  seo${SEO_FRAGMENT}
-}
-`;
-
-/**
- * Get all page slugs (for static generation)
- */
-export const PAGE_SLUGS_QUERY = `
-*[_type == "page" && defined(slug.current)] {
-  "slug": slug.current
-}
-`;
-
-/**
- * Get landing page ID
- */
-export const LANDING_PAGE_ID_QUERY = `
-*[_type == "page" && (pageName == "Forside" || pageName == "Home" || pageName == "Hjem")][0]._id
-`;
-
-/**
  * Get landing page with full data
  * Now reuses SECTIONS_PROJECTION instead of duplicating 400 lines
  */
 export const LANDING_PAGE_QUERY = `
-*[_type == "page" && (pageName == "Forside" || pageName == "Home" || pageName == "Hjem")][0] {
+*[_type == "hjem"][0] {
   _id,
   pageName,
-  slug,
   ${SECTIONS_PROJECTION},
   seo${SEO_FRAGMENT}
 }

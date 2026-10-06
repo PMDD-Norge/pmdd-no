@@ -205,16 +205,14 @@ const GridElement = ({ item }: { item: GridElementItem }) => {
 
   // Check document type
   const isEvent = "_type" in item && item._type === "event";
-  const isWriter = "_type" in item && item._type === "writer";
+  const isFrivillig = "_type" in item && item._type === "frivillig";
   const isWalkingTour = "_type" in item && item._type === "walkingTour";
   const isTurVenn = "_type" in item && item._type === "turvenn";
-  const isWriterTurvenn =
-    isWriter && "gruppe" in item && item.gruppe === "turvenn";
   const isAktivitet = "_type" in item && item._type === "aktivitet";
 
-  // Get title - writers and turvenn use 'name' field
+  // Get title - frivillige and turvenn use 'name' field
   const itemTitle: string | undefined =
-    (isWriter || isTurVenn) && "name" in item
+    (isFrivillig || isTurVenn) && "name" in item
       ? (item.name as string)
       : (item as { title?: string }).title;
 
@@ -279,8 +277,8 @@ const GridElement = ({ item }: { item: GridElementItem }) => {
       )}
       {itemTitle && <Text type="h4">{getDisplayText(itemTitle)}</Text>}
 
-      {/* City for turvenn (legacy "turvenn" type and writer gruppe "turvenn") */}
-      {(isTurVenn || isWriterTurvenn) && "city" in item && !!item.city && (
+      {/* By vises for turvenner (frivillige med city satt, og gammel "turvenn"-type) */}
+      {(isTurVenn || isFrivillig) && "city" in item && !!item.city && (
         <Text type="small">{item.city as string}</Text>
       )}
 
@@ -365,7 +363,10 @@ const GridElement = ({ item }: { item: GridElementItem }) => {
       {content && Array.isArray(content) && content.length > 0 && (
         <PortableText value={content} components={myPortableTextComponents} />
       )}
-      {isWriter && "email" in item && !!item.email && (
+      {isFrivillig && "bio" in item && !!item.bio && (
+        <Text type="small">{item.bio as string}</Text>
+      )}
+      {isFrivillig && "email" in item && !!item.email && (
         <Text type="small">
           <a href={`mailto:${item.email as string}`}>{item.email as string}</a>
         </Text>

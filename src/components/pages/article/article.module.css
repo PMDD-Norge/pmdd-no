@@ -20,6 +20,27 @@
 
 .author {
   display: flex;
+  align-items: center;
+  gap: var(--Spacing-S, 1rem);
+}
+
+.authorBilde {
+  flex: 0 0 5rem;
+  width: 5rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.authorBilde img {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.authorTekst {
+  display: flex;
   flex-direction: column;
   gap: var(--Spacing-XXS, 0.25rem);
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
