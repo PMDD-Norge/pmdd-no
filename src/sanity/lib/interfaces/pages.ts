@@ -138,7 +138,7 @@ export interface GridList extends SanityBase {
   title: string;
   columns?: 3 | 4;
   kolonnerMobil?: 1 | 2;
-  contentType?: "manual" | "event" | "availablePosition" | "post" | "blog-post" | "news" | "job-position" | "resource" | "frivillig" | "frivillig-styret" | "frivillig-raadgiver" | "frivillig-frivillig" | "frivillig-skribent" | "walking-tour" | "turvenn" | "activities" | "aktivitet" | "aktivitet-gaatur" | "aktivitet-kurs" | "aktivitet-event" | "aktivitet-fritekst";
+  contentType?: "manual" | "event" | "availablePosition" | "post" | "blog-post" | "news" | "job-position" | "resource" | "frivillig" | "frivillig-styret" | "frivillig-raadgiver" | "frivillig-frivillig" | "frivillig-skribent" | "walking-tour" | "turvenn" | "activities" | "aktivitet";
   items?: GridItem[];
   maxItems?: number;
   internalLink?: SanityLink;
@@ -327,6 +327,61 @@ export interface StotteOgHjelpDocument extends SanityBase {
   minnehagen?: StotteOgHjelpSeksjon;
 }
 
+export interface RessursVerktoyLenke {
+  _key: string;
+  tittel: string;
+  url?: string;
+  filUrl?: string;
+  beskrivelse?: string;
+}
+
+export interface RessursdokumentSide extends SanityBase {
+  title?: string;
+  ingress?: string;
+  richText?: PortableTextBlock[];
+  verktoy?: {
+    tittel?: string;
+    undertittelDrsp?: string;
+    richText?: PortableTextBlock[];
+    lenker?: RessursVerktoyLenke[];
+  };
+  materiellTittel?: string;
+  retningslinjerTittel?: string;
+  artikkelListe?: {
+    tittel?: string;
+    undertittelAapne?: string;
+    undertittelLaaste?: string;
+  };
+  cta?: {
+    tittel?: string;
+    richText?: PortableTextBlock[];
+    epost?: string;
+  };
+  seo?: { title?: string; description?: string; image?: SanityImageData; noIndex?: boolean };
+}
+
+export interface Materiellfil {
+  _key: string;
+  tittel: string;
+  filUrl?: string;
+  coverBilde?: SanityImageData;
+}
+
+export interface RessursListeelement {
+  _id: string;
+  title: string;
+  kortBio?: string;
+  link?: string;
+  laast?: boolean;
+}
+
+export interface RessurserData {
+  side: RessursdokumentSide | null;
+  materiell: Materiellfil[] | null;
+  retningslinjer: RessursListeelement[] | null;
+  forskningsartikler: RessursListeelement[] | null;
+}
+
 export interface EngasjerDegSeksjon {
   tittel?: string;
   richText?: PortableTextBlock[];
@@ -351,7 +406,10 @@ export interface EngasjerDegDocument extends SanityBase {
   ledigeVerv?: EngasjerDegLedigeVerv;
 }
 
-export type AktivitetType = "gaatur" | "kurs" | "event" | "fritekst";
+export interface Aktivitetstype {
+  _id: string;
+  name: string;
+}
 
 export interface AktivitetPerson {
   _id: string;
@@ -363,7 +421,7 @@ export interface AktivitetPerson {
 }
 
 export interface AktivitetDocument extends SanityBase {
-  type: AktivitetType;
+  aktivitetstype?: Aktivitetstype;
   title: string;
   ingress?: string;
   richText?: PortableTextBlock[];

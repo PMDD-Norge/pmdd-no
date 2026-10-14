@@ -94,6 +94,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1,
     });
 
+    // Ressurssiden er en singleton uten slug, så den legges inn her
+    routes.push({
+      url: `${baseUrl}/ressurser`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.7,
+    });
+
     // Add content routes (no language prefix since we're Norwegian only)
     documents.forEach((doc) => {
       if (doc.slug?.current) {

@@ -7,7 +7,7 @@ import { IMAGE_SIMPLE_FRAGMENT, LINK_FRAGMENT } from "./fragments";
 const AKTIVITET_FIELDS = `
   _id,
   _type,
-  type,
+  "aktivitetstype": aktivitetstype->{ _id, name },
   title,
   ingress,
   detaljer{

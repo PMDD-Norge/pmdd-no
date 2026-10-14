@@ -70,6 +70,9 @@ export {
   AKTUELT_SLUGS_QUERY,
 } from './aktuelt';
 
+// Ressurser queries
+export { RESSURSER_QUERY } from './ressurser';
+
 // Aktivitet queries
 export {
   ALL_AKTIVITETER_QUERY,

@@ -1,0 +1,114 @@
+.pageContainer {
+  gap: var(--Spacing-XXL, 3.5rem);
+  max-width: 56rem;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--Spacing-M, 1.5rem);
+}
+
+.seksjon {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--Spacing-L, 2rem);
+}
+
+.undergruppe {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--Spacing-M, 1.5rem);
+  align-self: stretch;
+}
+
+/* Verktøylenke med beskrivelse under */
+.verktoylenke {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--Spacing-XXS, 0.25rem);
+}
+
+/* Nedlastbart materiell: to kolonner på mobil, fire fra 640px. Siste rad
+   sentreres når den ikke er full. */
+.materiell {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--Spacing-L, 2rem) var(--Spacing-M, 1rem);
+  align-self: stretch;
+}
+
+.materiell > li {
+  flex: 0 0 calc((100% - var(--Spacing-M, 1rem)) / 2);
+}
+
+@media (min-width: 640px) {
+  .materiell > li {
+    flex-basis: calc((100% - 3 * var(--Spacing-M, 1rem)) / 4);
+  }
+}
+
+.materiellKort {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--Spacing-S, 0.75rem);
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.materiellKort:hover .materiellTittel {
+  text-decoration: underline;
+}
+
+.cover {
+  width: 100%;
+  border-radius: 0.3125rem;
+  overflow: hidden;
+}
+
+.materiellTittel {
+  overflow-wrap: anywhere;
+}
+
+/* Hvite kort for retningslinjer og forskningsartikler */
+.kortliste {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--Spacing-XS, 0.5rem);
+  align-self: stretch;
+}
+
+.kort {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--Spacing-XXS, 0.25rem);
+  padding: var(--Spacing-S, 0.75rem) var(--Spacing-M, 1rem);
+  border-radius: 0.25rem;
+  background: var(--White_faded90, rgba(255, 255, 255, 0.9));
+  overflow-wrap: anywhere;
+}
+
+/* Skrift og størrelse kommer fra h4-overskriften rundt; lenken beholder bare fargen */
+.kortLenke {
+  color: var(--Teal, #1c6580);
+  font: inherit;
+  text-decoration: none;
+}
+
+.kortLenke:hover {
+  text-decoration: underline;
+}

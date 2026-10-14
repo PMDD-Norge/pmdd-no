@@ -289,47 +289,7 @@ const SECTION_TYPE_PROJECTIONS = `
         "items": *[_type == "aktivitet" && !(_id in path("drafts.**"))] | order(coalesce(detaljer.dato, "9999-12-31") asc) {
           _id,
           _type,
-          type,
-          title,
-          ingress,
-          detaljer{dato, tid, sted, pris, lenke${LINK_FRAGMENT}}
-        }
-      },
-      contentType == "aktivitet-gaatur" => {
-        "items": *[_type == "aktivitet" && type == "gaatur" && !(_id in path("drafts.**"))] | order(coalesce(detaljer.dato, "9999-12-31") asc) {
-          _id,
-          _type,
-          type,
-          title,
-          ingress,
-          detaljer{dato, tid, sted, pris, lenke${LINK_FRAGMENT}}
-        }
-      },
-      contentType == "aktivitet-kurs" => {
-        "items": *[_type == "aktivitet" && type == "kurs" && !(_id in path("drafts.**"))] | order(coalesce(detaljer.dato, "9999-12-31") asc) {
-          _id,
-          _type,
-          type,
-          title,
-          ingress,
-          detaljer{dato, tid, sted, pris, lenke${LINK_FRAGMENT}}
-        }
-      },
-      contentType == "aktivitet-event" => {
-        "items": *[_type == "aktivitet" && type == "event" && !(_id in path("drafts.**"))] | order(coalesce(detaljer.dato, "9999-12-31") asc) {
-          _id,
-          _type,
-          type,
-          title,
-          ingress,
-          detaljer{dato, tid, sted, pris, lenke${LINK_FRAGMENT}}
-        }
-      },
-      contentType == "aktivitet-fritekst" => {
-        "items": *[_type == "aktivitet" && type == "fritekst" && !(_id in path("drafts.**"))] | order(coalesce(detaljer.dato, "9999-12-31") asc) {
-          _id,
-          _type,
-          type,
+          "aktivitetstype": aktivitetstype->{ _id, name },
           title,
           ingress,
           detaljer{dato, tid, sted, pris, lenke${LINK_FRAGMENT}}

@@ -13,11 +13,7 @@ import LinkButton from "@/components/linkButton/LinkButton";
 import SanityNextImage from "@/components/image/sanityImage";
 import { lagAktivitetSlugs } from "@/utils/aktivitetSlug";
 import { OVERORDNEDE_SIDER } from "@/utils/breadcrumbs";
-import {
-  INVOLVERTE_TITTEL,
-  TYPE_LABELS,
-  formatDato,
-} from "@/utils/aktivitetUtils";
+import { formatDato } from "@/utils/aktivitetUtils";
 import styles from "../aktuelt.module.css";
 
 export const revalidate = 3600;
@@ -64,7 +60,8 @@ export default async function AktivitetPage({ params }: PageProps) {
 
   if (!aktivitet) return <PMDDErrorMessage />;
 
-  const { type, title, ingress, richText, detaljer, involverte } = aktivitet;
+  const { aktivitetstype, title, ingress, richText, detaljer, involverte } =
+    aktivitet;
   const detaljbokser = [
     { label: "Dato", verdi: formatDato(detaljer?.dato) },
     { label: "Tid", verdi: detaljer?.tid },
@@ -87,9 +84,11 @@ export default async function AktivitetPage({ params }: PageProps) {
     <div className={`sectionWrapperColumn ${styles.pageContainer}`}>
       <Breadcrumbs items={[OVERORDNEDE_SIDER.aktuelt, { label: title }]} />
       <div className={styles.hero}>
-        <Text type="bodyLarge" as="small">
-          {TYPE_LABELS[type]}
-        </Text>
+        {aktivitetstype?.name && (
+          <Text type="bodyLarge" as="small">
+            {aktivitetstype.name}
+          </Text>
+        )}
         <Text type="h1">{title}</Text>
         {ingress && <Text type="bodyLarge">{ingress}</Text>}
       </div>
@@ -120,7 +119,7 @@ export default async function AktivitetPage({ params }: PageProps) {
 
       {personer.length > 0 && (
         <section className={styles.involverte}>
-          <Text type="h2">{involverte?.tittel || INVOLVERTE_TITTEL[type]}</Text>
+          <Text type="h2">{involverte?.tittel || "Involverte"}</Text>
           <ul className={styles.personer}>
             {personer.map((person) => (
               <li key={person._id} className={styles.person}>
