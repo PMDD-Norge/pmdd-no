@@ -12,6 +12,7 @@ export const RESSURSER_QUERY = `
 {
   "side": *[_type == "ressursdokument"][0] {
     _id,
+    slug,
     title,
     ingress,
     richText,

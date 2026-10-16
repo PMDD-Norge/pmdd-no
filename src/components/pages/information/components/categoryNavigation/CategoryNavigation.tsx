@@ -27,7 +27,7 @@ const CategoryNavigation = ({
 
   return (
     <FilterTabs
-      title="Sorter artikkler etter kategori"
+      title="Sorter artikler etter kategori"
       items={categories.map((category) => ({
         id: category._id,
         label: category.name,

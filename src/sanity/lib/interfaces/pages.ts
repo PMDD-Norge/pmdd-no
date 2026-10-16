@@ -336,6 +336,7 @@ export interface RessursVerktoyLenke {
 }
 
 export interface RessursdokumentSide extends SanityBase {
+  slug?: Slug;
   title?: string;
   ingress?: string;
   richText?: PortableTextBlock[];

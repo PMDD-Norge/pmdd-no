@@ -18,6 +18,8 @@ const CONTENT_TYPES = {
   nettbutikk: "nettbutikk",
   bliMedlem: "bliMedlem",
   omForeningen: "omForeningen",
+  ressursdokument: "ressursdokument",
+  guriAppen: "guriAppen",
   event: "event",
 } as const;
 
@@ -35,6 +37,8 @@ const PRIORITIES: Record<ContentType, number> = {
   [CONTENT_TYPES.nettbutikk]: 0.7,
   [CONTENT_TYPES.bliMedlem]: 0.7,
   [CONTENT_TYPES.omForeningen]: 0.7,
+  [CONTENT_TYPES.ressursdokument]: 0.7,
+  [CONTENT_TYPES.guriAppen]: 0.7,
   [CONTENT_TYPES.event]: 0.75,
 };
 
@@ -59,6 +63,8 @@ async function getAllContent() {
     "nettbutikk",
     "bliMedlem",
     "omForeningen",
+    "ressursdokument",
+    "guriAppen",
     "event"
   ] && (defined(slug.current) || ${MED_TITTEL_SLUG})] {
     _type,
@@ -92,14 +98,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
       changeFrequency: "daily",
       priority: 1,
-    });
-
-    // Ressurssiden er en singleton uten slug, så den legges inn her
-    routes.push({
-      url: `${baseUrl}/ressurser`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.7,
     });
 
     // Add content routes (no language prefix since we're Norwegian only)
