@@ -14,11 +14,15 @@ interface GuriAppenProps {
 const AppButikker = ({
   appStoreUrl,
   googlePlayUrl,
+  sentrert,
 }: {
   appStoreUrl?: string;
   googlePlayUrl?: string;
+  sentrert?: boolean;
 }) => (
-  <div className={styles.appKnapper}>
+  <div
+    className={`${styles.appKnapper} ${sentrert ? styles.appKnapperSentrert : ""}`}
+  >
     {appStoreUrl && (
       <a
         className={`${styles.badge} ${styles.appStoreBadge}`}
@@ -63,6 +67,7 @@ const GuriAppen = ({ document }: GuriAppenProps) => {
     heroImage,
     googlePlayUrl,
     appStoreUrl,
+    forDegSom,
     about,
     argumentsTitle,
     arguments: argumentList,
@@ -94,6 +99,39 @@ const GuriAppen = ({ document }: GuriAppenProps) => {
           )}
         </div>
       </div>
+      {forDegSom?.punkter && forDegSom.punkter.length > 0 && (
+        <section className={styles.forDegSom}>
+          {forDegSom.tittel && (
+            <Text type="h2" className={styles.forDegSomTittel}>
+              {forDegSom.tittel}
+            </Text>
+          )}
+          <ul className={styles.forDegSomListe}>
+            {forDegSom.punkter.map((punkt) => (
+              <li key={punkt._key} className={styles.forDegSomKort}>
+                <span className={styles.forDegSomIkon} aria-hidden="true">
+                  <Image
+                    src="/_assets/check-circle.svg"
+                    alt=""
+                    width={20}
+                    height={20}
+                  />
+                </span>
+                <div className={styles.forDegSomTekst}>
+                  <Text type="h4" as="h3">
+                    {punkt.tittel}
+                  </Text>
+                  {punkt.beskrivelse && (
+                    <Text className={styles.forDegSomBeskrivelse}>
+                      {punkt.beskrivelse}
+                    </Text>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
       <div className={styles.guriBody}>
         {about && about.length > 0 && (
           <div className={styles.guriOmAppen}>
@@ -132,7 +170,11 @@ const GuriAppen = ({ document }: GuriAppenProps) => {
               <RichText value={footerSection.text} paragraphType="h2" />
             )}
             {(googlePlayUrl || appStoreUrl) && (
-              <div>{/* Placeholder — knappar leggast til seinare */}</div>
+              <AppButikker
+                appStoreUrl={appStoreUrl}
+                googlePlayUrl={googlePlayUrl}
+                sentrert
+              />
             )}
             {footerSection.screenshots &&
               footerSection.screenshots.length > 0 && (

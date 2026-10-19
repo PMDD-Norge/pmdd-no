@@ -19,6 +19,19 @@
   }
 }
 
+/* På denne siden bruker alle h2-overskrifter Poller One, som h1. Vekten settes
+   til bold (som h1 får fra nettleseren) i stedet for 800 fra Text. */
+.fjernBottomPadding h2 {
+  font-family: var(--font-pollerOne);
+  font-weight: bold;
+}
+
+/* h3-overskrifter på siden er mørkeblå. Tittelene i «for deg som»-kortene er h3
+   i HTML (h4 i stil) og beholder vanlig tekstfarge, se .forDegSomTekst under. */
+.fjernBottomPadding h3 {
+  color: var(--Dark-blue, #007ba5);
+}
+
 .guriHero {
   display: flex;
   flex-direction: column;
@@ -81,6 +94,11 @@
   margin: 0.75rem 0;
 }
 
+/* I bunnseksjonen er alt sentrert, så badgene er det også */
+.appKnapperSentrert {
+  justify-content: center;
+}
+
 .badge {
   display: block;
   line-height: 0;
@@ -124,6 +142,113 @@
     & h1 {
       font-size: 3.25rem;
     }
+  }
+}
+
+/* «Guri er for deg som …»: overskrift over kortene på mobil, ved siden av fra 640px */
+.forDegSom {
+  display: flex;
+  flex-direction: column;
+  gap: var(--Spacing-L, 1.5rem);
+  width: 100%;
+  max-width: 800px;
+  min-width: 0;
+}
+
+@media (min-width: 640px) {
+  .forDegSom {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--Spacing-XXL, 3rem);
+  }
+
+  .forDegSomTittel {
+    flex: 0 0 40%;
+  }
+}
+
+.forDegSomListe {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--Spacing-M, 1rem);
+  flex: 1;
+  min-width: 0;
+}
+
+.forDegSomKort {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--Spacing-M, 1rem);
+  padding: var(--Spacing-M, 1rem);
+  border-radius: 0.41269rem;
+  background: var(--White, #fff);
+  box-shadow:
+    0 0 0 0 rgba(0, 103, 131, 0.68),
+    0 2.324px 11.622px 0 rgba(26, 52, 72, 0.16),
+    0 0 0 0.436px rgba(0, 103, 131, 0.19) inset;
+
+  @media (min-width: 1024px) {
+    border-radius: 0.75rem;
+  }
+}
+
+.forDegSomIkon {
+  flex: 0 0 2.75rem;
+  width: 2.75rem;
+  height: 2.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--Grey, #f9f8f5);
+}
+
+.forDegSomIkon img {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* Teksten i kortene (tittel og beskrivelse) er medium */
+.forDegSomKort .forDegSomTekst * {
+  font-weight: 500;
+}
+
+.forDegSomKort .forDegSomTekst h3 {
+  color: var(--Dark-Navy, #001821);
+  line-height: 130%;
+  font-size: 1rem;
+
+  @media (min-width: 640px) {
+    font-size: 1.0625rem;
+  }
+
+  @media (min-width: 1024px) {
+    font-size: 1.125rem;
+  }
+}
+
+.forDegSomTekst {
+  display: flex;
+  flex-direction: column;
+  gap: var(--Spacing-XS, 0.5rem);
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.forDegSomKort .forDegSomBeskrivelse {
+  color: var(--Very-dark-grey, #5f5e5e);
+  line-height: 140%;
+  font-size: 0.875rem;
+
+  @media (min-width: 640px) {
+    font-size: 0.9375rem;
+  }
+
+  @media (min-width: 1024px) {
+    font-size: 1rem;
   }
 }
 

@@ -20,6 +20,14 @@ export const GURI_APPEN_QUERY = `
   "heroImage": heroImage{${IMAGE_FIELDS}},
   googlePlayUrl,
   appStoreUrl,
+  forDegSom{
+    tittel,
+    punkter[]{
+      _key,
+      tittel,
+      beskrivelse
+    }
+  },
   about,
   argumentsTitle,
   arguments[]{
