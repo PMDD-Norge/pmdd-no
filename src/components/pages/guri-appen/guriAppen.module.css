@@ -61,6 +61,45 @@
   }
 }
 
+/* Badgene ligger side om side når det er plass, og under hverandre ellers.
+   Retningslinjer fra Google Play (partnermarketinghub.withgoogle.com):
+   - badgen skal ha fritt rom på en fjerdedel av høyden (3rem / 4 = 0.75rem)
+     på alle sider, så avstander er faste og ikke følger --Spacing-*, som
+     krymper på mobil
+   - badgen skal være minst like stor som andre butikkbadger
+   - farger og proporsjoner endres ikke
+   Begge vises 3rem høye. Googles bilde er 646x250px, men selve badgen er
+   192px høy med 29px luft over og under. Luften trimmes bort med negativ
+   margin, så de to badgene har lik synlig høyde; det frie rommet over og
+   under kommer fra gap og margin her. */
+.appKnapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  align-self: stretch;
+  margin: 0.75rem 0;
+}
+
+.badge {
+  display: block;
+  line-height: 0;
+  border-radius: 0.5rem;
+}
+
+.appStoreBadge img {
+  display: block;
+  height: 3rem;
+  width: auto;
+}
+
+.googlePlayBadge img {
+  display: block;
+  height: 3.906rem;
+  width: auto;
+  margin: -0.453rem 0;
+}
+
 .guriHeroTekst {
   display: flex;
   flex-direction: column;

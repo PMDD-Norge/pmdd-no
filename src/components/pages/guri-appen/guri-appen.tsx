@@ -3,10 +3,58 @@ import Text from "@/components/text/Text";
 import SanityNextImage from "@/components/image/sanityImage";
 import { RichText } from "@/components/richText/RichText";
 import { GuriAppenDocument } from "@/sanity/lib/interfaces/guriAppen";
+import Image from "next/image";
 
 interface GuriAppenProps {
   document: GuriAppenDocument;
 }
+
+// Offisielle butikkbadger (norske versjoner) fra Apple og Google. Badgene skal
+// brukes uendret, så de legges i public og vises som bilder.
+const AppButikker = ({
+  appStoreUrl,
+  googlePlayUrl,
+}: {
+  appStoreUrl?: string;
+  googlePlayUrl?: string;
+}) => (
+  <div className={styles.appKnapper}>
+    {appStoreUrl && (
+      <a
+        className={`${styles.badge} ${styles.appStoreBadge}`}
+        href={appStoreUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Last ned Guri-appen fra App Store"
+      >
+        <Image
+          src="/_assets/badges/app-store-no.svg"
+          alt=""
+          width={120}
+          height={40}
+          unoptimized
+        />
+      </a>
+    )}
+    {googlePlayUrl && (
+      <a
+        className={`${styles.badge} ${styles.googlePlayBadge}`}
+        href={googlePlayUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Last ned Guri-appen fra Google Play"
+      >
+        <Image
+          src="/_assets/badges/google-play-no.png"
+          alt=""
+          width={646}
+          height={250}
+          unoptimized
+        />
+      </a>
+    )}
+  </div>
+);
 
 const GuriAppen = ({ document }: GuriAppenProps) => {
   const {
@@ -38,9 +86,11 @@ const GuriAppen = ({ document }: GuriAppenProps) => {
             </Text>
           )}
           {ingress && <Text type="bodyLarge">{ingress}</Text>}
-          {/* App-store-knappar kjem her seinare */}
           {(googlePlayUrl || appStoreUrl) && (
-            <div>{/* Placeholder — knappar leggast til seinare */}</div>
+            <AppButikker
+              appStoreUrl={appStoreUrl}
+              googlePlayUrl={googlePlayUrl}
+            />
           )}
         </div>
       </div>
