@@ -51,30 +51,18 @@ type Props = {
   grid: GridObject;
 };
 
-export const Grid = async (props: Props) => {
-  const { appearance, title, tittelNivaa, richText, lists, _key } = props.grid;
-  const theme = getThemeClassFromAppearance(appearance);
+type ResolvedList = { list: GridList; displayItems: GridElementItem[] };
 
-  return (
-    <article className={theme} id={_key}>
-      <div className={`sectionWrapperColumn ${styles.grid}`}>
-        {title && <Text type={tittelNivaa ?? "h2"}>{getDisplayText(title)}</Text>}
-        {richText && <RichText value={richText} />}
-        {lists?.map((list, i) => (
-          <GridListSection key={list._key || i} list={list} />
-        ))}
-      </div>
-    </article>
-  );
-};
-
-const GridListSection = async ({ list }: { list: GridList }) => {
-  // Aktiviteter vises som på /aktuelt: bare kommende, sortert på dato, med
-  // samme kort og lenke til aktivitetens side
+// Henter ut elementene som skal vises i en liste. Aktiviteter vises som på
+// /aktuelt: bare kommende, sortert på dato, med samme kort og lenke til
+// aktivitetens side.
+const resolveList = async (list: GridList): Promise<ResolvedList> => {
   const erAktivitetsliste = list.contentType?.startsWith("aktivitet") ?? false;
   const items = erAktivitetsliste
     ? await medAktivitetSlugs(
-        kommendeAktiviteter((list.items || []) as unknown as AktivitetDocument[]),
+        kommendeAktiviteter(
+          (list.items || []) as unknown as AktivitetDocument[],
+        ),
       )
     : list.items;
 
@@ -83,6 +71,50 @@ const GridListSection = async ({ list }: { list: GridList }) => {
   const displayItems = (
     shouldApplyLimit ? items?.slice(0, list.maxItems) || [] : items || []
   ) as GridElementItem[];
+
+  return { list, displayItems };
+};
+
+export const Grid = async (props: Props) => {
+  const { appearance, title, tittelNivaa, richText, lists, _key } = props.grid;
+  const theme = getThemeClassFromAppearance(appearance);
+
+  const resolved = await Promise.all((lists ?? []).map(resolveList));
+  // Automatiske lister uten innhold (f.eks. aktiviteter når ingen er kommende)
+  // vises ikke. Står bare tomme lister igjen, utelates hele seksjonen, så vi
+  // ikke viser en overskrift uten innhold.
+  const synligeLister = resolved.filter(
+    ({ list, displayItems }) =>
+      list.contentType === "manual" || displayItems.length > 0,
+  );
+  if (resolved.length > 0 && synligeLister.length === 0) return null;
+
+  return (
+    <article className={theme} id={_key}>
+      <div className={`sectionWrapperColumn ${styles.grid}`}>
+        {title && (
+          <Text type={tittelNivaa ?? "h2"}>{getDisplayText(title)}</Text>
+        )}
+        {richText && <RichText value={richText} />}
+        {synligeLister.map(({ list, displayItems }, i) => (
+          <GridListSection
+            key={list._key || i}
+            list={list}
+            displayItems={displayItems}
+          />
+        ))}
+      </div>
+    </article>
+  );
+};
+
+const GridListSection = ({
+  list,
+  displayItems,
+}: {
+  list: GridList;
+  displayItems: GridElementItem[];
+}) => {
   const itemCount = displayItems.length;
   const columns = list.columns ?? 3;
   const kolonnerMobil = list.kolonnerMobil ?? 2;
@@ -92,7 +124,12 @@ const GridListSection = async ({ list }: { list: GridList }) => {
       {list.title && <Text type="h3">{getDisplayText(list.title)}</Text>}
       <ul
         className={`${styles.list} ${getGridClassForItemCount(itemCount)}`}
-        style={{ "--columns": columns, "--columns-mobile": kolonnerMobil } as React.CSSProperties}
+        style={
+          {
+            "--columns": columns,
+            "--columns-mobile": kolonnerMobil,
+          } as React.CSSProperties
+        }
       >
         {displayItems.map((item) => (
           <GridElement
@@ -106,10 +143,7 @@ const GridListSection = async ({ list }: { list: GridList }) => {
       )}
       {list.ctaLink?.title && (
         <div className={styles.ctaLink}>
-          <LinkButton
-            link={list.ctaLink}
-            type="secondary"
-          />
+          <LinkButton link={list.ctaLink} type="secondary" />
         </div>
       )}
     </section>
@@ -282,8 +316,7 @@ const GridElement = ({ item }: { item: GridElementItem }) => {
   const walkingTourTurvenn = isWalkingTour
     ? (item as WalkingTourDocument).turvenn
     : undefined;
-  const turvennName: string | null =
-    walkingTourTurvenn?.name ?? null;
+  const turvennName: string | null = walkingTourTurvenn?.name ?? null;
 
   const image = "image" in item && item.image ? item.image : undefined;
 
@@ -346,9 +379,7 @@ const GridElement = ({ item }: { item: GridElementItem }) => {
           {item.location as string}
         </Text>
       )}
-      {turvennName !== null && (
-        <Text type="small">Turvenn: {turvennName}</Text>
-      )}
+      {turvennName !== null && <Text type="small">Turvenn: {turvennName}</Text>}
 
       {content && typeof content === "string" && (
         <Text type="small">{content}</Text>
